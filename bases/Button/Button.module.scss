@@ -1,0 +1,70 @@
+@import "@/styles/app/variables.scss";
+
+.ds-btn {
+  &--primary {
+    transition: all 200ms !important;
+    background-color: $ds-primary;
+    color: $ds-white;
+    &:hover {
+      background-color: $ds-primary !important;
+      opacity: 0.9;
+      color: $ds-gray-100;
+    }
+    &:focus {
+      background-color: $ds-primary !important;
+      opacity: 0.8;
+      color: $ds-gray-200 !important;
+    }
+    &:active {
+      background-color: $ds-primary !important;
+      opacity: 0.8;
+      color: $ds-gray-200 !important;
+      transform: scale(0.9825);
+    }
+    &:disabled {
+      cursor: not-allowed !important;
+      background-color: $ds-gray-400 !important;
+    }
+  }
+  &--secondary {
+    transition: all 200ms !important;
+    background-color: $ds-gray-100;
+    color: $ds-gray-800;
+    &:hover {
+      background-color: $ds-gray-200 !important;
+      opacity: 0.9;
+      color: $ds-gray-800;
+    }
+    &:focus {
+      background-color: $ds-gray-300 !important;
+      opacity: 0.8;
+      color: $ds-gray-900;
+    }
+    &:active {
+      background-color: $ds-gray-300 !important;
+      opacity: 0.8;
+      color: $ds-gray-900;
+    }
+    &:disabled {
+      cursor: not-allowed !important;
+      background-color: $ds-gray-400 !important;
+    }
+  }
+  &--loading {
+    transition: all 200ms !important;
+    background-color: $ds-gray-300 !important;
+    cursor: not-allowed !important;
+    &:disabled {
+      background-color: $ds-gray-400 !important;
+    }
+    &:hover {
+      background-color: $ds-gray-400 !important;
+    }
+    &:active {
+      background-color: $ds-gray-400 !important;
+    }
+    &:focus {
+      background-color: $ds-gray-400 !important;
+    }
+  }
+}

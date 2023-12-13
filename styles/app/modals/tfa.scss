@@ -1,0 +1,16 @@
+.ds-tfa-modal {
+  &__mail {
+    height: 48px;
+    width: 48px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $ds-gray-200;
+    margin-bottom: 16px;
+  }
+  &__button {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

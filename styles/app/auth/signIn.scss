@@ -1,0 +1,90 @@
+.ds-sign-in {
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  background-color: $ds-white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__left {
+    width: 100%;
+
+    &-container {
+      padding: 40px;
+      display: flex;
+      max-width: 400px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    &-t {
+      //   display: flex;
+      //   flex-direction: column;
+      //   justify-content: center;
+      //   align-items: center;
+      & > h1 {
+        margin-top: 48px;
+      }
+    }
+    &-g {
+      & > button {
+        width: 100%;
+        border-radius: 6px;
+        border-style: none;
+        background-color: $ds-white;
+        border: 1px solid $ds-gray-300;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1),
+          0px 2px 2px 0px rgba(0, 0, 0, 0.09),
+          0px 5px 3px 0px rgba(0, 0, 0, 0.05),
+          0px 8px 3px 0px rgba(0, 0, 0, 0.01), 0px 13px 4px 0px rgba(0, 0, 0, 0);
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 18px;
+        color: rgb(0, 0, 0, 0.54);
+        transition: all 200ms;
+        &:hover {
+          background-color: $ds-gray-100;
+        }
+        & img {
+          transform: translateY(-2px) !important;
+        }
+      }
+    }
+    &-s {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      & > span {
+        color: $ds-gray-800;
+      }
+      & > div {
+        height: 1px;
+        width: 33%;
+        background-color: $ds-gray-200;
+        margin: 24px 0 18px 0;
+      }
+    }
+    & > form {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      justify-content: center;
+      & > .ds-forget {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 8px;
+        color: $ds-gray-700;
+        & > u > span {
+          cursor: pointer;
+        }
+      }
+      & > button {
+        width: 100%;
+      }
+    }
+  }
+}
