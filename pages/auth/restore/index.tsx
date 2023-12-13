@@ -64,7 +64,7 @@ export default function RestorePassword(): JSX.Element {
               type="email"
               label="Email"
               value={email}
-              onChange={(email) => setEmail((prev) => email.target.value)}
+              onChange={(email) => setEmail(email.target.value)}
             />
             <Button
               disabled={email == ""}

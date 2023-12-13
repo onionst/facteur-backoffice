@@ -1,10 +1,7 @@
 import Logo from "@/bases/logo";
 import Button from "@/bases/Button/Button";
 import { useEffect, useState } from "react";
-import {
-  restorePassword,
-  sendRestorePasswordEmail,
-} from "@/services/auth.service";
+import { restorePassword } from "@/services/auth.service";
 import { notification } from "antd";
 import { useRouter } from "next/router";
 import { Input } from "@/bases/input";
