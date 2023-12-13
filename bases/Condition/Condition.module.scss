@@ -1,0 +1,35 @@
+@import "@/styles/app/variables.scss";
+
+.ds-condition {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  &-icon {
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    margin-right: 6px;
+  }
+  &--ok {
+    background-color: $ds-primary;
+  }
+  &--pending {
+    background-color: $ds-gray-200;
+  }
+  &--error {
+    background-color: $ds-negative;
+  }
+  &-text {
+    &--ok {
+      color: $ds-primary;
+      font-weight: 600;
+    }
+    &--error {
+      color: $ds-negative;
+      font-weight: 600;
+    }
+  }
+}
