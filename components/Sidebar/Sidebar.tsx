@@ -4,6 +4,7 @@ import { ChevronRight, Minus, Plus } from "react-feather";
 import { SECTIONS } from "@/constants/sections.constant";
 import Link from "next/link";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import IconButton from "@/bases/IconButton/IconButton";
 
 export type SidebarProps = {
   collapsed: boolean;
@@ -16,9 +17,9 @@ export default function Sidebar(props: SidebarProps) {
     return (
       <aside className={s["ds-sidebar--collapsed"]}>
         <section className={s["ds-sidebar--collapsed__top"]}>
-          <button onClick={() => setCollapsed(false)}>
+          <IconButton onClick={() => setCollapsed(false)}>
             <Plus color="#252f4a" size={18} />
-          </button>
+          </IconButton>
         </section>
         <section className={s["ds-sidebar__sections"]}>
           {SECTIONS.map((section) => {
@@ -61,9 +62,9 @@ export default function Sidebar(props: SidebarProps) {
     <aside className={s["ds-sidebar"]}>
       <section className={s["ds-sidebar__top"]}>
         <Logo size="S" />
-        <button onClick={() => setCollapsed(true)}>
+        <IconButton onClick={() => setCollapsed(true)}>
           <Minus color="#252f4a" size={18} />
-        </button>
+        </IconButton>
       </section>
       <section className={s["ds-sidebar__sections"]}>
         {SECTIONS.map((section) => {
