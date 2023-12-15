@@ -49,7 +49,7 @@ export default function RestorePassword(): JSX.Element {
                 justifyContent: "center",
               }}
             >
-              <Logo />
+            <Logo size="M" />
             </div>
             <h1>Restore account</h1>
             <p>We will send you reset instructions </p>

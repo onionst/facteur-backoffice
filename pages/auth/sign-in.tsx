@@ -62,7 +62,7 @@ export default function SignIn(): JSX.Element {
                 justifyContent: "center",
               }}
             >
-              <Logo />
+              <Logo size="M" />
             </div>
             <h1>Sign in</h1>
             <p>Enter your email and password to continue</p>

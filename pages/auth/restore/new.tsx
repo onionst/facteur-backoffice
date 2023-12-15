@@ -85,7 +85,7 @@ export default function CreateNewPassword(): JSX.Element {
                 justifyContent: "center",
               }}
             >
-              <Logo />
+              <Logo size="M" />
             </div>
             <h1>Reset password</h1>
             <p>Please enter your new password to access your account</p>

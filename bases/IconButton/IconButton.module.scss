@@ -1,0 +1,16 @@
+.ds-icon-button {
+  transition: all 200ms;
+  border-style: none;
+  background-color: $ds-white;
+  border: 1px solid $ds-gray-400;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.475rem;
+  &:hover {
+    background-color: $ds-gray-100;
+  }
+}

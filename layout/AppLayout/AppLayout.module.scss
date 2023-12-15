@@ -1,0 +1,32 @@
+@import "@/styles/app/variables.scss";
+
+.ds-app {
+  background-color: $ds-white;
+  width: 100%;
+  min-height: 100vh;
+  height: max-content;
+  display: grid;
+  &--collapsed {
+    grid-template-columns: 74px auto;
+  }
+
+  &--regular {
+    grid-template-columns: 270px auto;
+  }
+
+  &-ab {
+    width: 100%;
+    border-style: none;
+    background-color: $ds-white;
+    cursor: pointer;
+    color: $ds-gray-700;
+    text-align: left;
+    padding: 10px;
+  }
+  &__main {
+    padding: 20px;
+    background-color: $ds-white;
+    height: max-content;
+    height: calc(100vh - 73px);
+  }
+}

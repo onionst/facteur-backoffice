@@ -1,0 +1,203 @@
+@import "@/styles/app/variables.scss";
+
+.ds-sidebar {
+  display: flex !important;
+  grid-template-columns: 100% !important;
+
+  flex-direction: column;
+  justify-items: flex-start !important;
+  align-items: flex-start !important;
+  width: 270px;
+  border: 1px solid $ds-gray-200;
+  height: 100vh;
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    border-bottom: 1px solid $ds-gray-200;
+    height: 72px;
+
+    & > button {
+      transition: all 200ms;
+      border-style: none;
+      background-color: $ds-white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid $ds-gray-400;
+      border-radius: 0.475rem;
+      height: 32px;
+      width: 32px;
+      &:hover {
+        background-color: $ds-gray-200;
+      }
+    }
+  }
+  &__sections {
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: 100%;
+    justify-items: flex-start;
+    align-items: flex-start;
+    height: max-content;
+    &-group {
+      width: 100%;
+      & > ul {
+        margin: 0;
+        padding: 0;
+      }
+    }
+    &-head {
+      width: 100%;
+      padding: 0 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      & > h6 {
+        font-size: 13px;
+        font-weight: 400;
+        color: $ds-gray-700;
+      }
+      & > button {
+        border-style: none;
+        height: 32px;
+        width: 32px;
+        border-radius: 0.475rem;
+        // border: 1px solid $ds-gray-400;
+        background-color: $ds-white;
+      }
+    }
+    &-item {
+      width: 100%;
+      transition: all 200ms;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      list-style: none;
+      padding: 0 10px;
+      border-radius: 0.475rem;
+      cursor: pointer;
+      height: 36px;
+      &:hover {
+        background-color: $ds-gray-200;
+      }
+      & > div {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        & > span {
+          color: $ds-gray-900;
+          font-weight: 600;
+          margin-left: 8px;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+
+  &--collapsed {
+    flex-direction: column;
+    justify-items: flex-start !important;
+    align-items: flex-start !important;
+    gap: 24px;
+    width: 74px;
+    border: 1px solid $ds-gray-200 !important;
+
+    &__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      border-bottom: 1px solid $ds-gray-200;
+      height: 72px;
+      padding: 20px;
+      & > button {
+        transition: all 200ms;
+        border-style: none;
+        background-color: $ds-white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid $ds-gray-400;
+        border-radius: 0.475rem;
+        height: 32px;
+        width: 32px;
+        &:hover {
+          background-color: $ds-gray-200;
+        }
+      }
+    }
+
+    &__sections {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 100%;
+      justify-items: flex-start;
+      align-items: flex-start;
+      height: max-content;
+      &-group {
+        width: 100%;
+        & > ul {
+          margin: 0;
+          padding: 0;
+        }
+      }
+      &-head {
+        width: 100%;
+        padding: 0 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & > h6 {
+          font-size: 13px;
+          font-weight: 400;
+          color: $ds-gray-500;
+        }
+        & > button {
+          border-style: none;
+
+          height: 32px;
+          width: 32px;
+          border-radius: 0.475rem;
+
+          background-color: $ds-white;
+        }
+      }
+      &-item {
+        width: 100%;
+        transition: all 200ms;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        padding: 0 10px;
+
+        border-radius: 0.475rem;
+        cursor: pointer;
+        height: 36px;
+        &:hover {
+          background-color: $ds-gray-200;
+        }
+        & > div {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          & > span {
+            color: $ds-gray-900;
+            font-weight: 600;
+            margin-left: 8px;
+            font-size: 15px;
+          }
+        }
+      }
+    }
+  }
+}

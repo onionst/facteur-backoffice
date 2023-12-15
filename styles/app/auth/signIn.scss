@@ -1,7 +1,7 @@
 .ds-sign-in {
   width: 100%;
   min-height: 100vh;
-  height: 100%;
+  height: max-content;
   background-color: $ds-white;
   display: flex;
   justify-content: center;
