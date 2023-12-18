@@ -1,15 +1,15 @@
 import Logo from "@/bases/logo";
 import Button from "@/bases/Button/Button";
 import { useEffect, useState } from "react";
-import { restorePassword } from "@/services/auth.service";
-import { notification } from "antd";
 import { useRouter } from "next/router";
 import { Input } from "@/bases/input";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import Condition from "@/bases/Condition/Condition";
+import { useAuth } from "@/contexts/auth.context";
 
 export default function CreateNewPassword(): JSX.Element {
   const router = useRouter();
+  const { restorePassword } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<{
     newPassword: string;
@@ -53,22 +53,9 @@ export default function CreateNewPassword(): JSX.Element {
     try {
       e?.preventDefault();
       setLoading(true);
-      const token: any = router?.query?.t;
-      restorePassword(token, form.newPassword);
+      await restorePassword(form.newPassword);
       setLoading(false);
     } catch (err: any) {
-      console.error(err);
-      if (typeof err?.response?.data?.message === "object") {
-        notification.error({
-          message: "Error",
-          description: err?.response?.data?.message[0],
-        });
-      } else {
-        notification.error({
-          message: "Error",
-          description: "Please try again later",
-        });
-      }
       setLoading(false);
     }
   };

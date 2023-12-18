@@ -1,38 +1,25 @@
 import Logo from "@/bases/logo";
 import Button from "@/bases/Button/Button";
 import { useState } from "react";
-import { sendRestorePasswordEmail } from "@/services/auth.service";
-import { notification } from "antd";
 import { useRouter } from "next/router";
 import { Input } from "@/bases/input";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { useAuth } from "@/contexts/auth.context";
 
 export default function RestorePassword(): JSX.Element {
   const router = useRouter();
+  const { sendRestorePasswordEmail } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
 
-  const handleSignInWithCredentials = async (e: any) => {
+  const handleSendRestorePasswordEmail = async (e: any) => {
     try {
       e?.preventDefault();
       setLoading(true);
       await sendRestorePasswordEmail(email);
-      notification.success({ message: "Please check your email" });
       setEmail("");
       setLoading(false);
     } catch (err: any) {
-      console.error(err);
-      if (typeof err?.response?.data?.message === "object") {
-        notification.error({
-          message: "Error",
-          description: err?.response?.data?.message[0],
-        });
-      } else {
-        notification.error({
-          message: "Error",
-          description: "Please try again later",
-        });
-      }
       setLoading(false);
     }
   };
@@ -49,7 +36,7 @@ export default function RestorePassword(): JSX.Element {
                 justifyContent: "center",
               }}
             >
-            <Logo size="M" />
+              <Logo size="M" />
             </div>
             <h1>Restore account</h1>
             <p>We will send you reset instructions </p>
@@ -57,7 +44,7 @@ export default function RestorePassword(): JSX.Element {
 
           <form
             style={{ marginTop: 32 }}
-            onSubmit={handleSignInWithCredentials}
+            onSubmit={handleSendRestorePasswordEmail}
           >
             <Input
               placeholder="username@organization.com"

@@ -3,15 +3,13 @@ import { Input } from "../../bases/input";
 import Button from "@/bases/Button/Button";
 import { useState } from "react";
 import { Credentials } from "@/dtos/credentials.dto";
-import { signInWithEmailAndPassword } from "@/services/auth.service";
-import { notification } from "antd";
 import { useRouter } from "next/router";
 import { ArrowRightOutlined } from "@ant-design/icons";
-import { useModal } from "@/contexts/modal.context";
+import { useAuth } from "@/contexts/auth.context";
 
 export default function SignIn(): JSX.Element {
   const router = useRouter();
-  const modal = useModal();
+  const { signInWithEmailAndPassword } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<Credentials>({
     email: "",
@@ -21,31 +19,14 @@ export default function SignIn(): JSX.Element {
   const handleSignInWithCredentials = async (e: any) => {
     try {
       e?.preventDefault();
-      const status = await signInWithEmailAndPassword(form);
-      if (status === "2FA") {
-        setForm({
-          email: "",
-          password: "",
-        });
-        modal.showTFAEmailSent();
-        setLoading(false);
-      } else {
-        router.push("/app");
-      }
       setLoading(true);
+      await signInWithEmailAndPassword(form);
+      setForm({
+        email: "",
+        password: "",
+      });
+      setLoading(false);
     } catch (err: any) {
-      console.error(err);
-      if (typeof err?.response?.data?.message === "object") {
-        notification.error({
-          message: "Error",
-          description: err?.response?.data?.message[0],
-        });
-      } else {
-        notification.error({
-          message: "Error",
-          description: "Invalid password or email",
-        });
-      }
       setLoading(false);
     }
   };

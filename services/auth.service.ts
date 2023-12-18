@@ -6,7 +6,7 @@ import { STORAGE_KEYS } from "@/constants/store.constant";
 
 const PREFIX = "/auth";
 
-export const signInWithEmailAndPassword = async (
+export const SignInWithEmailAndPassword = async (
   credentials: Credentials
 ): Promise<"AUTHORIZED" | "2FA"> => {
   const response = await api.post(
@@ -39,13 +39,13 @@ export const signInWithTFAToken = async (
   return "AUTHORIZED";
 };
 
-export const sendRestorePasswordEmail = async (
+export const SendRestorePasswordEmail = async (
   email: string
 ): Promise<void> => {
   await api.post(parseUrl(PREFIX, "/restore"), { email });
 };
 
-export const restorePassword = async (
+export const RestorePassword = async (
   token: string,
   password: string
 ): Promise<void> => {
