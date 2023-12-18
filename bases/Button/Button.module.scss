@@ -5,6 +5,10 @@
     transition: all 200ms !important;
     background-color: $ds-primary;
     color: $ds-white;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
     &:hover {
       background-color: $ds-primary !important;
       opacity: 0.9;
@@ -27,6 +31,10 @@
     }
   }
   &--secondary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
     transition: all 200ms !important;
     background-color: $ds-gray-100;
     color: $ds-gray-800;
@@ -50,7 +58,11 @@
       background-color: $ds-gray-400 !important;
     }
   }
+
   &--loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: all 200ms !important;
     background-color: $ds-gray-300 !important;
     cursor: not-allowed !important;

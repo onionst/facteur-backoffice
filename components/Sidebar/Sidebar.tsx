@@ -77,11 +77,34 @@ export default function Sidebar(props: SidebarProps) {
             })}
           </section>
         </div>
-        <section className={s["ds-sidebar__user"]}>
-          <div>
-            <User color="#252f4a" size={18} />
-          </div>
-        </section>
+        <Popover
+          trigger={["click"]}
+          content={
+            <div style={{ width: collapsed ? 120 : 210 }}>
+              <li className={s["ds-sidebar--collapsed__sections-item"]}>
+                <div>
+                  <User size={18} strokeWidth={2.3} color="#071437" />
+                  <span>Account</span>
+                </div>
+              </li>
+              <li
+                className={s["ds-sidebar--collapsed__sections-item"]}
+                onClick={() => signOut()}
+              >
+                <div>
+                  <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />
+                  <span style={{ color: "#fa4c41" }}>Sign out</span>
+                </div>
+              </li>
+            </div>
+          }
+        >
+          <section className={s["ds-sidebar__user"]}>
+            <div>
+              <User color="#252f4a" size={18} />
+            </div>
+          </section>
+        </Popover>
       </aside>
     );
   }

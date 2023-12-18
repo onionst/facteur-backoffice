@@ -7,6 +7,7 @@ import { ModalProvider } from "@/contexts/modal.context";
 import { AuthProvider } from "@/contexts/auth.context";
 import { useRouter } from "next/router";
 import AppLayout from "@/layout/AppLayout/AppLayout";
+import { useEffect } from "react";
 
 const theme: ThemeConfig = {
   token: {

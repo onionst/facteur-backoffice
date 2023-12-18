@@ -1,0 +1,14 @@
+.ds-row {
+  display: flex;
+  align-items: center;
+
+  &--LEFT {
+    justify-content: flex-start;
+  }
+  &--RIGHT {
+    justify-content: flex-end;
+  }
+  &--CENTER {
+    justify-content: center;
+  }
+}

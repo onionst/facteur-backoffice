@@ -1,0 +1,33 @@
+.ds-search {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  &__left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: calc(100% - 342px);
+    gap: 8px;
+    & > div {
+      width: 100%;
+      & > input {
+        height: 40px;
+        width: 100% !important;
+      }
+    }
+  }
+
+  &__right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 8px;
+    & > button {
+      height: 42px !important;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

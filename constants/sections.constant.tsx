@@ -47,17 +47,24 @@ export const SECTIONS: Array<Section> = [
         icon: <File size={18} strokeWidth={2.3} color="#071437" />,
         name: "Articles",
         type: "ITEM",
-        path: "/app/repository/fact-checks",
+        path: "/app/data/articles",
       },
     ],
   },
   {
-    access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER, ROLES.VIEWER],
+    access: [
+      ROLES.SUPER_ADMIN,
+      ROLES.ADMIN,
+      ROLES.FACT_CHECKER,
+      ROLES.RESEARCHER,
+      ROLES.VIEWER,
+    ],
     name: "EE24 Dataset",
     type: "MENU",
     sections: [
       {
         access: [
+          ROLES.SUPER_ADMIN,
           ROLES.ADMIN,
           ROLES.FACT_CHECKER,
           ROLES.RESEARCHER,
@@ -66,7 +73,7 @@ export const SECTIONS: Array<Section> = [
         icon: <Search size={18} strokeWidth={2.3} color="#071437" />,
         name: "Search",
         type: "ITEM",
-        path: "/app/repository/fact-checks",
+        path: "/app/ee24/search",
       },
       {
         access: [
@@ -78,7 +85,7 @@ export const SECTIONS: Array<Section> = [
         icon: <BarChart2 size={18} strokeWidth={2.3} color="#071437" />,
         name: "Stats",
         type: "ITEM",
-        path: "/app/repository/fact-checks",
+        path: "/app/ee24/search",
       },
     ],
   },

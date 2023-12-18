@@ -43,12 +43,19 @@ export const AuthProvider = (props: AuthProviderProps) => {
   });
 
   useEffect(() => {
-    getSessionData();
+    getSessionData(router.asPath);
   }, [router]);
 
-  const getSessionData = async () => {
+  const getSessionData = async (path: string) => {
     try {
-      if (Store.get(STORAGE_KEYS.ACCESS_TOKEN)) {
+      const accessToken = Store.get(STORAGE_KEYS.ACCESS_TOKEN, null);
+      if (path.includes("app") && !accessToken) {
+        router.push("/auth/sign-in");
+      }
+      if (path.includes("auth") && accessToken) {
+        router.push("/app");
+      }
+      if (accessToken) {
         if (!session?.email) {
           setLoading(true);
         }

@@ -1,0 +1,28 @@
+@import "@/styles/app/variables.scss";
+
+.ds-table {
+  width: 100%;
+  & > thead > tr > th {
+    padding-top: 8px !important;
+    padding-bottom: 16px !important;
+  }
+
+  & > tbody > tr {
+    transition: all 200ms;
+    &:hover {
+      background-color: $ds-gray-100;
+      cursor: pointer;
+    }
+  }
+
+  &__container {
+    width: 100%;
+  }
+
+  &__empty {
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -5,7 +5,7 @@ import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 
 export type ButtonProps = {
   children: any;
-  theme: "CTA" | "SECONDARY";
+  theme: "CTA" | "SECONDARY" | "TERTIARY";
   loading?: boolean;
 };
 
@@ -19,6 +19,7 @@ export default function Button(
   const theme = {
     CTA: "ds-btn--primary",
     SECONDARY: "ds-btn--secondary",
+    TERTIARY: "ds-btn--tertiary",
   }[props.theme];
   return (
     <button
