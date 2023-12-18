@@ -1,18 +1,26 @@
 import { Credentials } from "@/dtos/credentials.dto";
 import {
+  GetSessionData,
   RestorePassword,
   SendRestorePasswordEmail,
   SignInWithEmailAndPassword,
 } from "@/services/auth.service";
+import Store from "store";
 import { useRouter } from "next/router";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useModal } from "./modal.context";
 import { notification } from "antd";
+import { STORAGE_KEYS } from "@/constants/store.constant";
+import { Session } from "@/dtos/session.dto";
+import { ROLES } from "@/constants/roles.constants";
+import Logo from "@/bases/logo";
 
 export type AuthContextProps = {
+  session: Session;
   signInWithEmailAndPassword: (credentials: Credentials) => Promise<void>;
   sendRestorePasswordEmail: (email: string) => Promise<void>;
   restorePassword: (password: string) => Promise<void>;
+  signOut: () => Promise<void>;
 };
 export type AuthProviderProps = { children: any };
 
@@ -22,8 +30,44 @@ export const AuthContext = createContext<AuthContextProps>(
 );
 
 export const AuthProvider = (props: AuthProviderProps) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const modal = useModal();
+
+  const [session, setSession] = useState<Session>({
+    email: "",
+    role: ROLES.VIEWER,
+    name: "",
+    surname: "",
+    organizationId: "",
+  });
+
+  useEffect(() => {
+    getSessionData();
+  }, [router]);
+
+  const getSessionData = async () => {
+    try {
+      if (Store.get(STORAGE_KEYS.ACCESS_TOKEN)) {
+        if (!session?.email) {
+          setLoading(true);
+        }
+        const { data } = await GetSessionData();
+        setSession({
+          email: data?.email,
+          role: data?.role,
+          name: data?.name,
+          surname: data?.surname,
+          organizationId: data?.organizationId,
+        });
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error(err);
+      await signOut();
+      setLoading(false);
+    }
+  };
 
   const signInWithEmailAndPassword = async (credentials: Credentials) => {
     try {
@@ -92,15 +136,42 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
+  const signOut = async () => {
+    try {
+      await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
+      router.push("/auth/sign-in");
+    } catch (err) {
+      console.error(err);
+      throw new Error("Default");
+    }
+  };
+
   const context = {
+    session,
     signInWithEmailAndPassword,
     sendRestorePasswordEmail,
     restorePassword,
+    signOut,
   };
 
   return (
     <AuthContext.Provider value={context}>
-      {props.children}
+      {loading ? (
+        <div
+          style={{
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "#FFF",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Logo size="M" />
+        </div>
+      ) : (
+        props.children
+      )}
     </AuthContext.Provider>
   );
 };

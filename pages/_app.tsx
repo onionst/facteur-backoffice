@@ -5,6 +5,8 @@ import type { AppProps } from "next/app";
 import { ConfigProvider, ThemeConfig } from "antd";
 import { ModalProvider } from "@/contexts/modal.context";
 import { AuthProvider } from "@/contexts/auth.context";
+import { useRouter } from "next/router";
+import AppLayout from "@/layout/AppLayout/AppLayout";
 
 const theme: ThemeConfig = {
   token: {
@@ -14,11 +16,19 @@ const theme: ThemeConfig = {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
   return (
     <ConfigProvider theme={theme}>
       <ModalProvider>
         <AuthProvider>
-          <Component {...pageProps} />
+          {router.asPath.includes("/app") ? (
+            <AppLayout>
+              <Component {...pageProps} />
+            </AppLayout>
+          ) : (
+            <Component {...pageProps} />
+          )}
         </AuthProvider>
       </ModalProvider>
     </ConfigProvider>

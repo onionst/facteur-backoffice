@@ -59,3 +59,7 @@ export const RestorePassword = async (
     }
   );
 };
+
+export const GetSessionData = async () => {
+  return await api.get(parseUrl(PREFIX, "/session"));
+};

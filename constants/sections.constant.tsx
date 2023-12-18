@@ -38,7 +38,12 @@ export const SECTIONS: Array<Section> = [
     type: "MENU",
     sections: [
       {
-        access: [ROLES.SUPER_ADMIN],
+        access: [
+          ROLES.ADMIN,
+          ROLES.FACT_CHECKER,
+          ROLES.RESEARCHER,
+          ROLES.VIEWER,
+        ],
         icon: <File size={18} strokeWidth={2.3} color="#071437" />,
         name: "Articles",
         type: "ITEM",
@@ -52,14 +57,24 @@ export const SECTIONS: Array<Section> = [
     type: "MENU",
     sections: [
       {
-        access: [ROLES.SUPER_ADMIN],
+        access: [
+          ROLES.ADMIN,
+          ROLES.FACT_CHECKER,
+          ROLES.RESEARCHER,
+          ROLES.VIEWER,
+        ],
         icon: <Search size={18} strokeWidth={2.3} color="#071437" />,
         name: "Search",
         type: "ITEM",
         path: "/app/repository/fact-checks",
       },
       {
-        access: [ROLES.SUPER_ADMIN],
+        access: [
+          ROLES.ADMIN,
+          ROLES.FACT_CHECKER,
+          ROLES.RESEARCHER,
+          ROLES.VIEWER,
+        ],
         icon: <BarChart2 size={18} strokeWidth={2.3} color="#071437" />,
         name: "Stats",
         type: "ITEM",

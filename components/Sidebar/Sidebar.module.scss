@@ -1,6 +1,8 @@
 @import "@/styles/app/variables.scss";
 
 .ds-sidebar {
+  position: fixed;
+  left: 0;
   display: flex !important;
   grid-template-columns: 100% !important;
 
@@ -153,6 +155,8 @@
   }
 
   &--collapsed {
+    position: fixed;
+    left: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
