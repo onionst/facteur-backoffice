@@ -81,12 +81,14 @@ export default function Sidebar(props: SidebarProps) {
           trigger={["click"]}
           content={
             <div style={{ width: collapsed ? 120 : 210 }}>
-              <li className={s["ds-sidebar--collapsed__sections-item"]}>
-                <div>
-                  <User size={18} strokeWidth={2.3} color="#071437" />
-                  <span>Account</span>
-                </div>
-              </li>
+              <Link href={"/app/account"}>
+                <li className={s["ds-sidebar--collapsed__sections-item"]}>
+                  <div>
+                    <User size={18} strokeWidth={2.3} color="#071437" />
+                    <span>Account</span>
+                  </div>
+                </li>
+              </Link>
               <li
                 className={s["ds-sidebar--collapsed__sections-item"]}
                 onClick={() => signOut()}
@@ -154,12 +156,14 @@ export default function Sidebar(props: SidebarProps) {
         trigger={["click"]}
         content={
           <div style={{ width: collapsed ? 200 : 210 }}>
-            <li className={s["ds-sidebar--collapsed__sections-item"]}>
-              <div>
-                <User size={18} strokeWidth={2.3} color="#071437" />
-                <span>Account</span>
-              </div>
-            </li>
+            <Link href={"/app/account"}>
+              <li className={s["ds-sidebar--collapsed__sections-item"]}>
+                <div>
+                  <User size={18} strokeWidth={2.3} color="#071437" />
+                  <span>Account</span>
+                </div>
+              </li>
+            </Link>
             <li
               className={s["ds-sidebar--collapsed__sections-item"]}
               onClick={() => signOut()}

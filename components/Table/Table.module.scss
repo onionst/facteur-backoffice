@@ -9,9 +9,11 @@
 
   & > tbody > tr {
     transition: all 200ms;
+    text-align: left;
+    vertical-align: middle;
+    align-items: center;
     &:hover {
       background-color: $ds-gray-100;
-      cursor: pointer;
     }
   }
 

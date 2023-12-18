@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/auth.context";
 import { useRouter } from "next/router";
 import AppLayout from "@/layout/AppLayout/AppLayout";
 import { useEffect } from "react";
+import { OrganizationsProvider } from "@/contexts/organizations.context";
 
 const theme: ThemeConfig = {
   token: {
@@ -23,13 +24,15 @@ export default function App({ Component, pageProps }: AppProps) {
     <ConfigProvider theme={theme}>
       <ModalProvider>
         <AuthProvider>
-          {router.asPath.includes("/app") ? (
-            <AppLayout>
+          <OrganizationsProvider>
+            {router.asPath.includes("/app") ? (
+              <AppLayout>
+                <Component {...pageProps} />
+              </AppLayout>
+            ) : (
               <Component {...pageProps} />
-            </AppLayout>
-          ) : (
-            <Component {...pageProps} />
-          )}
+            )}
+          </OrganizationsProvider>
         </AuthProvider>
       </ModalProvider>
     </ConfigProvider>
