@@ -1,6 +1,6 @@
 import Button from "@/bases/Button/Button";
 import { Modal, ModalProps } from "antd";
-import { ArrowRight, Mail, X } from "react-feather";
+import { Mail, X } from "react-feather";
 
 export type TFAEmailSentModalProps = {};
 export const TFAEmailSentModal = (
@@ -11,7 +11,7 @@ export const TFAEmailSentModal = (
       <div className="ds-tfa-modal__mail">
         <Mail />
       </div>
-      <h2>Let's verify your identity</h2>
+      <h2>{"Let's verify your identity"}</h2>
       <p>We just sent you an email with instructions to sign in.</p>
       <div className="ds-tfa-modal__button">
         <Button onClick={props.onCancel} theme="CTA">

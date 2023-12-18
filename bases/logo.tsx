@@ -3,7 +3,7 @@ export type LogoProps = {
 };
 export default function Logo(props: LogoProps) {
   const height = {
-    S: 26,
+    S: 24,
     M: 32,
     L: 38,
   }[props.size];

@@ -1,6 +1,6 @@
 import Logo from "@/bases/logo";
 import s from "./Sidebar.module.scss";
-import { ChevronRight, Minus, Plus } from "react-feather";
+import { ChevronRight, Minus, Plus, User } from "react-feather";
 import { SECTIONS } from "@/constants/sections.constant";
 import Link from "next/link";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -16,36 +16,88 @@ export default function Sidebar(props: SidebarProps) {
   if (collapsed) {
     return (
       <aside className={s["ds-sidebar--collapsed"]}>
-        <section className={s["ds-sidebar--collapsed__top"]}>
-          <IconButton onClick={() => setCollapsed(false)}>
-            <Plus color="#252f4a" size={18} />
+        <div className={s["ds-sidebar-t"]}>
+          <section className={s["ds-sidebar--collapsed__top"]}>
+            <IconButton onClick={() => setCollapsed(false)}>
+              <Plus color="#252f4a" size={18} />
+            </IconButton>
+          </section>
+          <section className={s["ds-sidebar__sections"]}>
+            {SECTIONS.map((section) => {
+              return (
+                <div
+                  className={s["ds-sidebar--collapsed__sections-group"]}
+                  key={section?.name}
+                >
+                  <div className={s["ds-sidebar--collapsed__sections-head"]}>
+                    <h6>{section?.name?.substring(0, 5).trim()}</h6>
+                  </div>
+                  <ul>
+                    {section?.sections?.map((item) => {
+                      return (
+                        <Link href={item?.path || "/app"} key={item?.path}>
+                          <OverlayTrigger
+                            placement="right"
+                            overlay={
+                              <Tooltip placement="right">{item?.name}</Tooltip>
+                            }
+                          >
+                            <li
+                              className={
+                                s["ds-sidebar--collapsed__sections-item"]
+                              }
+                            >
+                              <div>{item?.icon}</div>
+                            </li>
+                          </OverlayTrigger>
+                        </Link>
+                      );
+                    })}
+                  </ul>
+                </div>
+              );
+            })}
+          </section>
+        </div>
+        <section className={s["ds-sidebar__user"]}>
+          <div>
+            <User color="#252f4a" size={18} />
+          </div>
+        </section>
+      </aside>
+    );
+  }
+
+  return (
+    <aside className={s["ds-sidebar"]}>
+      <div className={s["ds-sidebar-t"]}>
+        <section className={s["ds-sidebar__top"]}>
+          <Logo size="S" />
+          <IconButton onClick={() => setCollapsed(true)}>
+            <Minus color="#252f4a" size={18} />
           </IconButton>
         </section>
         <section className={s["ds-sidebar__sections"]}>
           {SECTIONS.map((section) => {
             return (
-              <div className={s["ds-sidebar--collapsed__sections-group"]}>
-                <div className={s["ds-sidebar--collapsed__sections-head"]}>
-                  <h6>{section?.name?.substring(0, 3)}</h6>
+              <div
+                className={s["ds-sidebar__sections-group"]}
+                key={section.name}
+              >
+                <div className={s["ds-sidebar__sections-head"]}>
+                  <h6>{section?.name}</h6>
                 </div>
                 <ul>
                   {section?.sections?.map((item) => {
                     return (
-                      <Link href={item?.path || "/app"}>
-                        <OverlayTrigger
-                          placement="right"
-                          overlay={
-                            <Tooltip placement="right">{item?.name}</Tooltip>
-                          }
-                        >
-                          <li
-                            className={
-                              s["ds-sidebar--collapsed__sections-item"]
-                            }
-                          >
-                            <div>{item?.icon}</div>
-                          </li>
-                        </OverlayTrigger>
+                      <Link href={item?.path || "/app"} key={item?.path}>
+                        <li className={s["ds-sidebar__sections-item"]}>
+                          <div>
+                            {item?.icon}
+                            <span>{item?.name}</span>
+                          </div>
+                          <ChevronRight size={16} color="#99a1b7" />
+                        </li>
                       </Link>
                     );
                   })}
@@ -54,45 +106,16 @@ export default function Sidebar(props: SidebarProps) {
             );
           })}
         </section>
-      </aside>
-    );
-  }
-
-  return (
-    <aside className={s["ds-sidebar"]}>
-      <section className={s["ds-sidebar__top"]}>
-        <Logo size="S" />
-        <IconButton onClick={() => setCollapsed(true)}>
-          <Minus color="#252f4a" size={18} />
-        </IconButton>
+      </div>
+      <section className={s["ds-sidebar__user"]}>
+        <div>
+          <User color="#252f4a" size={18} />
+        </div>
+        <section>
+          <h6>Bruno Passarelli</h6>
+          <span>bruno.passarelli@newtral.es</span>
+        </section>
       </section>
-      <section className={s["ds-sidebar__sections"]}>
-        {SECTIONS.map((section) => {
-          return (
-            <div className={s["ds-sidebar__sections-group"]}>
-              <div className={s["ds-sidebar__sections-head"]}>
-                <h6>{section?.name}</h6>
-              </div>
-              <ul>
-                {section?.sections?.map((item) => {
-                  return (
-                    <Link href={item?.path || "/app"}>
-                      <li className={s["ds-sidebar__sections-item"]}>
-                        <div>
-                          {item?.icon}
-                          <span>{item?.name}</span>
-                        </div>
-                        <ChevronRight size={16} color="#99a1b7" />
-                      </li>
-                    </Link>
-                  );
-                })}
-              </ul>
-            </div>
-          );
-        })}
-      </section>
-      <section></section>
     </aside>
   );
 }

@@ -1,7 +1,7 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
 export type InputProps = {
-  label: string;
+  label?: string;
 };
 
 export function Input(
@@ -13,9 +13,11 @@ export function Input(
 ) {
   return (
     <div>
-      <label className="form-label" style={{ marginBottom: 2 }}>
-        {props.label}
-      </label>
+      {props.label && (
+        <label className="form-label" style={{ marginBottom: 2 }}>
+          {props.label}
+        </label>
+      )}
       <input className="form-control" {...props} />
     </div>
   );

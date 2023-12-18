@@ -12,10 +12,6 @@ type AsideButtonProps = {
   children: any;
 };
 
-function AsideButton(props: AsideButtonProps) {
-  return <button className={s["ds-app-ab"]}>{props.children}</button>;
-}
-
 export default function AppLayout(props: LayoutProps) {
   const [collapsed, setCollapsed] = useState<boolean>(false);
   return (

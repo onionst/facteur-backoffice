@@ -1,0 +1,44 @@
+image: atlassian/default-image:4
+
+options:
+  size: 2x
+
+definitions:
+  services:
+    docker:
+      memory: 7128
+      
+pipelines:
+  branches:
+    develop:
+      - step:
+          name: Build & Push Docker Image
+          script:
+            - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+            - IMAGE_NAME=$BITBUCKET_REPO_SLUG
+            - IMAGE=${DOCKERHUB_NAMESPACE}/${IMAGE_NAME}
+            - SSH_KEY=$(umask  077 ; echo $SSH_PRIVATE_KEY | base64 --decode)
+            - export DOCKER_BUILDKIT=1
+            - docker build --cache-from $IMAGE:latest --build-arg "SSH_PRIVATE_KEY=$SSH_KEY" . --file Dockerfile --tag ${IMAGE_NAME}
+            - docker tag "${IMAGE_NAME}" "${IMAGE}:dev"
+            - docker push "${IMAGE}:dev"
+          services:
+            - docker
+
+    master:
+      - step:
+          name: Build & Push Docker Image
+          script:
+            - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+            - IMAGE_NAME=$BITBUCKET_REPO_SLUG
+            - IMAGE=${DOCKERHUB_NAMESPACE}/${IMAGE_NAME}
+            - SSH_KEY=$(umask  077 ; echo $SSH_PRIVATE_KEY | base64 --decode)
+            - export DOCKER_BUILDKIT=1
+            - docker build --cache-from $IMAGE:latest --build-arg "SSH_PRIVATE_KEY=$SSH_KEY" . --file Dockerfile --tag ${IMAGE_NAME}
+            - declare -x VERSION=$(jq -r '.version' package.json)
+            - docker tag "${IMAGE_NAME}" "${IMAGE}:${VERSION}"
+            - docker push "${IMAGE}:${VERSION}"
+            - docker tag "${IMAGE_NAME}" "${IMAGE}:latest"
+            - docker push "${IMAGE}:latest"
+          services:
+            - docker

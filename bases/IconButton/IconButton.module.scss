@@ -18,4 +18,23 @@
   &:hover {
     background-color: $ds-gray-100;
   }
+  &:hover {
+    background-color: $ds-gray-200 !important;
+    opacity: 0.9;
+    color: $ds-gray-800;
+  }
+  &:focus {
+    background-color: $ds-gray-300 !important;
+    opacity: 0.8;
+    color: $ds-gray-900;
+  }
+  &:active {
+    background-color: $ds-gray-300 !important;
+    opacity: 0.8;
+    color: $ds-gray-900;
+  }
+  &:disabled {
+    cursor: not-allowed !important;
+    background-color: $ds-gray-400 !important;
+  }
 }
