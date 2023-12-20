@@ -30,6 +30,35 @@
       background-color: $ds-gray-400 !important;
     }
   }
+  &--attention {
+    transition: all 200ms !important;
+    background-color: $ds-negative;
+    color: $ds-white;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      background-color: $ds-negative !important;
+      opacity: 0.9;
+      color: $ds-gray-100;
+    }
+    &:focus {
+      background-color: $ds-negative !important;
+      opacity: 0.8;
+      color: $ds-gray-200 !important;
+    }
+    &:active {
+      background-color: $ds-negative !important;
+      opacity: 0.8;
+      color: $ds-gray-200 !important;
+      transform: scale(0.9825);
+    }
+    &:disabled {
+      cursor: not-allowed !important;
+      background-color: $ds-gray-400 !important;
+    }
+  }
   &--secondary {
     display: flex;
     justify-content: center;

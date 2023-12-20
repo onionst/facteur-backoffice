@@ -117,3 +117,13 @@ html {
 
   background-color: rgb(153, 161, 183, 0.2) !important;
 }
+
+.bg-secondary {
+  background-color: #c4cada !important;
+  color: #252f4a !important;
+}
+
+.bg-danger {
+  background-color: #fa4c41 !important;
+  color: #f1f1f4 !important;
+}

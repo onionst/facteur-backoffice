@@ -4,4 +4,5 @@ export class FilterOrganizations {
   orderBy?: "name" | "creationDate";
   order?: "ASC" | "DESC";
   search?: string;
+  active?: boolean;
 }

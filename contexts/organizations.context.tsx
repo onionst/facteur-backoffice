@@ -3,6 +3,7 @@ import { FilterOrganizations } from "@/dtos/organizations/filterOrganizations.dt
 import { Organization } from "@/dtos/organizations/organization.dto";
 import {
   CreateOrganization,
+  DeleteOrganization,
   FetchOrganizations,
   UpdateOrganization,
 } from "@/services/organizations.service";
@@ -22,6 +23,7 @@ export type OrganizationsContextProps = {
     id: string,
     payload: UpdateOrganizationDto
   ) => Promise<void>;
+  deleteOrganization: (id: string) => Promise<void>;
 };
 export const OrganizationsContext = createContext<OrganizationsContextProps>(
   // @ts-ignore
@@ -129,12 +131,44 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
     }
   };
 
+  const deleteOrganization = async (id: string) => {
+    try {
+      await DeleteOrganization(id);
+      setOrganizations((prev) =>
+        prev.map((organization) => {
+          if (organization.id != id) {
+            return organization;
+          }
+          return {
+            ...organization,
+            active: false,
+          };
+        })
+      );
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === "object") {
+        notification.error({
+          message: "Error",
+          description: err?.response?.data?.message[0],
+        });
+      } else {
+        notification.error({
+          message: "Error",
+          description: "Please try again later",
+        });
+      }
+      throw new Error("Unauthorized");
+    }
+  };
+
   const context = {
     organizations,
     createOrganization,
     fetchOrganizations,
     fetchOrganizationData,
     updateOrganization,
+    deleteOrganization,
   };
   return (
     <OrganizationsContext.Provider value={context}>

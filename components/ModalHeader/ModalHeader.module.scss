@@ -13,4 +13,10 @@
   & > h3 {
     color: $ds-gray-900;
   }
+
+  &--attention {
+    & > h5 {
+      color: $ds-negative;
+    }
+  }
 }

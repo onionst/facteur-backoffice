@@ -66,8 +66,8 @@ export const EditOrganizationModal = (
         subTitle="Edit organization"
         title={
           organization?.name
-            ? `Update ${organization?.name}'s data`
-            : "Update the data of the organization"
+            ? `Update ${organization?.name}'s information`
+            : "Update the information of the organization"
         }
       />
       <form className={s["ds-modal-form"]} onSubmit={handleUpdateOrganization}>

@@ -27,3 +27,8 @@ export const UpdateOrganization = async (
   const response = await api.patch(parseUrl(PREFIX, id), payload);
   return response?.data;
 };
+
+export const DeleteOrganization = async (id: string) => {
+  const response = await api.delete(parseUrl(PREFIX, id), { params: { id } });
+  return response?.data;
+};

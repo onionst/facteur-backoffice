@@ -6,10 +6,16 @@ import { Table } from "@/components/Table/Table";
 import Wrapper from "@/components/Wrapper/Wrapper";
 import { useModal } from "@/contexts/modal.context";
 import { useOrganizations } from "@/contexts/organizations.context";
-import { Edit, X } from "react-feather";
+import { Badge } from "react-bootstrap";
+import { CornerDownLeft, Edit, X } from "react-feather";
 
 export default function Organizations() {
-  const { showCreateOrganization, showEditOrganization } = useModal();
+  const {
+    showCreateOrganization,
+    showEditOrganization,
+    showDeleteOrganization,
+    showRestoreOrganization,
+  } = useModal();
   const { organizations, fetchOrganizations } = useOrganizations();
   return (
     <>
@@ -27,9 +33,26 @@ export default function Organizations() {
           <Table
             columns={["Name", "Domain", "State"]}
             data={organizations.map((organization) => [
-              organization?.name,
-              organization?.domain,
-              organization?.active ? "Active" : "Unactive",
+              <span
+                key={organization?.id + "name"}
+                style={{ opacity: organization?.active ? 1 : 0.6 }}
+              >
+                {organization?.name}
+              </span>,
+              <span
+                key={organization?.id + "domain"}
+                style={{ opacity: organization?.active ? 1 : 0.6 }}
+              >
+                {organization?.domain}
+              </span>,
+              <div key={organization?.id + "state"}>
+                <Badge
+                  key={organization?.id + organization?.active}
+                  bg={organization?.active ? "secondary" : "danger"}
+                >
+                  {organization?.active ? "Active" : "Unactive"}
+                </Badge>
+              </div>,
               <div
                 style={{
                   width: "100%",
@@ -38,16 +61,28 @@ export default function Organizations() {
                   alignItems: "center",
                   gap: 8,
                 }}
-                key={organization?.id}
+                key={organization?.id + "actions"}
               >
-                <IconButton
-                  onClick={() => showEditOrganization(organization?.id)}
-                >
-                  <Edit color="#252f4a" size={18} />
-                </IconButton>
-                <IconButton>
-                  <X color="#252f4a" size={18} />
-                </IconButton>
+                {organization?.active ? (
+                  <>
+                    <IconButton
+                      onClick={() => showEditOrganization(organization?.id)}
+                    >
+                      <Edit color="#252f4a" size={18} />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => showDeleteOrganization(organization?.id)}
+                    >
+                      <X color="#252f4a" size={18} />
+                    </IconButton>
+                  </>
+                ) : (
+                  <IconButton
+                    onClick={() => showRestoreOrganization(organization?.id)}
+                  >
+                    <CornerDownLeft color="#252f4a" size={18} />
+                  </IconButton>
+                )}
               </div>,
             ])}
             // data={[
