@@ -53,7 +53,7 @@ export default function AppLayout(props: LayoutProps) {
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
       <div />
       <main>
-        <Navbar />
+        <Navbar collapsed={collapsed} />
         <section className={s["ds-app__main"]}>{props.children}</section>
       </main>
     </div>
