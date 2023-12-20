@@ -78,6 +78,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
       }
     } catch (err) {
       console.error(err);
+      notification.info({
+        message: "Session Expired",
+        description:
+          "Please re-enter your credentials to continue where you left off",
+      });
       await signOut();
       setLoading(false);
     }
