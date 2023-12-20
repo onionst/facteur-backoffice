@@ -11,9 +11,8 @@ import {
   ORGANIZATIONS_LIMIT_PER_PAGE,
   useOrganizations,
 } from "@/contexts/organizations.context";
-import { useState } from "react";
 import { Badge } from "react-bootstrap";
-import { CornerDownLeft, Edit, X } from "react-feather";
+import { Edit, RefreshCcw, X } from "react-feather";
 
 export default function Organizations() {
   const {
@@ -89,21 +88,13 @@ export default function Organizations() {
                   <IconButton
                     onClick={() => showRestoreOrganization(organization?.id)}
                   >
-                    <CornerDownLeft color="#252f4a" size={18} />
+                    <RefreshCcw color="#252f4a" size={18} />
                   </IconButton>
                 )}
               </div>,
             ])}
-            // data={[
-            //   [
-            //     "Newtral",
-            //     "newtral.es",
-
-            //   ],
-            // ]}
           />
         </Page>
-        {/* <Page> */}
         <Row align="SPACE">
           <span>
             Showing {organizations.length} of {page.records} organizations
