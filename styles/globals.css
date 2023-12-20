@@ -104,6 +104,11 @@ html {
   background-color: #fff;
 }
 
+body {
+  overflow: auto;
+  overflow: initial;
+}
+
 .ant-drawer-body {
   padding: 0 !important;
 }

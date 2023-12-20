@@ -1,3 +1,4 @@
+import Button from "@/bases/Button/Button";
 import IconButton from "@/bases/IconButton/IconButton";
 import Row from "@/bases/Row/Row";
 import Header from "@/components/Header/Header";
@@ -25,12 +26,14 @@ export default function Organizations() {
 
   return (
     <>
+      <Header title={`Organizations`}>
+        <Button theme="CTA" onClick={showCreateOrganization}>
+          Create organization
+        </Button>
+      </Header>
       <Wrapper>
-        <Header>Organizations</Header>
         <Page>
           <Search
-            cta="Create organization"
-            onCtaClick={showCreateOrganization}
             placeholder="Search organizations..."
             onSearch={(search) =>
               fetchOrganizations({
@@ -38,6 +41,8 @@ export default function Organizations() {
               })
             }
           />
+        </Page>
+        <Page>
           <Table
             columns={["Name", "Domain", "State"]}
             data={organizations.map((organization) => [

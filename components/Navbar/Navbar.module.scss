@@ -3,8 +3,10 @@
 .ds-navbar {
   height: 73px;
   padding: 20px;
+
   border-bottom: 1px solid $ds-gray-200;
   display: flex;
+  z-index: 99;
   gap: 24px;
   justify-content: space-between;
   align-items: center;

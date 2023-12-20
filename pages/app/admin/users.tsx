@@ -6,16 +6,16 @@ import Wrapper from "@/components/Wrapper/Wrapper";
 
 export default function Users() {
   return (
-    <Wrapper>
-      <Header>Users</Header>
-      <Page>
-        <Search
-          cta="Create user"
-          placeholder="Search users..."
-          onCtaClick={() => {}}
-        />
-        <Table columns={["Name", "Surname", "Email"]} data={[]} />
-      </Page>
-    </Wrapper>
+    <>
+      <Header title="Users" />
+      <Wrapper>
+        <Page>
+          <Search placeholder="Search users..." onSearch={() => {}} />
+        </Page>
+        <Page>
+          <Table columns={["Name", "Surname", "Email"]} data={[]} />
+        </Page>
+      </Wrapper>
+    </>
   );
 }

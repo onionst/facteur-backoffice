@@ -4,9 +4,11 @@ import Wrapper from "@/components/Wrapper/Wrapper";
 
 export default function Search() {
   return (
-    <Wrapper>
-      <Header>EE24 Repository</Header>
-      <Page>{/*  */}</Page>
-    </Wrapper>
+    <>
+      <Header title="EE24 Repository" />
+      <Wrapper>
+        <Page>{/*  */}</Page>
+      </Wrapper>
+    </>
   );
 }
