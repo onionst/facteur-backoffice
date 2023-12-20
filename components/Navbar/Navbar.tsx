@@ -15,7 +15,7 @@ export default function Navbar(props: NavbarProps) {
   return (
     <nav
       className={s["ds-navbar"]}
-      style={{ width: `calc(100% - ${props.collapsed ? 73 : 270}px)` }}
+      style={{ width: `calc(100% - ${props.collapsed ? 74 : 270}px)` }}
     >
       <section className={s["ds-navbar__left"]}>
         {width < 768 && (
