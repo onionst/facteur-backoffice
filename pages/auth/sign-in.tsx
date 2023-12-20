@@ -1,7 +1,7 @@
 import Logo from "@/bases/logo";
 import { Input } from "../../bases/input";
 import Button from "@/bases/Button/Button";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Credentials } from "@/dtos/credentials.dto";
 import { useRouter } from "next/router";
 import { ArrowRightOutlined } from "@ant-design/icons";
@@ -16,7 +16,7 @@ export default function SignIn(): JSX.Element {
     password: "",
   });
 
-  const handleSignInWithCredentials = async (e: any) => {
+  const handleSignInWithCredentials = async (e: FormEvent) => {
     try {
       e?.preventDefault();
       setLoading(true);
@@ -63,6 +63,7 @@ export default function SignIn(): JSX.Element {
           </div>
           <form onSubmit={handleSignInWithCredentials}>
             <Input
+              required
               placeholder="username@organization.com"
               type="email"
               label="Email"
@@ -73,6 +74,7 @@ export default function SignIn(): JSX.Element {
               style={{ marginBottom: 16 }}
             />
             <Input
+              required
               value={form.password}
               onChange={(password) =>
                 setForm((prev) => ({

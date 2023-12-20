@@ -1,0 +1,6 @@
+export class UpdateOrganization {
+  name: string;
+  domain: string;
+  country?: string;
+  language?: string;
+}

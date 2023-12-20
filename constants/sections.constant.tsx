@@ -85,7 +85,7 @@ export const SECTIONS: Array<Section> = [
         icon: <BarChart2 size={18} strokeWidth={2.3} color="#071437" />,
         name: "Stats",
         type: "ITEM",
-        path: "/app/ee24/search",
+        path: "/app/ee24/stats",
       },
     ],
   },

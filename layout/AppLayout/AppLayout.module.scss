@@ -29,4 +29,9 @@
     height: max-content;
     height: calc(100vh - 73px);
   }
+
+  &__mobile {
+    width: 100%;
+    background-color: $ds-white;
+  }
 }

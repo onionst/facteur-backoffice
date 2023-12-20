@@ -6,7 +6,7 @@ export default function Articles() {
   return (
     <Wrapper>
       <Header>Articles</Header>
-      <Page></Page>
+      <Page>{/*  */}</Page>
     </Wrapper>
   );
 }

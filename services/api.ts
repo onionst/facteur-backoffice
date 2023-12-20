@@ -24,4 +24,5 @@ api.interceptors.request.use(
   }
 );
 
-export const parseUrl = (prefix: string, path: string) => prefix + path;
+export const parseUrl = (prefix: string, path: string = "/") =>
+  prefix + (path.startsWith("/") ? path : `/${path}`);

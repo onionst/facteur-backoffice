@@ -1,0 +1,16 @@
+@import "@/styles/app/variables.scss";
+
+.ds-modal-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  & > h5 {
+    color: $ds-primary;
+  }
+  & > h3 {
+    color: $ds-gray-900;
+  }
+}

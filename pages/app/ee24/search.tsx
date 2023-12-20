@@ -6,7 +6,7 @@ export default function Search() {
   return (
     <Wrapper>
       <Header>EE24 Repository</Header>
-      <Page></Page>
+      <Page>{/*  */}</Page>
     </Wrapper>
   );
 }

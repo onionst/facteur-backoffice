@@ -15,10 +15,10 @@ export function Input(
     <div>
       {props.label && (
         <label className="form-label" style={{ marginBottom: 2 }}>
-          {props.label}
+          {props.label} {props.required ? <span>*</span> : ""}
         </label>
       )}
-      <input className="form-control" {...props} />
+      <input {...props} className={`form-control ${props.className || ""}`} />
     </div>
   );
 }

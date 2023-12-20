@@ -3,6 +3,8 @@ import s from "./AppLayout.module.scss";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Navbar from "@/components/Navbar/Navbar";
 import { useState } from "react";
+import useWindowSize from "@/hooks/useWindowWidth";
+import { Drawer } from "antd";
 
 export type LayoutProps = {
   children: any;
@@ -14,6 +16,34 @@ type AsideButtonProps = {
 
 export default function AppLayout(props: LayoutProps) {
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [showDrawer, setShowDrawer] = useState<boolean>(false);
+  const { width } = useWindowSize();
+
+  if (width < 768) {
+    return (
+      <div className={s["ds-app__mobile"]}>
+        <Drawer
+          width={270}
+          footer={null}
+          drawerStyle={{ padding: 0 }}
+          styles={{ header: { display: "none" } }}
+          placement="left"
+          open={showDrawer}
+          onClose={() => setShowDrawer(false)}
+        >
+          <Sidebar
+            collapsed={false}
+            setCollapsed={() => setShowDrawer(false)}
+          />
+        </Drawer>
+        <main>
+          <Navbar openDrawer={() => setShowDrawer(true)} />
+          <section className={s["ds-app__main"]}>{props.children}</section>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`${s["ds-app"]} ${

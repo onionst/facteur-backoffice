@@ -6,7 +6,7 @@ import { createContext, useContext, useState } from "react";
 export const ModalContext = createContext<{
   showTFAEmailSent: () => void;
   showCreateOrganization: () => void;
-  showEditOrganization: () => void;
+  showEditOrganization: (id: string) => void;
   // @ts-ignore
 }>({});
 
@@ -15,12 +15,12 @@ export const ModalProvider = (props: { children: any }) => {
   const [createOrganizationActive, setCreateOrganizationActive] =
     useState<boolean>(false);
   const [editOrganizationActive, setEditOrganizationActive] =
-    useState<boolean>(false);
+    useState<string>("");
 
   const context = {
     showTFAEmailSent: () => setEmailSentActive(true),
     showCreateOrganization: () => setCreateOrganizationActive(true),
-    showEditOrganization: () => setEditOrganizationActive(true),
+    showEditOrganization: (id: string) => setEditOrganizationActive(id),
   };
 
   return (
@@ -41,8 +41,9 @@ export const ModalProvider = (props: { children: any }) => {
         <EditOrganizationModal
           footer={null}
           width={450}
-          open={editOrganizationActive}
-          onCancel={() => setEditOrganizationActive(false)}
+          open={editOrganizationActive != ""}
+          id={editOrganizationActive}
+          onCancel={() => setEditOrganizationActive("")}
         />
         {props.children}
       </>

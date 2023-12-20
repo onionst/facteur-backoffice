@@ -1,6 +1,6 @@
 import Logo from "@/bases/logo";
 import Button from "@/bases/Button/Button";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { Input } from "@/bases/input";
 import { ArrowLeftOutlined } from "@ant-design/icons";
@@ -12,7 +12,7 @@ export default function RestorePassword(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
 
-  const handleSendRestorePasswordEmail = async (e: any) => {
+  const handleSendRestorePasswordEmail = async (e: FormEvent) => {
     try {
       e?.preventDefault();
       setLoading(true);
@@ -47,6 +47,7 @@ export default function RestorePassword(): JSX.Element {
             onSubmit={handleSendRestorePasswordEmail}
           >
             <Input
+              required
               placeholder="username@organization.com"
               type="email"
               label="Email"

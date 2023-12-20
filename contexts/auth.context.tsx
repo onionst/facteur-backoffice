@@ -82,6 +82,10 @@ export const AuthProvider = (props: AuthProviderProps) => {
       if (status === "2FA") {
         modal.showTFAEmailSent();
       } else {
+        notification.success({
+          message: "Welcome Back!",
+          description: "You've successfully signed in",
+        });
         router.push("/app");
       }
     } catch (err: any) {

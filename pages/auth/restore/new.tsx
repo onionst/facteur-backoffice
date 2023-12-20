@@ -1,6 +1,6 @@
 import Logo from "@/bases/logo";
 import Button from "@/bases/Button/Button";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Input } from "@/bases/input";
 import { ArrowLeftOutlined } from "@ant-design/icons";
@@ -49,7 +49,7 @@ export default function CreateNewPassword(): JSX.Element {
     });
   }, [form.newPassword]);
 
-  const handleSignInWithCredentials = async (e: any) => {
+  const handleSignInWithCredentials = async (e: FormEvent) => {
     try {
       e?.preventDefault();
       setLoading(true);
@@ -83,6 +83,7 @@ export default function CreateNewPassword(): JSX.Element {
             onSubmit={handleSignInWithCredentials}
           >
             <Input
+              required
               placeholder="********"
               type="password"
               label="New password"
@@ -96,6 +97,7 @@ export default function CreateNewPassword(): JSX.Element {
               style={{ marginBottom: 16 }}
             />
             <Input
+              required
               placeholder="********"
               type="password"
               label="Confirm new password"

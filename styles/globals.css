@@ -103,3 +103,17 @@ a {
 html {
   background-color: #fff;
 }
+
+.ant-drawer-body {
+  padding: 0 !important;
+}
+
+.ant-modal-content {
+  border-radius: 0.475rem !important;
+}
+
+.ant-modal-mask {
+  backdrop-filter: blur(5px);
+
+  background-color: rgb(153, 161, 183, 0.2) !important;
+}

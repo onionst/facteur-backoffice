@@ -1,5 +1,11 @@
+import useWindowSize from "@/hooks/useWindowWidth";
 import s from "./Wrapper.module.scss";
 export type WrapperProps = { children: any };
 export default function Wrapper(props: WrapperProps) {
+  const { width } = useWindowSize();
+
+  if (width < 768) {
+    return <div className={s["ds-wrapper__mobile"]}>{props.children}</div>;
+  }
   return <div className={s["ds-wrapper"]}>{props.children}</div>;
 }

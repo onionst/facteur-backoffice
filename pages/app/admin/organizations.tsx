@@ -10,7 +10,7 @@ import { Edit, X } from "react-feather";
 
 export default function Organizations() {
   const { showCreateOrganization, showEditOrganization } = useModal();
-  const {} = useOrganizations();
+  const { organizations, fetchOrganizations } = useOrganizations();
   return (
     <>
       <Wrapper>
@@ -20,32 +20,43 @@ export default function Organizations() {
             cta="Create organization"
             onCtaClick={showCreateOrganization}
             placeholder="Search organizations..."
+            onSearch={(search) =>
+              fetchOrganizations({ search, skip: 0, limit: 20 })
+            }
           />
           <Table
-            columns={["Name", "Domain"]}
-            data={[
-              [
-                "Newtral",
-                "newtral.es",
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                    gap: 8,
-                  }}
-                  key={1}
+            columns={["Name", "Domain", "State"]}
+            data={organizations.map((organization) => [
+              organization?.name,
+              organization?.domain,
+              organization?.active ? "Active" : "Unactive",
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+                key={organization?.id}
+              >
+                <IconButton
+                  onClick={() => showEditOrganization(organization?.id)}
                 >
-                  <IconButton onClick={showEditOrganization}>
-                    <Edit color="#252f4a" size={18} />
-                  </IconButton>
-                  <IconButton>
-                    <X color="#252f4a" size={18} />
-                  </IconButton>
-                </div>,
-              ],
-            ]}
+                  <Edit color="#252f4a" size={18} />
+                </IconButton>
+                <IconButton>
+                  <X color="#252f4a" size={18} />
+                </IconButton>
+              </div>,
+            ])}
+            // data={[
+            //   [
+            //     "Newtral",
+            //     "newtral.es",
+
+            //   ],
+            // ]}
           />
         </Page>
       </Wrapper>

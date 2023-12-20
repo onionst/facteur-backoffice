@@ -7,7 +7,6 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IconButton from "@/bases/IconButton/IconButton";
 import { useAuth } from "@/contexts/auth.context";
 import { Popover } from "antd";
-import Button from "@/bases/Button/Button";
 
 export type SidebarProps = {
   collapsed: boolean;

@@ -7,7 +7,6 @@ import { ModalProvider } from "@/contexts/modal.context";
 import { AuthProvider } from "@/contexts/auth.context";
 import { useRouter } from "next/router";
 import AppLayout from "@/layout/AppLayout/AppLayout";
-import { useEffect } from "react";
 import { OrganizationsProvider } from "@/contexts/organizations.context";
 
 const theme: ThemeConfig = {
@@ -22,9 +21,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <ConfigProvider theme={theme}>
-      <ModalProvider>
-        <AuthProvider>
-          <OrganizationsProvider>
+      <OrganizationsProvider>
+        <ModalProvider>
+          <AuthProvider>
             {router.asPath.includes("/app") ? (
               <AppLayout>
                 <Component {...pageProps} />
@@ -32,9 +31,9 @@ export default function App({ Component, pageProps }: AppProps) {
             ) : (
               <Component {...pageProps} />
             )}
-          </OrganizationsProvider>
-        </AuthProvider>
-      </ModalProvider>
+          </AuthProvider>
+        </ModalProvider>
+      </OrganizationsProvider>
     </ConfigProvider>
   );
 }
