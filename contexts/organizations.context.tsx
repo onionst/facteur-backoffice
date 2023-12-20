@@ -14,9 +14,19 @@ import { STORAGE_KEYS } from "@/constants/store.constant";
 import { UpdateOrganization as UpdateOrganizationDto } from "@/dtos/organizations/updateOrganization.dto";
 
 export type OrganizationsProviderProps = { children: any };
+export type OrganizationPage = {
+  records: number;
+  current: number;
+  prevPage: number | null;
+  nextPage: number | null;
+};
 export type OrganizationsContextProps = {
   organizations: Array<Organization>;
-  fetchOrganizations: (filter: FilterOrganizations) => Promise<void>;
+  page: OrganizationPage;
+  fetchOrganizations: (
+    filter?: FilterOrganizations,
+    pageIndex?: number
+  ) => Promise<void>;
   createOrganization: (organization: CreateOrganizationDto) => Promise<void>;
   fetchOrganizationData: (id: string) => Promise<Organization | undefined>;
   updateOrganization: (
@@ -30,17 +40,35 @@ export const OrganizationsContext = createContext<OrganizationsContextProps>(
   {}
 );
 
+export const ORGANIZATIONS_LIMIT_PER_PAGE = 20;
+
 export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
   const [organizations, setOrganizations] = useState<Array<Organization>>([]);
-
+  const [page, setPage] = useState<OrganizationPage>({
+    current: 1,
+    prevPage: null,
+    nextPage: null,
+    records: 0,
+  });
   useEffect(() => {
     setOrganizations([]);
   }, []);
 
-  const fetchOrganizations = async (filter: FilterOrganizations) => {
+  const fetchOrganizations = async (
+    filter?: FilterOrganizations,
+    pageIndex: number = 0
+  ) => {
     try {
-      const data = await FetchOrganizations(filter);
-      setOrganizations(data);
+      const data = await FetchOrganizations({
+        ...filter,
+        skip: pageIndex * ORGANIZATIONS_LIMIT_PER_PAGE,
+        limit: ORGANIZATIONS_LIMIT_PER_PAGE,
+      });
+      setOrganizations(data.organizations);
+      setPage({
+        ...data.page,
+        records: data.records,
+      });
     } catch (err: any) {
       console.error(err);
       if (typeof err?.response?.data?.message === "object") {
@@ -157,6 +185,7 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
 
   const context = {
     organizations,
+    page,
     createOrganization,
     fetchOrganizations,
     fetchOrganizationData,

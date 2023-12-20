@@ -1,6 +1,7 @@
 .ds-row {
   display: flex;
   align-items: center;
+  width: 100%;
 
   &--LEFT {
     justify-content: flex-start;
@@ -10,5 +11,8 @@
   }
   &--CENTER {
     justify-content: center;
+  }
+  &--SPACE {
+    justify-content: space-between;
   }
 }

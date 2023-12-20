@@ -5,7 +5,7 @@
   left: 0;
   display: flex !important;
   grid-template-columns: 100% !important;
-
+  background-color: $ds-white;
   flex-direction: column;
   justify-items: flex-start !important;
   justify-content: space-between;
@@ -155,6 +155,7 @@
   }
 
   &--collapsed {
+    background-color: $ds-white;
     position: fixed;
     left: 0;
     display: flex;

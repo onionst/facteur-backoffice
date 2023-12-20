@@ -1,7 +1,7 @@
 import { CSSProperties } from "react";
 import s from "./Row.module.scss";
 export type RowProps = {
-  align: "LEFT" | "RIGHT" | "CENTER";
+  align: "LEFT" | "RIGHT" | "CENTER" | "SPACE";
   children: any;
   style?: CSSProperties;
 };

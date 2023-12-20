@@ -8,7 +8,15 @@ const PREFIX = "/organizations";
 
 export const FetchOrganizations = async (
   filter: FilterOrganizations
-): Promise<Array<Organization>> => {
+): Promise<{
+  organizations: Array<Organization>;
+  records: number;
+  page: {
+    current: number;
+    prevPage: number | null;
+    nextPage: number | null;
+  };
+}> => {
   const response = await api.get(parseUrl(PREFIX), { params: filter });
   return response?.data;
 };

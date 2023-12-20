@@ -1,11 +1,17 @@
 import IconButton from "@/bases/IconButton/IconButton";
+import Row from "@/bases/Row/Row";
 import Header from "@/components/Header/Header";
 import Page from "@/components/Page/Page";
+import Pagination from "@/components/Pagination/Pagination";
 import Search from "@/components/Search/Search";
 import { Table } from "@/components/Table/Table";
 import Wrapper from "@/components/Wrapper/Wrapper";
 import { useModal } from "@/contexts/modal.context";
-import { useOrganizations } from "@/contexts/organizations.context";
+import {
+  ORGANIZATIONS_LIMIT_PER_PAGE,
+  useOrganizations,
+} from "@/contexts/organizations.context";
+import { useState } from "react";
 import { Badge } from "react-bootstrap";
 import { CornerDownLeft, Edit, X } from "react-feather";
 
@@ -16,7 +22,8 @@ export default function Organizations() {
     showDeleteOrganization,
     showRestoreOrganization,
   } = useModal();
-  const { organizations, fetchOrganizations } = useOrganizations();
+  const { organizations, fetchOrganizations, page } = useOrganizations();
+
   return (
     <>
       <Wrapper>
@@ -27,7 +34,9 @@ export default function Organizations() {
             onCtaClick={showCreateOrganization}
             placeholder="Search organizations..."
             onSearch={(search) =>
-              fetchOrganizations({ search, skip: 0, limit: 20 })
+              fetchOrganizations({
+                search,
+              })
             }
           />
           <Table
@@ -94,6 +103,25 @@ export default function Organizations() {
             // ]}
           />
         </Page>
+        {/* <Page> */}
+        <Row align="SPACE">
+          <span>
+            Showing {organizations.length} of {page.records} organizations
+          </span>
+          <Pagination
+            limit={ORGANIZATIONS_LIMIT_PER_PAGE}
+            currentPage={page.current}
+            totalRecordsCount={page.records}
+            prevPage={() => {
+              fetchOrganizations({}, page.current - 1 - 1);
+            }}
+            nextPage={() => {
+              fetchOrganizations({}, page.current - 1 + 1);
+            }}
+            skip={(page) => fetchOrganizations({}, page - 1)}
+          />
+        </Row>
+        {/* </Page> */}
       </Wrapper>
     </>
   );

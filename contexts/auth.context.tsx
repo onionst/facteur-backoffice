@@ -14,7 +14,10 @@ import { STORAGE_KEYS } from "@/constants/store.constant";
 import { Session } from "@/dtos/session.dto";
 import { ROLES } from "@/constants/roles.constants";
 import Logo from "@/bases/logo";
-import { useOrganizations } from "./organizations.context";
+import {
+  ORGANIZATIONS_LIMIT_PER_PAGE,
+  useOrganizations,
+} from "./organizations.context";
 
 export type AuthContextProps = {
   session: Session;
@@ -71,7 +74,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         });
 
         if (data?.role === ROLES.SUPER_ADMIN) {
-          organizations.fetchOrganizations({ skip: 0, limit: 20 });
+          organizations.fetchOrganizations({});
         }
 
         setLoading(false);
