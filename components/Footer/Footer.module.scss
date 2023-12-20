@@ -1,0 +1,31 @@
+@import "@/styles/app/variables.scss";
+
+.ds-footer {
+  background-color: $ds-gray-100;
+  padding: 20px;
+
+  &__left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 300px;
+    gap: 20px;
+    & > a {
+      color: $ds-gray-700;
+      text-decoration: underline;
+    }
+  }
+
+  &__right {
+    gap: 20px;
+    max-width: 400px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    & > span {
+      color: $ds-gray-600;
+      line-height: 16px;
+      size: 14px;
+    }
+  }
+}

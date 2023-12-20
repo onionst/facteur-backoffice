@@ -1,10 +1,10 @@
-import Logo from "@/bases/logo";
 import s from "./AppLayout.module.scss";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Navbar from "@/components/Navbar/Navbar";
 import { useState } from "react";
 import useWindowSize from "@/hooks/useWindowWidth";
 import { Drawer } from "antd";
+import Footer from "@/components/Footer/Footer";
 
 export type LayoutProps = {
   children: any;
@@ -37,7 +37,10 @@ export default function AppLayout(props: LayoutProps) {
           />
         </Drawer>
         <main>
-          <Navbar openDrawer={() => setShowDrawer(true)} />
+          <Navbar
+            collapsed={collapsed}
+            openDrawer={() => setShowDrawer(true)}
+          />
           <section className={s["ds-app__main"]}>{props.children}</section>
         </main>
       </div>
@@ -55,6 +58,7 @@ export default function AppLayout(props: LayoutProps) {
       <main>
         <Navbar collapsed={collapsed} />
         <section className={s["ds-app__main"]}>{props.children}</section>
+        <Footer />
       </main>
     </div>
   );
