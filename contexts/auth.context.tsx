@@ -46,7 +46,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
   useEffect(() => {
     getSessionData(router.asPath);
-  }, [router]);
+  }, []);
 
   const getSessionData = async (path: string) => {
     try {
