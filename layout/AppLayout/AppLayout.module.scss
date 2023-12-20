@@ -1,11 +1,11 @@
 @import "@/styles/app/variables.scss";
 
 .ds-app {
-  background-color: $ds-white;
   width: 100%;
   min-height: 100vh;
   height: max-content;
   display: grid;
+  background: linear-gradient($ds-gray-50, $ds-white);
   &--collapsed {
     grid-template-columns: 74px auto;
   }
@@ -17,7 +17,6 @@
   &-ab {
     width: 100%;
     border-style: none;
-    background-color: $ds-white;
     cursor: pointer;
     color: $ds-gray-700;
     text-align: left;
@@ -25,7 +24,6 @@
   }
   &__main {
     padding: 93px 20px 20px 20px;
-    background-color: $ds-white;
     height: max-content;
     min-height: calc(100vh);
     border-bottom: 1px solid $ds-gray-200;
@@ -33,6 +31,6 @@
 
   &__mobile {
     width: 100%;
-    background-color: $ds-white;
+    background: linear-gradient($ds-gray-50, $ds-white);
   }
 }
