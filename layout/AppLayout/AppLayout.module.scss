@@ -28,6 +28,7 @@
     background-color: $ds-white;
     height: max-content;
     min-height: calc(100vh);
+    border-bottom: 1px solid $ds-gray-200;
   }
 
   &__mobile {
