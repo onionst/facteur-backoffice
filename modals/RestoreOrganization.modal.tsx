@@ -8,7 +8,6 @@ import Button from "@/bases/Button/Button";
 import { FormEvent, useEffect, useState } from "react";
 import { Organization } from "@/dtos/organizations/organization.dto";
 import { useOrganizations } from "@/contexts/organizations.context";
-import { UpdateOrganization } from "@/dtos/organizations/updateOrganization.dto";
 
 export type RestoreOrganizationModalProps = {
   id: string;

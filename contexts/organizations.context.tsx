@@ -35,13 +35,6 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
 
   useEffect(() => {
     setOrganizations([]);
-    try {
-      if (Store.get(STORAGE_KEYS.ACCESS_TOKEN, null)) {
-        fetchOrganizations({ skip: 0, limit: 20 });
-      }
-    } catch (err) {
-      console.error(err);
-    }
   }, []);
 
   const fetchOrganizations = async (filter: FilterOrganizations) => {

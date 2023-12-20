@@ -14,6 +14,7 @@ import { STORAGE_KEYS } from "@/constants/store.constant";
 import { Session } from "@/dtos/session.dto";
 import { ROLES } from "@/constants/roles.constants";
 import Logo from "@/bases/logo";
+import { useOrganizations } from "./organizations.context";
 
 export type AuthContextProps = {
   session: Session;
@@ -31,6 +32,7 @@ export const AuthContext = createContext<AuthContextProps>(
 
 export const AuthProvider = (props: AuthProviderProps) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const organizations = useOrganizations();
   const router = useRouter();
   const modal = useModal();
 
@@ -67,6 +69,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
           surname: data?.surname,
           organizationId: data?.organizationId,
         });
+
+        if (data?.role === ROLES.SUPER_ADMIN) {
+          organizations.fetchOrganizations({ skip: 0, limit: 20 });
+        }
+
         setLoading(false);
       }
     } catch (err) {
