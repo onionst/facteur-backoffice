@@ -19,5 +19,12 @@
     margin: 0;
     font-weight: bold;
     color: $ds-gray-900;
+    gap: 8px;
+    & * {
+      stroke: $ds-primary !important;
+    }
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
   }
 }

@@ -12,7 +12,7 @@ export function Input(
     InputProps
 ) {
   return (
-    <div>
+    <div className="w-full">
       {props.label && (
         <label className="form-label" style={{ marginBottom: 2 }}>
           {props.label} {props.required ? <span>*</span> : ""}

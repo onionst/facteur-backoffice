@@ -3,11 +3,12 @@ import Page from "@/components/Page/Page";
 import Search from "@/components/Search/Search";
 import { Table } from "@/components/Table/Table";
 import Wrapper from "@/components/Wrapper/Wrapper";
+import { Users as UsersIcon } from "react-feather";
 
 export default function Users() {
   return (
     <>
-      <Header title="Users" />
+      <Header icon={<UsersIcon />} title="Users" />
       <Wrapper>
         <Page>
           <Search placeholder="Search users..." onSearch={() => {}} />

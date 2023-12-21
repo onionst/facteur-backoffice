@@ -7,6 +7,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IconButton from "@/bases/IconButton/IconButton";
 import { useAuth } from "@/contexts/auth.context";
 import { Popover } from "antd";
+import { useRouter } from "next/router";
 
 export type SidebarProps = {
   collapsed: boolean;
@@ -16,6 +17,7 @@ export type SidebarProps = {
 export default function Sidebar(props: SidebarProps) {
   const { session, signOut } = useAuth();
   const { collapsed, setCollapsed } = props;
+  const router = useRouter();
 
   const allowedSections = session.role
     ? SECTIONS.filter((i) => i?.access?.includes(session.role)).map(
@@ -60,9 +62,15 @@ export default function Sidebar(props: SidebarProps) {
                             }
                           >
                             <li
-                              className={
+                              className={`${
                                 s["ds-sidebar--collapsed__sections-item"]
-                              }
+                              } ${
+                                item?.path
+                                  ? router.asPath.includes(item?.path)
+                                    ? s["ds-sidebar__sections-item--selected"]
+                                    : ""
+                                  : ""
+                              }`}
                             >
                               <div>{item?.icon}</div>
                             </li>
@@ -133,7 +141,15 @@ export default function Sidebar(props: SidebarProps) {
                   {section?.sections?.map((item) => {
                     return (
                       <Link href={item?.path || "/app"} key={item?.path}>
-                        <li className={s["ds-sidebar__sections-item"]}>
+                        <li
+                          className={`${s["ds-sidebar__sections-item"]} ${
+                            item?.path
+                              ? router.asPath.includes(item?.path)
+                                ? s["ds-sidebar__sections-item--selected"]
+                                : ""
+                              : ""
+                          }`}
+                        >
                           <div>
                             {item?.icon}
                             <span>{item?.name}</span>

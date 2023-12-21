@@ -13,7 +13,7 @@ import {
   useOrganizations,
 } from "@/contexts/organizations.context";
 import { Badge } from "react-bootstrap";
-import { Edit, RefreshCcw, X } from "react-feather";
+import { Box, Edit, RefreshCcw, X } from "react-feather";
 
 export default function Organizations() {
   const {
@@ -26,7 +26,7 @@ export default function Organizations() {
 
   return (
     <>
-      <Header title={`Organizations`}>
+      <Header icon={<Box />} title={`Organizations`}>
         <Button theme="CTA" onClick={showCreateOrganization}>
           Create organization
         </Button>

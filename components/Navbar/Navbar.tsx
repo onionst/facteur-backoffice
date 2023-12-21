@@ -1,9 +1,11 @@
 import Button from "@/bases/Button/Button";
 import s from "./Navbar.module.scss";
-import { Menu, Plus } from "react-feather";
+import { Plus } from "react-feather";
 import { Input } from "@/bases/input";
 import IconButton from "@/bases/IconButton/IconButton";
 import useWindowSize from "@/hooks/useWindowWidth";
+import { useAuth } from "@/contexts/auth.context";
+import { ROLES } from "@/constants/roles.constants";
 
 export type NavbarProps = {
   openDrawer?: () => void;
@@ -12,6 +14,7 @@ export type NavbarProps = {
 
 export default function Navbar(props: NavbarProps) {
   const { width } = useWindowSize();
+  const { session } = useAuth();
   return (
     <nav
       className={s["ds-navbar"]}
@@ -32,11 +35,13 @@ export default function Navbar(props: NavbarProps) {
         />
       </section>
       <section className={s["ds-navbar__right"]}>
-        <Button theme="TERTIARY">
-          <span>
-            Create article <Plus size={14} />
-          </span>
-        </Button>
+        {[ROLES.ADMIN, ROLES.FACT_CHECKER].includes(session.role) && (
+          <Button theme="TERTIARY">
+            <span>
+              Create article <Plus size={14} />
+            </span>
+          </Button>
+        )}
       </section>
     </nav>
   );

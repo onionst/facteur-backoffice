@@ -92,6 +92,13 @@
       &:hover {
         background-color: $ds-gray-200;
       }
+      &--selected {
+        background-color: rgb(0, 152, 109, 0.09) !important;
+        & * {
+          color: $ds-primary !important;
+          stroke: $ds-primary !important;
+        }
+      }
       & > div {
         display: flex;
         justify-content: flex-start;

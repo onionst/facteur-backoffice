@@ -99,3 +99,7 @@ body {
   background-color: #fa4c41 !important;
   color: #f1f1f4 !important;
 }
+
+.w-full {
+  width: 100%;
+}
