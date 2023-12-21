@@ -14,10 +14,7 @@ import { STORAGE_KEYS } from "@/constants/store.constant";
 import { Session } from "@/dtos/session.dto";
 import { ROLES } from "@/constants/roles.constants";
 import Logo from "@/bases/logo";
-import {
-  ORGANIZATIONS_LIMIT_PER_PAGE,
-  useOrganizations,
-} from "./organizations.context";
+import { useOrganizations } from "./organizations.context";
 
 export type AuthContextProps = {
   session: Session;
@@ -59,6 +56,13 @@ export const AuthProvider = (props: AuthProviderProps) => {
       }
       if (path.includes("auth") && accessToken) {
         router.push("/app");
+      }
+      if (path === "/") {
+        if (accessToken) {
+          router.push("/app");
+        } else {
+          router.push("/auth/sign-in");
+        }
       }
       if (accessToken) {
         if (!session?.email) {

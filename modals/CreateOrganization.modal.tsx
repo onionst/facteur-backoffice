@@ -1,6 +1,6 @@
 import s from "./Modals.module.scss";
 import Button from "@/bases/Button/Button";
-import { Input } from "@/bases/input";
+import { Input } from "@/bases/Input";
 import ModalHeader from "@/components/ModalHeader/ModalHeader";
 import Wrapper from "@/components/Wrapper/Wrapper";
 import { useOrganizations } from "@/contexts/organizations.context";

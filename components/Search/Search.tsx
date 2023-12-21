@@ -1,6 +1,6 @@
 import s from "./Search.module.scss";
 import Button from "@/bases/Button/Button";
-import { Input } from "@/bases/input";
+import { Input } from "@/bases/Input";
 import { FormEvent, useEffect, useState } from "react";
 import { ArrowRight, Search as SearchIcon } from "react-feather";
 

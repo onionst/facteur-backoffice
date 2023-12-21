@@ -2,7 +2,7 @@ import Logo from "@/bases/logo";
 import Button from "@/bases/Button/Button";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Input } from "@/bases/input";
+import { Input } from "@/bases/Input";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import Condition from "@/bases/Condition/Condition";
 import { useAuth } from "@/contexts/auth.context";
