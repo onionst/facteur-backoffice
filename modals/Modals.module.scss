@@ -1,3 +1,5 @@
+@import "@/styles/app/variables.scss";
+
 .ds-modal-form {
   width: 100% !important;
   gap: 20px;
@@ -13,5 +15,36 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+  }
+  &__invite {
+    display: grid;
+    grid-template-columns: 60% 30% auto;
+    & * {
+      border-radius: 0;
+    }
+    & input:first-child {
+      border-radius: 0.475rem 0 0 0.475rem !important;
+    }
+    & button {
+      border-style: none;
+      color: $ds-white;
+      background-color: $ds-primary;
+      border-radius: 0 0.475rem 0.475rem 0 !important;
+    }
+    &-item {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      & > div {
+        &:hover {
+          background-color: $ds-gray-100;
+          cursor: pointer;
+        }
+        border: 2px;
+        width: 20px !important;
+      }
+    }
   }
 }

@@ -1,10 +1,50 @@
-export default function Select(props: {}) {
+import { useState } from "react";
+
+export type SelectProps = {
+  label?: string;
+  required?: boolean;
+  options: Array<{ value: string; label: string }>;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+};
+export default function Select({
+  label,
+  required,
+  options,
+  defaultValue,
+  onChange,
+}: SelectProps) {
+  const [selectedValue, setSelectedValue] = useState<string>(
+    defaultValue || ""
+  );
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedValue(event.target.value);
+    if (onChange) {
+      onChange(event.target.value);
+    }
+  };
+
   return (
-    <select className="form-select" aria-label="Select example">
-      <option>Open this select menu</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
+    <div className="w-full">
+      {label && (
+        <label className="form-label" style={{ marginBottom: 2 }}>
+          {label} {required ? <span>*</span> : ""}
+        </label>
+      )}
+      <select
+        className="form-select"
+        aria-label="Select option"
+        required={required}
+        value={selectedValue}
+        onChange={handleChange}
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }

@@ -8,7 +8,7 @@ import {
 import Store from "store";
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useModal } from "./modal.context";
+
 import { notification } from "antd";
 import { STORAGE_KEYS } from "@/constants/store.constant";
 import { Session } from "@/dtos/session.dto";
@@ -34,7 +34,6 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const organizations = useOrganizations();
   const router = useRouter();
-  const modal = useModal();
 
   const [session, setSession] = useState<Session>({
     email: "",
@@ -99,7 +98,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     try {
       const status = await SignInWithEmailAndPassword(credentials);
       if (status === "2FA") {
-        modal.showTFAEmailSent();
+        router.push("/auth/sign-in?tfa=pending");
       } else {
         await getSessionData("/app");
         notification.success({

@@ -16,13 +16,14 @@ import { Badge } from "react-bootstrap";
 import { Box, Edit, RefreshCcw, X } from "react-feather";
 
 export default function Organizations() {
+  const modals = useModal();
+  const { organizations, fetchOrganizations, page } = useOrganizations();
   const {
     showCreateOrganization,
     showEditOrganization,
     showDeleteOrganization,
     showRestoreOrganization,
-  } = useModal();
-  const { organizations, fetchOrganizations, page } = useOrganizations();
+  } = modals.organizations;
 
   return (
     <>
@@ -44,7 +45,14 @@ export default function Organizations() {
         </Page>
         <Page>
           <Table
-            columns={["Name", "Domain", "State"]}
+            columns={[
+              "Name",
+              "Domain",
+              "State",
+              <Row align="RIGHT" key={"column_actions"}>
+                Actions
+              </Row>,
+            ]}
             data={organizations.map((organization) => [
               <span
                 key={organization?.id + "name"}
@@ -66,16 +74,7 @@ export default function Organizations() {
                   {organization?.active ? "Active" : "Unactive"}
                 </Badge>
               </div>,
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                  gap: 8,
-                }}
-                key={organization?.id + "actions"}
-              >
+              <Row align="RIGHT" key={organization?.id + "actions"}>
                 {organization?.active ? (
                   <>
                     <IconButton
@@ -96,7 +95,7 @@ export default function Organizations() {
                     <RefreshCcw color="#252f4a" size={18} />
                   </IconButton>
                 )}
-              </div>,
+              </Row>,
             ])}
           />
         </Page>

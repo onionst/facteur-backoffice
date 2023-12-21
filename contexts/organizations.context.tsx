@@ -5,12 +5,11 @@ import {
   CreateOrganization,
   DeleteOrganization,
   FetchOrganizations,
+  ListOrganizations,
   UpdateOrganization,
 } from "@/services/organizations.service";
-import Store from "store";
 import { notification } from "antd";
 import { createContext, useContext, useEffect, useState } from "react";
-import { STORAGE_KEYS } from "@/constants/store.constant";
 import { UpdateOrganization as UpdateOrganizationDto } from "@/dtos/organizations/updateOrganization.dto";
 
 export type OrganizationsProviderProps = { children: any };
@@ -23,6 +22,7 @@ export type OrganizationPage = {
 export type OrganizationsContextProps = {
   organizations: Array<Organization>;
   page: OrganizationPage;
+  listOrganizations: () => Promise<Array<Partial<Organization>>>;
   fetchOrganizations: (
     filter?: FilterOrganizations,
     pageIndex?: number
@@ -44,12 +44,16 @@ export const ORGANIZATIONS_LIMIT_PER_PAGE = 20;
 
 export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
   const [organizations, setOrganizations] = useState<Array<Organization>>([]);
+  const [organizationsList, setOrganizationsList] = useState<
+    Array<Partial<Organization>>
+  >([]);
   const [page, setPage] = useState<OrganizationPage>({
     current: 1,
     prevPage: null,
     nextPage: null,
     records: 0,
   });
+
   useEffect(() => {
     setOrganizations([]);
   }, []);
@@ -59,11 +63,14 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
     pageIndex: number = 0
   ) => {
     try {
-      const data = await FetchOrganizations({
-        ...filter,
-        skip: pageIndex * ORGANIZATIONS_LIMIT_PER_PAGE,
-        limit: ORGANIZATIONS_LIMIT_PER_PAGE,
-      });
+      const [data, _] = await Promise.all([
+        FetchOrganizations({
+          ...filter,
+          skip: pageIndex * ORGANIZATIONS_LIMIT_PER_PAGE,
+          limit: ORGANIZATIONS_LIMIT_PER_PAGE,
+        }),
+        listOrganizations(),
+      ]);
       setOrganizations(data.organizations);
       setPage({
         ...data.page,
@@ -91,10 +98,24 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
     return organizations.find((organization) => organization.id === id);
   };
 
+  const listOrganizations = async (): Promise<Array<Partial<Organization>>> => {
+    if (organizationsList.length > 0) {
+      return organizationsList;
+    }
+
+    const list = await ListOrganizations();
+    setOrganizationsList(list);
+    return list;
+  };
+
   const createOrganization = async (organization: CreateOrganizationDto) => {
     try {
       const data = await CreateOrganization(organization);
       setOrganizations((prev) => [...prev, data]);
+      setOrganizationsList((prev) => [
+        ...prev,
+        { id: data?.id, name: data?.name, domain: data?.domain },
+      ]);
       notification.success({
         message: "Organization created",
       });
@@ -191,6 +212,7 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
     fetchOrganizationData,
     updateOrganization,
     deleteOrganization,
+    listOrganizations,
   };
   return (
     <OrganizationsContext.Provider value={context}>

@@ -22,8 +22,8 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ConfigProvider theme={theme}>
       <OrganizationsProvider>
-        <ModalProvider>
-          <AuthProvider>
+        <AuthProvider>
+          <ModalProvider>
             {router.asPath.includes("/app") ? (
               <AppLayout>
                 <Component {...pageProps} />
@@ -31,8 +31,8 @@ export default function App({ Component, pageProps }: AppProps) {
             ) : (
               <Component {...pageProps} />
             )}
-          </AuthProvider>
-        </ModalProvider>
+          </ModalProvider>
+        </AuthProvider>
       </OrganizationsProvider>
     </ConfigProvider>
   );

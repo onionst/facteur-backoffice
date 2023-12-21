@@ -27,4 +27,13 @@
     justify-content: center;
     align-items: center;
   }
+  &-row {
+    &__item {
+      text-overflow: ellipsis !important;
+      max-width: 80px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }

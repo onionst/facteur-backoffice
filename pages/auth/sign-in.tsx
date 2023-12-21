@@ -1,20 +1,29 @@
 import Logo from "@/bases/logo";
 import { Input } from "../../bases/Input";
 import Button from "@/bases/Button/Button";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Credentials } from "@/dtos/credentials.dto";
 import { useRouter } from "next/router";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { useAuth } from "@/contexts/auth.context";
+import { useModal } from "@/contexts/modal.context";
 
 export default function SignIn(): JSX.Element {
   const router = useRouter();
+  const modals = useModal();
   const { signInWithEmailAndPassword } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<Credentials>({
     email: "",
     password: "",
   });
+  const { showTFAEmailSent } = modals.auth;
+
+  useEffect(() => {
+    if (router.query?.tfa === "pending") {
+      showTFAEmailSent();
+    }
+  }, [router.query]);
 
   const handleSignInWithCredentials = async (e: FormEvent) => {
     try {

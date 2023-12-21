@@ -1,4 +1,4 @@
-import s from "./Modals.module.scss";
+import s from "../Modals.module.scss";
 import Button from "@/bases/Button/Button";
 import { Input } from "@/bases/Input";
 import ModalHeader from "@/components/ModalHeader/ModalHeader";

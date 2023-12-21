@@ -21,6 +21,13 @@ export const FetchOrganizations = async (
   return response?.data;
 };
 
+export const ListOrganizations = async (): Promise<
+  Array<Partial<Organization>>
+> => {
+  const response = await api.get(parseUrl(PREFIX, "list"));
+  return response.data;
+};
+
 export const CreateOrganization = async (
   organization: CreateOrganizationDto
 ): Promise<Organization> => {

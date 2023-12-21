@@ -1,5 +1,5 @@
+import s from "../Modals.module.scss";
 import { Input } from "@/bases/Input";
-import s from "./Modals.module.scss";
 import ModalHeader from "@/components/ModalHeader/ModalHeader";
 import Wrapper from "@/components/Wrapper/Wrapper";
 import { Modal, ModalProps } from "antd";
@@ -8,19 +8,20 @@ import Button from "@/bases/Button/Button";
 import { FormEvent, useEffect, useState } from "react";
 import { Organization } from "@/dtos/organizations/organization.dto";
 import { useOrganizations } from "@/contexts/organizations.context";
+import { UpdateOrganization } from "@/dtos/organizations/updateOrganization.dto";
 
-export type RestoreOrganizationModalProps = {
+export type DeleteOrganizationModalProps = {
   id: string;
 };
-export const RestoreOrganizationModal = (
-  props: RestoreOrganizationModalProps & ModalProps
+export const DeleteOrganizationModal = (
+  props: DeleteOrganizationModalProps & ModalProps
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { fetchOrganizationData, updateOrganization } = useOrganizations();
+  const { fetchOrganizationData, deleteOrganization } = useOrganizations();
   const [organization, setOrganization] = useState<Partial<Organization>>({});
   const [confirmation, setConfirmation] = useState<string>("");
 
-  const handleRestoreOrganization = async (e: FormEvent) => {
+  const handleDeleteOrganization = async (e: FormEvent) => {
     try {
       e?.preventDefault();
       setLoading(true);
@@ -28,7 +29,7 @@ export const RestoreOrganizationModal = (
         setLoading(false);
         return;
       }
-      await updateOrganization(props.id, { active: true });
+      await deleteOrganization(props.id);
       setLoading(false);
       // @ts-ignore
       props.onCancel();
@@ -59,19 +60,19 @@ export const RestoreOrganizationModal = (
     <Modal {...props} closeIcon={<X />}>
       <ModalHeader
         type="ATTENTION"
-        subTitle="Restore organization"
+        subTitle="Delete organization"
         title={
           organization?.name
-            ? `Are you sure you want to restore ${organization?.name}?`
-            : "Are you sure you want to restore this organization?"
+            ? `Are you sure you want to delete ${organization?.name}?`
+            : "Are you sure you want to delete this organization?"
         }
       />
-      <form className={s["ds-modal-form"]} onSubmit={handleRestoreOrganization}>
+      <form className={s["ds-modal-form"]} onSubmit={handleDeleteOrganization}>
         <Wrapper>
           <Input
             required
-            label={`Write '${organization?.name}' to restore this organization`}
-            placeholder="Restore confirmation"
+            label={`Write '${organization?.name}' to delete this organization`}
+            placeholder="Delete confirmation"
             value={confirmation}
             onChange={(v) => setConfirmation(v.target.value)}
           />
@@ -85,7 +86,7 @@ export const RestoreOrganizationModal = (
             }
             theme="ATTENTION"
           >
-            Restore
+            Delete
           </Button>
           <Button type="button" onClick={props.onCancel} theme="SECONDARY">
             Cancel

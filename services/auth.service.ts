@@ -1,8 +1,9 @@
+import Store from "store";
 import { Credentials } from "@/dtos/credentials.dto";
 import { api, parseUrl } from "./api";
 import { Access } from "@/dtos/access.dto";
-import Store from "store";
 import { STORAGE_KEYS } from "@/constants/store.constant";
+import { InviteUser as InviteUserDto } from "@/dtos/users/InviteUser.dto";
 
 const PREFIX = "/auth";
 
@@ -62,4 +63,8 @@ export const RestorePassword = async (
 
 export const GetSessionData = async () => {
   return await api.get(parseUrl(PREFIX, "/session"));
+};
+
+export const InviteUser = async (invite: InviteUserDto) => {
+  return await api.post(parseUrl(PREFIX, "/invite"), invite);
 };

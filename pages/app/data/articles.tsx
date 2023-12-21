@@ -1,12 +1,20 @@
+import Button from "@/bases/Button/Button";
 import Header from "@/components/Header/Header";
 import Page from "@/components/Page/Page";
+import Search from "@/components/Search/Search";
 import Wrapper from "@/components/Wrapper/Wrapper";
+import { File } from "react-feather";
 
 export default function Articles() {
   return (
     <>
-      <Header title="Articles" />
+      <Header icon={<File />} title="Articles">
+        <Button theme="CTA">Create article</Button>
+      </Header>
       <Wrapper>
+        <Page>
+          <Search placeholder="Search articles..." onSearch={() => {}} />
+        </Page>
         <Page>{/*  */}</Page>
       </Wrapper>
     </>
