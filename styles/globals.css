@@ -110,3 +110,7 @@ body {
 .w-full {
   width: 100%;
 }
+
+.form-control__input {
+  padding-right: 48px !important;
+}
