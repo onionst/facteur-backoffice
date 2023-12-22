@@ -1,15 +1,18 @@
 import s from "../Modals.module.scss";
 import Button from "@/bases/Button/Button";
 import { Input } from "@/bases/Input";
+import Select from "@/bases/Select";
 import ModalHeader from "@/components/ModalHeader/ModalHeader";
 import Wrapper from "@/components/Wrapper/Wrapper";
+import { CountryISO } from "@/constants/country";
+import { LanguageISO } from "@/constants/language";
 import { useOrganizations } from "@/contexts/organizations.context";
 import { CreateOrganization } from "@/dtos/organizations/createOrganization.dto";
 import { Modal, ModalProps } from "antd";
 import { FormEvent, useEffect, useState } from "react";
 import { X } from "react-feather";
 
-export type CreateOrganizationModalProps = {};
+export type CreateOrganizationModalProps = { id: string };
 export const CreateOrganizationModal = (
   props: CreateOrganizationModalProps & ModalProps
 ) => {
@@ -39,8 +42,8 @@ export const CreateOrganizationModal = (
         name: form.name?.trim(),
         domain: form.domain?.trim(),
       };
-      if (form.domain) {
-        payload.domain = form.domain;
+      if (form.language) {
+        payload.language = form.language;
       }
       if (form.country) {
         payload.country = form.country;
@@ -57,7 +60,7 @@ export const CreateOrganizationModal = (
   };
 
   return (
-    <Modal {...props} closeIcon={<X />}>
+    <Modal {...props} closeIcon={<X />} key={props.id}>
       <ModalHeader
         subTitle="Create organization"
         title="Complete the following data to create a new organization"
@@ -86,21 +89,29 @@ export const CreateOrganizationModal = (
               setForm((prev) => ({ ...prev, domain: v.target.value }))
             }
           />
-          <Input
+          <Select
             label="Country"
-            placeholder="Organization's country"
-            value={form.country}
-            onChange={(v) =>
-              setForm((prev) => ({ ...prev, country: v.target.value }))
-            }
+            defaultValue={form?.country}
+            options={[
+              { label: "Organization's country", value: "" },
+              ...Object.entries(CountryISO).map(([key, value]) => ({
+                label: key.split("_").join(" "),
+                value: value.split("_").join(" "),
+              })),
+            ]}
+            onChange={(v) => setForm((prev) => ({ ...prev, country: v }))}
           />
-          <Input
+          <Select
             label="Language"
-            placeholder="Organization's main language"
-            value={form.language}
-            onChange={(v) =>
-              setForm((prev) => ({ ...prev, language: v.target.value }))
-            }
+            defaultValue={form?.language}
+            options={[
+              { label: "Organization's main language", value: "" },
+              ...Object.entries(LanguageISO).map(([key, value]) => ({
+                label: key,
+                value,
+              })),
+            ]}
+            onChange={(v) => setForm((prev) => ({ ...prev, language: v }))}
           />
         </Wrapper>
         <div className={s["ds-modal-form__buttons"]}>

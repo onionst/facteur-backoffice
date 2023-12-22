@@ -9,6 +9,9 @@ import { FormEvent, useEffect, useState } from "react";
 import { Organization } from "@/dtos/organizations/organization.dto";
 import { useOrganizations } from "@/contexts/organizations.context";
 import { UpdateOrganization } from "@/dtos/organizations/updateOrganization.dto";
+import Select from "@/bases/Select";
+import { LanguageISO } from "@/constants/language";
+import { CountryISO } from "@/constants/country";
 
 export type EditOrganizationModalProps = {
   id: string;
@@ -61,7 +64,7 @@ export const EditOrganizationModal = (
   }, [props?.id]);
 
   return (
-    <Modal {...props} closeIcon={<X />}>
+    <Modal {...props} closeIcon={<X />} key={organization?.id}>
       <ModalHeader
         subTitle="Edit organization"
         title={
@@ -94,20 +97,35 @@ export const EditOrganizationModal = (
               setOrganization((prev) => ({ ...prev, domain: v.target.value }))
             }
           />
-          <Input
+
+          <Select
             label="Country"
-            placeholder="Organization's country"
-            value={organization?.country}
+            key={organization?.id}
+            defaultValue={organization?.country}
+            options={[
+              { label: "Organization's country", value: "" },
+              ...Object.entries(CountryISO).map(([key, value]) => ({
+                label: key.split("_").join(" "),
+                value: value.split("_").join(" "),
+              })),
+            ]}
             onChange={(v) =>
-              setOrganization((prev) => ({ ...prev, country: v.target.value }))
+              setOrganization((prev) => ({ ...prev, country: v }))
             }
           />
-          <Input
+          <Select
             label="Language"
-            placeholder="Organization's main language"
-            value={organization?.language}
+            key={organization?.id}
+            defaultValue={organization?.language}
+            options={[
+              { label: "Organization's main language", value: "" },
+              ...Object.entries(LanguageISO).map(([key, value]) => ({
+                label: key,
+                value,
+              })),
+            ]}
             onChange={(v) =>
-              setOrganization((prev) => ({ ...prev, language: v.target.value }))
+              setOrganization((prev) => ({ ...prev, language: v }))
             }
           />
         </Wrapper>

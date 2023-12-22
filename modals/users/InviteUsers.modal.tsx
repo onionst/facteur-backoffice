@@ -6,18 +6,21 @@ import { ROLES } from "@/constants/roles.constants";
 import { useAuth } from "@/contexts/auth.context";
 import { useOrganizations } from "@/contexts/organizations.context";
 import { Organization } from "@/dtos/organizations/organization.dto";
-import { Divider, Modal, ModalProps } from "antd";
+import { Modal, ModalProps } from "antd";
 import { FormEvent, useEffect, useState } from "react";
 import { Plus, X } from "react-feather";
 import Row from "@/bases/Row/Row";
 import Button from "@/bases/Button/Button";
+import { useUsers } from "@/contexts/users.context";
 
-export type InviteUsersModalProps = {};
+export type InviteUsersModalProps = { id: string };
 export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
   const { listOrganizations } = useOrganizations();
+  const { inviteUser } = useUsers();
   const { session } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [role, setRole] = useState<string>("");
+  const [selectedOrganization, setSelectedOrganization] = useState<string>();
   const [organizations, setOrganizations] = useState<
     Array<Partial<Organization>>
   >([]);
@@ -48,8 +51,23 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
     }
   };
 
+  const handleSendInvitations = async () => {
+    try {
+      await inviteUser(
+        invitations.map((invitation) => ({
+          email: invitation.email,
+          role: invitation.role,
+          organizationId:
+            session.role === ROLES.SUPER_ADMIN
+              ? selectedOrganization
+              : session.organizationId,
+        }))
+      );
+    } catch (err) {}
+  };
+
   return (
-    <Modal {...props} closeIcon={<X />}>
+    <Modal {...props} closeIcon={<X />} key={props.id}>
       <ModalHeader
         subTitle="Invite users"
         title="Complete the following data to invite a new user"
@@ -59,9 +77,7 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
           <Select
             defaultValue=""
             label="Organization"
-            onChange={(organizationId) => {
-              console.log(organizationId);
-            }}
+            onChange={setSelectedOrganization}
             options={[
               {
                 value: "",
@@ -132,6 +148,7 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
         </div>
         <div className={s["ds-modal-form__buttons"]}>
           <Button
+            onClick={handleSendInvitations}
             disabled={invitations?.length === 0}
             type="button"
             theme="CTA"

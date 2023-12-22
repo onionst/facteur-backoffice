@@ -27,7 +27,7 @@ export const ModalProvider = (props: { children: any }) => {
 
   // <--- organizations --->
   const [createOrganizationActive, setCreateOrganizationActive] =
-    useState<boolean>(false);
+    useState<string>("");
   const [editOrganizationActive, setEditOrganizationActive] =
     useState<string>("");
   const [deleteOrganizationActive, setDeleteOrganizationActive] =
@@ -37,7 +37,7 @@ export const ModalProvider = (props: { children: any }) => {
   // <!--- organizations --->
 
   // <--- users --->
-  const [inviteUsersActive, setInviteUsersActive] = useState<boolean>(false);
+  const [inviteUsersActive, setInviteUsersActive] = useState<string>("");
   // <!--- users --->
 
   const context = {
@@ -45,13 +45,14 @@ export const ModalProvider = (props: { children: any }) => {
       showTFAEmailSent: () => setEmailSentActive(true),
     },
     organizations: {
-      showCreateOrganization: () => setCreateOrganizationActive(true),
+      showCreateOrganization: () =>
+        setCreateOrganizationActive(Date.now().toString()),
       showEditOrganization: (id: string) => setEditOrganizationActive(id),
       showDeleteOrganization: (id: string) => setDeleteOrganizationActive(id),
       showRestoreOrganization: (id: string) => setRestoreOrganizationActive(id),
     },
     users: {
-      showInviteUsers: () => setInviteUsersActive(true),
+      showInviteUsers: () => setInviteUsersActive(Date.now().toString()),
     },
   };
 
@@ -67,8 +68,9 @@ export const ModalProvider = (props: { children: any }) => {
         <CreateOrganizationModal
           footer={null}
           width={424}
-          open={createOrganizationActive}
-          onCancel={() => setCreateOrganizationActive(false)}
+          open={createOrganizationActive != ""}
+          id={createOrganizationActive}
+          onCancel={() => setCreateOrganizationActive("")}
         />
         <EditOrganizationModal
           footer={null}
@@ -94,8 +96,9 @@ export const ModalProvider = (props: { children: any }) => {
         <InviteUsersModal
           footer={null}
           width={424}
-          onCancel={() => setInviteUsersActive(false)}
-          open={inviteUsersActive}
+          onCancel={() => setInviteUsersActive("")}
+          id={inviteUsersActive}
+          open={inviteUsersActive != ""}
         />
         {props.children}
       </>

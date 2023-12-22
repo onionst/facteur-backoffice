@@ -14,8 +14,8 @@ export default function Select({
   defaultValue,
   onChange,
 }: SelectProps) {
-  const [selectedValue, setSelectedValue] = useState<string>(
-    defaultValue || ""
+  const [selectedValue, setSelectedValue] = useState<string | null>(
+    defaultValue || null
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -37,10 +37,15 @@ export default function Select({
         aria-label="Select option"
         required={required}
         value={selectedValue}
+        defaultValue={selectedValue}
         onChange={handleChange}
       >
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option
+            key={option.value}
+            selected={option.value === selectedValue}
+            value={option.value}
+          >
             {option.label}
           </option>
         ))}

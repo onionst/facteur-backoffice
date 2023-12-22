@@ -12,7 +12,7 @@
   align-items: flex-start !important;
   width: 270px;
   border: 1px solid $ds-gray-200;
-  height: 100vh;
+  height: 100dvh;
   &-t {
     width: 100%;
   }
@@ -170,7 +170,7 @@
     align-items: center !important;
     gap: 24px;
     width: 74px;
-    height: 100vh;
+    height: 100dvh;
     border: 1px solid $ds-gray-200 !important;
 
     &__top {

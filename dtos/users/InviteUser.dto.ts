@@ -1,7 +1,7 @@
 import { ROLES } from "@/constants/roles.constants";
 
 export class InviteUser {
-  role: ROLES;
+  role: string;
   email: string;
   organizationId?: string;
 }
