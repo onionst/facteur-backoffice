@@ -33,7 +33,7 @@ export const SECTIONS: Array<Section> = [
     ],
   },
   {
-    access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER, ROLES.VIEWER],
+    access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.VIEWER],
     name: "Data",
     type: "MENU",
     sections: [

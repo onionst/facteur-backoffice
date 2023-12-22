@@ -71,7 +71,7 @@ export default function Organizations() {
                   key={organization?.id + organization?.active}
                   bg={organization?.active ? "secondary" : "danger"}
                 >
-                  {organization?.active ? "Active" : "Unactive"}
+                  {organization?.active ? "Active" : "Deleted"}
                 </Badge>
               </div>,
               <Row align="RIGHT" key={organization?.id + "actions"}>

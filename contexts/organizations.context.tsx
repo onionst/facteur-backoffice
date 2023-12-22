@@ -116,6 +116,10 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
         ...prev,
         { id: data?.id, name: data?.name, domain: data?.domain },
       ]);
+      setPage((prev) => ({
+        ...prev,
+        records: (prev?.records || 0) + 1,
+      }));
       notification.success({
         message: "Organization created",
       });

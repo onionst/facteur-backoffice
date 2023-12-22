@@ -19,6 +19,7 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
   const { inviteUser } = useUsers();
   const { session } = useAuth();
   const [email, setEmail] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [role, setRole] = useState<string>("");
   const [selectedOrganization, setSelectedOrganization] = useState<string>();
   const [organizations, setOrganizations] = useState<
@@ -41,13 +42,16 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
   const handleAddInvitation = (e: FormEvent) => {
     try {
       e?.preventDefault();
+      setLoading(true);
       setInvitations((prev) => [
         ...prev,
         { email, role: role || ROLES.FACT_CHECKER },
       ]);
       setEmail("");
+      setLoading(false);
     } catch (err) {
       console.error(err);
+      setLoading(false);
     }
   };
 
@@ -77,7 +81,23 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
           <Select
             defaultValue=""
             label="Organization"
-            onChange={setSelectedOrganization}
+            onChange={(organization) => {
+              if (
+                (!organization &&
+                  invitations.find((i) =>
+                    // @ts-ignore
+                    [ROLES.ADMIN, ROLES.FACT_CHECKER].includes(i.role)
+                  )) ||
+                (organization &&
+                  invitations.find((i) =>
+                    // @ts-ignore
+                    [ROLES.SUPER_ADMIN, ROLES.RESEARCHER].includes(i.role)
+                  ))
+              ) {
+                setInvitations([]);
+              }
+              setSelectedOrganization(organization);
+            }}
             options={[
               {
                 value: "",
@@ -105,17 +125,31 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
             <Select
               onChange={setRole}
               required
-              options={[
-                { value: "", label: "" },
-                {
-                  value: ROLES.FACT_CHECKER,
-                  label: "Fact-checker",
-                },
-                {
-                  value: ROLES.ADMIN,
-                  label: "Admin",
-                },
-              ]}
+              options={
+                session.role === ROLES.SUPER_ADMIN && !selectedOrganization
+                  ? [
+                      { value: "", label: "" },
+                      {
+                        value: ROLES.SUPER_ADMIN,
+                        label: "Super administrator",
+                      },
+                      {
+                        value: ROLES.RESEARCHER,
+                        label: "Researcher",
+                      },
+                    ]
+                  : [
+                      { value: "", label: "" },
+                      {
+                        value: ROLES.FACT_CHECKER,
+                        label: "Fact-checker",
+                      },
+                      {
+                        value: ROLES.ADMIN,
+                        label: "Admin",
+                      },
+                    ]
+              }
             />
             <button type="submit">
               <Plus size={20} />
@@ -148,6 +182,7 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
         </div>
         <div className={s["ds-modal-form__buttons"]}>
           <Button
+            loading={loading}
             onClick={handleSendInvitations}
             disabled={invitations?.length === 0}
             type="button"

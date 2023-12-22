@@ -14,8 +14,8 @@ export default function Select({
   defaultValue,
   onChange,
 }: SelectProps) {
-  const [selectedValue, setSelectedValue] = useState<string | null>(
-    defaultValue || null
+  const [selectedValue, setSelectedValue] = useState<string>(
+    defaultValue || ""
   );
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
