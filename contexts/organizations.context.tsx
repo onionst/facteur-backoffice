@@ -43,10 +43,10 @@ export const OrganizationsContext = createContext<OrganizationsContextProps>(
 export const ORGANIZATIONS_LIMIT_PER_PAGE = 20;
 
 export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
-  const [organizations, setOrganizations] = useState<Array<Organization>>([]);
   const [organizationsList, setOrganizationsList] = useState<
     Array<Partial<Organization>>
   >([]);
+  const [organizations, setOrganizations] = useState<Array<Organization>>([]);
   const [page, setPage] = useState<OrganizationPage>({
     current: 1,
     prevPage: null,

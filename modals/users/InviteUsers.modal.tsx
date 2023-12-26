@@ -12,6 +12,16 @@ import { Plus, X } from "react-feather";
 import Row from "@/bases/Row/Row";
 import Button from "@/bases/Button/Button";
 import { useUsers } from "@/contexts/users.context";
+import { Badge } from "react-bootstrap";
+
+const parseRole = (role: string) => {
+  return {
+    SUPER_ADMIN: "Super administrator",
+    ADMIN: "Administrator",
+    FACT_CHECKER: "Fact checker",
+    RESEARCHER: "Researcher",
+  }[role];
+};
 
 export type InviteUsersModalProps = { id: string };
 export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
@@ -42,13 +52,11 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
   const handleAddInvitation = (e: FormEvent) => {
     try {
       e?.preventDefault();
-      setLoading(true);
       setInvitations((prev) => [
         ...prev,
-        { email, role: role || ROLES.FACT_CHECKER },
+        { email: email.toLowerCase(), role: role || ROLES.FACT_CHECKER },
       ]);
       setEmail("");
-      setLoading(false);
     } catch (err) {
       console.error(err);
       setLoading(false);
@@ -57,6 +65,7 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
 
   const handleSendInvitations = async () => {
     try {
+      setLoading(true);
       await inviteUser(
         invitations.map((invitation) => ({
           email: invitation.email,
@@ -67,7 +76,14 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
               : session.organizationId,
         }))
       );
-    } catch (err) {}
+      setInvitations([]);
+      setLoading(false);
+      // @ts-ignore
+      props.onCancel();
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+    }
   };
 
   return (
@@ -163,7 +179,7 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
                 <span>{invitation.email}</span>
 
                 <div className={s["ds-modal-form__invite-item"]}>
-                  {invitation.role}
+                  {parseRole(invitation.role)}
                   <div
                     onClick={() =>
                       setInvitations((prev) =>

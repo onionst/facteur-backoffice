@@ -107,6 +107,11 @@ body {
   color: #f1f1f4 !important;
 }
 
+.ds-badge-success {
+  background-color: #00986d !important;
+  color: #f1f1f4 !important;
+}
+
 .w-full {
   width: 100%;
 }

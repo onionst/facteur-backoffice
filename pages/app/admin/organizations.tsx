@@ -68,8 +68,9 @@ export default function Organizations() {
               </span>,
               <div key={organization?.id + "state"}>
                 <Badge
+                  className={organization?.active ? "ds-badge-success" : ""}
                   key={organization?.id + organization?.active}
-                  bg={organization?.active ? "secondary" : "danger"}
+                  bg={organization?.active ? "success" : "danger"}
                 >
                   {organization?.active ? "Active" : "Deleted"}
                 </Badge>
@@ -116,7 +117,6 @@ export default function Organizations() {
             skip={(page) => fetchOrganizations({}, page - 1)}
           />
         </Row>
-        {/* </Page> */}
       </Wrapper>
     </>
   );

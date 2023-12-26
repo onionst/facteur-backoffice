@@ -37,8 +37,7 @@ export function Input(
             style={{
               position: "absolute",
               right: 16,
-
-              top: 43,
+              top: 42,
               cursor: "pointer",
               transform: "translateY(-31px)",
             }}

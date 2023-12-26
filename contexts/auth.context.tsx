@@ -15,6 +15,7 @@ import { Session } from "@/dtos/session.dto";
 import { ROLES } from "@/constants/roles.constants";
 import Logo from "@/bases/logo";
 import { useOrganizations } from "./organizations.context";
+import { useUsers } from "./users.context";
 
 export type AuthContextProps = {
   session: Session;
@@ -33,6 +34,7 @@ export const AuthContext = createContext<AuthContextProps>(
 export const AuthProvider = (props: AuthProviderProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const organizations = useOrganizations();
+  const users = useUsers();
   const router = useRouter();
 
   const [session, setSession] = useState<Session>({
@@ -78,6 +80,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
         if (data?.role === ROLES.SUPER_ADMIN) {
           organizations.fetchOrganizations({});
+        }
+        if ([ROLES.SUPER_ADMIN, ROLES.ADMIN].includes(data?.role)) {
+          users.fetchUsers({});
         }
 
         setLoading(false);

@@ -1,16 +1,19 @@
 import s from "./Search.module.scss";
 import Button from "@/bases/Button/Button";
 import { Input } from "@/bases/Input";
+import Select from "@/bases/Select";
 import { FormEvent, useEffect, useState } from "react";
 import { ArrowRight, Search as SearchIcon } from "react-feather";
 
 export type SearchProps = {
   placeholder: string;
-  onSearch: (s: string) => void;
+  onSearch: (s: string, selector?: string) => void;
+  withSelector?: Array<{ label: string; value: string }>;
 };
 
 export default function Search(props: SearchProps) {
   const [search, setSearch] = useState<string>("");
+  const [selector, setSelector] = useState<any>("");
 
   useEffect(() => {
     setSearch("");
@@ -18,7 +21,7 @@ export default function Search(props: SearchProps) {
 
   const handleSearch = (e: FormEvent) => {
     e?.preventDefault();
-    props.onSearch(search);
+    props.onSearch(search, selector);
   };
 
   return (
@@ -30,6 +33,9 @@ export default function Search(props: SearchProps) {
           value={search}
           onChange={(v) => setSearch(v.target.value)}
         />
+        {props.withSelector && (
+          <Select options={props.withSelector} onChange={setSelector} />
+        )}
       </div>
       <div className={s["ds-search__right"]}>
         <Button theme="SECONDARY" type="submit">
