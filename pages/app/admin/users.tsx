@@ -100,13 +100,7 @@ export default function Users() {
                 <Badge
                   className={user?.name ? "ds-badge-success" : ""}
                   key={user?.id + user?.active}
-                  bg={
-                    user?.name
-                      ? user?.active
-                        ? "success"
-                        : "danger"
-                      : "secondary"
-                  }
+                  bg={user?.name ? (user?.active ? "" : "danger") : "secondary"}
                 >
                   {user?.name
                     ? user?.active
