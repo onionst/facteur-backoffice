@@ -70,7 +70,7 @@ export default function Organizations() {
                 <Badge
                   className={organization?.active ? "ds-badge-success" : ""}
                   key={organization?.id + organization?.active}
-                  bg={organization?.active ? "success" : "danger"}
+                  bg={organization?.active ? "" : "danger"}
                 >
                   {organization?.active ? "Active" : "Deleted"}
                 </Badge>
