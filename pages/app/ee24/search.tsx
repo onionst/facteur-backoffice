@@ -12,7 +12,7 @@ export default function Repository() {
         <Page>
           <Search placeholder="Search articles..." onSearch={(search) => {}} />
         </Page>
-        <Page>{/*  */}</Page>
+        {/* <Page></Page> */}
       </Wrapper>
     </>
   );

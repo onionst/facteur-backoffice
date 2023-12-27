@@ -97,6 +97,18 @@ body {
   background-color: rgb(153, 161, 183, 0.2) !important;
 }
 
+.ant-notification-notice-message {
+  font-size: 16px !important;
+  color: #252f4a;
+  font-weight: 500;
+}
+
+.ant-notification-notice {
+  border-radius: 0.475rem !important;
+  border: 1px solid #f1f1f4 !important;
+  padding: 20px !important;
+}
+
 .bg-secondary {
   background-color: #c4cada !important;
   color: #252f4a !important;

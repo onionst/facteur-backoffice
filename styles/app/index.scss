@@ -14,3 +14,32 @@
 @import "./auth/signIn.scss";
 @import "./pages/users.scss";
 @import "./modals/tfa.scss";
+
+.ds-notification-icon {
+  &--success {
+    background-color: $ds-primary;
+    height: 28px;
+    min-height: 28px;
+    max-height: 28px;
+    width: 28px;
+    min-width: 28px;
+    max-width: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.475rem;
+  }
+  &--error {
+    background-color: $ds-negative;
+    height: 28px;
+    min-height: 28px;
+    max-height: 28px;
+    width: 28px;
+    min-width: 28px;
+    max-width: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.475rem;
+  }
+}

@@ -11,6 +11,7 @@ import {
 import { notification } from "antd";
 import { createContext, useContext, useEffect, useState } from "react";
 import { UpdateOrganization as UpdateOrganizationDto } from "@/dtos/organizations/updateOrganization.dto";
+import { NOTIFICATIONS_CONFIG } from "@/constants/notifications.constant";
 
 export type OrganizationsProviderProps = { children: any };
 export type OrganizationPage = {
@@ -22,6 +23,7 @@ export type OrganizationPage = {
 export type OrganizationsContextProps = {
   organizations: Array<Organization>;
   page: OrganizationPage;
+  loading: boolean;
   listOrganizations: () => Promise<Array<Partial<Organization>>>;
   fetchOrganizations: (
     filter?: FilterOrganizations,
@@ -46,6 +48,7 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
   const [organizationsList, setOrganizationsList] = useState<
     Array<Partial<Organization>>
   >([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [organizations, setOrganizations] = useState<Array<Organization>>([]);
   const [page, setPage] = useState<OrganizationPage>({
     current: 1,
@@ -63,6 +66,7 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
     pageIndex: number = 0
   ) => {
     try {
+      setLoading(true);
       const [data, _] = await Promise.all([
         FetchOrganizations({
           ...filter,
@@ -76,19 +80,24 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
         ...data.page,
         records: data.records,
       });
+
+      setLoading(false);
     } catch (err: any) {
       console.error(err);
       if (typeof err?.response?.data?.message === "object") {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: err?.response?.data?.message[0],
         });
       } else {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: "Please try again later",
         });
       }
+      setLoading(false);
     }
   };
 
@@ -121,17 +130,20 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
         records: (prev?.records || 0) + 1,
       }));
       notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
         message: "Organization created",
       });
     } catch (err: any) {
       console.error(err);
       if (typeof err?.response?.data?.message === "object") {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: err?.response?.data?.message[0],
         });
       } else {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: "Please try again later",
         });
@@ -158,17 +170,20 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
         })
       );
       notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
         message: "Organization updated",
       });
     } catch (err: any) {
       console.error(err);
       if (typeof err?.response?.data?.message === "object") {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: err?.response?.data?.message[0],
         });
       } else {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: "Please try again later",
         });
@@ -195,11 +210,13 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
       console.error(err);
       if (typeof err?.response?.data?.message === "object") {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: err?.response?.data?.message[0],
         });
       } else {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: "Please try again later",
         });
@@ -211,6 +228,7 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
   const context = {
     organizations,
     page,
+    loading,
     createOrganization,
     fetchOrganizations,
     fetchOrganizationData,

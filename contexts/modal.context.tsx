@@ -3,6 +3,9 @@ import { DeleteOrganizationModal } from "@/modals/organizations/DeleteOrganizati
 import { EditOrganizationModal } from "@/modals/organizations/EditOrganization.modal";
 import { RestoreOrganizationModal } from "@/modals/organizations/RestoreOrganization.modal";
 import { TFAEmailSentModal } from "@/modals/TFAEmailSent.modal";
+import { DeleteUserModal } from "@/modals/users/DeleteUser.modal";
+import { DeleteUserInvitationModal } from "@/modals/users/DeleteUserInvitation.modal";
+import { EditUserModal } from "@/modals/users/EditUser.modal";
 import { InviteUsersModal } from "@/modals/users/InviteUsers.modal";
 import { createContext, useContext, useState } from "react";
 
@@ -18,6 +21,9 @@ export const ModalContext = createContext<{
   };
   users: {
     showInviteUsers: () => void;
+    showDeleteUserInvitation: (id: string) => void;
+    showDeleteUser: (id: string) => void;
+    showEditUser: (id: string) => void;
   };
   // @ts-ignore
 }>({});
@@ -38,6 +44,10 @@ export const ModalProvider = (props: { children: any }) => {
 
   // <--- users --->
   const [inviteUsersActive, setInviteUsersActive] = useState<string>("");
+  const [deleteUserInvitationActive, setDeleteUserInvitationActive] =
+    useState<string>("");
+  const [deleteUserActive, setDeleteUserActive] = useState<string>("");
+  const [editUserActive, setEditUserActive] = useState<string>("");
   // <!--- users --->
 
   const context = {
@@ -53,6 +63,10 @@ export const ModalProvider = (props: { children: any }) => {
     },
     users: {
       showInviteUsers: () => setInviteUsersActive(Date.now().toString()),
+      showDeleteUserInvitation: (id: string) =>
+        setDeleteUserInvitationActive(id),
+      showDeleteUser: (id: string) => setDeleteUserActive(id),
+      showEditUser: (id: string) => setEditUserActive(id),
     },
   };
 
@@ -99,6 +113,27 @@ export const ModalProvider = (props: { children: any }) => {
           onCancel={() => setInviteUsersActive("")}
           id={inviteUsersActive}
           open={inviteUsersActive != ""}
+        />
+        <DeleteUserInvitationModal
+          footer={null}
+          width={424}
+          onCancel={() => setDeleteUserInvitationActive("")}
+          id={deleteUserInvitationActive}
+          open={deleteUserInvitationActive != ""}
+        />
+        <DeleteUserModal
+          footer={null}
+          width={424}
+          onCancel={() => setDeleteUserActive("")}
+          id={deleteUserActive}
+          open={deleteUserActive != ""}
+        />
+        <EditUserModal
+          footer={null}
+          width={424}
+          onCancel={() => setEditUserActive("")}
+          id={editUserActive}
+          open={editUserActive != ""}
         />
         {props.children}
       </>

@@ -1,3 +1,4 @@
+import { NOTIFICATIONS_CONFIG } from "@/constants/notifications.constant";
 import { InviteUser as InviteUserDto } from "@/dtos/users/InviteUser.dto";
 import { User } from "@/dtos/users/user.dto";
 import { InviteUser } from "@/services/auth.service";
@@ -14,8 +15,11 @@ export type UsersPage = {
 export type UsersContextProps = {
   users: Array<User>;
   page: UsersPage;
+  loading: boolean;
+  fetchUserData: (id: string) => Promise<User | undefined>;
   fetchUsers: (filter?: any, pageIndex?: number) => Promise<void>;
   inviteUser: (payload: Array<InviteUserDto>) => Promise<void>;
+  resendInvitation: (id: string) => Promise<void>;
 };
 
 export const USERS_LIMIT_PER_PAGE = 20;
@@ -28,6 +32,7 @@ export const UsersContext = createContext<UsersContextProps>(
 );
 
 export const UsersProvider = (props: UsersProviderProps) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [users, setUsers] = useState<Array<User>>([]);
   const [page, setPage] = useState<UsersPage>({
     current: 1,
@@ -36,8 +41,13 @@ export const UsersProvider = (props: UsersProviderProps) => {
     records: 0,
   });
 
+  const fetchUserData = async (id: string): Promise<User | undefined> => {
+    return users.find((user) => user.id === id);
+  };
+
   const fetchUsers = async (filter?: any, pageIndex: number = 1) => {
     try {
+      setLoading(true);
       const [data] = await Promise.all([
         FetchUsers({
           ...filter,
@@ -50,19 +60,34 @@ export const UsersProvider = (props: UsersProviderProps) => {
         ...data.page,
         records: data.records,
       });
+      setLoading(false);
     } catch (err: any) {
       console.error(err);
       if (typeof err?.response?.data?.message === "object") {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: err?.response?.data?.message[0],
         });
       } else {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: "Please try again later",
         });
       }
+      setLoading(false);
+    }
+  };
+
+  const resendInvitation = async (id: string) => {
+    try {
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: "Invitation resent",
+      });
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -70,6 +95,7 @@ export const UsersProvider = (props: UsersProviderProps) => {
     try {
       await Promise.all(invitations.map((payload) => InviteUser(payload)));
       notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
         message:
           invitations?.length === 1 ? "Invitation sent" : "Invitations sent",
       });
@@ -77,11 +103,13 @@ export const UsersProvider = (props: UsersProviderProps) => {
       console.error(err);
       if (typeof err?.response?.data?.message === "object") {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: err?.response?.data?.message[0],
         });
       } else {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: "Please try again later",
         });
@@ -91,9 +119,12 @@ export const UsersProvider = (props: UsersProviderProps) => {
 
   const context = {
     page,
+    loading,
     users,
     fetchUsers,
     inviteUser,
+    fetchUserData,
+    resendInvitation,
   };
   return (
     <UsersContext.Provider value={context}>

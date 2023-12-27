@@ -9,16 +9,19 @@ import Store from "store";
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 
-import { notification } from "antd";
+import { Spin, notification } from "antd";
 import { STORAGE_KEYS } from "@/constants/store.constant";
 import { Session } from "@/dtos/session.dto";
 import { ROLES } from "@/constants/roles.constants";
 import Logo from "@/bases/logo";
 import { useOrganizations } from "./organizations.context";
 import { useUsers } from "./users.context";
+import { NOTIFICATIONS_CONFIG } from "@/constants/notifications.constant";
+import { LoadingOutlined } from "@ant-design/icons";
 
 export type AuthContextProps = {
   session: Session;
+  loading: boolean;
   signInWithEmailAndPassword: (credentials: Credentials) => Promise<void>;
   sendRestorePasswordEmail: (email: string) => Promise<void>;
   restorePassword: (password: string) => Promise<void>;
@@ -107,6 +110,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
       } else {
         await getSessionData("/app");
         notification.success({
+          ...NOTIFICATIONS_CONFIG.success,
           message: "Welcome Back!",
           description: "You've successfully signed in",
         });
@@ -116,11 +120,13 @@ export const AuthProvider = (props: AuthProviderProps) => {
       console.error(err);
       if (typeof err?.response?.data?.message === "object") {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: err?.response?.data?.message[0],
         });
       } else {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: "Invalid password or email",
         });
@@ -132,15 +138,20 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const sendRestorePasswordEmail = async (email: string) => {
     try {
       await SendRestorePasswordEmail(email);
-      notification.success({ message: "Please check your email" });
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: "Please check your email",
+      });
     } catch (err: any) {
       if (typeof err?.response?.data?.message === "object") {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: err?.response?.data?.message[0],
         });
       } else {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: "Please try again later",
         });
@@ -153,16 +164,21 @@ export const AuthProvider = (props: AuthProviderProps) => {
     try {
       const token: any = router?.query?.t;
       RestorePassword(token, password);
-      notification.success({ message: "Password reset" });
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: "Password reset",
+      });
       router.push("/auth/sign-in");
     } catch (err: any) {
       if (typeof err?.response?.data?.message === "object") {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: err?.response?.data?.message[0],
         });
       } else {
         notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
           message: "Error",
           description: "Please try again later",
         });
@@ -183,6 +199,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
   const context = {
     session,
+    loading,
     signInWithEmailAndPassword,
     sendRestorePasswordEmail,
     restorePassword,
@@ -196,12 +213,16 @@ export const AuthProvider = (props: AuthProviderProps) => {
           style={{
             width: "100vw",
             height: "100dvh",
+            gap: "16px",
             backgroundColor: "#FFF",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
+          <div>
+            <Spin indicator={<LoadingOutlined />} size="default" />
+          </div>
           <Logo size="M" />
         </div>
       ) : (

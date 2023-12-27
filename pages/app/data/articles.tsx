@@ -15,7 +15,7 @@ export default function Articles() {
         <Page>
           <Search placeholder="Search articles..." onSearch={() => {}} />
         </Page>
-        <Page>{/*  */}</Page>
+        {/* <Page></Page> */}
       </Wrapper>
     </>
   );

@@ -14,18 +14,33 @@ import { useOrganizations } from "@/contexts/organizations.context";
 import { USERS_LIMIT_PER_PAGE, useUsers } from "@/contexts/users.context";
 import { useEffect, useState } from "react";
 import { Badge } from "react-bootstrap";
-import { Edit, Mail, RefreshCcw, Users as UsersIcon, X } from "react-feather";
+import {
+  Edit,
+  Mail,
+  RefreshCcw,
+  Trash,
+  Users as UsersIcon,
+  X,
+} from "react-feather";
 
 export default function Users() {
   const modals = useModal();
-  const [filter, setFilter] = useState({});
   const [organizations, setOrganizations] = useState<
     Array<{ value: string; label: string }>
   >([]);
+
   const { session } = useAuth();
-  const { users, fetchUsers, page } = useUsers();
+  const { users, fetchUsers, page, resendInvitation, ...usersProps } =
+    useUsers();
   const { listOrganizations } = useOrganizations();
-  const { showInviteUsers } = modals.users;
+  const {
+    showInviteUsers,
+    showEditUser,
+    showDeleteUserInvitation,
+    showDeleteUser,
+  } = modals.users;
+
+  const [resentsList, setResentsList] = useState<Record<string, boolean>>({});
 
   const handleListOrganization = async () => {
     setOrganizations([
@@ -83,6 +98,7 @@ export default function Users() {
         </Page>
         <Page>
           <Table
+            loading={usersProps.loading}
             columns={[
               "Email",
               "Name",
@@ -113,12 +129,22 @@ export default function Users() {
                 {user?.name ? (
                   user?.active ? (
                     <>
-                      <IconButton onClick={() => {}}>
+                      <IconButton
+                        onClick={() => {
+                          showEditUser(user?.id);
+                        }}
+                      >
                         <Edit color="#252f4a" size={18} />
                       </IconButton>
-                      <IconButton onClick={() => {}}>
-                        <X color="#252f4a" size={18} />
-                      </IconButton>
+                      {session.email != user.email && (
+                        <IconButton
+                          onClick={() => {
+                            showDeleteUser(user?.id);
+                          }}
+                        >
+                          <X color="#252f4a" size={18} />
+                        </IconButton>
+                      )}
                     </>
                   ) : (
                     <IconButton onClick={() => {}}>
@@ -127,11 +153,23 @@ export default function Users() {
                   )
                 ) : (
                   <>
-                    <IconButton>
-                      <Mail color="#252f4a" size={18} />
-                    </IconButton>
-                    <IconButton>
-                      <X color="#252f4a" size={18} />
+                    {!resentsList[user?.id] && (
+                      <IconButton
+                        onClick={() => {
+                          setResentsList((prev) => ({
+                            ...prev,
+                            [user.id]: true,
+                          }));
+                          resendInvitation(user?.id);
+                        }}
+                      >
+                        <Mail color="#252f4a" size={18} />
+                      </IconButton>
+                    )}
+                    <IconButton
+                      onClick={() => showDeleteUserInvitation(user?.id)}
+                    >
+                      <Trash color="#252f4a" size={18} />
                     </IconButton>
                   </>
                 )}

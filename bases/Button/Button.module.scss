@@ -66,25 +66,26 @@
     gap: 8px;
     transition: all 200ms !important;
     background-color: $ds-gray-100;
+    background: $ds-gray-100;
     color: $ds-gray-800;
     &:hover {
-      background-color: $ds-gray-200 !important;
+      background: linear-gradient($ds-gray-100, $ds-gray-200) !important;
       opacity: 0.9;
       color: $ds-gray-800;
     }
     &:focus {
-      background-color: $ds-gray-300 !important;
+      background: linear-gradient($ds-gray-200, $ds-gray-300) !important;
       opacity: 0.8;
       color: $ds-gray-900;
     }
     &:active {
-      background-color: $ds-gray-300 !important;
+      background: linear-gradient($ds-gray-200, $ds-gray-300) !important;
       opacity: 0.8;
       color: $ds-gray-900;
     }
     &:disabled {
       cursor: not-allowed !important;
-      background-color: $ds-gray-400 !important;
+      background: linear-gradient($ds-gray-300, $ds-gray-400) !important;
     }
   }
 

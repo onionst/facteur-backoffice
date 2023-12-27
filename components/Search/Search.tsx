@@ -1,9 +1,10 @@
 import s from "./Search.module.scss";
 import Button from "@/bases/Button/Button";
 import { Input } from "@/bases/Input";
+import Row from "@/bases/Row/Row";
 import Select from "@/bases/Select";
 import { FormEvent, useEffect, useState } from "react";
-import { ArrowRight, Search as SearchIcon } from "react-feather";
+import { Search as SearchIcon } from "react-feather";
 
 export type SearchProps = {
   placeholder: string;
@@ -38,10 +39,12 @@ export default function Search(props: SearchProps) {
         )}
       </div>
       <div className={s["ds-search__right"]}>
-        <Button theme="SECONDARY" type="submit">
-          <SearchIcon size={14} />
-          Search
-        </Button>
+        <Row align="RIGHT">
+          <Button theme="SECONDARY" type="submit">
+            <SearchIcon size={14} />
+            Search
+          </Button>
+        </Row>
       </div>
     </form>
   );
