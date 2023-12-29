@@ -1,11 +1,9 @@
-import Button from "@/bases/Button/Button";
-import { Modal, ModalProps } from "antd";
-import { Mail, X } from "react-feather";
+import { Modal, ModalProps } from 'antd';
+import { Mail, X } from 'react-feather';
+import Button from '@/bases/Button/Button';
 
 export type TFAEmailSentModalProps = {};
-export const TFAEmailSentModal = (
-  props: TFAEmailSentModalProps & ModalProps
-) => {
+export const TFAEmailSentModal = (props: TFAEmailSentModalProps & ModalProps) => {
   return (
     <Modal {...props} closeIcon={<X />}>
       <div className="ds-tfa-modal__mail">

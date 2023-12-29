@@ -1,13 +1,13 @@
-import { CreateOrganizationModal } from "@/modals/organizations/CreateOrganization.modal";
-import { DeleteOrganizationModal } from "@/modals/organizations/DeleteOrganization.modal";
-import { EditOrganizationModal } from "@/modals/organizations/EditOrganization.modal";
-import { RestoreOrganizationModal } from "@/modals/organizations/RestoreOrganization.modal";
-import { TFAEmailSentModal } from "@/modals/TFAEmailSent.modal";
-import { DeleteUserModal } from "@/modals/users/DeleteUser.modal";
-import { DeleteUserInvitationModal } from "@/modals/users/DeleteUserInvitation.modal";
-import { EditUserModal } from "@/modals/users/EditUser.modal";
-import { InviteUsersModal } from "@/modals/users/InviteUsers.modal";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from 'react';
+import { CreateOrganizationModal } from '@/modals/organizations/CreateOrganization.modal';
+import { DeleteOrganizationModal } from '@/modals/organizations/DeleteOrganization.modal';
+import { EditOrganizationModal } from '@/modals/organizations/EditOrganization.modal';
+import { RestoreOrganizationModal } from '@/modals/organizations/RestoreOrganization.modal';
+import { TFAEmailSentModal } from '@/modals/TFAEmailSent.modal';
+import { DeleteUserModal } from '@/modals/users/DeleteUser.modal';
+import { DeleteUserInvitationModal } from '@/modals/users/DeleteUserInvitation.modal';
+import { EditUserModal } from '@/modals/users/EditUser.modal';
+import { InviteUsersModal } from '@/modals/users/InviteUsers.modal';
 
 export const ModalContext = createContext<{
   auth: {
@@ -32,109 +32,91 @@ export const ModalProvider = (props: { children: any }) => {
   const [emailSentActive, setEmailSentActive] = useState<boolean>(false);
 
   // <--- organizations --->
-  const [createOrganizationActive, setCreateOrganizationActive] =
-    useState<string>("");
-  const [editOrganizationActive, setEditOrganizationActive] =
-    useState<string>("");
-  const [deleteOrganizationActive, setDeleteOrganizationActive] =
-    useState<string>("");
-  const [restoreOrganizationActive, setRestoreOrganizationActive] =
-    useState<string>("");
+  const [createOrganizationActive, setCreateOrganizationActive] = useState<string>('');
+  const [editOrganizationActive, setEditOrganizationActive] = useState<string>('');
+  const [deleteOrganizationActive, setDeleteOrganizationActive] = useState<string>('');
+  const [restoreOrganizationActive, setRestoreOrganizationActive] = useState<string>('');
   // <!--- organizations --->
 
   // <--- users --->
-  const [inviteUsersActive, setInviteUsersActive] = useState<string>("");
-  const [deleteUserInvitationActive, setDeleteUserInvitationActive] =
-    useState<string>("");
-  const [deleteUserActive, setDeleteUserActive] = useState<string>("");
-  const [editUserActive, setEditUserActive] = useState<string>("");
+  const [inviteUsersActive, setInviteUsersActive] = useState<string>('');
+  const [deleteUserInvitationActive, setDeleteUserInvitationActive] = useState<string>('');
+  const [deleteUserActive, setDeleteUserActive] = useState<string>('');
+  const [editUserActive, setEditUserActive] = useState<string>('');
   // <!--- users --->
 
   const context = {
     auth: {
-      showTFAEmailSent: () => setEmailSentActive(true),
+      showTFAEmailSent: () => setEmailSentActive(true)
     },
     organizations: {
-      showCreateOrganization: () =>
-        setCreateOrganizationActive(Date.now().toString()),
+      showCreateOrganization: () => setCreateOrganizationActive(Date.now().toString()),
       showEditOrganization: (id: string) => setEditOrganizationActive(id),
       showDeleteOrganization: (id: string) => setDeleteOrganizationActive(id),
-      showRestoreOrganization: (id: string) => setRestoreOrganizationActive(id),
+      showRestoreOrganization: (id: string) => setRestoreOrganizationActive(id)
     },
     users: {
       showInviteUsers: () => setInviteUsersActive(Date.now().toString()),
-      showDeleteUserInvitation: (id: string) =>
-        setDeleteUserInvitationActive(id),
+      showDeleteUserInvitation: (id: string) => setDeleteUserInvitationActive(id),
       showDeleteUser: (id: string) => setDeleteUserActive(id),
-      showEditUser: (id: string) => setEditUserActive(id),
-    },
+      showEditUser: (id: string) => setEditUserActive(id)
+    }
   };
 
   return (
     <ModalContext.Provider value={context}>
       <>
-        <TFAEmailSentModal
-          footer={null}
-          width={350}
-          open={emailSentActive}
-          onCancel={() => setEmailSentActive(false)}
-        />
+        <TFAEmailSentModal footer={null} width={350} open={emailSentActive} onCancel={() => setEmailSentActive(false)} />
         <CreateOrganizationModal
           footer={null}
           width={424}
-          open={createOrganizationActive != ""}
+          open={createOrganizationActive != ''}
           id={createOrganizationActive}
-          onCancel={() => setCreateOrganizationActive("")}
+          onCancel={() => setCreateOrganizationActive('')}
         />
         <EditOrganizationModal
           footer={null}
           width={424}
-          open={editOrganizationActive != ""}
+          open={editOrganizationActive != ''}
           id={editOrganizationActive}
-          onCancel={() => setEditOrganizationActive("")}
+          onCancel={() => setEditOrganizationActive('')}
         />
         <DeleteOrganizationModal
           footer={null}
           width={424}
-          open={deleteOrganizationActive != ""}
+          open={deleteOrganizationActive != ''}
           id={deleteOrganizationActive}
-          onCancel={() => setDeleteOrganizationActive("")}
+          onCancel={() => setDeleteOrganizationActive('')}
         />
         <RestoreOrganizationModal
           footer={null}
           width={424}
-          open={restoreOrganizationActive != ""}
+          open={restoreOrganizationActive != ''}
           id={restoreOrganizationActive}
-          onCancel={() => setRestoreOrganizationActive("")}
+          onCancel={() => setRestoreOrganizationActive('')}
         />
         <InviteUsersModal
           footer={null}
           width={424}
-          onCancel={() => setInviteUsersActive("")}
+          onCancel={() => setInviteUsersActive('')}
           id={inviteUsersActive}
-          open={inviteUsersActive != ""}
+          open={inviteUsersActive != ''}
         />
         <DeleteUserInvitationModal
           footer={null}
           width={424}
-          onCancel={() => setDeleteUserInvitationActive("")}
+          onCancel={() => setDeleteUserInvitationActive('')}
           id={deleteUserInvitationActive}
-          open={deleteUserInvitationActive != ""}
+          open={deleteUserInvitationActive != ''}
         />
         <DeleteUserModal
           footer={null}
           width={424}
-          onCancel={() => setDeleteUserActive("")}
+          onCancel={() => setDeleteUserActive('')}
           id={deleteUserActive}
-          open={deleteUserActive != ""}
+          open={deleteUserActive != ''}
         />
-        <EditUserModal
-          footer={null}
-          width={424}
-          onCancel={() => setEditUserActive("")}
-          id={editUserActive}
-          open={editUserActive != ""}
-        />
+        <EditUserModal footer={null} width={424} onCancel={() => setEditUserActive('')} id={editUserActive} open={editUserActive != ''} />
         {props.children}
       </>
     </ModalContext.Provider>

@@ -1,13 +1,14 @@
-import Logo from "@/bases/logo";
-import s from "./Sidebar.module.scss";
-import { ChevronRight, LogOut, Minus, Plus, User } from "react-feather";
-import { SECTIONS } from "@/constants/sections.constant";
-import Link from "next/link";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IconButton from "@/bases/IconButton/IconButton";
-import { useAuth } from "@/contexts/auth.context";
-import { Popover } from "antd";
-import { useRouter } from "next/router";
+import { Popover } from 'antd';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { ChevronRight, LogOut, Minus, Plus, User } from 'react-feather';
+import s from './Sidebar.module.scss';
+import IconButton from '@/bases/IconButton/IconButton';
+import Logo from '@/bases/logo';
+import { ROLES } from '@/constants/roles.constants';
+import { SECTIONS } from '@/constants/sections.constant';
+import { useAuth } from '@/contexts/auth.context';
 
 export type SidebarProps = {
   collapsed: boolean;
@@ -20,56 +21,39 @@ export default function Sidebar(props: SidebarProps) {
   const router = useRouter();
 
   const allowedSections = session.role
-    ? SECTIONS.filter((i) => i?.access?.includes(session.role)).map(
-        (sections) => {
-          return {
-            ...sections,
-            sections: sections.sections?.filter((i) =>
-              i?.access?.includes(session.role)
-            ),
-          };
-        }
-      )
+    ? SECTIONS.filter(i => i?.access?.includes(session.role)).map(sections => {
+        return {
+          ...sections,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          sections: sections.sections?.filter(_i => (section: { access: string | ROLES[] }) => section?.access?.includes(session.role))
+        };
+      })
     : [];
 
   if (collapsed) {
     return (
-      <aside className={s["ds-sidebar--collapsed"]}>
-        <div className={s["ds-sidebar-t"]}>
-          <section className={s["ds-sidebar--collapsed__top"]}>
+      <aside className={s['ds-sidebar--collapsed']}>
+        <div className={s['ds-sidebar-t']}>
+          <section className={s['ds-sidebar--collapsed__top']}>
             <IconButton onClick={() => setCollapsed(false)}>
               <Plus color="#252f4a" size={18} />
             </IconButton>
           </section>
-          <section className={s["ds-sidebar__sections"]}>
-            {allowedSections.map((section) => {
+          <section className={s['ds-sidebar__sections']}>
+            {allowedSections.map(section => {
               return (
-                <div
-                  className={s["ds-sidebar--collapsed__sections-group"]}
-                  key={section?.name}
-                >
-                  <div className={s["ds-sidebar--collapsed__sections-head"]}>
+                <div className={s['ds-sidebar--collapsed__sections-group']} key={section?.name}>
+                  <div className={s['ds-sidebar--collapsed__sections-head']}>
                     <h6>{section?.name?.substring(0, 5).trim()}</h6>
                   </div>
                   <ul>
-                    {section?.sections?.map((item) => {
+                    {section?.sections?.map(item => {
                       return (
-                        <Link href={item?.path || "/app"} key={item?.path}>
-                          <OverlayTrigger
-                            placement="right"
-                            overlay={
-                              <Tooltip placement="right">{item?.name}</Tooltip>
-                            }
-                          >
+                        <Link href={item?.path || '/app'} key={item?.path}>
+                          <OverlayTrigger placement="right" overlay={<Tooltip placement="right">{item?.name}</Tooltip>}>
                             <li
-                              className={`${
-                                s["ds-sidebar--collapsed__sections-item"]
-                              } ${
-                                item?.path
-                                  ? router.asPath.includes(item?.path)
-                                    ? s["ds-sidebar__sections-item--selected"]
-                                    : ""
-                                  : ""
+                              className={`${s['ds-sidebar--collapsed__sections-item']} ${
+                                item?.path ? (router.asPath.includes(item?.path) ? s['ds-sidebar__sections-item--selected'] : '') : ''
                               }`}
                             >
                               <div>{item?.icon}</div>
@@ -85,30 +69,27 @@ export default function Sidebar(props: SidebarProps) {
           </section>
         </div>
         <Popover
-          trigger={["click"]}
+          trigger={['click']}
           content={
             <div style={{ width: collapsed ? 120 : 210 }}>
-              <Link href={"/app/account"}>
-                <li className={s["ds-sidebar--collapsed__sections-item"]}>
+              <Link href={'/app/account'}>
+                <li className={s['ds-sidebar--collapsed__sections-item']}>
                   <div>
                     <User size={18} strokeWidth={2.3} color="#071437" />
                     <span>Account</span>
                   </div>
                 </li>
               </Link>
-              <li
-                className={s["ds-sidebar--collapsed__sections-item"]}
-                onClick={() => signOut()}
-              >
+              <li className={s['ds-sidebar--collapsed__sections-item']} onClick={() => signOut()}>
                 <div>
                   <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />
-                  <span style={{ color: "#fa4c41" }}>Sign out</span>
+                  <span style={{ color: '#fa4c41' }}>Sign out</span>
                 </div>
               </li>
             </div>
           }
         >
-          <section className={s["ds-sidebar__user"]}>
+          <section className={s['ds-sidebar__user']}>
             <div>
               <User color="#252f4a" size={18} />
             </div>
@@ -119,35 +100,28 @@ export default function Sidebar(props: SidebarProps) {
   }
 
   return (
-    <aside className={s["ds-sidebar"]}>
-      <div className={s["ds-sidebar-t"]}>
-        <section className={s["ds-sidebar__top"]}>
+    <aside className={s['ds-sidebar']}>
+      <div className={s['ds-sidebar-t']}>
+        <section className={s['ds-sidebar__top']}>
           <Logo size="S" />
           <IconButton onClick={() => setCollapsed(true)}>
             <Minus color="#252f4a" size={18} />
           </IconButton>
         </section>
-        <section className={s["ds-sidebar__sections"]}>
-          {allowedSections.map((section) => {
+        <section className={s['ds-sidebar__sections']}>
+          {allowedSections.map(section => {
             return (
-              <div
-                className={s["ds-sidebar__sections-group"]}
-                key={section.name}
-              >
-                <div className={s["ds-sidebar__sections-head"]}>
+              <div className={s['ds-sidebar__sections-group']} key={section.name}>
+                <div className={s['ds-sidebar__sections-head']}>
                   <h6>{section?.name}</h6>
                 </div>
                 <ul>
-                  {section?.sections?.map((item) => {
+                  {section?.sections?.map(item => {
                     return (
-                      <Link href={item?.path || "/app"} key={item?.path}>
+                      <Link href={item?.path || '/app'} key={item?.path}>
                         <li
-                          className={`${s["ds-sidebar__sections-item"]} ${
-                            item?.path
-                              ? router.asPath.includes(item?.path)
-                                ? s["ds-sidebar__sections-item--selected"]
-                                : ""
-                              : ""
+                          className={`${s['ds-sidebar__sections-item']} ${
+                            item?.path ? (router.asPath.includes(item?.path) ? s['ds-sidebar__sections-item--selected'] : '') : ''
                           }`}
                         >
                           <div>
@@ -168,30 +142,27 @@ export default function Sidebar(props: SidebarProps) {
       <Popover
         placement="top"
         arrow={false}
-        trigger={["click"]}
+        trigger={['click']}
         content={
           <div style={{ width: collapsed ? 200 : 210 }}>
-            <Link href={"/app/account"}>
-              <li className={s["ds-sidebar--collapsed__sections-item"]}>
+            <Link href={'/app/account'}>
+              <li className={s['ds-sidebar--collapsed__sections-item']}>
                 <div>
                   <User size={18} strokeWidth={2.3} color="#071437" />
                   <span>Account</span>
                 </div>
               </li>
             </Link>
-            <li
-              className={s["ds-sidebar--collapsed__sections-item"]}
-              onClick={() => signOut()}
-            >
+            <li className={s['ds-sidebar--collapsed__sections-item']} onClick={() => signOut()}>
               <div>
                 <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />
-                <span style={{ color: "#fa4c41" }}>Sign out</span>
+                <span style={{ color: '#fa4c41' }}>Sign out</span>
               </div>
             </li>
           </div>
         }
       >
-        <section className={s["ds-sidebar__user"]}>
+        <section className={s['ds-sidebar__user']}>
           <div>
             <User color="#252f4a" size={18} />
           </div>

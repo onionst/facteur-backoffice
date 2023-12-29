@@ -1,12 +1,12 @@
-import { User } from "@/dtos/users/user.dto";
-import { api, parseUrl } from "./api";
+import { api, parseUrl } from './api';
+import { User } from '@/dtos/users/user.dto';
 
-const PREFIX = "/users";
+const PREFIX = '/users';
 
 export const FetchUsers = async (
   query: any
 ): Promise<{
-  users: Array<User>;
+  users: User[];
   records: number;
   page: {
     current: number;
@@ -16,15 +16,15 @@ export const FetchUsers = async (
 }> => {
   const response = await api.get(parseUrl(PREFIX), { params: query });
   const headers = response?.headers;
-  const current = parseInt(headers["pagination-page"]);
-  const maxPage = parseInt(headers["pagination-total-pages"]);
+  const current = parseInt(headers['pagination-page']);
+  const maxPage = parseInt(headers['pagination-total-pages']);
   return {
     users: response?.data,
-    records: parseInt(headers["pagination-count"]),
+    records: parseInt(headers['pagination-count']),
     page: {
       current: current - 1,
       prevPage: current > 1 ? current - 1 : null,
-      nextPage: current < maxPage ? current + 1 : null,
-    },
+      nextPage: current < maxPage ? current + 1 : null
+    }
   };
 };

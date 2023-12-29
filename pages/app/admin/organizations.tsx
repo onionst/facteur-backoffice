@@ -1,34 +1,25 @@
-import Button from "@/bases/Button/Button";
-import IconButton from "@/bases/IconButton/IconButton";
-import Row from "@/bases/Row/Row";
-import Header from "@/components/Header/Header";
-import Page from "@/components/Page/Page";
-import Pagination from "@/components/Pagination/Pagination";
-import Search from "@/components/Search/Search";
-import { Table } from "@/components/Table/Table";
-import Wrapper from "@/components/Wrapper/Wrapper";
-import { useModal } from "@/contexts/modal.context";
-import {
-  ORGANIZATIONS_LIMIT_PER_PAGE,
-  useOrganizations,
-} from "@/contexts/organizations.context";
-import { Badge } from "react-bootstrap";
-import { Box, Download, Edit, RefreshCcw, X } from "react-feather";
+import { Badge } from 'react-bootstrap';
+import { Box, Download, Edit, RefreshCcw, X } from 'react-feather';
+import Button from '@/bases/Button/Button';
+import IconButton from '@/bases/IconButton/IconButton';
+import Row from '@/bases/Row/Row';
+import Header from '@/components/Header/Header';
+import Page from '@/components/Page/Page';
+import Pagination from '@/components/Pagination/Pagination';
+import Search from '@/components/Search/Search';
+import { Table } from '@/components/Table/Table';
+import Wrapper from '@/components/Wrapper/Wrapper';
+import { useModal } from '@/contexts/modal.context';
+import { ORGANIZATIONS_LIMIT_PER_PAGE, useOrganizations } from '@/contexts/organizations.context';
 
 export default function Organizations() {
   const modals = useModal();
-  const { organizations, fetchOrganizations, page, ...organizationsProps } =
-    useOrganizations();
-  const {
-    showCreateOrganization,
-    showEditOrganization,
-    showDeleteOrganization,
-    showRestoreOrganization,
-  } = modals.organizations;
+  const { organizations, fetchOrganizations, page, ...organizationsProps } = useOrganizations();
+  const { showCreateOrganization, showEditOrganization, showDeleteOrganization, showRestoreOrganization } = modals.organizations;
 
   return (
     <>
-      <Header icon={<Box />} title={`Organizations`}>
+      <Header icon={<Box />} title={'Organizations'}>
         <Button theme="CTA" onClick={showCreateOrganization}>
           Create organization
         </Button>
@@ -37,9 +28,9 @@ export default function Organizations() {
         <Page>
           <Search
             placeholder="Search organizations..."
-            onSearch={(search) =>
+            onSearch={search =>
               fetchOrganizations({
-                search,
+                search
               })
             }
           />
@@ -48,57 +39,45 @@ export default function Organizations() {
           <Table
             loading={organizationsProps.loading}
             columns={[
-              "Name",
-              "Domain",
-              "State",
-              <Row align="RIGHT" key={"column_actions"}>
+              'Name',
+              'Domain',
+              'State',
+              <Row align="RIGHT" key={'column_actions'}>
                 Actions
-              </Row>,
+              </Row>
             ]}
-            data={organizations.map((organization) => [
-              <span
-                key={organization?.id + "name"}
-                style={{ opacity: organization?.active ? 1 : 0.6 }}
-              >
+            data={organizations.map(organization => [
+              <span key={organization?.id + 'name'} style={{ opacity: organization?.active ? 1 : 0.6 }}>
                 {organization?.name}
               </span>,
-              <span
-                key={organization?.id + "domain"}
-                style={{ opacity: organization?.active ? 1 : 0.6 }}
-              >
+              <span key={organization?.id + 'domain'} style={{ opacity: organization?.active ? 1 : 0.6 }}>
                 {organization?.domain}
               </span>,
-              <div key={organization?.id + "state"}>
+              <div key={organization?.id + 'state'}>
                 <Badge
-                  className={organization?.active ? "ds-badge-success" : ""}
+                  className={organization?.active ? 'ds-badge-success' : ''}
                   key={organization?.id + organization?.active}
-                  bg={organization?.active ? "" : "danger"}
+                  bg={organization?.active ? '' : 'danger'}
                 >
-                  {organization?.active ? "Active" : "Deleted"}
+                  {organization?.active ? 'Active' : 'Deleted'}
                 </Badge>
               </div>,
-              <Row align="RIGHT" key={organization?.id + "actions"}>
+              <Row align="RIGHT" key={organization?.id + 'actions'}>
                 {organization?.active ? (
                   <>
-                    <IconButton
-                      onClick={() => showEditOrganization(organization?.id)}
-                    >
+                    <IconButton onClick={() => showEditOrganization(organization?.id)}>
                       <Edit color="#252f4a" size={18} />
                     </IconButton>
-                    <IconButton
-                      onClick={() => showDeleteOrganization(organization?.id)}
-                    >
+                    <IconButton onClick={() => showDeleteOrganization(organization?.id)}>
                       <X color="#252f4a" size={18} />
                     </IconButton>
                   </>
                 ) : (
-                  <IconButton
-                    onClick={() => showRestoreOrganization(organization?.id)}
-                  >
+                  <IconButton onClick={() => showRestoreOrganization(organization?.id)}>
                     <RefreshCcw color="#252f4a" size={18} />
                   </IconButton>
                 )}
-              </Row>,
+              </Row>
             ])}
           />
         </Page>
@@ -122,7 +101,7 @@ export default function Organizations() {
               nextPage={() => {
                 fetchOrganizations({}, page.current - 1 + 1);
               }}
-              skip={(page) => fetchOrganizations({}, page - 1)}
+              skip={skip => fetchOrganizations({}, skip - 1)}
             />
           </Row>
         </Row>

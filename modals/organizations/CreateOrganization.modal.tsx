@@ -1,36 +1,34 @@
-import s from "../Modals.module.scss";
-import Button from "@/bases/Button/Button";
-import { Input } from "@/bases/input";
-import Select from "@/bases/Select";
-import ModalHeader from "@/components/ModalHeader/ModalHeader";
-import Wrapper from "@/components/Wrapper/Wrapper";
-import { CountryISO } from "@/constants/country";
-import { LanguageISO } from "@/constants/language";
-import { useOrganizations } from "@/contexts/organizations.context";
-import { CreateOrganization } from "@/dtos/organizations/createOrganization.dto";
-import { Modal, ModalProps } from "antd";
-import { FormEvent, useEffect, useState } from "react";
-import { X } from "react-feather";
+import { Modal, ModalProps } from 'antd';
+import { FormEvent, useEffect, useState } from 'react';
+import { X } from 'react-feather';
+import s from '../Modals.module.scss';
+import Button from '@/bases/Button/Button';
+import { Input } from '@/bases/input';
+import Select from '@/bases/Select';
+import ModalHeader from '@/components/ModalHeader/ModalHeader';
+import Wrapper from '@/components/Wrapper/Wrapper';
+import { CountryISO } from '@/constants/country';
+import { LanguageISO } from '@/constants/language';
+import { useOrganizations } from '@/contexts/organizations.context';
+import { CreateOrganization } from '@/dtos/organizations/createOrganization.dto';
 
 export type CreateOrganizationModalProps = { id: string };
-export const CreateOrganizationModal = (
-  props: CreateOrganizationModalProps & ModalProps
-) => {
+export const CreateOrganizationModal = (props: CreateOrganizationModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<CreateOrganization>({
-    name: "",
-    domain: "",
-    country: "",
-    language: "",
+    name: '',
+    domain: '',
+    country: '',
+    language: ''
   });
   const { createOrganization } = useOrganizations();
 
   useEffect(() => {
     setForm({
-      name: "",
-      domain: "",
-      country: "",
-      language: "",
+      name: '',
+      domain: '',
+      country: '',
+      language: ''
     });
   }, [props.open]);
 
@@ -40,7 +38,7 @@ export const CreateOrganizationModal = (
       setLoading(true);
       const payload: CreateOrganization = {
         name: form.name?.trim(),
-        domain: form.domain?.trim(),
+        domain: form.domain?.trim()
       };
       if (form.language) {
         payload.language = form.language;
@@ -49,7 +47,7 @@ export const CreateOrganizationModal = (
         payload.country = form.country;
       }
       createOrganization(payload);
-      setForm({ name: "", domain: "", country: "", language: "" });
+      setForm({ name: '', domain: '', country: '', language: '' });
       setLoading(false);
       // @ts-ignore
       props.onCancel();
@@ -61,11 +59,8 @@ export const CreateOrganizationModal = (
 
   return (
     <Modal {...props} closeIcon={<X />} key={props.id}>
-      <ModalHeader
-        subTitle="Create organization"
-        title="Complete the following data to create a new organization"
-      />
-      <form className={s["ds-modal-form"]} onSubmit={handleCreateOrganization}>
+      <ModalHeader subTitle="Create organization" title="Complete the following data to create a new organization" />
+      <form className={s['ds-modal-form']} onSubmit={handleCreateOrganization}>
         <Wrapper>
           <Input
             required
@@ -74,9 +69,7 @@ export const CreateOrganizationModal = (
             pattern="^[^\.]+$"
             title="Name should not include dots"
             value={form.name}
-            onChange={(v) =>
-              setForm((prev) => ({ ...prev, name: v.target.value }))
-            }
+            onChange={v => setForm(prev => ({ ...prev, name: v.target.value }))}
           />
           <Input
             required
@@ -85,41 +78,35 @@ export const CreateOrganizationModal = (
             pattern=".*\..+"
             title="Web domain should include at least one dot. e.g: efcsn.com"
             value={form.domain}
-            onChange={(v) =>
-              setForm((prev) => ({ ...prev, domain: v.target.value }))
-            }
+            onChange={v => setForm(prev => ({ ...prev, domain: v.target.value }))}
           />
           <Select
             label="Country"
             defaultValue={form?.country}
             options={[
-              { label: "Organization's country", value: "" },
+              { label: "Organization's country", value: '' },
               ...Object.entries(CountryISO).map(([key, value]) => ({
-                label: key.split("_").join(" "),
-                value: value.split("_").join(" "),
-              })),
+                label: key.split('_').join(' '),
+                value: value.split('_').join(' ')
+              }))
             ]}
-            onChange={(v) => setForm((prev) => ({ ...prev, country: v }))}
+            onChange={v => setForm(prev => ({ ...prev, country: v }))}
           />
           <Select
             label="Language"
             defaultValue={form?.language}
             options={[
-              { label: "Organization's main language", value: "" },
+              { label: "Organization's main language", value: '' },
               ...Object.entries(LanguageISO).map(([key, value]) => ({
                 label: key,
-                value,
-              })),
+                value
+              }))
             ]}
-            onChange={(v) => setForm((prev) => ({ ...prev, language: v }))}
+            onChange={v => setForm(prev => ({ ...prev, language: v }))}
           />
         </Wrapper>
-        <div className={s["ds-modal-form__buttons"]}>
-          <Button
-            disabled={form?.name === "" || form?.domain === ""}
-            loading={loading}
-            theme="CTA"
-          >
+        <div className={s['ds-modal-form__buttons']}>
+          <Button disabled={form?.name === '' || form?.domain === ''} loading={loading} theme="CTA">
             Create
           </Button>
           <Button type="button" onClick={props.onCancel} theme="SECONDARY">

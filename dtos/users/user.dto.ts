@@ -1,4 +1,4 @@
-import { ROLES } from "@/constants/roles.constants";
+import { ROLES } from '@/constants/roles.constants';
 
 export class User {
   id: string;

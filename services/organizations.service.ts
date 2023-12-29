@@ -1,15 +1,15 @@
-import { CreateOrganization as CreateOrganizationDto } from "@/dtos/organizations/createOrganization.dto";
-import { api, parseUrl } from "./api";
-import { Organization } from "@/dtos/organizations/organization.dto";
-import { FilterOrganizations } from "@/dtos/organizations/filterOrganizations.dto";
-import { UpdateOrganization as UpdateOrganizationDto } from "@/dtos/organizations/updateOrganization.dto";
+import { api, parseUrl } from './api';
+import { CreateOrganization as CreateOrganizationDto } from '@/dtos/organizations/createOrganization.dto';
+import { FilterOrganizations } from '@/dtos/organizations/filterOrganizations.dto';
+import { Organization } from '@/dtos/organizations/organization.dto';
+import { UpdateOrganization as UpdateOrganizationDto } from '@/dtos/organizations/updateOrganization.dto';
 
-const PREFIX = "/organizations";
+const PREFIX = '/organizations';
 
 export const FetchOrganizations = async (
   filter: FilterOrganizations
 ): Promise<{
-  organizations: Array<Organization>;
+  organizations: Organization[];
   records: number;
   page: {
     current: number;
@@ -21,24 +21,17 @@ export const FetchOrganizations = async (
   return response?.data;
 };
 
-export const ListOrganizations = async (): Promise<
-  Array<Partial<Organization>>
-> => {
-  const response = await api.get(parseUrl(PREFIX, "list"));
+export const ListOrganizations = async (): Promise<Array<Partial<Organization>>> => {
+  const response = await api.get(parseUrl(PREFIX, 'list'));
   return response.data;
 };
 
-export const CreateOrganization = async (
-  organization: CreateOrganizationDto
-): Promise<Organization> => {
+export const CreateOrganization = async (organization: CreateOrganizationDto): Promise<Organization> => {
   const response = await api.post(parseUrl(PREFIX), organization);
   return response?.data;
 };
 
-export const UpdateOrganization = async (
-  id: string,
-  payload: UpdateOrganizationDto
-) => {
+export const UpdateOrganization = async (id: string, payload: UpdateOrganizationDto) => {
   const response = await api.patch(parseUrl(PREFIX, id), payload);
   return response?.data;
 };

@@ -1,23 +1,18 @@
-import { Credentials } from "@/dtos/credentials.dto";
-import {
-  GetSessionData,
-  RestorePassword,
-  SendRestorePasswordEmail,
-  SignInWithEmailAndPassword,
-} from "@/services/auth.service";
-import Store from "store";
-import { useRouter } from "next/router";
-import { createContext, useContext, useEffect, useState } from "react";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin, notification } from 'antd';
+import { useRouter } from 'next/router';
+import { createContext, useContext, useEffect, useState } from 'react';
+import Store from 'store';
 
-import { Spin, notification } from "antd";
-import { STORAGE_KEYS } from "@/constants/store.constant";
-import { Session } from "@/dtos/session.dto";
-import { ROLES } from "@/constants/roles.constants";
-import Logo from "@/bases/logo";
-import { useOrganizations } from "./organizations.context";
-import { useUsers } from "./users.context";
-import { NOTIFICATIONS_CONFIG } from "@/constants/notifications.constant";
-import { LoadingOutlined } from "@ant-design/icons";
+import { useOrganizations } from './organizations.context';
+import { useUsers } from './users.context';
+import Logo from '@/bases/logo';
+import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
+import { ROLES } from '@/constants/roles.constants';
+import { STORAGE_KEYS } from '@/constants/store.constant';
+import { Credentials } from '@/dtos/credentials.dto';
+import { Session } from '@/dtos/session.dto';
+import { GetSessionData, RestorePassword, SendRestorePasswordEmail, SignInWithEmailAndPassword } from '@/services/auth.service';
 
 export type AuthContextProps = {
   session: Session;
@@ -41,11 +36,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const router = useRouter();
 
   const [session, setSession] = useState<Session>({
-    email: "",
+    email: '',
     role: ROLES.VIEWER,
-    name: "",
-    surname: "",
-    organizationId: "",
+    name: '',
+    surname: '',
+    organizationId: ''
   });
 
   useEffect(() => {
@@ -55,17 +50,17 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const getSessionData = async (path: string) => {
     try {
       const accessToken = Store.get(STORAGE_KEYS.ACCESS_TOKEN, null);
-      if (path.includes("app") && !accessToken) {
-        router.push("/auth/sign-in");
+      if (path.includes('app') && !accessToken) {
+        router.push('/auth/sign-in');
       }
-      if (path.includes("auth") && accessToken) {
-        router.push("/app");
+      if (path.includes('auth') && accessToken) {
+        router.push('/app');
       }
-      if (path === "/") {
+      if (path === '/') {
         if (accessToken) {
-          router.push("/app");
+          router.push('/app');
         } else {
-          router.push("/auth/sign-in");
+          router.push('/auth/sign-in');
         }
       }
       if (accessToken) {
@@ -78,7 +73,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
           role: data?.role,
           name: data?.name,
           surname: data?.surname,
-          organizationId: data?.organizationId,
+          organizationId: data?.organizationId
         });
 
         if (data?.role === ROLES.SUPER_ADMIN) {
@@ -91,11 +86,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
         setLoading(false);
       }
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
       notification.info({
-        message: "Session Expired",
-        description:
-          "Please re-enter your credentials to continue where you left off",
+        message: 'Session Expired',
+        description: 'Please re-enter your credentials to continue where you left off'
       });
       await signOut();
       setLoading(false);
@@ -105,33 +100,34 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const signInWithEmailAndPassword = async (credentials: Credentials) => {
     try {
       const status = await SignInWithEmailAndPassword(credentials);
-      if (status === "2FA") {
-        router.push("/auth/sign-in?tfa=pending");
+      if (status === '2FA') {
+        router.push('/auth/sign-in?tfa=pending');
       } else {
-        await getSessionData("/app");
+        await getSessionData('/app');
         notification.success({
           ...NOTIFICATIONS_CONFIG.success,
-          message: "Welcome Back!",
-          description: "You've successfully signed in",
+          message: 'Welcome Back!',
+          description: "You've successfully signed in"
         });
-        router.push("/app");
+        router.push('/app');
       }
     } catch (err: any) {
+      // eslint-disable-next-line no-console
       console.error(err);
-      if (typeof err?.response?.data?.message === "object") {
+      if (typeof err?.response?.data?.message === 'object') {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
-          message: "Error",
-          description: err?.response?.data?.message[0],
+          message: 'Error',
+          description: err?.response?.data?.message[0]
         });
       } else {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
-          message: "Error",
-          description: "Invalid password or email",
+          message: 'Error',
+          description: 'Invalid password or email'
         });
       }
-      throw new Error("Unauthorized");
+      throw new Error('Unauthorized');
     }
   };
 
@@ -140,23 +136,23 @@ export const AuthProvider = (props: AuthProviderProps) => {
       await SendRestorePasswordEmail(email);
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
-        message: "Please check your email",
+        message: 'Please check your email'
       });
     } catch (err: any) {
-      if (typeof err?.response?.data?.message === "object") {
+      if (typeof err?.response?.data?.message === 'object') {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
-          message: "Error",
-          description: err?.response?.data?.message[0],
+          message: 'Error',
+          description: err?.response?.data?.message[0]
         });
       } else {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
-          message: "Error",
-          description: "Please try again later",
+          message: 'Error',
+          description: 'Please try again later'
         });
       }
-      throw new Error("Forbidden");
+      throw new Error('Forbidden');
     }
   };
 
@@ -166,34 +162,35 @@ export const AuthProvider = (props: AuthProviderProps) => {
       RestorePassword(token, password);
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
-        message: "Password reset",
+        message: 'Password reset'
       });
-      router.push("/auth/sign-in");
+      router.push('/auth/sign-in');
     } catch (err: any) {
-      if (typeof err?.response?.data?.message === "object") {
+      if (typeof err?.response?.data?.message === 'object') {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
-          message: "Error",
-          description: err?.response?.data?.message[0],
+          message: 'Error',
+          description: err?.response?.data?.message[0]
         });
       } else {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
-          message: "Error",
-          description: "Please try again later",
+          message: 'Error',
+          description: 'Please try again later'
         });
       }
-      throw new Error("Unauthorized");
+      throw new Error('Unauthorized');
     }
   };
 
   const signOut = async () => {
     try {
       await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
-      router.push("/auth/sign-in");
+      router.push('/auth/sign-in');
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
-      throw new Error("Default");
+      throw new Error('Default');
     }
   };
 
@@ -203,7 +200,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     signInWithEmailAndPassword,
     sendRestorePasswordEmail,
     restorePassword,
-    signOut,
+    signOut
   };
 
   return (
@@ -211,13 +208,13 @@ export const AuthProvider = (props: AuthProviderProps) => {
       {loading ? (
         <div
           style={{
-            width: "100vw",
-            height: "100dvh",
-            gap: "16px",
-            backgroundColor: "#FFF",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            width: '100vw',
+            height: '100dvh',
+            gap: '16px',
+            backgroundColor: '#FFF',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
           }}
         >
           <div>

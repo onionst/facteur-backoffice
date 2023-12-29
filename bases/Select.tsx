@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export type SelectProps = {
   label?: string;
@@ -7,16 +7,8 @@ export type SelectProps = {
   defaultValue?: string;
   onChange?: (value: string) => void;
 };
-export default function Select({
-  label,
-  required,
-  options,
-  defaultValue,
-  onChange,
-}: SelectProps) {
-  const [selectedValue, setSelectedValue] = useState<string>(
-    defaultValue || ""
-  );
+export default function Select({ label, required, options, defaultValue, onChange }: SelectProps) {
+  const [selectedValue, setSelectedValue] = useState<string>(defaultValue || '');
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(event.target.value);
@@ -29,7 +21,7 @@ export default function Select({
     <div className="w-full">
       {label && (
         <label className="form-label" style={{ marginBottom: 2 }}>
-          {label} {required ? <span>*</span> : ""}
+          {label} {required ? <span>*</span> : ''}
         </label>
       )}
       <select
@@ -40,12 +32,8 @@ export default function Select({
         defaultValue={selectedValue}
         onChange={handleChange}
       >
-        {options.map((option) => (
-          <option
-            key={option.value}
-            selected={option.value === selectedValue}
-            value={option.value}
-          >
+        {options.map(option => (
+          <option key={option.value} selected={option.value === selectedValue} value={option.value}>
             {option.label}
           </option>
         ))}

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Update local develop branch
+git checkout develop
+git pull
+
+# Update master branch up to develop
+git checkout master
+git pull
+git merge develop
+
+# Generate release
+# $1 => --prerelease  |  --release-as
+# $2 =>  alpha/beta   |  major
+npx standard-version $1 $2
+git push --follow-tags
+
+# Update develop branch
+git checkout develop
+git merge master
+git push
+

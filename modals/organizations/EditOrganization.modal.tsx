@@ -1,24 +1,22 @@
-import s from "../Modals.module.scss";
-import { Input } from "@/bases/input";
-import ModalHeader from "@/components/ModalHeader/ModalHeader";
-import Wrapper from "@/components/Wrapper/Wrapper";
-import { Modal, ModalProps } from "antd";
-import { X } from "react-feather";
-import Button from "@/bases/Button/Button";
-import { FormEvent, useEffect, useState } from "react";
-import { Organization } from "@/dtos/organizations/organization.dto";
-import { useOrganizations } from "@/contexts/organizations.context";
-import { UpdateOrganization } from "@/dtos/organizations/updateOrganization.dto";
-import Select from "@/bases/Select";
-import { LanguageISO } from "@/constants/language";
-import { CountryISO } from "@/constants/country";
+import { Modal, ModalProps } from 'antd';
+import { FormEvent, useEffect, useState } from 'react';
+import { X } from 'react-feather';
+import s from '../Modals.module.scss';
+import Button from '@/bases/Button/Button';
+import { Input } from '@/bases/input';
+import Select from '@/bases/Select';
+import ModalHeader from '@/components/ModalHeader/ModalHeader';
+import Wrapper from '@/components/Wrapper/Wrapper';
+import { CountryISO } from '@/constants/country';
+import { LanguageISO } from '@/constants/language';
+import { useOrganizations } from '@/contexts/organizations.context';
+import { Organization } from '@/dtos/organizations/organization.dto';
+import { UpdateOrganization } from '@/dtos/organizations/updateOrganization.dto';
 
 export type EditOrganizationModalProps = {
   id: string;
 };
-export const EditOrganizationModal = (
-  props: EditOrganizationModalProps & ModalProps
-) => {
+export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { fetchOrganizationData, updateOrganization } = useOrganizations();
   const [organization, setOrganization] = useState<Partial<Organization>>({});
@@ -31,7 +29,7 @@ export const EditOrganizationModal = (
       const form: Organization = organization;
       const payload: UpdateOrganization = {
         name: form.name?.trim(),
-        domain: form.domain?.trim(),
+        domain: form.domain?.trim()
       };
       if (form.domain) {
         payload.domain = form.domain;
@@ -67,13 +65,9 @@ export const EditOrganizationModal = (
     <Modal {...props} closeIcon={<X />} key={organization?.id}>
       <ModalHeader
         subTitle="Edit organization"
-        title={
-          organization?.name
-            ? `Update ${organization?.name}'s information`
-            : "Update the information of the organization"
-        }
+        title={organization?.name ? `Update ${organization?.name}'s information` : 'Update the information of the organization'}
       />
-      <form className={s["ds-modal-form"]} onSubmit={handleUpdateOrganization}>
+      <form className={s['ds-modal-form']} onSubmit={handleUpdateOrganization}>
         <Wrapper>
           <Input
             required
@@ -82,9 +76,7 @@ export const EditOrganizationModal = (
             pattern="^[^\.]+$"
             title="Name should not include dots"
             value={organization?.name}
-            onChange={(v) =>
-              setOrganization((prev) => ({ ...prev, name: v.target.value }))
-            }
+            onChange={v => setOrganization(prev => ({ ...prev, name: v.target.value }))}
           />
           <Input
             required
@@ -93,9 +85,7 @@ export const EditOrganizationModal = (
             pattern=".*\..+"
             title="Web domain should include at least one dot. e.g: efcsn.com"
             value={organization?.domain}
-            onChange={(v) =>
-              setOrganization((prev) => ({ ...prev, domain: v.target.value }))
-            }
+            onChange={v => setOrganization(prev => ({ ...prev, domain: v.target.value }))}
           />
 
           <Select
@@ -103,33 +93,29 @@ export const EditOrganizationModal = (
             key={organization?.id}
             defaultValue={organization?.country}
             options={[
-              { label: "Organization's country", value: "" },
+              { label: "Organization's country", value: '' },
               ...Object.entries(CountryISO).map(([key, value]) => ({
-                label: key.split("_").join(" "),
-                value: value.split("_").join(" "),
-              })),
+                label: key.split('_').join(' '),
+                value: value.split('_').join(' ')
+              }))
             ]}
-            onChange={(v) =>
-              setOrganization((prev) => ({ ...prev, country: v }))
-            }
+            onChange={v => setOrganization(prev => ({ ...prev, country: v }))}
           />
           <Select
             label="Language"
             key={organization?.id}
             defaultValue={organization?.language}
             options={[
-              { label: "Organization's main language", value: "" },
+              { label: "Organization's main language", value: '' },
               ...Object.entries(LanguageISO).map(([key, value]) => ({
                 label: key,
-                value,
-              })),
+                value
+              }))
             ]}
-            onChange={(v) =>
-              setOrganization((prev) => ({ ...prev, language: v }))
-            }
+            onChange={v => setOrganization(prev => ({ ...prev, language: v }))}
           />
         </Wrapper>
-        <div className={s["ds-modal-form__buttons"]}>
+        <div className={s['ds-modal-form__buttons']}>
           <Button loading={loading} theme="CTA">
             Update
           </Button>
