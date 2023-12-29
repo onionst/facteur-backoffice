@@ -1,7 +1,7 @@
 import Button from "@/bases/Button/Button";
 import s from "./Navbar.module.scss";
 import { Plus } from "react-feather";
-import { Input } from "@/bases/Input";
+import { Input } from "@/bases/input";
 import IconButton from "@/bases/IconButton/IconButton";
 import useWindowSize from "@/hooks/useWindowWidth";
 import { useAuth } from "@/contexts/auth.context";

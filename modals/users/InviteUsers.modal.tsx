@@ -1,4 +1,4 @@
-import { Input } from "@/bases/Input";
+import { Input } from "@/bases/input";
 import s from "../Modals.module.scss";
 import Select from "@/bases/Select";
 import ModalHeader from "@/components/ModalHeader/ModalHeader";

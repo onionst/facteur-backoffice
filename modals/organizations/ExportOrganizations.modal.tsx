@@ -1,6 +1,6 @@
 import s from "../Modals.module.scss";
 import Button from "@/bases/Button/Button";
-import { Input } from "@/bases/Input";
+import { Input } from "@/bases/input";
 import Select from "@/bases/Select";
 import ModalHeader from "@/components/ModalHeader/ModalHeader";
 import Wrapper from "@/components/Wrapper/Wrapper";
