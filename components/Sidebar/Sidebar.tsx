@@ -24,8 +24,7 @@ export default function Sidebar(props: SidebarProps) {
     ? SECTIONS.filter(i => i?.access?.includes(session.role)).map(sections => {
         return {
           ...sections,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          sections: sections.sections?.filter(_i => (section: { access: string | ROLES[] }) => section?.access?.includes(session.role))
+          sections: sections.sections?.filter((section: { access: string | ROLES[] }) => section?.access?.includes(session.role))
         };
       })
     : [];
