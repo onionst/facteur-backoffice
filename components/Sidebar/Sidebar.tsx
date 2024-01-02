@@ -5,7 +5,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { ChevronRight, LogOut, Minus, Plus, User } from 'react-feather';
 import s from './Sidebar.module.scss';
 import IconButton from '@/bases/IconButton/IconButton';
-import Logo from '@/bases/logo';
+import Logo from '@/bases/Logo';
 import { ROLES } from '@/constants/roles.constants';
 import { SECTIONS } from '@/constants/sections.constant';
 import { useAuth } from '@/contexts/auth.context';

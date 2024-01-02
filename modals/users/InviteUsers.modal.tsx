@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Plus, X } from 'react-feather';
 import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
-import { Input } from '@/bases/input';
+import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
@@ -42,7 +42,7 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
 
   useEffect(() => {
     handleListOrganizations();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.open, session]);
 
   const handleAddInvitation = (e: FormEvent) => {

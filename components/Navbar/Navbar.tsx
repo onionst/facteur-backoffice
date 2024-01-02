@@ -2,7 +2,7 @@ import { Plus } from 'react-feather';
 import s from './Navbar.module.scss';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
-import { Input } from '@/bases/input';
+import { Input } from '@/bases/Input';
 import { ROLES } from '@/constants/roles.constants';
 import { useAuth } from '@/contexts/auth.context';
 import useWindowSize from '@/hooks/useWindowWidth';

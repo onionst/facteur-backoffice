@@ -2,8 +2,8 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import Button from '@/bases/Button/Button';
-import { Input } from '@/bases/input';
-import Logo from '@/bases/logo';
+import { Input } from '@/bases/Input';
+import Logo from '@/bases/Logo';
 import { useAuth } from '@/contexts/auth.context';
 
 export default function RestorePassword(): JSX.Element {

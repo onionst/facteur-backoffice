@@ -6,7 +6,7 @@ import Store from 'store';
 
 import { useOrganizations } from './organizations.context';
 import { useUsers } from './users.context';
-import Logo from '@/bases/logo';
+import Logo from '@/bases/Logo';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { ROLES } from '@/constants/roles.constants';
 import { STORAGE_KEYS } from '@/constants/store.constant';

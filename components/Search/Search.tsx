@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Search as SearchIcon } from 'react-feather';
 import s from './Search.module.scss';
 import Button from '@/bases/Button/Button';
-import { Input } from '@/bases/input';
+import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select';
 

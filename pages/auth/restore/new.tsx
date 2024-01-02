@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
 import Button from '@/bases/Button/Button';
 import Condition from '@/bases/Condition/Condition';
-import { Input } from '@/bases/input';
-import Logo from '@/bases/logo';
+import { Input } from '@/bases/Input';
+import Logo from '@/bases/Logo';
 import { useAuth } from '@/contexts/auth.context';
 
 export default function CreateNewPassword(): JSX.Element {
