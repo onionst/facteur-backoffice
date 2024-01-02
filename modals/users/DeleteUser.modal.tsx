@@ -1,5 +1,5 @@
 import s from "../Modals.module.scss";
-import { Input } from "@/bases/input";
+import { Input } from "@/bases/Input";
 import ModalHeader from "@/components/ModalHeader/ModalHeader";
 import Wrapper from "@/components/Wrapper/Wrapper";
 import { Modal, ModalProps } from "antd";

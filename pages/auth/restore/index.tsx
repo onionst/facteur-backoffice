@@ -1,8 +1,8 @@
-import Logo from "@/bases/logo";
+import Logo from "@/bases/Logo";
 import Button from "@/bases/Button/Button";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
-import { Input } from "@/bases/input";
+import { Input } from "@/bases/Input";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useAuth } from "@/contexts/auth.context";
 

@@ -1,4 +1,3 @@
-import { auto } from "@popperjs/core";
 import { DetailedHTMLProps, InputHTMLAttributes, useState } from "react";
 import { Eye, EyeOff } from "react-feather";
 

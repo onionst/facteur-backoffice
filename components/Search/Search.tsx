@@ -1,6 +1,6 @@
 import s from "./Search.module.scss";
 import Button from "@/bases/Button/Button";
-import { Input } from "@/bases/input";
+import { Input } from "@/bases/Input";
 import Row from "@/bases/Row/Row";
 import Select from "@/bases/Select";
 import { FormEvent, useEffect, useState } from "react";

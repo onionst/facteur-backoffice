@@ -1,5 +1,5 @@
-import Logo from "@/bases/logo";
-import { Input } from "../../bases/input";
+import Logo from "@/bases/Logo";
+import { Input } from "../../bases/Input";
 import Button from "@/bases/Button/Button";
 import { FormEvent, useEffect, useState } from "react";
 import { Credentials } from "@/dtos/credentials.dto";

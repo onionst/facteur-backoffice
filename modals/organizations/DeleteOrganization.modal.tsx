@@ -1,5 +1,5 @@
 import s from "../Modals.module.scss";
-import { Input } from "@/bases/input";
+import { Input } from "@/bases/Input";
 import ModalHeader from "@/components/ModalHeader/ModalHeader";
 import Wrapper from "@/components/Wrapper/Wrapper";
 import { Modal, ModalProps } from "antd";
@@ -14,7 +14,7 @@ export type DeleteOrganizationModalProps = {
   id: string;
 };
 export const DeleteOrganizationModal = (
-  props: DeleteOrganizationModalProps & ModalProps
+  props: DeleteOrganizationModalProps & ModalProps,
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { fetchOrganizationData, deleteOrganization } = useOrganizations();

@@ -1,6 +1,6 @@
 import s from "../Modals.module.scss";
 import Button from "@/bases/Button/Button";
-import { Input } from "@/bases/input";
+import { Input } from "@/bases/Input";
 import Select from "@/bases/Select";
 import ModalHeader from "@/components/ModalHeader/ModalHeader";
 import Wrapper from "@/components/Wrapper/Wrapper";
@@ -14,7 +14,7 @@ import { X } from "react-feather";
 
 export type ExportOrganizationModalProps = { id: string };
 export const ExportOrganizationModal = (
-  props: ExportOrganizationModalProps & ModalProps
+  props: ExportOrganizationModalProps & ModalProps,
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
 

@@ -1,5 +1,5 @@
 import s from "../Modals.module.scss";
-import { Input } from "@/bases/input";
+import { Input } from "@/bases/Input";
 import ModalHeader from "@/components/ModalHeader/ModalHeader";
 import Wrapper from "@/components/Wrapper/Wrapper";
 import { Modal, ModalProps } from "antd";
@@ -13,7 +13,7 @@ export type RestoreOrganizationModalProps = {
   id: string;
 };
 export const RestoreOrganizationModal = (
-  props: RestoreOrganizationModalProps & ModalProps
+  props: RestoreOrganizationModalProps & ModalProps,
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { fetchOrganizationData, updateOrganization } = useOrganizations();
