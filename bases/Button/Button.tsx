@@ -17,12 +17,12 @@ export default function Button(props: DetailedHTMLProps<ButtonHTMLAttributes<HTM
     ATTENTION: 'ds-btn--attention'
   }[props.theme];
 
-  const { loading, ...propsButton } = props;
+  const { loading, disabled, ...propsButton } = props;
 
   const isLoadingStyle = loading ? s['ds-btn--loading'] : s[theme];
 
   return (
-    <button disabled={props?.disabled || loading} className={`btn ${isLoadingStyle}`} {...propsButton}>
+    <button disabled={disabled || loading} className={`btn ${isLoadingStyle}`} {...propsButton}>
       {loading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 24, color: '#FFF' }} />} /> : props.children}
     </button>
   );
