@@ -1,4 +1,4 @@
 export class Access {
-  status: "AUTHORIZED" | "2FA";
+  status: 'AUTHORIZED' | '2FA';
   token: string | null;
 }

@@ -1,15 +1,15 @@
-import Logo from "@/bases/Logo";
+import Logo from '@/bases/Logo';
 
 export default function Index() {
   return (
     <div
       style={{
-        width: "100vw",
-        height: "100dvh",
-        backgroundColor: "#FFF",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        width: '100vw',
+        height: '100dvh',
+        backgroundColor: '#FFF',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
       }}
     >
       <Logo size="M" />

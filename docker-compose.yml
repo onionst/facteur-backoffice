@@ -1,10 +1,16 @@
-version: "3"
+version: '3'
 services:
   ee24-backoffice:
     image: newtral/ee24-backoffice:dev
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      - NODE_ENV=production
+      - PUBLIC_API_URL=http://localhost:5000
     ports:
       - 3000:3000
     container_name: ee24-backoffice

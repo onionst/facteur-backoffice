@@ -1,16 +1,12 @@
-import s from "./AppLayout.module.scss";
-import Sidebar from "@/components/Sidebar/Sidebar";
-import Navbar from "@/components/Navbar/Navbar";
-import { useState } from "react";
-import useWindowSize from "@/hooks/useWindowWidth";
-import { Drawer } from "antd";
-import Footer from "@/components/Footer/Footer";
+import { Drawer } from 'antd';
+import { useState } from 'react';
+import s from './AppLayout.module.scss';
+import Footer from '@/components/Footer/Footer';
+import Navbar from '@/components/Navbar/Navbar';
+import Sidebar from '@/components/Sidebar/Sidebar';
+import useWindowSize from '@/hooks/useWindowWidth';
 
 export type LayoutProps = {
-  children: any;
-};
-
-type AsideButtonProps = {
   children: any;
 };
 
@@ -21,43 +17,33 @@ export default function AppLayout(props: LayoutProps) {
 
   if (width < 768) {
     return (
-      <div className={s["ds-app__mobile"]}>
+      <div className={s['ds-app__mobile']}>
         <Drawer
           width={270}
           footer={null}
           drawerStyle={{ padding: 0 }}
-          styles={{ header: { display: "none" } }}
+          styles={{ header: { display: 'none' } }}
           placement="left"
           open={showDrawer}
           onClose={() => setShowDrawer(false)}
         >
-          <Sidebar
-            collapsed={false}
-            setCollapsed={() => setShowDrawer(false)}
-          />
+          <Sidebar collapsed={false} setCollapsed={() => setShowDrawer(false)} />
         </Drawer>
         <main>
-          <Navbar
-            collapsed={collapsed}
-            openDrawer={() => setShowDrawer(true)}
-          />
-          <section className={s["ds-app__main"]}>{props.children}</section>
+          <Navbar collapsed={collapsed} openDrawer={() => setShowDrawer(true)} />
+          <section className={s['ds-app__main']}>{props.children}</section>
         </main>
       </div>
     );
   }
 
   return (
-    <div
-      className={`${s["ds-app"]} ${
-        s[`ds-app--${collapsed ? "collapsed" : "regular"}`]
-      }`}
-    >
+    <div className={`${s['ds-app']} ${s[`ds-app--${collapsed ? 'collapsed' : 'regular'}`]}`}>
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
       <div />
       <main>
         <Navbar collapsed={collapsed} />
-        <section className={s["ds-app__main"]}>{props.children}</section>
+        <section className={s['ds-app__main']}>{props.children}</section>
         <Footer />
       </main>
     </div>

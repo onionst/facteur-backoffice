@@ -1,9 +1,9 @@
-import Button from "@/bases/Button/Button";
-import Header from "@/components/Header/Header";
-import Page from "@/components/Page/Page";
-import Search from "@/components/Search/Search";
-import Wrapper from "@/components/Wrapper/Wrapper";
-import { File } from "react-feather";
+import { File } from 'react-feather';
+import Button from '@/bases/Button/Button';
+import Header from '@/components/Header/Header';
+import Page from '@/components/Page/Page';
+import Search from '@/components/Search/Search';
+import Wrapper from '@/components/Wrapper/Wrapper';
 
 export default function Articles() {
   return (

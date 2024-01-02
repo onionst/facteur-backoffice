@@ -1,12 +1,13 @@
-import Logo from "@/bases/Logo";
-import { Input } from "../../bases/Input";
-import Button from "@/bases/Button/Button";
-import { FormEvent, useEffect, useState } from "react";
-import { Credentials } from "@/dtos/credentials.dto";
-import { useRouter } from "next/router";
-import { ArrowRightOutlined } from "@ant-design/icons";
-import { useAuth } from "@/contexts/auth.context";
-import { useModal } from "@/contexts/modal.context";
+import { ArrowRightOutlined } from '@ant-design/icons';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { FormEvent, useEffect, useState } from 'react';
+import { Input } from '../../bases/Input';
+import Button from '@/bases/Button/Button';
+import Logo from '@/bases/Logo';
+import { useAuth } from '@/contexts/auth.context';
+import { useModal } from '@/contexts/modal.context';
+import { Credentials } from '@/dtos/credentials.dto';
 
 export default function SignIn(): JSX.Element {
   const router = useRouter();
@@ -14,15 +15,16 @@ export default function SignIn(): JSX.Element {
   const { signInWithEmailAndPassword } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<Credentials>({
-    email: "",
-    password: "",
+    email: '',
+    password: ''
   });
   const { showTFAEmailSent } = modals.auth;
 
   useEffect(() => {
-    if (router.query?.tfa === "pending") {
+    if (router.query?.tfa === 'pending') {
       showTFAEmailSent();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);
 
   const handleSignInWithCredentials = async (e: FormEvent) => {
@@ -31,8 +33,8 @@ export default function SignIn(): JSX.Element {
       setLoading(true);
       await signInWithEmailAndPassword(form);
       setForm({
-        email: "",
-        password: "",
+        email: '',
+        password: ''
       });
       setLoading(false);
     } catch (err: any) {
@@ -47,9 +49,9 @@ export default function SignIn(): JSX.Element {
           <div className="ds-sign-in__left-t">
             <div
               style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center'
               }}
             >
               <Logo size="M" />
@@ -60,7 +62,7 @@ export default function SignIn(): JSX.Element {
           <div className="ds-sign-in__left-g">
             <button>
               <span>
-                <img src="/assets/icons/g-icon.png" width={18} height={18} />
+                <Image src="/assets/icons/g-icon.png" width={18} height={18} alt={''} />
                 <span style={{ marginLeft: 12 }}>Continue with Google</span>
               </span>
             </button>
@@ -77,18 +79,16 @@ export default function SignIn(): JSX.Element {
               type="email"
               label="Email"
               value={form.email}
-              onChange={(email) =>
-                setForm((prev) => ({ ...prev, email: email.target.value }))
-              }
+              onChange={email => setForm(prev => ({ ...prev, email: email.target.value }))}
               style={{ marginBottom: 16 }}
             />
             <Input
               required
               value={form.password}
-              onChange={(password) =>
-                setForm((prev) => ({
+              onChange={password =>
+                setForm(prev => ({
                   ...prev,
-                  password: password.target.value,
+                  password: password.target.value
                 }))
               }
               placeholder="********"
@@ -97,17 +97,10 @@ export default function SignIn(): JSX.Element {
             />
             <div className="ds-forget">
               <u>
-                <span onClick={() => router.push("/auth/restore")}>
-                  I forgot my password
-                </span>
+                <span onClick={() => router.push('/auth/restore')}>I forgot my password</span>
               </u>
             </div>
-            <Button
-              disabled={Object.values(form).includes("")}
-              loading={loading}
-              theme="CTA"
-              style={{ marginTop: 32 }}
-            >
+            <Button disabled={Object.values(form).includes('')} loading={loading} theme="CTA" style={{ marginTop: 32 }}>
               Sign in <ArrowRightOutlined />
             </Button>
           </form>

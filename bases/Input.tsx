@@ -1,51 +1,39 @@
-import { DetailedHTMLProps, InputHTMLAttributes, useState } from "react";
-import { Eye, EyeOff } from "react-feather";
+import { DetailedHTMLProps, InputHTMLAttributes, useState } from 'react';
+import { Eye, EyeOff } from 'react-feather';
 
 export type InputProps = {
   label?: string;
 };
 
-export function Input(
-  props: DetailedHTMLProps<
-    InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > &
-    InputProps
-) {
+export function Input(props: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & InputProps) {
   const [type, setType] = useState(props.type);
   return (
     <div className="w-full">
       {props.label && (
         <label className="form-label" style={{ marginBottom: 2 }}>
-          {props.label} {props.required ? <span>*</span> : ""}
+          {props.label} {props.required ? <span>*</span> : ''}
         </label>
       )}
-      <div className="w-full" style={{ position: "relative" }}>
+      <div className="w-full" style={{ position: 'relative' }}>
         <input
           {...props}
           type={type}
-          className={`form-control ${
-            props.type === "password" ? "form-control__input" : ""
-          } ${props.className || ""}`}
+          className={`form-control ${props.type === 'password' ? 'form-control__input' : ''} ${props.className || ''}`}
         />
-        {props.type === "password" && (
+        {props.type === 'password' && (
           <span
             onClick={() => {
-              setType((prev) => (prev === "password" ? "text" : "password"));
+              setType(prev => (prev === 'password' ? 'text' : 'password'));
             }}
             style={{
-              position: "absolute",
+              position: 'absolute',
               right: 16,
               top: 42,
-              cursor: "pointer",
-              transform: "translateY(-31px)",
+              cursor: 'pointer',
+              transform: 'translateY(-31px)'
             }}
           >
-            {type === "password" ? (
-              <Eye color="#4b5675" size={20} />
-            ) : (
-              <EyeOff color="#00986d" size={20} />
-            )}
+            {type === 'password' ? <Eye color="#4b5675" size={20} /> : <EyeOff color="#00986d" size={20} />}
           </span>
         )}
       </div>

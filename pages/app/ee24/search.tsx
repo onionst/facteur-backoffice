@@ -1,8 +1,8 @@
-import Header from "@/components/Header/Header";
-import Page from "@/components/Page/Page";
-import Search from "@/components/Search/Search";
-import Wrapper from "@/components/Wrapper/Wrapper";
-import { Search as SearchIcon } from "react-feather";
+import { Search as SearchIcon } from 'react-feather';
+import Header from '@/components/Header/Header';
+import Page from '@/components/Page/Page';
+import Search from '@/components/Search/Search';
+import Wrapper from '@/components/Wrapper/Wrapper';
 
 export default function Repository() {
   return (
@@ -10,7 +10,7 @@ export default function Repository() {
       <Header icon={<SearchIcon />} title="EE24 Repository" />
       <Wrapper>
         <Page>
-          <Search placeholder="Search articles..." onSearch={(search) => {}} />
+          <Search placeholder="Search articles..." onSearch={search => search} />
         </Page>
         {/* <Page></Page> */}
       </Wrapper>

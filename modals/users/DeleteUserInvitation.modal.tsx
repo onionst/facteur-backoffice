@@ -1,23 +1,21 @@
-import s from "../Modals.module.scss";
-import { Input } from "@/bases/Input";
-import ModalHeader from "@/components/ModalHeader/ModalHeader";
-import Wrapper from "@/components/Wrapper/Wrapper";
-import { Modal, ModalProps } from "antd";
-import { X } from "react-feather";
-import Button from "@/bases/Button/Button";
-import { FormEvent, useEffect, useState } from "react";
-import { useUsers } from "@/contexts/users.context";
-import { User } from "@/dtos/users/user.dto";
+import { Modal, ModalProps } from 'antd';
+import { FormEvent, useEffect, useState } from 'react';
+import { X } from 'react-feather';
+import s from '../Modals.module.scss';
+import Button from '@/bases/Button/Button';
+import { Input } from '@/bases/Input';
+import ModalHeader from '@/components/ModalHeader/ModalHeader';
+import Wrapper from '@/components/Wrapper/Wrapper';
+import { useUsers } from '@/contexts/users.context';
+import { User } from '@/dtos/users/user.dto';
 
 export type DeleteUserInvitationModalProps = {
   id: string;
 };
-export const DELETE_USER_INVITATION_CONFIRMATION = "discard";
-export const DeleteUserInvitationModal = (
-  props: DeleteUserInvitationModalProps & ModalProps,
-) => {
+export const DELETE_USER_INVITATION_CONFIRMATION = 'discard';
+export const DeleteUserInvitationModal = (props: DeleteUserInvitationModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [confirmation, setConfirmation] = useState<string>("");
+  const [confirmation, setConfirmation] = useState<string>('');
   const { fetchUserData } = useUsers();
   const [user, setUser] = useState<Partial<User>>({});
 
@@ -45,7 +43,7 @@ export const DeleteUserInvitationModal = (
       // @ts-ignore
       props.onCancel();
     } else {
-      setConfirmation("");
+      setConfirmation('');
       setUser(data);
     }
   };
@@ -62,33 +60,22 @@ export const DeleteUserInvitationModal = (
         type="ATTENTION"
         subTitle="Discard invitation"
         title={
-          user?.email
-            ? `Are you sure you want to discard ${user?.email} invitation?`
-            : "Are you sure you want to discard this invitation?"
+          user?.email ? `Are you sure you want to discard ${user?.email} invitation?` : 'Are you sure you want to discard this invitation?'
         }
       />
-      <form
-        className={s["ds-modal-form"]}
-        onSubmit={handleDeleteUserInvitation}
-      >
+      <form className={s['ds-modal-form']} onSubmit={handleDeleteUserInvitation}>
         <Wrapper>
           <Input
             required
             label={`Write '${DELETE_USER_INVITATION_CONFIRMATION}' to discard this invitation`}
             placeholder="Discard confirmation"
             value={confirmation}
-            onChange={(v) => setConfirmation(v.target.value)}
+            onChange={v => setConfirmation(v.target.value)}
           />
         </Wrapper>
 
-        <div className={s["ds-modal-form__buttons"]}>
-          <Button
-            loading={loading}
-            disabled={
-              confirmation?.toLowerCase() != DELETE_USER_INVITATION_CONFIRMATION
-            }
-            theme="ATTENTION"
-          >
+        <div className={s['ds-modal-form__buttons']}>
+          <Button loading={loading} disabled={confirmation?.toLowerCase() != DELETE_USER_INVITATION_CONFIRMATION} theme="ATTENTION">
             Discard
           </Button>
           <Button type="button" onClick={props.onCancel} theme="SECONDARY">

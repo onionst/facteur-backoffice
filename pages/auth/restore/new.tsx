@@ -1,11 +1,11 @@
-import Logo from "@/bases/Logo";
-import Button from "@/bases/Button/Button";
-import { FormEvent, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { Input } from "@/bases/Input";
-import { ArrowLeftOutlined } from "@ant-design/icons";
-import Condition from "@/bases/Condition/Condition";
-import { useAuth } from "@/contexts/auth.context";
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
+import { FormEvent, useEffect, useState } from 'react';
+import Button from '@/bases/Button/Button';
+import Condition from '@/bases/Condition/Condition';
+import { Input } from '@/bases/Input';
+import Logo from '@/bases/Logo';
+import { useAuth } from '@/contexts/auth.context';
 
 export default function CreateNewPassword(): JSX.Element {
   const router = useRouter();
@@ -15,8 +15,8 @@ export default function CreateNewPassword(): JSX.Element {
     newPassword: string;
     confirmPassword: string;
   }>({
-    newPassword: "",
-    confirmPassword: "",
+    newPassword: '',
+    confirmPassword: ''
   });
   const [conditions, setConditions] = useState<{
     uppercase: boolean;
@@ -29,7 +29,7 @@ export default function CreateNewPassword(): JSX.Element {
     lowercase: false,
     number: false,
     special: false,
-    length: false,
+    length: false
   });
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function CreateNewPassword(): JSX.Element {
       lowercase: hasLowercase,
       number: hasNumber,
       special: hasSpecialChar,
-      length: isLongEnough,
+      length: isLongEnough
     });
   }, [form.newPassword]);
 
@@ -67,9 +67,9 @@ export default function CreateNewPassword(): JSX.Element {
           <div className="ds-sign-in__left-t">
             <div
               style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center'
               }}
             >
               <Logo size="M" />
@@ -78,20 +78,17 @@ export default function CreateNewPassword(): JSX.Element {
             <p>Please enter your new password to access your account</p>
           </div>
 
-          <form
-            style={{ marginTop: 32 }}
-            onSubmit={handleSignInWithCredentials}
-          >
+          <form style={{ marginTop: 32 }} onSubmit={handleSignInWithCredentials}>
             <Input
               required
               placeholder="********"
               type="password"
               label="New password"
               value={form.newPassword}
-              onChange={(password) =>
-                setForm((prev) => ({
+              onChange={password =>
+                setForm(prev => ({
                   ...prev,
-                  newPassword: password.target.value,
+                  newPassword: password.target.value
                 }))
               }
               style={{ marginBottom: 16 }}
@@ -102,75 +99,43 @@ export default function CreateNewPassword(): JSX.Element {
               type="password"
               label="Confirm new password"
               value={form.confirmPassword}
-              onChange={(password) =>
-                setForm((prev) => ({
+              onChange={password =>
+                setForm(prev => ({
                   ...prev,
-                  confirmPassword: password.target.value,
+                  confirmPassword: password.target.value
                 }))
               }
               style={{ marginBottom: 16 }}
             />
             <div>
-              <Condition
-                style={{ marginBottom: 4 }}
-                state={conditions.uppercase ? "OK" : "PENDING"}
-              >
+              <Condition style={{ marginBottom: 4 }} state={conditions.uppercase ? 'OK' : 'PENDING'}>
                 One uppercase character
               </Condition>
-              <Condition
-                style={{ marginBottom: 4 }}
-                state={conditions.lowercase ? "OK" : "PENDING"}
-              >
+              <Condition style={{ marginBottom: 4 }} state={conditions.lowercase ? 'OK' : 'PENDING'}>
                 One lowercase character
               </Condition>
-              <Condition
-                style={{ marginBottom: 4 }}
-                state={conditions.number ? "OK" : "PENDING"}
-              >
+              <Condition style={{ marginBottom: 4 }} state={conditions.number ? 'OK' : 'PENDING'}>
                 One number
               </Condition>
-              <Condition
-                style={{ marginBottom: 4 }}
-                state={conditions.special ? "OK" : "PENDING"}
-              >
-                One special character{" "}
-                <label style={{ color: "#78829d" }}>e.g: {".$?#![](){}"}</label>
+              <Condition style={{ marginBottom: 4 }} state={conditions.special ? 'OK' : 'PENDING'}>
+                One special character <label style={{ color: '#78829d' }}>e.g: {'.$?#![](){}'}</label>
               </Condition>
-              <Condition
-                style={{ marginBottom: 4 }}
-                state={conditions.length ? "OK" : "PENDING"}
-              >
+              <Condition style={{ marginBottom: 4 }} state={conditions.length ? 'OK' : 'PENDING'}>
                 10 character minimum
               </Condition>
-              <Condition
-                state={
-                  form.newPassword != "" &&
-                  form.confirmPassword === form.newPassword
-                    ? "OK"
-                    : "PENDING"
-                }
-              >
+              <Condition state={form.newPassword != '' && form.confirmPassword === form.newPassword ? 'OK' : 'PENDING'}>
                 Both passwords matches
               </Condition>
             </div>
             <Button
-              disabled={
-                Object.values(conditions).includes(false) ||
-                form.newPassword === "" ||
-                form.confirmPassword != form.newPassword
-              }
+              disabled={Object.values(conditions).includes(false) || form.newPassword === '' || form.confirmPassword != form.newPassword}
               loading={loading}
               theme="CTA"
               style={{ marginTop: 32 }}
             >
               Reset password
             </Button>
-            <Button
-              onClick={() => router.push("/auth/sign-in")}
-              type="button"
-              theme="SECONDARY"
-              style={{ marginTop: 8 }}
-            >
+            <Button onClick={() => router.push('/auth/sign-in')} type="button" theme="SECONDARY" style={{ marginTop: 8 }}>
               <ArrowLeftOutlined /> Go back
             </Button>
           </form>
