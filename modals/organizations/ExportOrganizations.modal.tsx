@@ -14,7 +14,7 @@ import { X } from "react-feather";
 
 export type ExportOrganizationModalProps = { id: string };
 export const ExportOrganizationModal = (
-  props: ExportOrganizationModalProps & ModalProps
+  props: ExportOrganizationModalProps & ModalProps,
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
 

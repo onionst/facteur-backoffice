@@ -17,7 +17,7 @@ export type EditOrganizationModalProps = {
   id: string;
 };
 export const EditOrganizationModal = (
-  props: EditOrganizationModalProps & ModalProps
+  props: EditOrganizationModalProps & ModalProps,
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { fetchOrganizationData, updateOrganization } = useOrganizations();

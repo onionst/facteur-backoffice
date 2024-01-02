@@ -1,4 +1,4 @@
-import Logo from "@/bases/logo";
+import Logo from "@/bases/Logo";
 import Button from "@/bases/Button/Button";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";

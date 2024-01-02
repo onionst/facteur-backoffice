@@ -13,7 +13,7 @@ import { Spin, notification } from "antd";
 import { STORAGE_KEYS } from "@/constants/store.constant";
 import { Session } from "@/dtos/session.dto";
 import { ROLES } from "@/constants/roles.constants";
-import Logo from "@/bases/logo";
+import Logo from "@/bases/Logo";
 import { useOrganizations } from "./organizations.context";
 import { useUsers } from "./users.context";
 import { NOTIFICATIONS_CONFIG } from "@/constants/notifications.constant";
@@ -31,7 +31,7 @@ export type AuthProviderProps = { children: any };
 
 export const AuthContext = createContext<AuthContextProps>(
   // @ts-ignore
-  {}
+  {},
 );
 
 export const AuthProvider = (props: AuthProviderProps) => {

@@ -14,7 +14,7 @@ import { X } from "react-feather";
 
 export type CreateOrganizationModalProps = { id: string };
 export const CreateOrganizationModal = (
-  props: CreateOrganizationModalProps & ModalProps
+  props: CreateOrganizationModalProps & ModalProps,
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<CreateOrganization>({

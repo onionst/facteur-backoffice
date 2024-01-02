@@ -14,7 +14,7 @@ export type DeleteUserInvitationModalProps = {
 };
 export const DELETE_USER_INVITATION_CONFIRMATION = "discard";
 export const DeleteUserInvitationModal = (
-  props: DeleteUserInvitationModalProps & ModalProps
+  props: DeleteUserInvitationModalProps & ModalProps,
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [confirmation, setConfirmation] = useState<string>("");

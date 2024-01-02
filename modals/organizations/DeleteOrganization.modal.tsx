@@ -14,7 +14,7 @@ export type DeleteOrganizationModalProps = {
   id: string;
 };
 export const DeleteOrganizationModal = (
-  props: DeleteOrganizationModalProps & ModalProps
+  props: DeleteOrganizationModalProps & ModalProps,
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { fetchOrganizationData, deleteOrganization } = useOrganizations();

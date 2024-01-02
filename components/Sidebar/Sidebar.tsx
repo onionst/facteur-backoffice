@@ -1,4 +1,4 @@
-import Logo from "@/bases/logo";
+import Logo from "@/bases/Logo";
 import s from "./Sidebar.module.scss";
 import { ChevronRight, LogOut, Minus, Plus, User } from "react-feather";
 import { SECTIONS } from "@/constants/sections.constant";
@@ -24,11 +24,11 @@ export default function Sidebar(props: SidebarProps) {
         (sections) => {
           return {
             ...sections,
-            sections: sections.sections?.filter((i) =>
-              i?.access?.includes(session.role)
+            sections: sections.sections?.filter(
+              (i) => i?.access?.includes(session.role),
             ),
           };
-        }
+        },
       )
     : [];
 

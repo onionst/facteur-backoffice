@@ -1,4 +1,4 @@
-import Logo from "@/bases/logo";
+import Logo from "@/bases/Logo";
 import { Input } from "../../bases/Input";
 import Button from "@/bases/Button/Button";
 import { FormEvent, useEffect, useState } from "react";

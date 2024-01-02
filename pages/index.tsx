@@ -1,4 +1,4 @@
-import Logo from "@/bases/logo";
+import Logo from "@/bases/Logo";
 
 export default function Index() {
   return (

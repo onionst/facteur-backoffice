@@ -74,7 +74,7 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
             session.role === ROLES.SUPER_ADMIN
               ? selectedOrganization
               : session.organizationId,
-        }))
+        })),
       );
       setInvitations([]);
       setLoading(false);
@@ -102,12 +102,12 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
                 (!organization &&
                   invitations.find((i) =>
                     // @ts-ignore
-                    [ROLES.ADMIN, ROLES.FACT_CHECKER].includes(i.role)
+                    [ROLES.ADMIN, ROLES.FACT_CHECKER].includes(i.role),
                   )) ||
                 (organization &&
                   invitations.find((i) =>
                     // @ts-ignore
-                    [ROLES.SUPER_ADMIN, ROLES.RESEARCHER].includes(i.role)
+                    [ROLES.SUPER_ADMIN, ROLES.RESEARCHER].includes(i.role),
                   ))
               ) {
                 setInvitations([]);
@@ -184,8 +184,9 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
                     onClick={() =>
                       setInvitations((prev) =>
                         prev.filter(
-                          (_invitation) => _invitation.email != invitation.email
-                        )
+                          (_invitation) =>
+                            _invitation.email != invitation.email,
+                        ),
                       )
                     }
                   >

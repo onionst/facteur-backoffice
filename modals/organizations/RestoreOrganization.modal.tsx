@@ -13,7 +13,7 @@ export type RestoreOrganizationModalProps = {
   id: string;
 };
 export const RestoreOrganizationModal = (
-  props: RestoreOrganizationModalProps & ModalProps
+  props: RestoreOrganizationModalProps & ModalProps,
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { fetchOrganizationData, updateOrganization } = useOrganizations();
