@@ -1,5 +1,7 @@
+import { UpdateUser as UpdateUserDto } from '@/dtos/users/updateUser.dto';
 import { api, parseUrl } from './api';
 import { User } from '@/dtos/users/user.dto';
+import { InviteUser as InviteUserDto } from '@/dtos/users/InviteUser.dto';
 
 const PREFIX = '/users';
 
@@ -27,4 +29,17 @@ export const FetchUsers = async (
       nextPage: current < maxPage ? current + 1 : null
     }
   };
+};
+
+export const UpdateUser = async (id: string, payload: UpdateUserDto): Promise<void> => {
+  await api.patch(parseUrl(PREFIX, id), payload);
+};
+export const DeleteUser = async (id: string) => {
+  const response = await api.delete(parseUrl(PREFIX, id));
+  return response?.data;
+};
+
+export const InviteUser = async (invite: InviteUserDto): Promise<User> => {
+  const response = await api.post(parseUrl(PREFIX, 'invite'), invite);
+  return response.data;
 };

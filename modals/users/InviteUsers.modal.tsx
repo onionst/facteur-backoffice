@@ -145,7 +145,7 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
                       },
                       {
                         value: ROLES.ADMIN,
-                        label: 'Admin'
+                        label: 'Administrator'
                       }
                     ]
               }

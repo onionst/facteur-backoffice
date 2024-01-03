@@ -16,7 +16,7 @@ export const DELETE_USER_CONFIRMATION = 'delete';
 export const DeleteUserModal = (props: DeleteUserModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [confirmation, setConfirmation] = useState<string>('');
-  const { fetchUserData } = useUsers();
+  const { fetchUserData, deleteUser } = useUsers();
   const [user, setUser] = useState<Partial<User>>({});
 
   const handleDeleteUser = async (e: FormEvent) => {
@@ -27,7 +27,7 @@ export const DeleteUserModal = (props: DeleteUserModalProps & ModalProps) => {
         setLoading(false);
         return;
       }
-      // await deleteOrganization(props.id);
+      await deleteUser(props.id);
       setLoading(false);
       // @ts-ignore
       props.onCancel();

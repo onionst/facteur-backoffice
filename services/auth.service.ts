@@ -3,7 +3,6 @@ import { api, parseUrl } from './api';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Access } from '@/dtos/access.dto';
 import { Credentials } from '@/dtos/credentials.dto';
-import { InviteUser as InviteUserDto } from '@/dtos/users/InviteUser.dto';
 
 const PREFIX = '/auth';
 
@@ -51,8 +50,4 @@ export const RestorePassword = async (token: string, password: string): Promise<
 
 export const GetSessionData = async () => {
   return await api.get(parseUrl(PREFIX, '/session'));
-};
-
-export const InviteUser = async (invite: InviteUserDto) => {
-  return await api.post(parseUrl(PREFIX, '/invite'), invite);
 };

@@ -60,7 +60,7 @@ export default function SignIn(): JSX.Element {
             <p>Enter your email and password to continue</p>
           </div>
           <div className="ds-sign-in__left-g">
-            <button>
+            <button type="button">
               <span>
                 <Image src="/assets/icons/g-icon.png" width={18} height={18} alt={''} />
                 <span style={{ marginLeft: 12 }}>Continue with Google</span>

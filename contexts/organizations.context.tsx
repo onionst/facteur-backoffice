@@ -187,6 +187,10 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
           };
         })
       );
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'Organization deleted'
+      });
     } catch (err: any) {
       console.error(err);
       if (typeof err?.response?.data?.message === 'object') {

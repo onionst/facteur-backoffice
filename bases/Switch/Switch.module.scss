@@ -1,0 +1,33 @@
+@import '@/styles/app/variables.scss';
+.ds-switch {
+  display: grid;
+  width: 100%;
+  justify-items: flex-start;
+  align-items: center;
+  gap: 8px;
+  & > label {
+    color: $ds-gray-500;
+    font-weight: 400;
+    height: 24px;
+    width: 100%;
+    text-align: start;
+  }
+  &--left {
+    color: $ds-gray-800 !important;
+    font-weight: 500 !important;
+  }
+
+  &--right {
+    color: $ds-primary !important;
+    font-weight: 500 !important;
+  }
+
+  & > input {
+    cursor: pointer;
+    width: 48px !important;
+    &:checked {
+      background-color: $ds-primary !important;
+    }
+    background-color: $ds-gray-400 !important;
+  }
+}

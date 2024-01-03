@@ -70,15 +70,16 @@ export default function Sidebar(props: SidebarProps) {
         <Popover
           trigger={['click']}
           content={
-            <div style={{ width: collapsed ? 120 : 210 }}>
+            <div style={{ width: collapsed ? 200 : 210 }} className={s['ds-sidebar__popup']}>
               <Link href={'/app/account'}>
                 <li className={s['ds-sidebar--collapsed__sections-item']}>
                   <div>
                     <User size={18} strokeWidth={2.3} color="#071437" />
-                    <span>Account</span>
+                    <span>{session.role === ROLES.ADMIN || session.role === ROLES.RESEARCHER ? 'Account & API Keys' : 'Account'}</span>
                   </div>
                 </li>
               </Link>
+
               <li className={s['ds-sidebar--collapsed__sections-item']} onClick={() => signOut()}>
                 <div>
                   <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />
@@ -102,7 +103,7 @@ export default function Sidebar(props: SidebarProps) {
     <aside className={s['ds-sidebar']}>
       <div className={s['ds-sidebar-t']}>
         <section className={s['ds-sidebar__top']}>
-          <Logo size="S" />
+          <Logo size="M" />
           <IconButton onClick={() => setCollapsed(true)}>
             <Minus color="#252f4a" size={18} />
           </IconButton>
@@ -143,15 +144,16 @@ export default function Sidebar(props: SidebarProps) {
         arrow={false}
         trigger={['click']}
         content={
-          <div style={{ width: collapsed ? 200 : 210 }}>
+          <div style={{ width: collapsed ? 200 : 210 }} className={s['ds-sidebar__popup']}>
             <Link href={'/app/account'}>
               <li className={s['ds-sidebar--collapsed__sections-item']}>
                 <div>
                   <User size={18} strokeWidth={2.3} color="#071437" />
-                  <span>Account</span>
+                  <span>{session.role === ROLES.ADMIN || session.role === ROLES.RESEARCHER ? 'Account & API Keys' : 'Account'}</span>
                 </div>
               </li>
             </Link>
+
             <li className={s['ds-sidebar--collapsed__sections-item']} onClick={() => signOut()}>
               <div>
                 <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />

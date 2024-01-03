@@ -37,6 +37,6 @@ export const UpdateOrganization = async (id: string, payload: UpdateOrganization
 };
 
 export const DeleteOrganization = async (id: string) => {
-  const response = await api.delete(parseUrl(PREFIX, id), { params: { id } });
+  const response = await api.delete(parseUrl(PREFIX, id));
   return response?.data;
 };

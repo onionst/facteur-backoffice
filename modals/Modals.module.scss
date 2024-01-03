@@ -1,4 +1,4 @@
-@import "@/styles/app/variables.scss";
+@import '@/styles/app/variables.scss';
 
 .ds-modal-form {
   width: 100% !important;
@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  & * {
+  & > * {
     width: 100% !important;
   }
   &__buttons {

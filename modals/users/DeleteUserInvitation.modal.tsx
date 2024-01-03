@@ -16,7 +16,7 @@ export const DELETE_USER_INVITATION_CONFIRMATION = 'discard';
 export const DeleteUserInvitationModal = (props: DeleteUserInvitationModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [confirmation, setConfirmation] = useState<string>('');
-  const { fetchUserData } = useUsers();
+  const { fetchUserData, deleteUser } = useUsers();
   const [user, setUser] = useState<Partial<User>>({});
 
   const handleDeleteUserInvitation = async (e: FormEvent) => {
@@ -27,7 +27,7 @@ export const DeleteUserInvitationModal = (props: DeleteUserInvitationModalProps 
         setLoading(false);
         return;
       }
-      // await deleteOrganization(props.id);
+      await deleteUser(props.id);
       setLoading(false);
       // @ts-ignore
       props.onCancel();
