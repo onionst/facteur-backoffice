@@ -1,7 +1,6 @@
-import { Popover } from 'antd';
+import { Popover, Tooltip } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { ChevronRight, LogOut, Minus, Plus, User } from 'react-feather';
 import s from './Sidebar.module.scss';
 import IconButton from '@/bases/IconButton/IconButton';
@@ -49,7 +48,7 @@ export default function Sidebar(props: SidebarProps) {
                     {section?.sections?.map(item => {
                       return (
                         <Link href={item?.path || '/app'} key={item?.path}>
-                          <OverlayTrigger placement="right" overlay={<Tooltip placement="right">{item?.name}</Tooltip>}>
+                          <Tooltip placement="right" title={item?.name}>
                             <li
                               className={`${s['ds-sidebar--collapsed__sections-item']} ${
                                 item?.path ? (router.asPath.includes(item?.path) ? s['ds-sidebar__sections-item--selected'] : '') : ''
@@ -57,7 +56,7 @@ export default function Sidebar(props: SidebarProps) {
                             >
                               <div>{item?.icon}</div>
                             </li>
-                          </OverlayTrigger>
+                          </Tooltip>
                         </Link>
                       );
                     })}

@@ -12,6 +12,7 @@ import Row from '@/bases/Row/Row';
 import Switch from '@/bases/Switch/Switch';
 import { ROLES } from '@/constants/roles.constants';
 import { useAuth } from '@/contexts/auth.context';
+import Wrapper from '@/components/Wrapper/Wrapper';
 
 export type EditUserModalProps = {
   id: string;
@@ -54,7 +55,7 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
     <Modal {...props} closeIcon={<X />} key={user?.id}>
       <ModalHeader subTitle="Edit user" title={user?.name ? `Update ${user?.name}'s information` : 'Update the information of the user'} />
       <form className={s['ds-modal-form']} onSubmit={handleUpdateUser}>
-        <Card title="Personal information">
+        <Wrapper>
           <Input
             required
             label="Email"
@@ -76,7 +77,7 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
             value={user?.surname}
             onChange={v => setUser(prev => ({ ...prev, surname: v.target.value }))}
           />
-        </Card>
+        </Wrapper>
         <Row align="SPACE">
           <Card title="2FA">
             <Switch checked={user?.TFA} onChange={TFA => setUser(prev => ({ ...prev, TFA }))} left="Unactive" right="Active" />

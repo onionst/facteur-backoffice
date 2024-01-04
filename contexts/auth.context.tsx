@@ -12,7 +12,14 @@ import { ROLES } from '@/constants/roles.constants';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Credentials } from '@/dtos/credentials.dto';
 import { Session } from '@/dtos/session.dto';
-import { GetSessionData, RestorePassword, SendRestorePasswordEmail, SignInWithEmailAndPassword } from '@/services/auth.service';
+import {
+  GetApiCredentials,
+  GetSessionData,
+  RefreshApiCredentials,
+  RestorePassword,
+  SendRestorePasswordEmail,
+  SignInWithEmailAndPassword
+} from '@/services/auth.service';
 
 export type AuthContextProps = {
   session: Session;
@@ -20,6 +27,8 @@ export type AuthContextProps = {
   signInWithEmailAndPassword: (credentials: Credentials) => Promise<void>;
   sendRestorePasswordEmail: (email: string) => Promise<void>;
   restorePassword: (password: string) => Promise<void>;
+  getApiCredentials: (id?: string, type?: string) => Promise<string>;
+  refreshApiCredentials: (id?: string, type?: string) => Promise<string>;
   signOut: () => Promise<void>;
 };
 export type AuthProviderProps = { children: any };
@@ -46,6 +55,50 @@ export const AuthProvider = (props: AuthProviderProps) => {
   useEffect(() => {
     getSessionData(router.asPath);
   }, []);
+
+  const getApiCredentials = async (id?: string, type?: string) => {
+    try {
+      return await GetApiCredentials(id, type);
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
+
+  const refreshApiCredentials = async (id?: string, type?: string) => {
+    try {
+      return await RefreshApiCredentials(id, type);
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
 
   const getSessionData = async (path: string) => {
     try {
@@ -200,6 +253,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
     signInWithEmailAndPassword,
     sendRestorePasswordEmail,
     restorePassword,
+    getApiCredentials,
+    refreshApiCredentials,
     signOut
   };
 

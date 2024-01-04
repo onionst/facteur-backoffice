@@ -51,3 +51,13 @@ export const RestorePassword = async (token: string, password: string): Promise<
 export const GetSessionData = async () => {
   return await api.get(parseUrl(PREFIX, '/session'));
 };
+
+export const GetApiCredentials = async (id?: string, type?: string): Promise<string> => {
+  const response = await api.get(parseUrl(PREFIX, `/api-credentials${id ? `/${id}?type=${type}` : ''}`));
+  return response?.data;
+};
+
+export const RefreshApiCredentials = async (id?: string, type?: string): Promise<string> => {
+  const response = await api.patch(parseUrl(PREFIX, `/api-credentials${id ? `/${id}?type=${type}` : ''}`));
+  return response?.data;
+};
