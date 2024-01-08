@@ -209,7 +209,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
-          description: 'Invalid or expired link. Please sign in again.'
+          description: 'Invalid or expired link. Please sign in again'
         });
       }
       throw new Error('Forbidden');
@@ -261,8 +261,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
-          description: 'Please try again later'
+          description: 'Invalid or expired link.'
         });
+        router.push('/auth/sign-in');
       }
       throw new Error('Unauthorized');
     }
