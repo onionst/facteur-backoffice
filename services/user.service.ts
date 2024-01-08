@@ -1,7 +1,11 @@
 import { UpdateUser as UpdateUserDto } from '@/dtos/users/updateUser.dto';
-import { api, parseUrl } from './api';
+import { api, customApi, parseUrl } from './api';
+import Store from 'store';
 import { User } from '@/dtos/users/user.dto';
 import { InviteUser as InviteUserDto } from '@/dtos/users/InviteUser.dto';
+import { Join as JoinDto } from '@/dtos/users/Join.dto';
+import { Access } from '@/dtos/access.dto';
+import { STORAGE_KEYS } from '@/constants/store.constant';
 
 const PREFIX = '/users';
 
@@ -42,4 +46,15 @@ export const DeleteUser = async (id: string) => {
 export const InviteUser = async (invite: InviteUserDto): Promise<User> => {
   const response = await api.post(parseUrl(PREFIX, 'invite'), invite);
   return response.data;
+};
+
+export const Join = async (join: JoinDto, token: string): Promise<Access> => {
+  console.log('AUTH!!!', token);
+
+  const response = await customApi.post(parseUrl(PREFIX, '/invite/join'), join, { headers: { Authorization: `Bearer ${token}` } });
+  const access: Access = response.data;
+  if (access.status === 'AUTHORIZED') {
+    Store.set(STORAGE_KEYS.ACCESS_TOKEN, access.token);
+  }
+  return access;
 };

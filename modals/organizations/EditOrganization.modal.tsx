@@ -165,7 +165,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
                   <Input
                     style={{ height: 32, width: '100%', backgroundColor: '#FFF' }}
                     disabled
-                    value={showApiKey ? apiKey : '****************'}
+                    value={showApiKey ? apiKey : '********************************'}
                   />
                   <div>
                     <Row align="RIGHT">

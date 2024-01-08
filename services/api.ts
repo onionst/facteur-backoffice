@@ -9,6 +9,10 @@ export const api = axios.create({
   baseURL: publicRuntimeConfig.PUBLIC_API_URL
 });
 
+export const customApi = axios.create({
+  baseURL: publicRuntimeConfig.PUBLIC_API_URL
+});
+
 api.interceptors.request.use(
   config => {
     const accessToken = Store.get(STORAGE_KEYS.ACCESS_TOKEN, null);

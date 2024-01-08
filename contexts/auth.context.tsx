@@ -3,7 +3,6 @@ import { Spin, notification } from 'antd';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react';
 import Store from 'store';
-
 import { useOrganizations } from './organizations.context';
 import { useUsers } from './users.context';
 import Logo from '@/bases/Logo';
@@ -20,6 +19,8 @@ import {
   SendRestorePasswordEmail,
   SignInWithEmailAndPassword
 } from '@/services/auth.service';
+import { Join } from '@/services/user.service';
+import { Join as JoinDto } from '@/dtos/users/Join.dto';
 
 export type AuthContextProps = {
   session: Session;
@@ -28,6 +29,7 @@ export type AuthContextProps = {
   sendRestorePasswordEmail: (email: string) => Promise<void>;
   restorePassword: (password: string) => Promise<void>;
   getApiCredentials: (id?: string, type?: string) => Promise<string>;
+  acceptInvitation: (join: JoinDto, token: string) => Promise<void>;
   refreshApiCredentials: (id?: string, type?: string) => Promise<string>;
   signOut: () => Promise<void>;
 };
@@ -236,6 +238,36 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
+  const acceptInvitation = async (join: JoinDto, token: string) => {
+    try {
+      if (!token || typeof token != 'string') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Invalid or expired link provided. Please, contact your administrator.'
+        });
+      } else {
+        await Join(join, token);
+        await getSessionData('/app');
+        notification.success({
+          ...NOTIFICATIONS_CONFIG.success,
+          message: 'Welcome Back!',
+          description: "You've successfully signed in"
+        });
+        router.push('/app');
+      }
+    } catch (err: any) {
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      }
+      throw new Error('Forbidden');
+    }
+  };
+
   const signOut = async () => {
     try {
       await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
@@ -253,6 +285,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     signInWithEmailAndPassword,
     sendRestorePasswordEmail,
     restorePassword,
+    acceptInvitation,
     getApiCredentials,
     refreshApiCredentials,
     signOut

@@ -1,4 +1,4 @@
-@import "@/styles/app/variables.scss";
+@import '@/styles/app/variables.scss';
 
 .ds-navbar {
   height: 73px;
@@ -24,6 +24,26 @@
     gap: 20px;
     &-input > div {
       width: 100%;
+    }
+    &-input {
+      &__clip {
+        cursor: pointer;
+        height: 28px;
+        min-height: 28px;
+        max-height: 28px;
+        width: 28px;
+        min-width: 28px;
+        max-width: 28px;
+        border-radius: 0.475rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 200ms;
+        transform: translateX(-56px);
+        &:hover {
+          background-color: $ds-gray-200;
+        }
+      }
     }
     & * {
       height: 42px !important;

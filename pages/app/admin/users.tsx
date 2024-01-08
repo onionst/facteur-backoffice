@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Edit, Mail, RefreshCcw, Trash, Users as UsersIcon, X } from 'react-feather';
+import { Download, Edit, Mail, RefreshCcw, Trash, Users as UsersIcon, X } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -153,21 +153,28 @@ export default function Users() {
           />
         </Page>
         <Row align="SPACE">
-          <span>
-            Showing {users.length} of {page.records} users
-          </span>
-          <Pagination
-            limit={USERS_LIMIT_PER_PAGE}
-            currentPage={page.current + 1}
-            totalRecordsCount={page.records}
-            prevPage={() => {
-              fetchUsers({}, page.current);
-            }}
-            nextPage={() => {
-              fetchUsers({}, page.current + 1 + 1);
-            }}
-            skip={skip => fetchUsers({}, skip)}
-          />
+          <Row align="LEFT">
+            <IconButton>
+              <Download color="#252f4a" size={16} />
+            </IconButton>
+            <span>
+              Showing {users.length} of {page.records} users
+            </span>
+          </Row>
+          <Row align="RIGHT">
+            <Pagination
+              limit={USERS_LIMIT_PER_PAGE}
+              currentPage={page.current + 1}
+              totalRecordsCount={page.records}
+              prevPage={() => {
+                fetchUsers({}, page.current);
+              }}
+              nextPage={() => {
+                fetchUsers({}, page.current + 1 + 1);
+              }}
+              skip={skip => fetchUsers({}, skip)}
+            />
+          </Row>
         </Row>
       </Wrapper>
     </>

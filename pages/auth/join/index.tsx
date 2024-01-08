@@ -6,9 +6,11 @@ import Button from '@/bases/Button/Button';
 import Condition from '@/bases/Condition/Condition';
 import { Input } from '@/bases/Input';
 import Logo from '@/bases/Logo';
+import { useAuth } from '@/contexts/auth.context';
 
 export default function Join() {
   const router = useRouter();
+  const { acceptInvitation } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<{
     token: string;
@@ -45,6 +47,7 @@ export default function Join() {
       }));
     }
     if (router?.query?.t) {
+      console.log(router?.query?.t);
       setForm((prev: any) => ({
         ...prev,
         token: router?.query?.t
@@ -69,10 +72,18 @@ export default function Join() {
     });
   }, [form.password]);
 
-  const handleJoinTeam = (e: FormEvent) => {
+  const handleJoinTeam = async (e: FormEvent) => {
     try {
       e?.preventDefault();
       setLoading(true);
+      await acceptInvitation(
+        {
+          name: form.name,
+          surname: form.surname,
+          password: form.password
+        },
+        form.token
+      );
       setLoading(false);
     } catch (err) {
       console.error(err);
