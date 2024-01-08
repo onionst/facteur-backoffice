@@ -23,7 +23,7 @@ export default function Users() {
   const { session } = useAuth();
   const { users, fetchUsers, page, resendInvitation, ...usersProps } = useUsers();
   const { listOrganizations } = useOrganizations();
-  const { showInviteUsers, showEditUser, showDeleteUserInvitation, showDeleteUser } = modals.users;
+  const { showInviteUsers, showEditUser, showDeleteUserInvitation, showRestoreUser, showDeleteUser } = modals.users;
 
   const [resentsList, setResentsList] = useState<Record<string, boolean>>({});
 
@@ -81,7 +81,7 @@ export default function Users() {
           <Table
             loading={usersProps.loading}
             columns={[
-              'Email',
+              ...(session.role === ROLES.SUPER_ADMIN ? ['Organization', 'Email'] : ['Email']),
               'Name',
               'Surname',
               'State',
@@ -90,7 +90,11 @@ export default function Users() {
               </Row>
             ]}
             data={users.map(user => [
-              user?.email,
+              ...(session.role === ROLES.SUPER_ADMIN
+                ? [ROLES.ADMIN, ROLES.FACT_CHECKER].includes(user.role)
+                  ? [organizations.find(i => i.value === user.organizationId)?.label, user?.email]
+                  : ['-', user?.email]
+                : [user?.email]),
               user?.name || '-',
               user?.surname || '-',
               <div key={user?.id + 'state'}>
@@ -124,7 +128,7 @@ export default function Users() {
                       )}
                     </>
                   ) : (
-                    <IconButton onClick={() => {}}>
+                    <IconButton onClick={() => showRestoreUser(user?.id)}>
                       <RefreshCcw color="#252f4a" size={18} />
                     </IconButton>
                   )
