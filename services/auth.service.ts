@@ -1,5 +1,5 @@
 import Store from 'store';
-import { api, parseUrl } from './api';
+import { api, customApi, parseUrl } from './api';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Access } from '@/dtos/access.dto';
 import { Credentials } from '@/dtos/credentials.dto';
@@ -15,8 +15,8 @@ export const SignInWithEmailAndPassword = async (credentials: Credentials): Prom
   return access.status;
 };
 
-export const signInWithTFAToken = async (TFAToken: string): Promise<'AUTHORIZED'> => {
-  const response = await api.post(
+export const SignInWithTFAToken = async (TFAToken: string): Promise<'AUTHORIZED'> => {
+  const response = await customApi.post(
     parseUrl(PREFIX, '/2fa/sign-in/credentials'),
     {},
     {
@@ -37,7 +37,7 @@ export const SendRestorePasswordEmail = async (email: string): Promise<void> => 
 };
 
 export const RestorePassword = async (token: string, password: string): Promise<void> => {
-  await api.post(
+  await customApi.post(
     parseUrl(PREFIX, '/restore/password'),
     { password },
     {

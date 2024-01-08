@@ -17,7 +17,8 @@ import {
   RefreshApiCredentials,
   RestorePassword,
   SendRestorePasswordEmail,
-  SignInWithEmailAndPassword
+  SignInWithEmailAndPassword,
+  SignInWithTFAToken
 } from '@/services/auth.service';
 import { Join } from '@/services/user.service';
 import { Join as JoinDto } from '@/dtos/users/Join.dto';
@@ -26,6 +27,7 @@ export type AuthContextProps = {
   session: Session;
   loading: boolean;
   signInWithEmailAndPassword: (credentials: Credentials) => Promise<void>;
+  signInWithTFAToken: (token: string) => Promise<void>;
   sendRestorePasswordEmail: (email: string) => Promise<void>;
   restorePassword: (password: string) => Promise<void>;
   getApiCredentials: (id?: string, type?: string) => Promise<string>;
@@ -186,6 +188,34 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
+  const signInWithTFAToken = async (token: string) => {
+    try {
+      await SignInWithTFAToken(token);
+      await getSessionData('/app');
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'Welcome Back!',
+        description: "You've successfully signed in"
+      });
+      router.push('/app');
+    } catch (err: any) {
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Invalid or expired link. Please sign in again.'
+        });
+      }
+      throw new Error('Forbidden');
+    }
+  };
+
   const sendRestorePasswordEmail = async (email: string) => {
     try {
       await SendRestorePasswordEmail(email);
@@ -244,8 +274,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
-          description: 'Invalid or expired link provided. Please, contact your administrator.'
+          description: 'Invalid or expired link. Please, contact your administrator.'
         });
+        router.push('/auth/sign-in');
       } else {
         await Join(join, token);
         await getSessionData('/app');
@@ -283,6 +314,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     session,
     loading,
     signInWithEmailAndPassword,
+    signInWithTFAToken,
     sendRestorePasswordEmail,
     restorePassword,
     acceptInvitation,
