@@ -1,7 +1,7 @@
 version: '3'
 services:
   ee24-backoffice:
-    image: newtral/ee24-backoffice:dev
+    image: newtral/efcsn-backoffice:dev
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,4 +13,4 @@ services:
       - PUBLIC_API_URL=http://localhost:5000
     ports:
       - 3000:3000
-    container_name: ee24-backoffice
+    container_name: efcsn-backoffice
