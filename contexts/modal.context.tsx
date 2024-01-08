@@ -8,6 +8,7 @@ import { DeleteUserModal } from '@/modals/users/DeleteUser.modal';
 import { DeleteUserInvitationModal } from '@/modals/users/DeleteUserInvitation.modal';
 import { EditUserModal } from '@/modals/users/EditUser.modal';
 import { InviteUsersModal } from '@/modals/users/InviteUsers.modal';
+import { RestoreUserModal } from '@/modals/users/RestoreUser.modal';
 
 export const ModalContext = createContext<{
   auth: {
@@ -24,6 +25,7 @@ export const ModalContext = createContext<{
     showDeleteUserInvitation: (id: string) => void;
     showDeleteUser: (id: string) => void;
     showEditUser: (id: string) => void;
+    showRestoreUser: (id: string) => void;
   };
   // @ts-ignore
 }>({});
@@ -43,6 +45,8 @@ export const ModalProvider = (props: { children: any }) => {
   const [deleteUserInvitationActive, setDeleteUserInvitationActive] = useState<string>('');
   const [deleteUserActive, setDeleteUserActive] = useState<string>('');
   const [editUserActive, setEditUserActive] = useState<string>('');
+  const [restoreUserActive, setRestoreUserActive] = useState<string>('');
+
   // <!--- users --->
 
   const context = {
@@ -59,7 +63,8 @@ export const ModalProvider = (props: { children: any }) => {
       showInviteUsers: () => setInviteUsersActive(Date.now().toString()),
       showDeleteUserInvitation: (id: string) => setDeleteUserInvitationActive(id),
       showDeleteUser: (id: string) => setDeleteUserActive(id),
-      showEditUser: (id: string) => setEditUserActive(id)
+      showEditUser: (id: string) => setEditUserActive(id),
+      showRestoreUser: (id: string) => setRestoreUserActive(id)
     }
   };
 
@@ -117,6 +122,13 @@ export const ModalProvider = (props: { children: any }) => {
           open={deleteUserActive != ''}
         />
         <EditUserModal footer={null} width={424} onCancel={() => setEditUserActive('')} id={editUserActive} open={editUserActive != ''} />
+        <RestoreUserModal
+          footer={null}
+          width={424}
+          open={restoreUserActive != ''}
+          id={restoreUserActive}
+          onCancel={() => setRestoreUserActive('')}
+        />
         {props.children}
       </>
     </ModalContext.Provider>

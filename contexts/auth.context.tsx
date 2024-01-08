@@ -3,7 +3,6 @@ import { Spin, notification } from 'antd';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react';
 import Store from 'store';
-
 import { useOrganizations } from './organizations.context';
 import { useUsers } from './users.context';
 import Logo from '@/bases/Logo';
@@ -12,14 +11,28 @@ import { ROLES } from '@/constants/roles.constants';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Credentials } from '@/dtos/credentials.dto';
 import { Session } from '@/dtos/session.dto';
-import { GetSessionData, RestorePassword, SendRestorePasswordEmail, SignInWithEmailAndPassword } from '@/services/auth.service';
+import {
+  GetApiCredentials,
+  GetSessionData,
+  RefreshApiCredentials,
+  RestorePassword,
+  SendRestorePasswordEmail,
+  SignInWithEmailAndPassword,
+  SignInWithTFAToken
+} from '@/services/auth.service';
+import { Join } from '@/services/user.service';
+import { Join as JoinDto } from '@/dtos/users/Join.dto';
 
 export type AuthContextProps = {
   session: Session;
   loading: boolean;
   signInWithEmailAndPassword: (credentials: Credentials) => Promise<void>;
+  signInWithTFAToken: (token: string) => Promise<void>;
   sendRestorePasswordEmail: (email: string) => Promise<void>;
   restorePassword: (password: string) => Promise<void>;
+  getApiCredentials: (id?: string, type?: string) => Promise<string>;
+  acceptInvitation: (join: JoinDto, token: string) => Promise<void>;
+  refreshApiCredentials: (id?: string, type?: string) => Promise<string>;
   signOut: () => Promise<void>;
 };
 export type AuthProviderProps = { children: any };
@@ -46,6 +59,50 @@ export const AuthProvider = (props: AuthProviderProps) => {
   useEffect(() => {
     getSessionData(router.asPath);
   }, []);
+
+  const getApiCredentials = async (id?: string, type?: string) => {
+    try {
+      return await GetApiCredentials(id, type);
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
+
+  const refreshApiCredentials = async (id?: string, type?: string) => {
+    try {
+      return await RefreshApiCredentials(id, type);
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
 
   const getSessionData = async (path: string) => {
     try {
@@ -131,6 +188,34 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
+  const signInWithTFAToken = async (token: string) => {
+    try {
+      await SignInWithTFAToken(token);
+      await getSessionData('/app');
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'Welcome Back!',
+        description: "You've successfully signed in"
+      });
+      router.push('/app');
+    } catch (err: any) {
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Invalid or expired link. Please sign in again'
+        });
+      }
+      throw new Error('Forbidden');
+    }
+  };
+
   const sendRestorePasswordEmail = async (email: string) => {
     try {
       await SendRestorePasswordEmail(email);
@@ -176,10 +261,42 @@ export const AuthProvider = (props: AuthProviderProps) => {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
-          description: 'Please try again later'
+          description: 'Invalid or expired link.'
         });
+        router.push('/auth/sign-in');
       }
       throw new Error('Unauthorized');
+    }
+  };
+
+  const acceptInvitation = async (join: JoinDto, token: string) => {
+    try {
+      if (!token || typeof token != 'string') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Invalid or expired link. Please, contact your administrator.'
+        });
+        router.push('/auth/sign-in');
+      } else {
+        await Join(join, token);
+        await getSessionData('/app');
+        notification.success({
+          ...NOTIFICATIONS_CONFIG.success,
+          message: 'Welcome Back!',
+          description: "You've successfully signed in"
+        });
+        router.push('/app');
+      }
+    } catch (err: any) {
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      }
+      throw new Error('Forbidden');
     }
   };
 
@@ -198,8 +315,12 @@ export const AuthProvider = (props: AuthProviderProps) => {
     session,
     loading,
     signInWithEmailAndPassword,
+    signInWithTFAToken,
     sendRestorePasswordEmail,
     restorePassword,
+    acceptInvitation,
+    getApiCredentials,
+    refreshApiCredentials,
     signOut
   };
 

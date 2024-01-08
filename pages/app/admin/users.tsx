@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Edit, Mail, RefreshCcw, Trash, Users as UsersIcon, X } from 'react-feather';
+import { Download, Edit, Mail, RefreshCcw, Trash, Users as UsersIcon, X } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -23,7 +23,7 @@ export default function Users() {
   const { session } = useAuth();
   const { users, fetchUsers, page, resendInvitation, ...usersProps } = useUsers();
   const { listOrganizations } = useOrganizations();
-  const { showInviteUsers, showEditUser, showDeleteUserInvitation, showDeleteUser } = modals.users;
+  const { showInviteUsers, showEditUser, showDeleteUserInvitation, showRestoreUser, showDeleteUser } = modals.users;
 
   const [resentsList, setResentsList] = useState<Record<string, boolean>>({});
 
@@ -81,7 +81,7 @@ export default function Users() {
           <Table
             loading={usersProps.loading}
             columns={[
-              'Email',
+              ...(session.role === ROLES.SUPER_ADMIN ? ['Organization', 'Email'] : ['Email']),
               'Name',
               'Surname',
               'State',
@@ -90,7 +90,11 @@ export default function Users() {
               </Row>
             ]}
             data={users.map(user => [
-              user?.email,
+              ...(session.role === ROLES.SUPER_ADMIN
+                ? [ROLES.ADMIN, ROLES.FACT_CHECKER].includes(user.role)
+                  ? [organizations.find(i => i.value === user.organizationId)?.label, user?.email]
+                  : ['-', user?.email]
+                : [user?.email]),
               user?.name || '-',
               user?.surname || '-',
               <div key={user?.id + 'state'}>
@@ -124,7 +128,7 @@ export default function Users() {
                       )}
                     </>
                   ) : (
-                    <IconButton onClick={() => {}}>
+                    <IconButton onClick={() => showRestoreUser(user?.id)}>
                       <RefreshCcw color="#252f4a" size={18} />
                     </IconButton>
                   )
@@ -153,21 +157,28 @@ export default function Users() {
           />
         </Page>
         <Row align="SPACE">
-          <span>
-            Showing {users.length} of {page.records} users
-          </span>
-          <Pagination
-            limit={USERS_LIMIT_PER_PAGE}
-            currentPage={page.current + 1}
-            totalRecordsCount={page.records}
-            prevPage={() => {
-              fetchUsers({}, page.current);
-            }}
-            nextPage={() => {
-              fetchUsers({}, page.current + 1 + 1);
-            }}
-            skip={skip => fetchUsers({}, skip)}
-          />
+          <Row align="LEFT">
+            <IconButton>
+              <Download color="#252f4a" size={16} />
+            </IconButton>
+            <span>
+              Showing {users.length} of {page.records} users
+            </span>
+          </Row>
+          <Row align="RIGHT">
+            <Pagination
+              limit={USERS_LIMIT_PER_PAGE}
+              currentPage={page.current + 1}
+              totalRecordsCount={page.records}
+              prevPage={() => {
+                fetchUsers({}, page.current);
+              }}
+              nextPage={() => {
+                fetchUsers({}, page.current + 1 + 1);
+              }}
+              skip={skip => fetchUsers({}, skip)}
+            />
+          </Row>
         </Row>
       </Wrapper>
     </>

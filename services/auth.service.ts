@@ -1,9 +1,8 @@
 import Store from 'store';
-import { api, parseUrl } from './api';
+import { api, customApi, parseUrl } from './api';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Access } from '@/dtos/access.dto';
 import { Credentials } from '@/dtos/credentials.dto';
-import { InviteUser as InviteUserDto } from '@/dtos/users/InviteUser.dto';
 
 const PREFIX = '/auth';
 
@@ -16,8 +15,8 @@ export const SignInWithEmailAndPassword = async (credentials: Credentials): Prom
   return access.status;
 };
 
-export const signInWithTFAToken = async (TFAToken: string): Promise<'AUTHORIZED'> => {
-  const response = await api.post(
+export const SignInWithTFAToken = async (TFAToken: string): Promise<'AUTHORIZED'> => {
+  const response = await customApi.post(
     parseUrl(PREFIX, '/2fa/sign-in/credentials'),
     {},
     {
@@ -38,7 +37,7 @@ export const SendRestorePasswordEmail = async (email: string): Promise<void> => 
 };
 
 export const RestorePassword = async (token: string, password: string): Promise<void> => {
-  await api.post(
+  await customApi.post(
     parseUrl(PREFIX, '/restore/password'),
     { password },
     {
@@ -53,6 +52,12 @@ export const GetSessionData = async () => {
   return await api.get(parseUrl(PREFIX, '/session'));
 };
 
-export const InviteUser = async (invite: InviteUserDto) => {
-  return await api.post(parseUrl(PREFIX, '/invite'), invite);
+export const GetApiCredentials = async (id?: string, type?: string): Promise<string> => {
+  const response = await api.get(parseUrl(PREFIX, `/api-credentials${id ? `/${id}?type=${type}` : ''}`));
+  return response?.data;
+};
+
+export const RefreshApiCredentials = async (id?: string, type?: string): Promise<string> => {
+  const response = await api.patch(parseUrl(PREFIX, `/api-credentials${id ? `/${id}?type=${type}` : ''}`));
+  return response?.data;
 };

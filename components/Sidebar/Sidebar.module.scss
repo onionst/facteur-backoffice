@@ -1,4 +1,4 @@
-@import "@/styles/app/variables.scss";
+@import '@/styles/app/variables.scss';
 
 .ds-sidebar {
   position: fixed;
@@ -16,6 +16,12 @@
   height: 100dvh;
   &-t {
     width: 100%;
+  }
+  &__popup {
+    // margin-right: 24px;
+    & li {
+      justify-content: flex-start !important;
+    }
   }
   &__top {
     display: flex;

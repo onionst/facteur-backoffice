@@ -1,4 +1,4 @@
-import { Plus } from 'react-feather';
+import { Paperclip, Plus } from 'react-feather';
 import s from './Navbar.module.scss';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
@@ -29,6 +29,9 @@ export default function Navbar(props: NavbarProps) {
           </IconButton>
         )}
         <Input className={s['ds-navbar__left-input']} placeholder="Search in the EE24 dataset..." />
+        <div className={s['ds-navbar__left-input__clip']}>
+          <Paperclip size={18} color="#4b5675" />
+        </div>
       </section>
       <section className={s['ds-navbar__right']}>
         {[ROLES.ADMIN, ROLES.FACT_CHECKER].includes(session.role) && (

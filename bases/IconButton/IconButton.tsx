@@ -1,12 +1,14 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react';
 import s from './IconButton.module.scss';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
-export type IconButtonProps = { children: ReactNode };
+export type IconButtonProps = { children: ReactNode; loading?: boolean };
 
 export default function IconButton(props: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & IconButtonProps) {
   return (
-    <button className={s['ds-icon-button']} {...props}>
-      {props.children}
+    <button {...props} disabled={props.loading || props.disabled} className={s['ds-icon-button']}>
+      {props.loading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 18, color: '#FFF' }} />} /> : props.children}
     </button>
   );
 }

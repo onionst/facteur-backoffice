@@ -12,7 +12,7 @@ import { Credentials } from '@/dtos/credentials.dto';
 export default function SignIn(): JSX.Element {
   const router = useRouter();
   const modals = useModal();
-  const { signInWithEmailAndPassword } = useAuth();
+  const { signInWithEmailAndPassword, signInWithTFAToken } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<Credentials>({
     email: '',
@@ -21,8 +21,19 @@ export default function SignIn(): JSX.Element {
   const { showTFAEmailSent } = modals.auth;
 
   useEffect(() => {
-    if (router.query?.tfa === 'pending') {
-      showTFAEmailSent();
+    try {
+      if (router.query?.tfa === 'pending') {
+        showTFAEmailSent();
+      }
+
+      if (router?.query?.t) {
+        const token = router?.query?.t;
+        if (token && typeof token === 'string') {
+          signInWithTFAToken(token);
+        }
+      }
+    } catch (err) {
+      console.error(err);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);
@@ -60,7 +71,7 @@ export default function SignIn(): JSX.Element {
             <p>Enter your email and password to continue</p>
           </div>
           <div className="ds-sign-in__left-g">
-            <button>
+            <button type="button">
               <span>
                 <Image src="/assets/icons/g-icon.png" width={18} height={18} alt={''} />
                 <span style={{ marginLeft: 12 }}>Continue with Google</span>

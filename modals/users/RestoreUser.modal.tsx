@@ -9,25 +9,32 @@ import Wrapper from '@/components/Wrapper/Wrapper';
 import { useUsers } from '@/contexts/users.context';
 import { User } from '@/dtos/users/user.dto';
 
-export type DeleteUserModalProps = {
+export type RestoreUserModalProps = {
   id: string;
 };
-export const DELETE_USER_CONFIRMATION = 'delete';
-export const DeleteUserModal = (props: DeleteUserModalProps & ModalProps) => {
+export const RESTORE_USER_CONFIRMATION = 'confirm';
+export const RestoreUserModal = (props: RestoreUserModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [confirmation, setConfirmation] = useState<string>('');
-  const { fetchUserData, deleteUser } = useUsers();
+  const { fetchUserData, updateUser } = useUsers();
   const [user, setUser] = useState<Partial<User>>({});
 
-  const handleDeleteUser = async (e: FormEvent) => {
+  const handleRestoreUser = async (e: FormEvent) => {
     try {
       e?.preventDefault();
       setLoading(true);
-      if (confirmation?.toLowerCase() != DELETE_USER_CONFIRMATION) {
+      if (confirmation?.toLowerCase() != RESTORE_USER_CONFIRMATION) {
         setLoading(false);
         return;
       }
-      await deleteUser(props.id);
+      await updateUser(props.id, {
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        TFA: user.TFA,
+        active: true,
+        role: user.role
+      });
       setLoading(false);
       // @ts-ignore
       props.onCancel();
@@ -58,25 +65,25 @@ export const DeleteUserModal = (props: DeleteUserModalProps & ModalProps) => {
     <Modal {...props} closeIcon={<X />}>
       <ModalHeader
         type="ATTENTION"
-        subTitle="Delete user"
+        subTitle="Restore user"
         title={
-          user?.email ? `Are you sure you want to delete ${user?.name} ${user?.surname}?` : 'Are you sure you want to delete this user?'
+          user?.email ? `Are you sure you want to restore ${user?.name} ${user?.surname}?` : 'Are you sure you want to restore this user?'
         }
       />
-      <form className={s['ds-modal-form']} onSubmit={handleDeleteUser}>
+      <form className={s['ds-modal-form']} onSubmit={handleRestoreUser}>
         <Wrapper>
           <Input
             required
-            label={`Write '${DELETE_USER_CONFIRMATION}' to delete this user`}
-            placeholder="Delete confirmation"
+            label={`Write '${RESTORE_USER_CONFIRMATION}' to restore this user`}
+            placeholder="Restore confirmation"
             value={confirmation}
             onChange={v => setConfirmation(v.target.value)}
           />
         </Wrapper>
 
         <div className={s['ds-modal-form__buttons']}>
-          <Button loading={loading} disabled={confirmation?.toLowerCase() != DELETE_USER_CONFIRMATION} theme="ATTENTION">
-            Delete
+          <Button loading={loading} disabled={confirmation?.toLowerCase() != RESTORE_USER_CONFIRMATION} theme="ATTENTION">
+            Restore
           </Button>
           <Button type="button" onClick={props.onCancel} theme="SECONDARY">
             Cancel

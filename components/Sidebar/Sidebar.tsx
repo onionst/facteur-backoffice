@@ -1,7 +1,6 @@
-import { Popover } from 'antd';
+import { Popover, Tooltip } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { ChevronRight, LogOut, Minus, Plus, User } from 'react-feather';
 import s from './Sidebar.module.scss';
 import IconButton from '@/bases/IconButton/IconButton';
@@ -49,7 +48,7 @@ export default function Sidebar(props: SidebarProps) {
                     {section?.sections?.map(item => {
                       return (
                         <Link href={item?.path || '/app'} key={item?.path}>
-                          <OverlayTrigger placement="right" overlay={<Tooltip placement="right">{item?.name}</Tooltip>}>
+                          <Tooltip placement="right" title={item?.name}>
                             <li
                               className={`${s['ds-sidebar--collapsed__sections-item']} ${
                                 item?.path ? (router.asPath.includes(item?.path) ? s['ds-sidebar__sections-item--selected'] : '') : ''
@@ -57,7 +56,7 @@ export default function Sidebar(props: SidebarProps) {
                             >
                               <div>{item?.icon}</div>
                             </li>
-                          </OverlayTrigger>
+                          </Tooltip>
                         </Link>
                       );
                     })}
@@ -70,15 +69,16 @@ export default function Sidebar(props: SidebarProps) {
         <Popover
           trigger={['click']}
           content={
-            <div style={{ width: collapsed ? 120 : 210 }}>
+            <div style={{ width: collapsed ? 200 : 210 }} className={s['ds-sidebar__popup']}>
               <Link href={'/app/account'}>
                 <li className={s['ds-sidebar--collapsed__sections-item']}>
                   <div>
                     <User size={18} strokeWidth={2.3} color="#071437" />
-                    <span>Account</span>
+                    <span>{session.role === ROLES.ADMIN || session.role === ROLES.RESEARCHER ? 'Account & API Keys' : 'Account'}</span>
                   </div>
                 </li>
               </Link>
+
               <li className={s['ds-sidebar--collapsed__sections-item']} onClick={() => signOut()}>
                 <div>
                   <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />
@@ -102,7 +102,7 @@ export default function Sidebar(props: SidebarProps) {
     <aside className={s['ds-sidebar']}>
       <div className={s['ds-sidebar-t']}>
         <section className={s['ds-sidebar__top']}>
-          <Logo size="S" />
+          <Logo size="M" />
           <IconButton onClick={() => setCollapsed(true)}>
             <Minus color="#252f4a" size={18} />
           </IconButton>
@@ -143,15 +143,16 @@ export default function Sidebar(props: SidebarProps) {
         arrow={false}
         trigger={['click']}
         content={
-          <div style={{ width: collapsed ? 200 : 210 }}>
+          <div style={{ width: collapsed ? 200 : 210 }} className={s['ds-sidebar__popup']}>
             <Link href={'/app/account'}>
               <li className={s['ds-sidebar--collapsed__sections-item']}>
                 <div>
                   <User size={18} strokeWidth={2.3} color="#071437" />
-                  <span>Account</span>
+                  <span>{session.role === ROLES.ADMIN || session.role === ROLES.RESEARCHER ? 'Account & API Keys' : 'Account'}</span>
                 </div>
               </li>
             </Link>
+
             <li className={s['ds-sidebar--collapsed__sections-item']} onClick={() => signOut()}>
               <div>
                 <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />
