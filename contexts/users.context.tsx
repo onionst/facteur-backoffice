@@ -3,7 +3,8 @@ import { createContext, useContext, useState } from 'react';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { InviteUser as InviteUserDto } from '@/dtos/users/InviteUser.dto';
 import { User } from '@/dtos/users/user.dto';
-import { DeleteUser, FetchUsers, InviteUser } from '@/services/user.service';
+import { DeleteUser, FetchUsers, InviteUser, UpdateUser } from '@/services/user.service';
+import { UpdateUser as UpdateUserDto } from '@/dtos/users/updateUser.dto';
 
 export type UsersPage = {
   records: number;
@@ -18,8 +19,9 @@ export type UsersContextProps = {
   fetchUserData: (id: string) => Promise<User | undefined>;
   fetchUsers: (filter?: any, pageIndex?: number) => Promise<void>;
   inviteUser: (payload: InviteUserDto[]) => Promise<void>;
-  deleteUser: (id: string) => Promise<void>;
   resendInvitation: (id: string) => Promise<void>;
+  deleteUser: (id: string) => Promise<void>;
+  updateUser: (id: string, payload: UpdateUserDto) => Promise<void>;
 };
 
 export const USERS_LIMIT_PER_PAGE = 20;
@@ -124,6 +126,43 @@ export const UsersProvider = (props: UsersProviderProps) => {
     }
   };
 
+  const updateUser = async (id: string, payload: UpdateUserDto) => {
+    try {
+      await UpdateUser(id, payload);
+      setUsers(prev =>
+        prev.map(user => {
+          if (user.id != id) {
+            return user;
+          }
+          return {
+            ...user,
+            ...payload
+          };
+        })
+      );
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'User updated'
+      });
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
+
   const deleteUser = async (id: string) => {
     try {
       await DeleteUser(id);
@@ -177,6 +216,7 @@ export const UsersProvider = (props: UsersProviderProps) => {
     inviteUser,
     fetchUserData,
     resendInvitation,
+    updateUser,
     deleteUser
   };
   return <UsersContext.Provider value={context}>{props.children}</UsersContext.Provider>;

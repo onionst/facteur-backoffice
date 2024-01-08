@@ -49,8 +49,6 @@ export const InviteUser = async (invite: InviteUserDto): Promise<User> => {
 };
 
 export const Join = async (join: JoinDto, token: string): Promise<Access> => {
-  console.log('AUTH!!!', token);
-
   const response = await customApi.post(parseUrl(PREFIX, '/invite/join'), join, { headers: { Authorization: `Bearer ${token}` } });
   const access: Access = response.data;
   if (access.status === 'AUTHORIZED') {

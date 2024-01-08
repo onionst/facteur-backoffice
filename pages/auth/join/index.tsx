@@ -47,7 +47,6 @@ export default function Join() {
       }));
     }
     if (router?.query?.t) {
-      console.log(router?.query?.t);
       setForm((prev: any) => ({
         ...prev,
         token: router?.query?.t

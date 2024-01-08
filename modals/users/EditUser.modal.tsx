@@ -25,7 +25,7 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
   const [refreshingApiKey, setRefreshingApiKey] = useState<boolean>(false);
   const [apiKey, setApiKey] = useState<string>('');
   const [showApiKey, setShowApiKey] = useState<boolean>(false);
-  const { fetchUserData } = useUsers();
+  const { fetchUserData, updateUser } = useUsers();
   const { session, getApiCredentials, refreshApiCredentials } = useAuth();
   const [user, setUser] = useState<Partial<User>>({});
 
@@ -33,6 +33,14 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
     try {
       e?.preventDefault();
       setLoading(true);
+      await updateUser(props.id, {
+        name: user?.name,
+        surname: user?.surname,
+        email: user.email,
+        TFA: user.TFA,
+        role: user.role,
+        organizationId: user.organizationId
+      });
       setLoading(false);
       // @ts-ignore
       props.onCancel();
