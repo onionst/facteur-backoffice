@@ -15,6 +15,9 @@ import { useAuth } from '@/contexts/auth.context';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import IconButton from '@/bases/IconButton/IconButton';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
+import { useOrganizations } from '@/contexts/organizations.context';
+import Select from '@/bases/Select';
+import { Organization } from '@/dtos/organizations/organization.dto';
 
 export type EditUserModalProps = {
   id: string;
@@ -26,9 +29,21 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
   const [apiKey, setApiKey] = useState<string>('');
   const [showApiKey, setShowApiKey] = useState<boolean>(false);
   const { fetchUserData, updateUser } = useUsers();
+  const { listOrganizations } = useOrganizations();
   const { session, getApiCredentials, refreshApiCredentials } = useAuth();
   const [user, setUser] = useState<Partial<User>>({});
+  const [organizations, setOrganizations] = useState<Array<Partial<Organization>>>([]);
 
+  const handleListOrganizations = async () => {
+    if (session.role === ROLES.SUPER_ADMIN) {
+      setOrganizations(await listOrganizations());
+    }
+  };
+
+  useEffect(() => {
+    handleListOrganizations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.open, session]);
   const handleUpdateUser = async (e: FormEvent) => {
     try {
       e?.preventDefault();
@@ -98,6 +113,25 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
         <Tabs>
           <Tabs.TabPane key={0} tab="Information">
             <Wrapper>
+              {session.role === ROLES.SUPER_ADMIN && (
+                <Select
+                  defaultValue={user?.organizationId}
+                  label="Organization"
+                  onChange={organization => {
+                    setUser((prev: any) => ({ ...prev, organizationId: organization }));
+                  }}
+                  options={[
+                    {
+                      value: '',
+                      label: ''
+                    },
+                    ...organizations.map(i => ({
+                      value: i?.id || '',
+                      label: i?.name || ''
+                    }))
+                  ]}
+                />
+              )}
               <Input
                 required
                 label="Email"
