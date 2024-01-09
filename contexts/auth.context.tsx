@@ -125,13 +125,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
           setLoading(true);
         }
         const { data } = await GetSessionData();
-        setSession({
-          email: data?.email,
-          role: data?.role,
-          name: data?.name,
-          surname: data?.surname,
-          organizationId: data?.organizationId
-        });
+        setSession(data);
 
         if (data?.role === ROLES.SUPER_ADMIN) {
           organizations.fetchOrganizations({});

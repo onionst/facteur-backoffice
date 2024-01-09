@@ -53,9 +53,9 @@ export default function New() {
           {step === 1 ? (
             articleType ? (
               [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
-                <DebunkArticleDraftForm type={articleType} />
+                <DebunkArticleDraftForm type={articleType} onContinue={() => setStep(2)} />
               ) : (
-                <ArticleDraftForm type={articleType} />
+                <ArticleDraftForm type={articleType} onContinue={() => setStep(2)} />
               )
             ) : null
           ) : null}

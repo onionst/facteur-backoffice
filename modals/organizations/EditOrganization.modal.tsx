@@ -212,7 +212,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
                     </Row>
                   </div>
                 </Row>
-                <p>Secret keys grants access to the API. Keep key safe and do not expose it.</p>
+                <p style={{ color: '#252f4a', margin: 0 }}>Secret keys grants access to the API. Keep key safe and do not expose it.</p>
               </Card>
             ) : (
               <Card>
