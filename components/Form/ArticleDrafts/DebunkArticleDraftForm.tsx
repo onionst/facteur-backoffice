@@ -12,6 +12,8 @@ import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
+import { ReviewRating } from '@/constants/ratings';
+import { Topic } from '@/constants/topics';
 
 export type DebunkArticleDraftFormProps = {};
 export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProps & IArticleDraft) {
@@ -64,7 +66,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
           <Divider style={{ margin: '8px 0' }} />
 
           <Row align="SPACE">
-            <Input label="Keywords" placeholder="Ukraine, Covid, EE24" />
+            <Input label="Keywords (comma separated)" placeholder="Ukraine, Covid, EE24" />
             <Select
               label="Language"
               // defaultValue={form?.language}
@@ -79,7 +81,18 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             />
           </Row>
           <Row align="SPACE">
-            <Input label="Topics" placeholder="Migration, Religion" />
+            <Select
+              label="Topics"
+              // defaultValue={form?.country}
+              options={[
+                { label: "Article's topic", value: '' },
+                ...Object.entries(Topic).map(([key, value]) => ({
+                  value: key.split('_').join(' '),
+                  label: value.split('_').join(' ')
+                }))
+              ]}
+              // onChange={v => setForm(prev => ({ ...prev, country: v }))}
+            />
             <Select
               label="EU Relation"
               // defaultValue={form?.language}
@@ -95,7 +108,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               label="Country of Origin"
               // defaultValue={form?.country}
               options={[
-                { label: "Organization's country", value: '' },
+                { label: 'Country of Origin', value: '' },
                 ...Object.entries(CountryISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
@@ -107,7 +120,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               label="Content location"
               // defaultValue={form?.country}
               options={[
-                { label: "Organization's country", value: '' },
+                { label: 'Content location', value: '' },
                 ...Object.entries(CountryISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
@@ -121,7 +134,18 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
           <h4>Claim Details</h4>
           <Divider style={{ margin: '8px 0' }} />
           <Input label="Claim reviewed" type="text" minLength={10} required placeholder="Quoted hours are falling in Spain" />
-          <Input label="Rating" type="text" minLength={3} required placeholder="False" />
+          <Select
+            label="Rating"
+            required
+            // defaultValue={form?.country}
+            options={[
+              ...Object.entries(ReviewRating).map(([key, value]) => ({
+                value: key.split('_').join(' '),
+                label: value.split('_').join(' ')
+              }))
+            ]}
+            // onChange={v => setForm(prev => ({ ...prev, country: v }))}
+          />
           <Input label="Associated claim reviews url">
             <Input placeholder="https://example.com/factchecking/article-020202" />
             <span>

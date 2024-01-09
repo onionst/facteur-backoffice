@@ -22,6 +22,11 @@ const theme: ThemeConfig = {
       activeBorderColor: '#C4CADA',
       boxShadow: 'none',
       activeShadow: 'none'
+    },
+    Select: {
+      motion: false,
+
+      boxShadow: 'none'
     }
   }
 };

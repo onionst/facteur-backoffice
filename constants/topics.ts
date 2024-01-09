@@ -1,0 +1,21 @@
+export enum Topic {
+  PoliticsRelatedWithTheEu = 'Politics related with the EU',
+  NationalRegionalContextIssues = 'National-Regional context issues',
+  Legislation = 'Legislation',
+  Migration = 'Migration',
+  Gender = 'Gender',
+  Religion = 'Religion',
+  Climate = 'Climate',
+  Terrorism = 'Terrorism',
+  UkraineWar = 'Ukraine war',
+  IsraelGaza = 'Israel - Gaza',
+  EuFunds = 'EU funds',
+  ElectionIntegrity = 'Election integrity',
+  EuInstitutions = 'EU institutions',
+  Agenda2030 = 'Agenda 2030',
+  SecurityAndDefense = 'Security and defense',
+  Economy = 'Economy',
+  Energy = 'Energy',
+  Covid19 = 'Covid 19',
+  Others = 'Others'
+}

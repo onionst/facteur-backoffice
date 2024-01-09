@@ -1,0 +1,11 @@
+.ds-tagger {
+  &__tags {
+    position: absolute;
+    top: 0.775rem;
+    right: 0;
+    overflow: hidden;
+    display: flex;
+    overflow: hidden;
+    width: calc(100% - 100px);
+  }
+}
