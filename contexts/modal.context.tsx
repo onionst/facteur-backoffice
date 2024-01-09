@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { CreateOrganizationModal } from '@/modals/organizations/CreateOrganization.modal';
 import { DeleteOrganizationModal } from '@/modals/organizations/DeleteOrganization.modal';
 import { EditOrganizationModal } from '@/modals/organizations/EditOrganization.modal';
@@ -10,6 +10,7 @@ import { EditUserModal } from '@/modals/users/EditUser.modal';
 import { InviteUsersModal } from '@/modals/users/InviteUsers.modal';
 import { RestoreUserModal } from '@/modals/users/RestoreUser.modal';
 import { AccountModal } from '@/modals/Account.modal';
+import { useAuth } from './auth.context';
 
 export const ModalContext = createContext<{
   auth: {
@@ -33,6 +34,7 @@ export const ModalContext = createContext<{
 }>({});
 
 export const ModalProvider = (props: { children: any }) => {
+  const { session } = useAuth();
   // <--- auth --->
   const [emailSentActive, setEmailSentActive] = useState<boolean>(false);
   const [accountActive, setAccountActive] = useState<boolean>(false);
@@ -52,6 +54,20 @@ export const ModalProvider = (props: { children: any }) => {
   const [editUserActive, setEditUserActive] = useState<string>('');
   const [restoreUserActive, setRestoreUserActive] = useState<string>('');
   // <!--- users --->
+
+  useEffect(() => {
+    setEmailSentActive(false);
+    setAccountActive(false);
+    setCreateOrganizationActive('');
+    setEditOrganizationActive('');
+    setDeleteOrganizationActive('');
+    setRestoreOrganizationActive('');
+    setInviteUsersActive('');
+    setDeleteUserInvitationActive('');
+    setDeleteUserActive('');
+    setEditUserActive('');
+    setRestoreUserActive('');
+  }, [session]);
 
   const context = {
     auth: {

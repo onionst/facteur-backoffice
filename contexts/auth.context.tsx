@@ -296,6 +296,13 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
   const signOut = async () => {
     try {
+      setSession({
+        email: '',
+        role: ROLES.VIEWER,
+        name: '',
+        surname: '',
+        organizationId: ''
+      });
       await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
       router.push('/auth/sign-in');
     } catch (err) {

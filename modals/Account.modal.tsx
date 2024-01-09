@@ -78,6 +78,11 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
           <Preset title="Email" value={session.email} />
         </Page>
       </Card>
+      <Card style={{ marginTop: 16 }} title="Security">
+        <Page>
+          <Preset title="Two factor authentication" value={session.TFA ? 'Active' : 'Unactive'} />
+        </Page>
+      </Card>
       {(session.role === ROLES.RESEARCHER || session.role === ROLES.ADMIN) &&
         (loadingApiKey ? (
           <Card style={{ marginTop: 16 }}>
