@@ -15,6 +15,8 @@ export type SidebarProps = {
   collapsed: boolean;
   style?: CSSProperties;
   setCollapsed: (v: boolean) => void;
+  mobile?: boolean;
+  onClose?: () => void;
 };
 
 export default function Sidebar(props: SidebarProps) {
@@ -122,7 +124,7 @@ export default function Sidebar(props: SidebarProps) {
                 <ul>
                   {section?.sections?.map(item => {
                     return (
-                      <Link href={item?.path || '/app'} key={item?.path}>
+                      <Link href={item?.path || '/app'} key={item?.path} onClick={() => props.mobile && props.onClose && props.onClose()}>
                         <li
                           className={`${s['ds-sidebar__sections-item']} ${
                             item?.path ? (router.asPath.includes(item?.path) ? s['ds-sidebar__sections-item--selected'] : '') : ''
@@ -149,14 +151,26 @@ export default function Sidebar(props: SidebarProps) {
         trigger={['click']}
         content={
           <div style={{ width: collapsed ? 200 : 210 }} className={s['ds-sidebar__popup']}>
-            <li className={s['ds-sidebar--collapsed__sections-item']} onClick={showAccount}>
+            <li
+              className={s['ds-sidebar--collapsed__sections-item']}
+              onClick={() => {
+                showAccount();
+                props.mobile && props.onClose && props.onClose();
+              }}
+            >
               <div>
                 <User size={18} strokeWidth={2.3} color="#071437" />
                 <span>{session.role === ROLES.ADMIN || session.role === ROLES.RESEARCHER ? 'Account & API Keys' : 'Account'}</span>
               </div>
             </li>
 
-            <li className={s['ds-sidebar--collapsed__sections-item']} onClick={() => signOut()}>
+            <li
+              className={s['ds-sidebar--collapsed__sections-item']}
+              onClick={() => {
+                signOut();
+                props.mobile && props.onClose && props.onClose();
+              }}
+            >
               <div>
                 <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />
                 <span style={{ color: '#fa4c41' }}>Sign out</span>

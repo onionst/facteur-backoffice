@@ -22,3 +22,9 @@
     align-items: center;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .ds-header {
+    padding: 0 0 20px 0;
+  }
+}

@@ -1,4 +1,5 @@
 import { Divider } from 'antd';
+import { Plus } from 'react-feather';
 import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
 import Button from '@/bases/Button/Button';
@@ -15,106 +16,154 @@ import { LanguageISO } from '@/constants/language';
 export type DebunkArticleDraftFormProps = {};
 export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProps & IArticleDraft) {
   return (
-    <div className={s['ds-article-draft-form']}>
+    <form className={s['ds-article-draft-form']} onSubmit={() => {}}>
       <Page>
         <ModalHeader
           style={{ margin: 0 }}
           subTitle={'Write the draft'}
           title={`Complete the following form to create a new ${props.type} article`}
         />
-        <form className="grid-100">
-          <Card>
-            <h4>Overview</h4>
-            <Divider style={{ margin: '8px 0' }} />
-            <Input label="Headline" placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said" />
-            <Row align="SPACE">
-              <Input label="URL" placeholder="https://example.com/factchecking/article-010101" />
-              <Input label="Image URL" placeholder="https://example.com/factchecking/article-010101" />
-            </Row>
-            <Row align="SPACE">
-              <DatePicker label="Date published" />
-              <div className="w-full" />
-            </Row>
-          </Card>
-          <Card>
-            <h4>Article Details</h4>
-            <Divider style={{ margin: '8px 0' }} />
-
-            <Row align="SPACE">
-              <Input label="Keywords" placeholder="Ukraine, Covid, EE24" />
-              <Select
-                label="Language"
-                // defaultValue={form?.language}
-                options={[
-                  { label: "Article's language", value: '' },
-                  ...Object.entries(LanguageISO).map(([key, value]) => ({
-                    label: key,
-                    value
-                  }))
-                ]}
-                // onChange={v => setForm(prev => ({ ...prev, language: v }))}
-              />
-            </Row>
-            <Row align="SPACE">
-              <Input label="Topics" placeholder="Migration, Religion" />
-              <Select
-                label="EU Relation"
-                // defaultValue={form?.language}
-                options={[
-                  { label: 'Direct', value: 'Direct' },
-                  { label: 'Indirect', value: 'Indirect' }
-                ]}
-                // onChange={v => setForm(prev => ({ ...prev, language: v }))}
-              />
-            </Row>
-            <Row align="SPACE">
-              <Select
-                label="Country of Origin"
-                // defaultValue={form?.country}
-                options={[
-                  { label: "Organization's country", value: '' },
-                  ...Object.entries(CountryISO).map(([key, value]) => ({
-                    label: key.split('_').join(' '),
-                    value: value.split('_').join(' ')
-                  }))
-                ]}
-                // onChange={v => setForm(prev => ({ ...prev, country: v }))}
-              />
-              <Select
-                label="Content location"
-                // defaultValue={form?.country}
-                options={[
-                  { label: "Organization's country", value: '' },
-                  ...Object.entries(CountryISO).map(([key, value]) => ({
-                    label: key.split('_').join(' '),
-                    value: value.split('_').join(' ')
-                  }))
-                ]}
-                // onChange={v => setForm(prev => ({ ...prev, country: v }))}
-              />
-            </Row>
-          </Card>
-          <Card>
-            <h4>Claim Details</h4>
-            <Divider style={{ margin: '8px 0' }} />
-            <Input label="Claim reviewed" placeholder="Quoted hours are falling in Spain" />
-            <Input label="Rating" placeholder="False" />
-            <Input label="Associated claim reviews url" placeholder="https://example.com/factchecking/article-020202" />
-          </Card>
-          <Card>
-            <h4>Item reviewed</h4>
-            <Divider style={{ margin: '8px 0' }} />
-            <Row align="SPACE">
-              <Input label="Author" placeholder="John Doe" />
-              <Input label="Political party" placeholder="Organization name" />
-            </Row>
+        <Card>
+          <h4>Overview</h4>
+          <Divider style={{ margin: '8px 0' }} />
+          <Input
+            type="text"
+            minLength={10}
+            required
+            label="Headline"
+            placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
+          />
+          <Row align="SPACE">
+            <Input
+              label="URL"
+              type="url"
+              name="url"
+              minLength={10}
+              id="url"
+              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+              required
+              placeholder="https://example.com/factchecking/article-010101"
+            />
+            <Input
+              type="url"
+              name="url"
+              minLength={10}
+              id="url"
+              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+              label="Image URL"
+              placeholder="https://example.com/factchecking/article-010101"
+            />
+          </Row>
+          <Row align="SPACE">
             <DatePicker label="Date published" />
-          </Card>
-        </form>
+            <div className="w-full" />
+          </Row>
+        </Card>
+        <Card>
+          <h4>Article Details</h4>
+          <Divider style={{ margin: '8px 0' }} />
+
+          <Row align="SPACE">
+            <Input label="Keywords" placeholder="Ukraine, Covid, EE24" />
+            <Select
+              label="Language"
+              // defaultValue={form?.language}
+              options={[
+                { label: "Article's language", value: '' },
+                ...Object.entries(LanguageISO).map(([key, value]) => ({
+                  label: key,
+                  value
+                }))
+              ]}
+              // onChange={v => setForm(prev => ({ ...prev, language: v }))}
+            />
+          </Row>
+          <Row align="SPACE">
+            <Input label="Topics" placeholder="Migration, Religion" />
+            <Select
+              label="EU Relation"
+              // defaultValue={form?.language}
+              options={[
+                { label: 'Direct', value: 'Direct' },
+                { label: 'Indirect', value: 'Indirect' }
+              ]}
+              // onChange={v => setForm(prev => ({ ...prev, language: v }))}
+            />
+          </Row>
+          <Row align="SPACE">
+            <Select
+              label="Country of Origin"
+              // defaultValue={form?.country}
+              options={[
+                { label: "Organization's country", value: '' },
+                ...Object.entries(CountryISO).map(([key, value]) => ({
+                  label: key.split('_').join(' '),
+                  value: value.split('_').join(' ')
+                }))
+              ]}
+              // onChange={v => setForm(prev => ({ ...prev, country: v }))}
+            />
+            <Select
+              label="Content location"
+              // defaultValue={form?.country}
+              options={[
+                { label: "Organization's country", value: '' },
+                ...Object.entries(CountryISO).map(([key, value]) => ({
+                  label: key.split('_').join(' '),
+                  value: value.split('_').join(' ')
+                }))
+              ]}
+              // onChange={v => setForm(prev => ({ ...prev, country: v }))}
+            />
+          </Row>
+        </Card>
+        <Card>
+          <h4>Claim Details</h4>
+          <Divider style={{ margin: '8px 0' }} />
+          <Input label="Claim reviewed" type="text" minLength={10} required placeholder="Quoted hours are falling in Spain" />
+          <Input label="Rating" type="text" minLength={3} required placeholder="False" />
+          <Input label="Associated claim reviews url">
+            <Input placeholder="https://example.com/factchecking/article-020202" />
+            <span>
+              <u>
+                <Plus size={14} /> Add another claim review url
+              </u>
+            </span>
+          </Input>
+        </Card>
+        <Card>
+          <h4>Item reviewed</h4>
+          <Divider style={{ margin: '8px 0' }} />
+          <Row align="SPACE">
+            <Input label="Author" placeholder="John Doe" />
+            <Input label="Political party" placeholder="Organization name" />
+          </Row>
+          <DatePicker label="Date published" />
+          <Input label="Appearances">
+            <Card>
+              <Input label="URL" />
+              <Row align="SPACE">
+                <Input label="Media Format" />
+                <Input label="Associated media" />
+              </Row>
+              <Row align="SPACE">
+                <Input label="Date archived" />
+                <Input label="Platform" />
+              </Row>
+            </Card>
+            <span>
+              <u>
+                <Plus size={14} /> Add appearance
+              </u>
+            </span>
+          </Input>
+        </Card>
       </Page>
       <div className={s['ds-article-draft-form__fab']}>
-        <Button theme="CTA">Continue</Button>
+        <Button type="submit" theme="CTA">
+          Continue
+        </Button>
       </div>
-    </div>
+    </form>
   );
 }

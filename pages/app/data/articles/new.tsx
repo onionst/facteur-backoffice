@@ -8,11 +8,13 @@ import SelectArticleType, { ArticleType } from '@/components/Form/SelectArticleT
 import Header from '@/components/Header/Header';
 import Stepper from '@/components/Stepper/Stepper';
 import Wrapper from '@/components/Wrapper/Wrapper';
+import useWindowSize from '@/hooks/useWindowWidth';
 
 export default function New() {
   const router = useRouter();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
+  const { width } = useWindowSize();
   return (
     <>
       <Header
@@ -57,7 +59,7 @@ export default function New() {
               )
             ) : null
           ) : null}
-          <div style={{ width: '25%' }}></div>
+          {width >= 768 && <div style={{ width: '25%' }}></div>}
         </Row>
       </Wrapper>
     </>
