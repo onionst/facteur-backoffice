@@ -9,10 +9,12 @@ import { DeleteUserInvitationModal } from '@/modals/users/DeleteUserInvitation.m
 import { EditUserModal } from '@/modals/users/EditUser.modal';
 import { InviteUsersModal } from '@/modals/users/InviteUsers.modal';
 import { RestoreUserModal } from '@/modals/users/RestoreUser.modal';
+import { AccountModal } from '@/modals/Account.modal';
 
 export const ModalContext = createContext<{
   auth: {
     showTFAEmailSent: () => void;
+    showAccount: () => void;
   };
   organizations: {
     showCreateOrganization: () => void;
@@ -31,7 +33,10 @@ export const ModalContext = createContext<{
 }>({});
 
 export const ModalProvider = (props: { children: any }) => {
+  // <--- auth --->
   const [emailSentActive, setEmailSentActive] = useState<boolean>(false);
+  const [accountActive, setAccountActive] = useState<boolean>(false);
+  // <--- auth --->
 
   // <--- organizations --->
   const [createOrganizationActive, setCreateOrganizationActive] = useState<string>('');
@@ -46,12 +51,12 @@ export const ModalProvider = (props: { children: any }) => {
   const [deleteUserActive, setDeleteUserActive] = useState<string>('');
   const [editUserActive, setEditUserActive] = useState<string>('');
   const [restoreUserActive, setRestoreUserActive] = useState<string>('');
-
   // <!--- users --->
 
   const context = {
     auth: {
-      showTFAEmailSent: () => setEmailSentActive(true)
+      showTFAEmailSent: () => setEmailSentActive(true),
+      showAccount: () => setAccountActive(true)
     },
     organizations: {
       showCreateOrganization: () => setCreateOrganizationActive(Date.now().toString()),
@@ -72,6 +77,15 @@ export const ModalProvider = (props: { children: any }) => {
     <ModalContext.Provider value={context}>
       <>
         <TFAEmailSentModal footer={null} width={350} open={emailSentActive} onCancel={() => setEmailSentActive(false)} />
+        <AccountModal
+          drawerStyle={{ padding: 20 }}
+          placement="right"
+          styles={{ header: { display: 'none' } }}
+          footer={null}
+          width={400}
+          open={accountActive}
+          onClose={() => setAccountActive(false)}
+        />
         <CreateOrganizationModal
           footer={null}
           width={424}

@@ -5,9 +5,9 @@ import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
-import Wrapper from '@/components/Wrapper/Wrapper';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { Organization } from '@/dtos/organizations/organization.dto';
+import Card from '@/components/Card/Card';
 
 export type DeleteOrganizationModalProps = {
   id: string;
@@ -65,7 +65,7 @@ export const DeleteOrganizationModal = (props: DeleteOrganizationModalProps & Mo
         }
       />
       <form className={s['ds-modal-form']} onSubmit={handleDeleteOrganization}>
-        <Wrapper>
+        <Card>
           <Input
             required
             label={`Write '${organization?.name}' to delete this organization`}
@@ -73,7 +73,7 @@ export const DeleteOrganizationModal = (props: DeleteOrganizationModalProps & Mo
             value={confirmation}
             onChange={v => setConfirmation(v.target.value)}
           />
-        </Wrapper>
+        </Card>
 
         <div className={s['ds-modal-form__buttons']}>
           <Button loading={loading} disabled={confirmation?.toLowerCase() != organization?.name?.toLowerCase()} theme="ATTENTION">

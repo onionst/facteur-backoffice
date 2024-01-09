@@ -6,7 +6,6 @@ import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import Select from '@/bases/Select';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
-import Wrapper from '@/components/Wrapper/Wrapper';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { useOrganizations } from '@/contexts/organizations.context';
@@ -16,6 +15,7 @@ import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
 import { useAuth } from '@/contexts/auth.context';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
+import Card from '@/components/Card/Card';
 
 export type EditOrganizationModalProps = {
   id: string;
@@ -105,7 +105,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
       <form className={s['ds-modal-form']} onSubmit={handleUpdateOrganization}>
         <Tabs>
           <Tabs.TabPane tab="Information" key={0}>
-            <Wrapper>
+            <Card>
               <Input
                 required
                 label="Name"
@@ -151,15 +151,15 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
                 ]}
                 onChange={v => setOrganization(prev => ({ ...prev, language: v }))}
               />
-            </Wrapper>
+            </Card>
           </Tabs.TabPane>
           <Tabs.TabPane tab="API" key={1}>
             {loadingApiKey ? (
-              <Wrapper>
+              <Card>
                 <Skeleton active />
-              </Wrapper>
+              </Card>
             ) : apiKey ? (
-              <Wrapper>
+              <Card>
                 <h5>Organization's API KEY</h5>
                 <Row align="SPACE">
                   <Input
@@ -213,9 +213,9 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
                   </div>
                 </Row>
                 <p>Secret keys grants access to the API. Keep key safe and do not expose it.</p>
-              </Wrapper>
+              </Card>
             ) : (
-              <Wrapper>
+              <Card>
                 <h5 className="m-0">Setup API Key</h5>
                 <Button type="button" onClick={handleRefreshApiKey} loading={refreshingApiKey} theme="TERTIARY">
                   Generate API Key
@@ -224,7 +224,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
                   Let organizations manage their articles using the API. The organization has to pass this key into all API requests as
                   <code>X-API-KEY={'<API_key>'}</code> header.
                 </p>
-              </Wrapper>
+              </Card>
             )}
           </Tabs.TabPane>
         </Tabs>

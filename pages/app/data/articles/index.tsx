@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { File } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import Header from '@/components/Header/Header';
@@ -9,7 +10,9 @@ export default function Articles() {
   return (
     <>
       <Header icon={<File />} title="Articles">
-        <Button theme="CTA">Create article</Button>
+        <Link href="/app/data/articles/new">
+          <Button theme="CTA">Create article</Button>
+        </Link>
       </Header>
       <Wrapper>
         <Page>

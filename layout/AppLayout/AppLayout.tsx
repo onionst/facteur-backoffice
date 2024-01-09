@@ -27,7 +27,7 @@ export default function AppLayout(props: LayoutProps) {
           open={showDrawer}
           onClose={() => setShowDrawer(false)}
         >
-          <Sidebar collapsed={false} setCollapsed={() => setShowDrawer(false)} />
+          <Sidebar collapsed={false} setCollapsed={() => setShowDrawer(false)} style={{ position: 'static' }} />
         </Drawer>
         <main>
           <Navbar collapsed={collapsed} openDrawer={() => setShowDrawer(true)} />

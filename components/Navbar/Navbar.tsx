@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Paperclip, Plus } from 'react-feather';
 import s from './Navbar.module.scss';
 import Button from '@/bases/Button/Button';
@@ -13,6 +15,7 @@ export type NavbarProps = {
 };
 
 export default function Navbar(props: NavbarProps) {
+  const router = useRouter();
   const { width } = useWindowSize();
   const { session } = useAuth();
   return (
@@ -34,12 +37,14 @@ export default function Navbar(props: NavbarProps) {
         </div>
       </section>
       <section className={s['ds-navbar__right']}>
-        {[ROLES.ADMIN, ROLES.FACT_CHECKER].includes(session.role) && (
-          <Button theme="TERTIARY">
-            <span>
-              Create article <Plus size={14} />
-            </span>
-          </Button>
+        {[ROLES.ADMIN, ROLES.FACT_CHECKER].includes(session.role) && !router.asPath.includes('/articles') && (
+          <Link href="/app/data/articles/new">
+            <Button theme="TERTIARY">
+              <span>
+                Create article <Plus size={14} />
+              </span>
+            </Button>
+          </Link>
         )}
       </section>
     </nav>

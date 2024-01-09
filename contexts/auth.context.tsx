@@ -247,7 +247,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
       RestorePassword(token, password);
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
-        message: 'Password reset'
+        message: 'Password changed'
       });
       router.push('/auth/sign-in');
     } catch (err: any) {

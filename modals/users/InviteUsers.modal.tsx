@@ -13,13 +13,15 @@ import { useOrganizations } from '@/contexts/organizations.context';
 import { useUsers } from '@/contexts/users.context';
 import { Organization } from '@/dtos/organizations/organization.dto';
 
-const parseRole = (role: string) => {
-  return {
-    SUPER_ADMIN: 'Super administrator',
-    ADMIN: 'Administrator',
-    FACT_CHECKER: 'Fact checker',
-    RESEARCHER: 'Researcher'
-  }[role];
+export const parseRole = (role: string): string => {
+  return (
+    {
+      SUPER_ADMIN: 'Super administrator',
+      ADMIN: 'Administrator',
+      FACT_CHECKER: 'Fact checker',
+      RESEARCHER: 'Researcher'
+    }[role] || ''
+  );
 };
 
 export type InviteUsersModalProps = { id: string };

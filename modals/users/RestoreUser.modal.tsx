@@ -5,9 +5,10 @@ import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
-import Wrapper from '@/components/Wrapper/Wrapper';
+
 import { useUsers } from '@/contexts/users.context';
 import { User } from '@/dtos/users/user.dto';
+import Card from '@/components/Card/Card';
 
 export type RestoreUserModalProps = {
   id: string;
@@ -71,7 +72,7 @@ export const RestoreUserModal = (props: RestoreUserModalProps & ModalProps) => {
         }
       />
       <form className={s['ds-modal-form']} onSubmit={handleRestoreUser}>
-        <Wrapper>
+        <Card>
           <Input
             required
             label={`Write '${RESTORE_USER_CONFIRMATION}' to restore this user`}
@@ -79,7 +80,7 @@ export const RestoreUserModal = (props: RestoreUserModalProps & ModalProps) => {
             value={confirmation}
             onChange={v => setConfirmation(v.target.value)}
           />
-        </Wrapper>
+        </Card>
 
         <div className={s['ds-modal-form__buttons']}>
           <Button loading={loading} disabled={confirmation?.toLowerCase() != RESTORE_USER_CONFIRMATION} theme="ATTENTION">

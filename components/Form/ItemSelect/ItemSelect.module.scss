@@ -1,0 +1,61 @@
+@import '@/styles/app/variables.scss';
+
+.ds-item-select {
+  width: 100%;
+  transition: all 200ms;
+  background: linear-gradient();
+  height: 150px;
+  border-style: none;
+  border-radius: 0.712rem;
+  display: flex;
+  background-color: $ds-gray-100;
+  border: 1px solid $ds-gray-300;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    background: linear-gradient($ds-gray-100, $ds-gray-200) !important;
+    opacity: 0.9;
+    color: $ds-gray-800;
+  }
+  &:focus {
+    background: linear-gradient($ds-gray-200, $ds-gray-300) !important;
+    opacity: 0.8;
+    color: $ds-gray-900;
+  }
+  &:active {
+    background: linear-gradient($ds-gray-200, $ds-gray-300) !important;
+    opacity: 0.8;
+    color: $ds-gray-900;
+  }
+  &:disabled {
+    cursor: not-allowed !important;
+    background: linear-gradient($ds-gray-300, $ds-gray-400) !important;
+  }
+  & > div {
+    height: 38px;
+    width: 38px;
+    min-height: 38px;
+    min-width: 38px;
+    max-width: 38px;
+    max-width: 38px;
+    border-radius: 0.475rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+    background-color: $ds-primary;
+    box-shadow:
+      0px 1px 1px 0px rgba(0, 0, 0, 0.1),
+      0px 2px 2px 0px rgba(0, 0, 0, 0.09),
+      0px 5px 3px 0px rgba(0, 0, 0, 0.05),
+      0px 8px 3px 0px rgba(0, 0, 0, 0.01),
+      0px 13px 4px 0px rgba(0, 0, 0, 0);
+  }
+  & > span {
+    color: $ds-gray-900;
+    font-size: 14px;
+    text-align: center;
+  }
+}

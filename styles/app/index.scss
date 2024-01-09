@@ -25,6 +25,18 @@
 @import './pages/users.scss';
 @import './modals/tfa.scss';
 
+.ds-thin {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  &__content {
+    width: 100%;
+    max-width: 500px;
+  }
+}
+
 .ds-notification-icon {
   &--success {
     background-color: $ds-primary;

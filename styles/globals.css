@@ -86,8 +86,26 @@ body {
   margin-bottom: 0 !important;
 }
 
+.ant-drawer-content-wrapper {
+  margin: 20px;
+  border-radius: 0.712rem !important;
+  overflow: hidden;
+}
+
 .ant-tabs-nav::before {
   display: none !important;
+}
+
+.mt-1 {
+  margin-top: 8px;
+}
+
+.mt-2 {
+  margin-top: 16px;
+}
+
+.mt-3 {
+  margin-top: 20px;
 }
 
 .m-0 {
@@ -128,6 +146,13 @@ body {
 
 .w-full {
   width: 100%;
+}
+
+.grid-100 {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 100%;
+  gap: 24px;
 }
 
 .flex-center {

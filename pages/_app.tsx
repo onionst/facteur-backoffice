@@ -14,6 +14,15 @@ const theme: ThemeConfig = {
   token: {
     fontSize: 14,
     colorPrimary: '#00986d'
+  },
+  components: {
+    DatePicker: {
+      motion: false,
+      hoverBorderColor: '#DBDFE9',
+      activeBorderColor: '#C4CADA',
+      boxShadow: 'none',
+      activeShadow: 'none'
+    }
   }
 };
 
