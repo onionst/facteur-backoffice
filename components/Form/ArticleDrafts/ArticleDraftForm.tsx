@@ -1,5 +1,5 @@
 import { Divider } from 'antd';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
 import Button from '@/bases/Button/Button';
@@ -14,14 +14,28 @@ import Page from '@/components/Page/Page';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { Topic } from '@/constants/topics';
+import { useArticles } from '@/contexts/articles.context';
 
 export type ArticleDraftFormProps = {};
 export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticleDraft) {
+  const { fetchTranslation } = useArticles();
+  const [loading, setLoading] = useState<boolean>(false);
   const { setForm, form } = props;
   const handleUpdate = (v: any, k: string) => setForm((prev: any) => ({ ...prev, [k]: v.target.value }));
-  const handleSubmit = (e: FormEvent) => {
-    e?.preventDefault();
-    props.onContinue(form);
+  const handleSubmit = async (e: FormEvent) => {
+    try {
+      e?.preventDefault();
+      setLoading(true);
+      const [headline] = await Promise.all([fetchTranslation(form.headlineNative)]);
+      setForm((prev: any) => ({
+        ...prev,
+        headline
+      }));
+      setLoading(false);
+      props.onContinue(form);
+    } catch (err) {
+      setLoading(false);
+    }
   };
   return (
     <form className={s['ds-article-draft-form']} onSubmit={handleSubmit}>
@@ -153,7 +167,9 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
         </Card>
       </Page>
       <div className={s['ds-article-draft-form__fab']}>
-        <Button theme="CTA">Continue</Button>
+        <Button loading={loading} theme="CTA">
+          Continue
+        </Button>
       </div>
     </form>
   );

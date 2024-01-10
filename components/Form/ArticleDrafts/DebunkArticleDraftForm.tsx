@@ -1,5 +1,5 @@
 import { Divider } from 'antd';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { Plus, X } from 'react-feather';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleDraft } from './articleDraft.interface';
@@ -18,15 +18,35 @@ import { LanguageISO } from '@/constants/language';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
 import { ReviewRating } from '@/constants/ratings';
 import { Topic } from '@/constants/topics';
+import { useArticles } from '@/contexts/articles.context';
 
 export type DebunkArticleDraftFormProps = {};
 export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProps & IArticleDraft) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const { fetchTranslation } = useArticles();
   const { setForm, form } = props;
   const handleUpdate = (v: any, k: string) => setForm((prev: any) => ({ ...prev, [k]: v.target.value }));
-  const handleSubmit = (e: FormEvent) => {
-    e?.preventDefault();
-    props.onContinue(form);
+
+  const handleSubmit = async (e: FormEvent) => {
+    try {
+      e?.preventDefault();
+      setLoading(true);
+      const [headline, claimReviewed] = await Promise.all([
+        fetchTranslation(form.headlineNative),
+        fetchTranslation(form.claimreviewedNative)
+      ]);
+      setForm((prev: any) => ({
+        ...prev,
+        headline,
+        claimReviewed
+      }));
+      setLoading(false);
+      props.onContinue(form);
+    } catch (err) {
+      setLoading(false);
+    }
   };
+
   return (
     <form className={s['ds-article-draft-form']} onSubmit={handleSubmit}>
       <Page>
@@ -449,7 +469,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
         </Card>
       </Page>
       <div className={s['ds-article-draft-form__fab']}>
-        <Button type="submit" theme="CTA">
+        <Button loading={loading} type="submit" theme="CTA">
           Continue
         </Button>
       </div>

@@ -4,6 +4,7 @@ import '@/styles/app/index.scss';
 import { ConfigProvider, ThemeConfig } from 'antd';
 import App, { AppContext, AppProps } from 'next/app';
 import { useRouter } from 'next/router';
+import { ArticlesProvider } from '@/contexts/articles.context';
 import { AuthProvider } from '@/contexts/auth.context';
 import { ModalProvider } from '@/contexts/modal.context';
 import { OrganizationsProvider } from '@/contexts/organizations.context';
@@ -40,21 +41,23 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ConfigProvider theme={theme}>
-      <OrganizationsProvider>
-        <UsersProvider>
-          <AuthProvider>
-            <ModalProvider>
-              {router.asPath.includes('/app') ? (
-                <AppLayout>
+      <ArticlesProvider>
+        <OrganizationsProvider>
+          <UsersProvider>
+            <AuthProvider>
+              <ModalProvider>
+                {router.asPath.includes('/app') ? (
+                  <AppLayout>
+                    <Component {...pageProps} />
+                  </AppLayout>
+                ) : (
                   <Component {...pageProps} />
-                </AppLayout>
-              ) : (
-                <Component {...pageProps} />
-              )}
-            </ModalProvider>
-          </AuthProvider>
-        </UsersProvider>
-      </OrganizationsProvider>
+                )}
+              </ModalProvider>
+            </AuthProvider>
+          </UsersProvider>
+        </OrganizationsProvider>
+      </ArticlesProvider>
     </ConfigProvider>
   );
 }

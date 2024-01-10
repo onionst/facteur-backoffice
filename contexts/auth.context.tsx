@@ -11,6 +11,7 @@ import { ROLES } from '@/constants/roles.constants';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Credentials } from '@/dtos/credentials.dto';
 import { Session } from '@/dtos/session.dto';
+import { Join as JoinDto } from '@/dtos/users/Join.dto';
 import {
   GetApiCredentials,
   GetSessionData,
@@ -21,7 +22,6 @@ import {
   SignInWithTFAToken
 } from '@/services/auth.service';
 import { Join } from '@/services/user.service';
-import { Join as JoinDto } from '@/dtos/users/Join.dto';
 
 export type AuthContextProps = {
   session: Session;
