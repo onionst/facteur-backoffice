@@ -60,7 +60,7 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
         </IconButton>
       </Row>
       {session.organizationId && (
-        <Card style={{ marginTop: 20 }} title="Company">
+        <Card style={{ marginTop: 20 }} title="Organization">
           <Page>
             <Row align="SPACE">
               <Preset title="Name" value={session?.organization?.name || '-'} />
