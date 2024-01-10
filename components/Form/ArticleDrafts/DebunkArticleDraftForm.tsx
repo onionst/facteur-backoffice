@@ -1,5 +1,5 @@
 import { Divider } from 'antd';
-import { Plus } from 'react-feather';
+import { Plus, X } from 'react-feather';
 import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
 import Button from '@/bases/Button/Button';
@@ -14,9 +14,42 @@ import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { ReviewRating } from '@/constants/ratings';
 import { Topic } from '@/constants/topics';
+import { useState } from 'react';
 
 export type DebunkArticleDraftFormProps = {};
 export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProps & IArticleDraft) {
+  const [form, setForm] = useState({
+    type: 'Factcheck',
+    url: '',
+    headline: '',
+    headlineNative: '',
+    datePublished: '',
+    image: '',
+    keywords: [],
+    inLanguage: '',
+    topics: [],
+    euRelation: '',
+    countryOfOrigin: '',
+    contentLocation: '',
+    claimreviewed: '',
+    claimreviewedNative: '',
+    reviewRating: '',
+    itemReviewed: {
+      datePublished: '',
+      author: '',
+      politicalParty: '',
+      appearances: [
+        {
+          url: '',
+          archivedAt: '',
+          associatedMedia: '',
+          mediaFormat: '',
+          platform: ''
+        }
+      ]
+    },
+    associatedClaimReview: ['']
+  });
   return (
     <form className={s['ds-article-draft-form']} onSubmit={() => {}}>
       <Page>
@@ -29,6 +62,16 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
           <Input
+            label="URL"
+            type="url"
+            name="url"
+            minLength={10}
+            id="url"
+            pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+            required
+            placeholder="https://example.com/factchecking/article-010101"
+          />
+          <Input
             type="text"
             minLength={10}
             required
@@ -36,16 +79,6 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
           />
           <Row align="SPACE">
-            <Input
-              label="URL"
-              type="url"
-              name="url"
-              minLength={10}
-              id="url"
-              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-              required
-              placeholder="https://example.com/factchecking/article-010101"
-            />
             <Input
               type="url"
               name="url"
@@ -55,10 +88,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               label="Image URL"
               placeholder="https://example.com/factchecking/article-010101"
             />
-          </Row>
-          <Row align="SPACE">
             <DatePicker label="Date published" />
-            <div className="w-full" />
           </Row>
         </Card>
         <Card>
@@ -146,9 +176,34 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             ]}
             // onChange={v => setForm(prev => ({ ...prev, country: v }))}
           />
-          <Input label="Associated claim reviews url">
-            <Input placeholder="https://example.com/factchecking/article-020202" />
-            <span>
+          <Input label="Associated claim reviews url" required={form.associatedClaimReview.length > 0}>
+            {form.associatedClaimReview.map((input, index) => (
+              <Input
+                key={index}
+                style={{
+                  marginBottom: 8
+                }}
+                required
+                placeholder="https://example.com/factchecking/article-020202"
+                value={input}
+                onIconClick={() =>
+                  setForm(prev => ({
+                    ...prev,
+                    associatedClaimReview: prev.associatedClaimReview.filter((_: any, _index: any) => _index != index)
+                  }))
+                }
+                withIcon={<X color="#4b5675" size={20} />}
+              />
+            ))}
+            <span
+              className="c-pointer mt-1"
+              onClick={() =>
+                setForm((prev: any) => ({
+                  ...prev,
+                  associatedClaimReview: [...prev.associatedClaimReview, '']
+                }))
+              }
+            >
               <u>
                 <Plus size={14} /> Add another claim review url
               </u>
@@ -163,19 +218,64 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             <Input label="Political party" placeholder="Organization name" />
           </Row>
           <DatePicker label="Date published" />
-          <Input label="Appearances">
-            <Card>
-              <Input label="URL" />
-              <Row align="SPACE">
-                <Input label="Media Format" />
-                <Input label="Associated media" />
-              </Row>
-              <Row align="SPACE">
-                <Input label="Date archived" />
-                <Input label="Platform" />
-              </Row>
-            </Card>
-            <span>
+          <Input label="Appearances" required={form.itemReviewed.appearances.length > 0}>
+            {form.itemReviewed.appearances.map((appearance, index) => (
+              <Card
+                key={index}
+                style={{
+                  marginBottom: 8
+                }}
+              >
+                <Input label="URL" required />
+                <Row align="SPACE">
+                  <Input label="Media Format" />
+                  <Input label="Associated media" />
+                </Row>
+                <Row align="SPACE">
+                  <Input label="Date archived" />
+                  <Input label="Platform" />
+                </Row>
+                <Row align="RIGHT">
+                  <span
+                    className="c-pointer mt-2"
+                    onClick={() =>
+                      setForm((prev: any) => ({
+                        ...prev,
+                        itemReviewed: {
+                          ...prev.itemReviewed,
+                          appearances: prev.itemReviewed.appearances.filter((_: any, _index: any) => _index != index)
+                        }
+                      }))
+                    }
+                  >
+                    <u>
+                      <X size={14} /> Remove appearance
+                    </u>
+                  </span>
+                </Row>
+              </Card>
+            ))}
+            <span
+              className="c-pointer"
+              onClick={() =>
+                setForm((prev: any) => ({
+                  ...prev,
+                  itemReviewed: {
+                    ...prev.itemReviewed,
+                    appearances: [
+                      ...prev.itemReviewed.appearances,
+                      {
+                        url: '',
+                        archivedAt: '',
+                        associatedMedia: '',
+                        mediaFormat: '',
+                        platform: ''
+                      }
+                    ]
+                  }
+                }))
+              }
+            >
               <u>
                 <Plus size={14} /> Add appearance
               </u>

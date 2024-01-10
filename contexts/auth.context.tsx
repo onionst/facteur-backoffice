@@ -50,7 +50,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
   const [session, setSession] = useState<Session>({
     email: '',
-    role: ROLES.VIEWER,
+    role: ROLES.NONE,
     name: '',
     surname: '',
     organizationId: ''
@@ -298,7 +298,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     try {
       setSession({
         email: '',
-        role: ROLES.VIEWER,
+        role: ROLES.NONE,
         name: '',
         surname: '',
         organizationId: ''

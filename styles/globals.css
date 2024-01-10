@@ -148,6 +148,18 @@ body {
   width: 100%;
 }
 
+.c-pointer {
+  cursor: pointer;
+}
+
+.w-full-center {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .grid-100 {
   display: grid;
   width: 100%;

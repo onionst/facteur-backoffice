@@ -11,6 +11,7 @@ import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
+import { Topic } from '@/constants/topics';
 
 export type ArticleDraftFormProps = {};
 export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticleDraft) {
@@ -26,21 +27,42 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
         <Card>
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
-          <Input label="Headline" placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said" />
+          <Input
+            label="URL"
+            type="url"
+            name="url"
+            minLength={10}
+            id="url"
+            pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+            required
+            placeholder="https://example.com/factchecking/article-010101"
+          />
+          <Input
+            type="text"
+            minLength={10}
+            required
+            label="Headline"
+            placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
+          />
           <Row align="SPACE">
-            <Input label="URL" placeholder="https://example.com/factchecking/article-010101" />
-            <Input label="Image URL" placeholder="https://example.com/factchecking/article-010101" />
-          </Row>
-          <Row align="SPACE">
+            <Input
+              type="url"
+              name="url"
+              minLength={10}
+              id="url"
+              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+              label="Image URL"
+              placeholder="https://example.com/factchecking/article-010101"
+            />
             <DatePicker label="Date published" />
-            <div className="w-full" />
           </Row>
         </Card>
         <Card>
           <h4>Article Details</h4>
           <Divider style={{ margin: '8px 0' }} />
+
           <Row align="SPACE">
-            <Input label="Keywords" placeholder="Ukraine, Covid, EE24" />
+            <Input label="Keywords (comma separated)" placeholder="Ukraine, Covid, EE24" />
             <Select
               label="Language"
               // defaultValue={form?.language}
@@ -55,7 +77,18 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
             />
           </Row>
           <Row align="SPACE">
-            <Input label="Topics" placeholder="Migration, Religion" />
+            <Select
+              label="Topics"
+              // defaultValue={form?.country}
+              options={[
+                { label: "Article's topic", value: '' },
+                ...Object.entries(Topic).map(([key, value]) => ({
+                  value: key.split('_').join(' '),
+                  label: value.split('_').join(' ')
+                }))
+              ]}
+              // onChange={v => setForm(prev => ({ ...prev, country: v }))}
+            />
             <Select
               label="EU Relation"
               // defaultValue={form?.language}
@@ -71,7 +104,7 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
               label="Country of Origin"
               // defaultValue={form?.country}
               options={[
-                { label: "Organization's country", value: '' },
+                { label: 'Country of Origin', value: '' },
                 ...Object.entries(CountryISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
@@ -83,7 +116,7 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
               label="Content location"
               // defaultValue={form?.country}
               options={[
-                { label: "Organization's country", value: '' },
+                { label: 'Content location', value: '' },
                 ...Object.entries(CountryISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
