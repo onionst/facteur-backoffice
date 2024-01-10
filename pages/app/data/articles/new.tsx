@@ -4,6 +4,8 @@ import { File } from 'react-feather';
 import Row from '@/bases/Row/Row';
 import ArticleDraftForm from '@/components/Form/ArticleDrafts/ArticleDraftForm';
 import DebunkArticleDraftForm from '@/components/Form/ArticleDrafts/DebunkArticleDraftForm';
+import ArticlePreviewForm from '@/components/Form/ArticlePreviews/ArticlePreviewForm';
+import DebunkArticlePreviewForm from '@/components/Form/ArticlePreviews/DebunkArticlePreviewForm';
 import SelectArticleType, { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
 import Stepper from '@/components/Stepper/Stepper';
@@ -81,6 +83,15 @@ export default function New() {
                 <DebunkArticleDraftForm form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
               ) : (
                 <ArticleDraftForm form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
+              )
+            ) : null
+          ) : null}
+          {step === 2 ? (
+            articleType ? (
+              [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
+                <DebunkArticlePreviewForm form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
+              ) : (
+                <ArticlePreviewForm form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
               )
             ) : null
           ) : null}

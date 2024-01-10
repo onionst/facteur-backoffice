@@ -3,11 +3,12 @@ import { useState } from 'react';
 export type SelectProps = {
   label?: string;
   required?: boolean;
+  disabled?: boolean;
   options: Array<{ value: string; label: string }>;
   defaultValue?: string;
   onChange?: (value: string) => void;
 };
-export default function Select({ label, required, options, defaultValue, onChange }: SelectProps) {
+export default function Select({ label, required, options, defaultValue, onChange, disabled }: SelectProps) {
   const [selectedValue, setSelectedValue] = useState<string>(defaultValue || '');
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -25,6 +26,7 @@ export default function Select({ label, required, options, defaultValue, onChang
         </label>
       )}
       <select
+        disabled={disabled}
         className="form-select"
         aria-label="Select option"
         required={required}

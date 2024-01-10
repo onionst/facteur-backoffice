@@ -16,8 +16,10 @@
     & > * {
       padding-left: 0.775rem !important;
       border-color: #dbdfe9 !important;
+
       border-radius: 0.475rem !important;
     }
+
     & *::placeholder {
       color: $ds-gray-500 !important;
       font-weight: 500;

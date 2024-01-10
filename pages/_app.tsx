@@ -23,7 +23,8 @@ const theme: ThemeConfig = {
       hoverBorderColor: '#DBDFE9',
       activeBorderColor: '#C4CADA',
       boxShadow: 'none',
-      activeShadow: 'none'
+      activeShadow: 'none',
+      colorBgContainerDisabled: '#F1F1F4'
     },
     Tag: {
       boxShadow: 'none'
@@ -31,7 +32,8 @@ const theme: ThemeConfig = {
     Select: {
       colorTextPlaceholder: '#99a1b7',
       motion: false,
-      optionSelectedBg: '#f1f1f4'
+      optionSelectedBg: '#f1f1f4',
+      colorBgContainerDisabled: '#F1F1F4'
     }
   }
 };
