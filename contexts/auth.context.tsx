@@ -10,9 +10,14 @@ import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { ROLES } from '@/constants/roles.constants';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Credentials } from '@/dtos/credentials.dto';
+import { GoogleAccessToken } from '@/dtos/google-access-token.dto';
+import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
 import { Session } from '@/dtos/session.dto';
+import { Join as JoinDto } from '@/dtos/users/Join.dto';
 import {
   GetApiCredentials,
+  GetGoogleAccessToken,
+  GetGoogleRefreshToken,
   GetSessionData,
   RefreshApiCredentials,
   RestorePassword,
@@ -21,7 +26,6 @@ import {
   SignInWithTFAToken
 } from '@/services/auth.service';
 import { Join } from '@/services/user.service';
-import { Join as JoinDto } from '@/dtos/users/Join.dto';
 
 export type AuthContextProps = {
   session: Session;
@@ -33,6 +37,8 @@ export type AuthContextProps = {
   getApiCredentials: (id?: string, type?: string) => Promise<string>;
   acceptInvitation: (join: JoinDto, token: string) => Promise<void>;
   refreshApiCredentials: (id?: string, type?: string) => Promise<string>;
+  googleAccessToken: (googleAccessToken: GoogleAccessToken) => Promise<void>;
+  googleRefreshToken: (googleRefreshToken: GoogleRefreshToken) => Promise<void>;
   signOut: () => Promise<void>;
 };
 export type AuthProviderProps = { children: any };
@@ -53,7 +59,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
     role: ROLES.VIEWER,
     name: '',
     surname: '',
-    organizationId: ''
+    organizationId: '',
+    refreshToken: undefined,
+    idToken: undefined
   });
 
   useEffect(() => {
@@ -130,7 +138,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
           role: data?.role,
           name: data?.name,
           surname: data?.surname,
-          organizationId: data?.organizationId
+          organizationId: data?.organizationId,
+          refreshToken: data?.refreshToken,
+          idToken: data?.idToken
         });
 
         if (data?.role === ROLES.SUPER_ADMIN) {
@@ -300,6 +310,66 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
+  const googleAccessToken = async (accessToken: GoogleAccessToken) => {
+    try {
+      const status = await GetGoogleAccessToken(accessToken);
+      await getSessionData('/app');
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'Welcome Back!',
+        description: "You've successfully signed in"
+      });
+      return status;
+    } catch (err: any) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Invalid google access token'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
+
+  const googleRefreshToken = async (refreshToken: GoogleRefreshToken) => {
+    try {
+      await GetGoogleRefreshToken(refreshToken);
+      await getSessionData('/app');
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'Welcome Back!',
+        description: "You've successfully signed in"
+      });
+      router.push('/app');
+    } catch (err: any) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Invalid google refresh token'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
+
   const signOut = async () => {
     try {
       await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
@@ -321,7 +391,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
     acceptInvitation,
     getApiCredentials,
     refreshApiCredentials,
-    signOut
+    signOut,
+    googleAccessToken,
+    googleRefreshToken
   };
 
   return (

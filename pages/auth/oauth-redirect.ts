@@ -1,0 +1,31 @@
+import getConfig from 'next/config';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useAuth } from '@/contexts/auth.context';
+import { GoogleAccessToken } from '@/dtos/google-access-token.dto';
+
+const { publicRuntimeConfig } = getConfig();
+
+export const REDIRECT_URI = `${publicRuntimeConfig.APP_URL}/auth/oauth-redirect`;
+
+const OAuth = () => {
+  const { googleAccessToken } = useAuth();
+  const router = useRouter();
+  const { query } = router;
+  const { code } = query;
+
+  useEffect(() => {
+    if (!code) return;
+    const authUser = async () => {
+      //http://localhost:3000/auth/oauth-redirect
+      console.log({ REDIRECT_URI: REDIRECT_URI });
+      return await googleAccessToken({ code, redirectUri: REDIRECT_URI } as GoogleAccessToken);
+    };
+    authUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [code, router]);
+
+  return null;
+};
+
+export default OAuth;

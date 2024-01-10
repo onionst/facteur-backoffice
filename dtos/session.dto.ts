@@ -6,4 +6,6 @@ export class Session {
   name: string;
   surname: string;
   organizationId: string;
+  refreshToken: string | undefined;
+  idToken: string | undefined;
 }
