@@ -9,7 +9,7 @@ const { publicRuntimeConfig } = getConfig();
 export const REDIRECT_URI = `${publicRuntimeConfig.APP_URL}/auth/oauth-redirect`;
 
 const OAuth = () => {
-  const { googleAccessToken } = useAuth();
+  const { googleAccessToken, session } = useAuth();
   const router = useRouter();
   const { query } = router;
   const { code } = query;
@@ -17,11 +17,12 @@ const OAuth = () => {
   useEffect(() => {
     if (!code) return;
     const authUser = async () => {
-      await googleAccessToken({ code, redirectUri: REDIRECT_URI } as GoogleAccessToken);
+      if (!session?.email) await googleAccessToken({ code, redirectUri: REDIRECT_URI } as GoogleAccessToken);
     };
+
     authUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [code, session?.email]);
 
   return null;
 };

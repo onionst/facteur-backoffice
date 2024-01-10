@@ -37,7 +37,7 @@ export type AuthContextProps = {
   getApiCredentials: (id?: string, type?: string) => Promise<string>;
   acceptInvitation: (join: JoinDto, token: string) => Promise<void>;
   refreshApiCredentials: (id?: string, type?: string) => Promise<string>;
-  googleAccessToken: (googleAccessToken: GoogleAccessToken) => Promise<string>;
+  googleAccessToken: (googleAccessToken: GoogleAccessToken) => Promise<void>;
   googleRefreshToken: (googleRefreshToken: GoogleRefreshToken) => Promise<string>;
   signOut: () => Promise<void>;
 };
@@ -66,6 +66,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
   useEffect(() => {
     getSessionData(router.asPath);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getApiCredentials = async (id?: string, type?: string) => {
@@ -312,14 +313,14 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
   const googleAccessToken = async (accessToken: GoogleAccessToken) => {
     try {
-      const status = await GetGoogleAccessToken(accessToken);
+      await GetGoogleAccessToken(accessToken);
       await getSessionData('/app');
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
         message: 'Welcome Back!',
         description: "You've successfully signed in"
       });
-      return status;
+      router.push('/app');
     } catch (err: any) {
       // eslint-disable-next-line no-console
       console.error(err);
