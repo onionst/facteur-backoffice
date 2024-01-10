@@ -7,6 +7,7 @@ import { DatePicker } from '@/bases/DatePicker/DatePicker';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select';
+import Tagger from '@/bases/Tagger/Tagger';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
@@ -78,10 +79,12 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
           <Divider style={{ margin: '8px 0' }} />
 
           <Row align="SPACE">
-            <Input
-              label="Keywords (comma separated)"
+            <Tagger
+              label="Keywords"
+              maxTagCount="responsive"
               value={form.keywords}
-              onChange={v => handleUpdate(v, 'keywords')}
+              mode="tags"
+              onChange={v => setForm((prev: any) => ({ ...prev, keywords: v }))}
               placeholder="Ukraine, Covid, EE24"
             />
             <Select
@@ -98,22 +101,23 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
             />
           </Row>
           <Row align="SPACE">
-            <Select
+            <Tagger
               label="Topics"
-              // defaultValue={form?.topics}a
-              options={[
-                { label: "Article's topic", value: '' },
-                ...Object.entries(Topic).map(([key, value]) => ({
-                  value: key.split('_').join(' '),
-                  label: value.split('_').join(' ')
-                }))
-              ]}
+              value={form.topics}
+              options={Object.entries(Topic).map(([key, value]) => ({
+                value: key.split('_').join(' '),
+                label: value.split('_').join(' ')
+              }))}
+              maxTagCount="responsive"
+              mode="tags"
               onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
+              placeholder="Article's topics"
             />
             <Select
               label="EU Relation"
               defaultValue={form?.euRelation}
               options={[
+                { label: 'EU Relation', value: '' },
                 { label: 'Direct', value: 'Direct' },
                 { label: 'Indirect', value: 'Indirect' }
               ]}
