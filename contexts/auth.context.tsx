@@ -37,8 +37,8 @@ export type AuthContextProps = {
   getApiCredentials: (id?: string, type?: string) => Promise<string>;
   acceptInvitation: (join: JoinDto, token: string) => Promise<void>;
   refreshApiCredentials: (id?: string, type?: string) => Promise<string>;
-  googleAccessToken: (googleAccessToken: GoogleAccessToken) => Promise<void>;
-  googleRefreshToken: (googleRefreshToken: GoogleRefreshToken) => Promise<void>;
+  googleAccessToken: (googleAccessToken: GoogleAccessToken) => Promise<string>;
+  googleRefreshToken: (googleRefreshToken: GoogleRefreshToken) => Promise<string>;
   signOut: () => Promise<void>;
 };
 export type AuthProviderProps = { children: any };
@@ -342,14 +342,14 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
   const googleRefreshToken = async (refreshToken: GoogleRefreshToken) => {
     try {
-      await GetGoogleRefreshToken(refreshToken);
+      const status = await GetGoogleRefreshToken(refreshToken);
       await getSessionData('/app');
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
         message: 'Welcome Back!',
         description: "You've successfully signed in"
       });
-      router.push('/app');
+      return status;
     } catch (err: any) {
       // eslint-disable-next-line no-console
       console.error(err);

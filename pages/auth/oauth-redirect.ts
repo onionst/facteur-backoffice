@@ -17,13 +17,11 @@ const OAuth = () => {
   useEffect(() => {
     if (!code) return;
     const authUser = async () => {
-      //http://localhost:3000/auth/oauth-redirect
-      console.log({ REDIRECT_URI: REDIRECT_URI });
-      return await googleAccessToken({ code, redirectUri: REDIRECT_URI } as GoogleAccessToken);
+      await googleAccessToken({ code, redirectUri: REDIRECT_URI } as GoogleAccessToken);
     };
     authUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [code, router]);
+  }, []);
 
   return null;
 };

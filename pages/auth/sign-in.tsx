@@ -53,7 +53,7 @@ export default function SignIn(): JSX.Element {
   const doSignIn =
     'https://accounts.google.com/o/oauth2/v2/auth' +
     `?client_id=${publicRuntimeConfig.GOOGLE_OAUTH_ID}` +
-    '&scope=profile' +
+    '&scope=profile%20email' +
     '&response_type=code' +
     '&access_type=offline' +
     '&prompt=consent' +
