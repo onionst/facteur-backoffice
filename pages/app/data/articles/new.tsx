@@ -15,6 +15,31 @@ export default function New() {
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
+  const [form, setForm] = useState({
+    type: 'Factcheck',
+    url: '',
+    headline: '',
+    headlineNative: '',
+    datePublished: null,
+    image: '',
+    keywords: [],
+    inLanguage: '',
+    topics: [],
+    euRelation: '',
+    countryOfOrigin: '',
+    contentLocation: '',
+    claimreviewed: '',
+    claimreviewedNative: '',
+    reviewRating: '',
+    itemReviewed: {
+      datePublished: null,
+      author: '',
+      politicalParty: '',
+      appearances: []
+    },
+    associatedClaimReview: []
+  });
+
   return (
     <>
       <Header
@@ -53,9 +78,9 @@ export default function New() {
           {step === 1 ? (
             articleType ? (
               [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
-                <DebunkArticleDraftForm type={articleType} onContinue={() => setStep(2)} />
+                <DebunkArticleDraftForm form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
               ) : (
-                <ArticleDraftForm type={articleType} onContinue={() => setStep(2)} />
+                <ArticleDraftForm form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
               )
             ) : null
           ) : null}

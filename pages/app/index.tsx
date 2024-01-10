@@ -1,9 +1,8 @@
-import Logo from '@/bases/Logo';
-import { ROLES } from '@/constants/roles.constants';
-import { useAuth } from '@/contexts/auth.context';
 import { Skeleton } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { ROLES } from '@/constants/roles.constants';
+import { useAuth } from '@/contexts/auth.context';
 
 export default function Index() {
   const { session } = useAuth();

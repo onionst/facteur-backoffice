@@ -13,6 +13,7 @@ import AppLayout from '@/layout/AppLayout/AppLayout';
 const theme: ThemeConfig = {
   token: {
     fontSize: 14,
+
     colorPrimary: '#00986d'
   },
   components: {
@@ -23,10 +24,13 @@ const theme: ThemeConfig = {
       boxShadow: 'none',
       activeShadow: 'none'
     },
-    Select: {
-      motion: false,
-
+    Tag: {
       boxShadow: 'none'
+    },
+    Select: {
+      colorTextPlaceholder: '#99a1b7',
+      motion: false,
+      optionSelectedBg: '#f1f1f4'
     }
   }
 };

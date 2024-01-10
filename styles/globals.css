@@ -92,6 +92,10 @@ body {
   overflow: hidden;
 }
 
+.ant-select-selection-placeholder {
+  padding-left: 0.6rem !important;
+}
+
 .ant-tabs-nav::before {
   display: none !important;
 }
@@ -150,6 +154,23 @@ body {
 
 .c-pointer {
   cursor: pointer;
+  padding: 4px 8px;
+  border: 1px solid #dbdfe9;
+  color: #252f4a;
+  border-radius: 0.475rem;
+  display: flex;
+  justify-content: flex-start;
+  width: max-content;
+  gap: 8px;
+  align-items: center;
+}
+
+.ant-select-focused .ant-select-selector,
+.ant-select-selector:focus,
+.ant-select-selector:active,
+.ant-select-open .ant-select-selector {
+  border-color: #d9d9d9 !important;
+  box-shadow: none !important;
 }
 
 .w-full-center {

@@ -1,6 +1,8 @@
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
 
 export interface IArticleDraft {
+  form: any;
+  setForm: any;
   type: ArticleType;
-  onContinue: () => void;
+  onContinue: (form: any) => void;
 }

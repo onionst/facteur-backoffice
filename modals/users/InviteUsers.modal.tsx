@@ -118,12 +118,17 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
           />
         )}
         <div className="w-full">
-          <label className="form-label" style={{ marginBottom: 2 }}>
-            Invitation
-          </label>
           <div className={s['ds-modal-form__invite']}>
-            <Input required type="email" value={email} onChange={v => setEmail(v.target.value)} placeholder="username@organization.com" />
+            <Input
+              label="Invitation"
+              required
+              type="email"
+              value={email}
+              onChange={v => setEmail(v.target.value)}
+              placeholder="username@organization.com"
+            />
             <Select
+              label="Role"
               onChange={setRole}
               required
               options={
@@ -152,7 +157,7 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
                     ]
               }
             />
-            <button type="submit">
+            <button type="submit" style={{ marginTop: 24 }}>
               <Plus size={20} />
             </button>
           </div>
