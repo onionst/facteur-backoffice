@@ -70,8 +70,8 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
   const fetchApiCredentials = async (id: string) => {
     try {
       setLoadingApiKey(true);
-      const apiKey = await getApiCredentials(id, 'ORGANIZATION');
-      setApiKey(apiKey);
+      const apiKeyCredentials = await getApiCredentials(id, 'ORGANIZATION');
+      setApiKey(apiKeyCredentials);
       setLoadingApiKey(false);
     } catch (err) {
       setLoadingApiKey(false);
@@ -81,8 +81,8 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
   const handleRefreshApiKey = async () => {
     try {
       setRefreshingApiKey(true);
-      const apiKey = await refreshApiCredentials(props.id, 'ORGANIZATION');
-      setApiKey(apiKey);
+      const apiKeyRefresh = await refreshApiCredentials(props.id, 'ORGANIZATION');
+      setApiKey(apiKeyRefresh);
       setShowApiKey(true);
       setRefreshingApiKey(false);
     } catch (err) {
@@ -94,6 +94,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
     if (props.id) {
       fetchData(props.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props?.id]);
 
   return (

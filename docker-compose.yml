@@ -1,7 +1,7 @@
 version: '3'
 services:
   ee24-backoffice:
-    image: newtral/ee24-backoffice:dev
+    image: newtral/efcsn-backoffice:dev
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,6 +11,7 @@ services:
     environment:
       - NODE_ENV=production
       - PUBLIC_API_URL=http://localhost:5000
+      - GOOGLE_OAUTH_ID=900005146919-3uf9g76ir38ms5asm4s94ohka61b49nh.apps.googleusercontent.com
     ports:
       - 3000:3000
-    container_name: ee24-backoffice
+    container_name: efcsn-backoffice
