@@ -1,4 +1,5 @@
 import { api, parseUrl } from './api';
+import { Article } from '@/dtos/articles/article.dto';
 
 const PREFIX = '/articles';
 
@@ -10,7 +11,7 @@ export const CreateArticle = async (article: any) => {
 export const FetchArticles = async (
   query: any
 ): Promise<{
-  articles: any[];
+  articles: Article[];
   records: number;
   page: {
     current: number;

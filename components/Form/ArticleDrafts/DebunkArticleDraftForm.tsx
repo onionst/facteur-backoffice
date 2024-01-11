@@ -1,3 +1,4 @@
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Divider } from 'antd';
 import { FormEvent, useState } from 'react';
 import { Plus, X } from 'react-feather';
@@ -479,9 +480,16 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
         </Card>
       </Page>
       <div className={s['ds-article-draft-form__fab']}>
-        <Button loading={loading} type="submit" theme="CTA">
-          Continue
-        </Button>
+        <Row align="RIGHT">
+          <Button type="button" theme="TERTIARY" onClick={props.onBack}>
+            <ArrowLeftOutlined />
+            Go back
+          </Button>
+          <Button loading={loading} theme="CTA">
+            Continue
+            <ArrowRightOutlined />
+          </Button>
+        </Row>
       </div>
     </form>
   );

@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useAuth } from './auth.context';
+import { AccountModal } from '@/modals/Account.modal';
 import { CreateOrganizationModal } from '@/modals/organizations/CreateOrganization.modal';
 import { DeleteOrganizationModal } from '@/modals/organizations/DeleteOrganization.modal';
 import { EditOrganizationModal } from '@/modals/organizations/EditOrganization.modal';
@@ -9,8 +11,6 @@ import { DeleteUserInvitationModal } from '@/modals/users/DeleteUserInvitation.m
 import { EditUserModal } from '@/modals/users/EditUser.modal';
 import { InviteUsersModal } from '@/modals/users/InviteUsers.modal';
 import { RestoreUserModal } from '@/modals/users/RestoreUser.modal';
-import { AccountModal } from '@/modals/Account.modal';
-import { useAuth } from './auth.context';
 
 export const ModalContext = createContext<{
   auth: {

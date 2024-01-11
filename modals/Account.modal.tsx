@@ -57,33 +57,6 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
           <Minus color="#252f4a" size={18} onClick={props.onClose} />
         </IconButton>
       </Row>
-      {session.organizationId && (
-        <Card style={{ marginTop: 20 }} title="Organization">
-          <Page>
-            <Row align="SPACE">
-              <Preset title="Name" value={session?.organization?.name || '-'} />
-              <Preset title="Domain" value={session?.organization?.domain || '-'} />
-            </Row>
-          </Page>
-        </Card>
-      )}
-      <Card style={{ marginTop: 16 }} title="Profile">
-        <Page>
-          <Row align="SPACE">
-            <Preset title="Name" value={session.name} />
-            <Preset title="Surname" value={session.surname} />
-          </Row>
-          <Preset title="Email" value={session.email} />
-        </Page>
-      </Card>
-      <Card style={{ marginTop: 16 }} title="Security">
-        <Page>
-          <Row align="SPACE">
-            <Preset title="Two factor authentication" value={session.TFA ? 'Active' : 'Unactive'} />
-            {!session.TFA && <Button theme="SECONDARY">Activate</Button>}
-          </Row>
-        </Page>
-      </Card>
       {(session.role === ROLES.RESEARCHER || session.role === ROLES.ADMIN) &&
         (loadingApiKey ? (
           <Card style={{ marginTop: 16 }}>
@@ -157,21 +130,33 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
             </p>
           </Card>
         ))}
-      {/* <Card style={{ marginTop: 8 }} title="Personal information">
-        <Row align="SPACE">
-          <Preset title="Name" value={session.name} />
-          <Preset title="Surname" value={session.surname} />
-        </Row>
+      {session.organizationId && (
+        <Card style={{ marginTop: 20 }} title="Organization">
+          <Page>
+            <Row align="SPACE">
+              <Preset title="Name" value={session?.organization?.name || '-'} />
+              <Preset title="Domain" value={session?.organization?.domain || '-'} />
+            </Row>
+          </Page>
+        </Card>
+      )}
+      <Card style={{ marginTop: 16 }} title="Security">
+        <Page>
+          <Row align="SPACE">
+            <Preset title="Two factor authentication" value={session.TFA ? 'Active' : 'Unactive'} />
+            {!session.TFA && <Button theme="SECONDARY">Activate</Button>}
+          </Row>
+        </Page>
       </Card>
-      <Card style={{ marginTop: 20 }} title="Contact">
-        <Preset title="Email" value={session.email} />
+      <Card style={{ marginTop: 16 }} title="Profile">
+        <Page>
+          <Row align="SPACE">
+            <Preset title="Name" value={session.name} />
+            <Preset title="Surname" value={session.surname} />
+          </Row>
+          <Preset title="Email" value={session.email} />
+        </Page>
       </Card>
-      <Card style={{ marginTop: 20 }} title="Security">
-        <Row align="SPACE">
-          <Preset title="Role" value={parseRole(session.role)} />
-          <Preset title="2FA" value="" />
-        </Row>
-      </Card> */}
     </Drawer>
   );
 }

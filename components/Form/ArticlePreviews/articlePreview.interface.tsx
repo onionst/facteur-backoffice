@@ -5,4 +5,5 @@ export interface IArticlePreview {
   setForm: any;
   type: ArticleType;
   onPublish: () => void;
+  onBack: () => void;
 }

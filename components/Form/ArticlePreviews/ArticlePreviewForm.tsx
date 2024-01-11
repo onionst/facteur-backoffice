@@ -1,4 +1,4 @@
-import { ArrowRightOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Badge, Divider } from 'antd';
 import { FormEvent, useState } from 'react';
 import { IArticlePreview } from './articlePreview.interface';
@@ -190,8 +190,13 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
         </Card>
       </Page>
       <Row align="RIGHT" style={{ marginTop: 20, paddingRight: 20 }}>
-        <Button loading={loading} type="submit" theme="CTA">
-          Publish <ArrowRightOutlined />
+        <Button type="button" theme="TERTIARY" onClick={props.onBack}>
+          <ArrowLeftOutlined />
+          Go back
+        </Button>
+        <Button loading={loading} theme="CTA" type="submit">
+          Publish
+          <ArrowRightOutlined />
         </Button>
       </Row>
     </form>

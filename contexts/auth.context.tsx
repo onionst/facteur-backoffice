@@ -3,6 +3,7 @@ import { Spin, notification } from 'antd';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react';
 import Store from 'store';
+import { useArticles } from './articles.context';
 import { useOrganizations } from './organizations.context';
 import { useUsers } from './users.context';
 import Logo from '@/bases/Logo';
@@ -46,6 +47,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const organizations = useOrganizations();
   const users = useUsers();
+  const articles = useArticles();
   const router = useRouter();
 
   const [session, setSession] = useState<Session>({
@@ -133,7 +135,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
         if ([ROLES.SUPER_ADMIN, ROLES.ADMIN].includes(data?.role)) {
           users.fetchUsers({});
         }
-
+        if ([ROLES.ADMIN, ROLES.FACT_CHECKER].includes(data?.role)) {
+          articles.fetchArticles({
+            publisher: data.organization.domain
+          });
+        }
         setLoading(false);
       }
     } catch (err) {

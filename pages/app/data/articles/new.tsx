@@ -170,18 +170,36 @@ export default function New() {
           {step === 1 ? (
             articleType ? (
               [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
-                <DebunkArticleDraftForm form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
+                <DebunkArticleDraftForm
+                  onBack={() => setStep(0)}
+                  form={form}
+                  setForm={setForm}
+                  type={articleType}
+                  onContinue={() => setStep(2)}
+                />
               ) : (
-                <ArticleDraftForm form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
+                <ArticleDraftForm
+                  onBack={() => setStep(0)}
+                  form={form}
+                  setForm={setForm}
+                  type={articleType}
+                  onContinue={() => setStep(2)}
+                />
               )
             ) : null
           ) : null}
           {step === 2 ? (
             articleType ? (
               [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
-                <DebunkArticlePreviewForm form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
+                <DebunkArticlePreviewForm
+                  onBack={() => setStep(1)}
+                  form={form}
+                  setForm={setForm}
+                  type={articleType}
+                  onPublish={handleSubmit}
+                />
               ) : (
-                <ArticlePreviewForm form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
+                <ArticlePreviewForm onBack={() => setStep(1)} form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
               )
             ) : null
           ) : null}

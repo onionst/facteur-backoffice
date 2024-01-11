@@ -5,4 +5,5 @@ export interface IArticleDraft {
   setForm: any;
   type: ArticleType;
   onContinue: (form: any) => void;
+  onBack: () => void;
 }

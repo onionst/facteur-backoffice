@@ -1,7 +1,8 @@
 import { notification } from 'antd';
 import { createContext, useContext, useState } from 'react';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
-import { CreateArticle, FetchTranslation } from '@/services/articles.service';
+import { Article } from '@/dtos/articles/article.dto';
+import { CreateArticle, FetchArticles, FetchTranslation } from '@/services/articles.service';
 
 export type ArticlesPage = {
   records: number;
@@ -10,6 +11,10 @@ export type ArticlesPage = {
   nextPage: number | null;
 };
 export type ArticlesContextProps = {
+  articles: Article[];
+  page: ArticlesPage;
+  loading: boolean;
+  fetchArticles: (filter?: any, pageIndex?: any) => Promise<void>;
   createArticle: (article: any) => Promise<void>;
   fetchTranslation: (text: string) => Promise<string>;
 };
@@ -17,10 +22,11 @@ export const ArticlesContext = createContext<ArticlesContextProps>(
   // @ts-ignore
   {}
 );
+export const ARTICLES_LIMIT_PER_PAGE = 20;
 export type ArticlesProviderProps = { children: any };
 export const ArticlesProvider = (props: ArticlesProviderProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [users, setUsers] = useState<User[]>([]);
+  const [articles, setArticles] = useState<Article[]>([]);
 
   const [page, setPage] = useState<ArticlesPage>({
     current: 1,
@@ -28,6 +34,41 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     nextPage: null,
     records: 0
   });
+
+  const fetchArticles = async (filter?: any, pageIndex: number = 1) => {
+    try {
+      setLoading(true);
+      const [data] = await Promise.all([
+        FetchArticles({
+          ...filter,
+          page: pageIndex,
+          limit: ARTICLES_LIMIT_PER_PAGE
+        })
+      ]);
+      setArticles(data.articles);
+      setPage({
+        ...data.page,
+        records: data.records
+      });
+      setLoading(false);
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      setLoading(false);
+    }
+  };
 
   const createArticle = async (article: any): Promise<void> => {
     try {
@@ -83,7 +124,14 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     }
   };
 
-  const context = { createArticle, fetchTranslation };
+  const context = {
+    articles,
+    page,
+    loading,
+    fetchArticles,
+    createArticle,
+    fetchTranslation
+  };
   return <ArticlesContext.Provider value={context}>{props.children}</ArticlesContext.Provider>;
 };
 
