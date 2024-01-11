@@ -43,4 +43,6 @@ export class Article {
     }>;
   };
   associatedClaimReview?: string[];
+  dateModified?: Date;
+  dateCreated?: Date;
 }
