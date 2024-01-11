@@ -15,7 +15,11 @@ export type ArticlesProviderProps = { children: any };
 export const ArticlesProvider = (props: ArticlesProviderProps) => {
   const createArticle = async (article: any): Promise<void> => {
     try {
-      return await CreateArticle(article);
+      await CreateArticle(article);
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'Article published'
+      });
     } catch (err: any) {
       console.error(err);
       if (typeof err?.response?.data?.message === 'object') {

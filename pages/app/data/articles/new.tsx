@@ -6,6 +6,7 @@ import ArticleDraftForm from '@/components/Form/ArticleDrafts/ArticleDraftForm';
 import DebunkArticleDraftForm from '@/components/Form/ArticleDrafts/DebunkArticleDraftForm';
 import ArticlePreviewForm from '@/components/Form/ArticlePreviews/ArticlePreviewForm';
 import DebunkArticlePreviewForm from '@/components/Form/ArticlePreviews/DebunkArticlePreviewForm';
+import ArticlePublished from '@/components/Form/ArticlePublish';
 import SelectArticleType, { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
 import Stepper from '@/components/Stepper/Stepper';
@@ -20,7 +21,7 @@ export default function New() {
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
   const [form, setForm] = useState({
-    type: 'Factcheck',
+    type: '',
     url: '',
     headline: '',
     headlineNative: '',
@@ -98,7 +99,8 @@ export default function New() {
         }
       }
 
-      createArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
+      await createArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
+      setStep(3);
     } catch (err) {
       console.log(err);
     }
@@ -135,6 +137,30 @@ export default function New() {
             <SelectArticleType
               onSelect={type => {
                 setArticleType(type);
+                setForm({
+                  type: '',
+                  url: '',
+                  headline: '',
+                  headlineNative: '',
+                  datePublished: null,
+                  image: '',
+                  keywords: [],
+                  inLanguage: '',
+                  topics: [],
+                  euRelation: '',
+                  countryOfOrigin: '',
+                  contentLocation: '',
+                  claimreviewed: '',
+                  claimreviewedNative: '',
+                  reviewRating: '',
+                  itemReviewed: {
+                    datePublished: null,
+                    author: '',
+                    politicalParty: '',
+                    appearances: []
+                  },
+                  associatedClaimReview: []
+                });
                 setStep(1);
               }}
             />
@@ -157,6 +183,7 @@ export default function New() {
               )
             ) : null
           ) : null}
+          {step === 3 ? <ArticlePublished /> : null}
           {width >= 768 && <div style={{ width: '25%' }}></div>}
         </Row>
       </Wrapper>
