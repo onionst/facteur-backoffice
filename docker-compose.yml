@@ -11,6 +11,7 @@ services:
     environment:
       - NODE_ENV=production
       - PUBLIC_API_URL=http://localhost:5000
+      - GOOGLE_OAUTH_ID=900005146919-3uf9g76ir38ms5asm4s94ohka61b49nh.apps.googleusercontent.com
     ports:
       - 3000:3000
     container_name: efcsn-backoffice

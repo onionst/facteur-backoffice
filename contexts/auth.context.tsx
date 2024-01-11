@@ -10,9 +10,14 @@ import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { ROLES } from '@/constants/roles.constants';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Credentials } from '@/dtos/credentials.dto';
+import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
 import { Session } from '@/dtos/session.dto';
+import { Join as JoinDto } from '@/dtos/users/Join.dto';
 import {
   GetApiCredentials,
+  GetGoogleAccessToken,
+  doOpenGoogleLogin,
+  GetGoogleRefreshToken,
   GetSessionData,
   RefreshApiCredentials,
   RestorePassword,
@@ -21,11 +26,11 @@ import {
   SignInWithTFAToken
 } from '@/services/auth.service';
 import { Join } from '@/services/user.service';
-import { Join as JoinDto } from '@/dtos/users/Join.dto';
 
 export type AuthContextProps = {
   session: Session;
   loading: boolean;
+  doOpenGoogleLogin: string;
   signInWithEmailAndPassword: (credentials: Credentials) => Promise<void>;
   signInWithTFAToken: (token: string) => Promise<void>;
   sendRestorePasswordEmail: (email: string) => Promise<void>;
@@ -33,6 +38,8 @@ export type AuthContextProps = {
   getApiCredentials: (id?: string, type?: string) => Promise<string>;
   acceptInvitation: (join: JoinDto, token: string) => Promise<void>;
   refreshApiCredentials: (id?: string, type?: string) => Promise<string>;
+  googleAccessToken: (code: string) => Promise<void>;
+  googleRefreshToken: (googleRefreshToken: GoogleRefreshToken) => Promise<string>;
   signOut: () => Promise<void>;
 };
 export type AuthProviderProps = { children: any };
@@ -58,6 +65,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
   useEffect(() => {
     getSessionData(router.asPath);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getApiCredentials = async (id?: string, type?: string) => {
@@ -300,6 +308,77 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
+  const googleLoginModal = async () => {
+    return doOpenGoogleLogin;
+  };
+
+  const googleAccessToken = async (code: string) => {
+    try {
+      await GetGoogleAccessToken(code);
+      await getSessionData('/app');
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'Welcome Back!',
+        description: "You've successfully signed in"
+      });
+      router.push('/app');
+    } catch (err: any) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else if (err.name === 'AxiosError') {
+        const { message } = err.response.data;
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: message ?? 'Invalid google access token'
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Invalid google access token'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
+
+  const googleRefreshToken = async (refreshToken: GoogleRefreshToken) => {
+    try {
+      const status = await GetGoogleRefreshToken(refreshToken);
+      await getSessionData('/app');
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'Welcome Back!',
+        description: "You've successfully signed in"
+      });
+      return status;
+    } catch (err: any) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Invalid google refresh token'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
+
   const signOut = async () => {
     try {
       await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
@@ -321,7 +400,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
     acceptInvitation,
     getApiCredentials,
     refreshApiCredentials,
-    signOut
+    signOut,
+    googleLoginModal,
+    doOpenGoogleLogin,
+    googleAccessToken,
+    googleRefreshToken
   };
 
   return (

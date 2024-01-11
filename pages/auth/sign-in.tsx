@@ -1,31 +1,25 @@
 import { ArrowRightOutlined } from '@ant-design/icons';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
 import { Input } from '../../bases/Input';
 import Button from '@/bases/Button/Button';
 import Logo from '@/bases/Logo';
 import { useAuth } from '@/contexts/auth.context';
-import { useModal } from '@/contexts/modal.context';
 import { Credentials } from '@/dtos/credentials.dto';
 
 export default function SignIn(): JSX.Element {
   const router = useRouter();
-  const modals = useModal();
-  const { signInWithEmailAndPassword, signInWithTFAToken } = useAuth();
+  const { signInWithEmailAndPassword, signInWithTFAToken, doOpenGoogleLogin } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<Credentials>({
     email: '',
     password: ''
   });
-  const { showTFAEmailSent } = modals.auth;
 
   useEffect(() => {
     try {
-      if (router.query?.tfa === 'pending') {
-        showTFAEmailSent();
-      }
-
       if (router?.query?.t) {
         const token = router?.query?.t;
         if (token && typeof token === 'string') {
@@ -72,10 +66,10 @@ export default function SignIn(): JSX.Element {
           </div>
           <div className="ds-sign-in__left-g">
             <button type="button">
-              <span>
+              <Link href={doOpenGoogleLogin}>
                 <Image src="/assets/icons/g-icon.png" width={18} height={18} alt={''} />
                 <span style={{ marginLeft: 12 }}>Continue with Google</span>
-              </span>
+              </Link>
             </button>
           </div>
           <div className="ds-sign-in__left-s">

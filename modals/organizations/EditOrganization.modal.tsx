@@ -3,19 +3,19 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Copy, Eye, EyeOff, RefreshCw, X } from 'react-feather';
 import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
+import IconButton from '@/bases/IconButton/IconButton';
 import { Input } from '@/bases/Input';
+import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
+import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
+import { useAuth } from '@/contexts/auth.context';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { Organization } from '@/dtos/organizations/organization.dto';
 import { UpdateOrganization } from '@/dtos/organizations/updateOrganization.dto';
-import IconButton from '@/bases/IconButton/IconButton';
-import Row from '@/bases/Row/Row';
-import { useAuth } from '@/contexts/auth.context';
-import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 
 export type EditOrganizationModalProps = {
   id: string;
@@ -70,8 +70,8 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
   const fetchApiCredentials = async (id: string) => {
     try {
       setLoadingApiKey(true);
-      const apiKey = await getApiCredentials(id, 'ORGANIZATION');
-      setApiKey(apiKey);
+      const apiKeyCredentials = await getApiCredentials(id, 'ORGANIZATION');
+      setApiKey(apiKeyCredentials);
       setLoadingApiKey(false);
     } catch (err) {
       setLoadingApiKey(false);
@@ -81,8 +81,8 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
   const handleRefreshApiKey = async () => {
     try {
       setRefreshingApiKey(true);
-      const apiKey = await refreshApiCredentials(props.id, 'ORGANIZATION');
-      setApiKey(apiKey);
+      const apiKeyRefresh = await refreshApiCredentials(props.id, 'ORGANIZATION');
+      setApiKey(apiKeyRefresh);
       setShowApiKey(true);
       setRefreshingApiKey(false);
     } catch (err) {
@@ -94,7 +94,10 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
     if (props.id) {
       fetchData(props.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props?.id]);
+
+  const titleKey = "Organization's API KEY";
 
   return (
     <Modal {...props} closeIcon={<X />} key={organization?.id}>
@@ -160,7 +163,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
               </Wrapper>
             ) : apiKey ? (
               <Wrapper>
-                <h5>Organization's API KEY</h5>
+                <h5>{titleKey}</h5>
                 <Row align="SPACE">
                   <Input
                     style={{ height: 32, width: '100%', backgroundColor: '#FFF' }}

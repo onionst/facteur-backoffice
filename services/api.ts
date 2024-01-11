@@ -1,7 +1,11 @@
 import axios from 'axios';
 import getConfig from 'next/config';
+import { ApiError } from 'next/dist/server/api-utils';
 import Store from 'store';
+import { GetGoogleRefreshToken, GetSessionData } from './auth.service';
+import { HttpStatus } from './http-status.enum';
 import { STORAGE_KEYS } from '@/constants/store.constant';
+import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -25,9 +29,49 @@ api.interceptors.request.use(
 
     return config;
   },
-  error => {
-    // Do something with request error
-    return Promise.reject(error);
+  async error => {
+    const data = (error.response?.data as any) || {};
+    const { message } = data ?? undefined;
+    const status = error.response?.status || HttpStatus.INTERNAL_SERVER_ERROR;
+    // we can handle global errors here
+    switch (status) {
+      // authentication (token related issues)
+      case HttpStatus.UNAUTHORIZED: {
+        const { data: sessionData } = await GetSessionData();
+        const { refreshToken } = sessionData;
+        if (refreshToken) {
+          const newStatus = await GetGoogleRefreshToken({ refreshToken } as GoogleRefreshToken);
+          if ('AUTHORIZED' === newStatus) {
+            return;
+          }
+        }
+        return Promise.reject(new ApiError(HttpStatus.UNAUTHORIZED, message));
+      }
+      // forbidden (permission related issues)
+      case HttpStatus.FORBIDDEN: {
+        return Promise.reject(new ApiError(HttpStatus.FORBIDDEN, message));
+      }
+      // bad request
+      case HttpStatus.BAD_REQUEST: {
+        return Promise.reject(new ApiError(HttpStatus.BAD_REQUEST, message));
+      }
+      // not found
+      case HttpStatus.NOT_FOUND: {
+        return Promise.reject(new ApiError(HttpStatus.NOT_FOUND, message));
+      }
+      // conflict
+      case HttpStatus.CONFLICT: {
+        return Promise.reject(new ApiError(HttpStatus.CONFLICT, message));
+      }
+      // unprocessable
+      case HttpStatus.UNPROCESSABLE_ENTITY: {
+        return Promise.reject(new ApiError(HttpStatus.UNPROCESSABLE_ENTITY, message));
+      }
+      // generic api error (server related) unexpected
+      default: {
+        return Promise.reject(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, 'Something went wrong fetching data'));
+      }
+    }
   }
 );
 
