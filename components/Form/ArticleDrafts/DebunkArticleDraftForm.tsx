@@ -314,8 +314,8 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                   />
                   <Input
                     label="Archived url"
-                    key={`${appearance.id}_URL`}
-                    value={appearance?.url}
+                    key={`${appearance.id}_archived`}
+                    value={appearance?.archivedAt}
                     onChange={v =>
                       setForm((prev: any) => ({
                         ...prev,
@@ -327,7 +327,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                             }
                             return {
                               ..._appearance,
-                              url: v.target.value
+                              archivedAt: v.target.value
                             };
                           })
                         }

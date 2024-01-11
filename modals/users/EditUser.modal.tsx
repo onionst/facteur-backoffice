@@ -3,20 +3,20 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Copy, Eye, EyeOff, RefreshCw, X } from 'react-feather';
 import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
+import IconButton from '@/bases/IconButton/IconButton';
 import { Input } from '@/bases/Input';
-import { useUsers } from '@/contexts/users.context';
-import { User } from '@/dtos/users/user.dto';
+import Row from '@/bases/Row/Row';
+import Select from '@/bases/Select';
+import Switch from '@/bases/Switch/Switch';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
-import Row from '@/bases/Row/Row';
-import Switch from '@/bases/Switch/Switch';
+import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { ROLES } from '@/constants/roles.constants';
 import { useAuth } from '@/contexts/auth.context';
-import IconButton from '@/bases/IconButton/IconButton';
-import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { useOrganizations } from '@/contexts/organizations.context';
-import Select from '@/bases/Select';
+import { useUsers } from '@/contexts/users.context';
 import { Organization } from '@/dtos/organizations/organization.dto';
+import { User } from '@/dtos/users/user.dto';
 
 export type EditUserModalProps = {
   id: string;
@@ -160,7 +160,7 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
                 <Card title="2FA" style={{ background: '#FFF' }}>
                   <Switch checked={user?.TFA} onChange={TFA => setUser(prev => ({ ...prev, TFA }))} left="Unactive" right="Active" />
                 </Card>
-                {user?.email != session?.email ? (
+                {user?.email != session?.email && user.organizationId ? (
                   <Card title="Role" style={{ background: '#FFF' }}>
                     <Switch
                       checked={user?.organizationId ? ROLES.ADMIN === user?.role : ROLES.SUPER_ADMIN === user?.role}
@@ -195,7 +195,7 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
                 </Card>
               ) : apiKey ? (
                 <Card>
-                  <h5>Researcher's API KEY</h5>
+                  <h5>{"Researcher's"} API KEY</h5>
                   <Row align="SPACE">
                     <Input
                       style={{ height: 32, width: '100%', backgroundColor: '#FFF' }}
