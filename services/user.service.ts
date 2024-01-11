@@ -1,11 +1,11 @@
-import { UpdateUser as UpdateUserDto } from '@/dtos/users/updateUser.dto';
-import { api, customApi, parseUrl } from './api';
 import Store from 'store';
-import { User } from '@/dtos/users/user.dto';
+import { api, customApi, parseUrl } from './api';
+import { STORAGE_KEYS } from '@/constants/store.constant';
+import { Access } from '@/dtos/access.dto';
 import { InviteUser as InviteUserDto } from '@/dtos/users/InviteUser.dto';
 import { Join as JoinDto } from '@/dtos/users/Join.dto';
-import { Access } from '@/dtos/access.dto';
-import { STORAGE_KEYS } from '@/constants/store.constant';
+import { UpdateUser as UpdateUserDto } from '@/dtos/users/updateUser.dto';
+import { User } from '@/dtos/users/user.dto';
 
 const PREFIX = '/users';
 
@@ -45,6 +45,11 @@ export const DeleteUser = async (id: string) => {
 
 export const InviteUser = async (invite: InviteUserDto): Promise<User> => {
   const response = await api.post(parseUrl(PREFIX, 'invite'), invite);
+  return response.data;
+};
+
+export const ResendInvitation = async (id: string): Promise<User> => {
+  const response = await api.post(parseUrl(PREFIX, 'invite/resend'), { id });
   return response.data;
 };
 
