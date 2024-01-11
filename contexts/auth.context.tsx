@@ -60,9 +60,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     role: ROLES.VIEWER,
     name: '',
     surname: '',
-    organizationId: '',
-    refreshToken: undefined,
-    idToken: undefined
+    organizationId: ''
   });
 
   useEffect(() => {
@@ -140,9 +138,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
           role: data?.role,
           name: data?.name,
           surname: data?.surname,
-          organizationId: data?.organizationId,
-          refreshToken: data?.refreshToken,
-          idToken: data?.idToken
+          organizationId: data?.organizationId
         });
 
         if (data?.role === ROLES.SUPER_ADMIN) {
