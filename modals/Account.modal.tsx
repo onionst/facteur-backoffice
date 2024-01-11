@@ -1,18 +1,16 @@
+import { Drawer, DrawerProps, Popconfirm, Skeleton, Tooltip, notification } from 'antd';
+import { useEffect, useState } from 'react';
+import { Copy, Eye, EyeOff, Minus, RefreshCw } from 'react-feather';
+import Button from '@/bases/Button/Button';
+import IconButton from '@/bases/IconButton/IconButton';
 import { Input } from '@/bases/Input';
 import { Preset } from '@/bases/Preset/Preset';
 import Row from '@/bases/Row/Row';
 import Card from '@/components/Card/Card';
-import { useAuth } from '@/contexts/auth.context';
-import { Divider, Drawer, DrawerProps, Popconfirm, Skeleton, Tooltip, notification } from 'antd';
-import { parseRole } from './users/InviteUsers.modal';
-import IconButton from '@/bases/IconButton/IconButton';
-import { Copy, Edit, Eye, EyeOff, Minus, RefreshCw } from 'react-feather';
 import Page from '@/components/Page/Page';
-import { useEffect, useState } from 'react';
-import Button from '@/bases/Button/Button';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { ROLES } from '@/constants/roles.constants';
-import Switch from '@/bases/Switch/Switch';
+import { useAuth } from '@/contexts/auth.context';
 
 export type AccountModalProps = {};
 export function AccountModal(props: AccountModalProps & DrawerProps) {
@@ -80,7 +78,10 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
       </Card>
       <Card style={{ marginTop: 16 }} title="Security">
         <Page>
-          <Preset title="Two factor authentication" value={session.TFA ? 'Active' : 'Unactive'} />
+          <Row align="SPACE">
+            <Preset title="Two factor authentication" value={session.TFA ? 'Active' : 'Unactive'} />
+            {!session.TFA && <Button theme="SECONDARY">Activate</Button>}
+          </Row>
         </Page>
       </Card>
       {(session.role === ROLES.RESEARCHER || session.role === ROLES.ADMIN) &&
