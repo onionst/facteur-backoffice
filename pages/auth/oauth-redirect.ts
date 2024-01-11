@@ -16,7 +16,7 @@ const OAuth = () => {
   useEffect(() => {
     if (!code) return;
     const authUser = async () => {
-      if (!session?.email) await googleAccessToken(code as string).catch(() => router.push('app'));
+      if (!session?.email) await googleAccessToken(code as string).catch(() => router.push('/app'));
     };
 
     authUser();
