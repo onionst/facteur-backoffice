@@ -78,7 +78,6 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
         message: 'Article published'
       });
     } catch (err: any) {
-      console.error(err);
       if (typeof err?.response?.data?.message === 'object') {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,

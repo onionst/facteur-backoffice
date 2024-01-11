@@ -105,6 +105,7 @@ export default function New() {
       setStep(3);
     } catch (err) {
       console.log(err);
+      setStep(1);
     }
   };
 

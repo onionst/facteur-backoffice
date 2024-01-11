@@ -401,37 +401,36 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                       }
                     />
                   </Row>
-                  <Row align="SPACE">
-                    <DatePicker label="Date archived" />
-                    <Select
-                      label="Platform"
-                      required
-                      defaultValue={appearance?.platform}
-                      options={[
-                        ...Object.entries(Platform).map(([key, value]) => ({
-                          value: key.split('_').join(' '),
-                          label: value.split('_').join(' ')
-                        }))
-                      ]}
-                      onChange={v =>
-                        setForm((prev: any) => ({
-                          ...prev,
-                          itemReviewed: {
-                            ...prev.itemReviewed,
-                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                              if (_appearance.id != appearance.id) {
-                                return _appearance;
-                              }
-                              return {
-                                ..._appearance,
-                                platform: v
-                              };
-                            })
-                          }
-                        }))
-                      }
-                    />
-                  </Row>
+
+                  <Select
+                    label="Platform"
+                    required
+                    defaultValue={appearance?.platform}
+                    options={[
+                      ...Object.entries(Platform).map(([key, value]) => ({
+                        value: key.split('_').join(' '),
+                        label: value.split('_').join(' ')
+                      }))
+                    ]}
+                    onChange={v =>
+                      setForm((prev: any) => ({
+                        ...prev,
+                        itemReviewed: {
+                          ...prev.itemReviewed,
+                          appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
+                            if (_appearance.id != appearance.id) {
+                              return _appearance;
+                            }
+                            return {
+                              ..._appearance,
+                              platform: v
+                            };
+                          })
+                        }
+                      }))
+                    }
+                  />
+
                   <Row align="RIGHT">
                     <span
                       className="c-pointer mt-2"

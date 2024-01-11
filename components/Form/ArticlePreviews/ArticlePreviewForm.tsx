@@ -28,9 +28,8 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
       setLoading(true);
       e?.preventDefault();
       props.onPublish();
-      setLoading(false);
     } catch (err) {
-      setLoading(false);
+      console.log(err);
     }
   };
 
