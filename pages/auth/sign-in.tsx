@@ -1,11 +1,9 @@
 import { ArrowRightOutlined } from '@ant-design/icons';
-import getConfig from 'next/config';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
 import { Input } from '../../bases/Input';
-import { REDIRECT_URI } from './oauth-redirect';
 import Button from '@/bases/Button/Button';
 import Logo from '@/bases/Logo';
 import { useAuth } from '@/contexts/auth.context';
@@ -13,8 +11,7 @@ import { Credentials } from '@/dtos/credentials.dto';
 
 export default function SignIn(): JSX.Element {
   const router = useRouter();
-  const { signInWithEmailAndPassword, signInWithTFAToken } = useAuth();
-  const { publicRuntimeConfig } = getConfig();
+  const { signInWithEmailAndPassword, signInWithTFAToken, doOpenGoogleLogin } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<Credentials>({
     email: '',
@@ -50,15 +47,6 @@ export default function SignIn(): JSX.Element {
     }
   };
 
-  const doSignIn =
-    'https://accounts.google.com/o/oauth2/v2/auth' +
-    `?client_id=${publicRuntimeConfig.GOOGLE_OAUTH_ID}` +
-    '&scope=profile%20email' +
-    '&response_type=code' +
-    '&access_type=offline' +
-    '&prompt=consent' +
-    `&redirect_uri=${REDIRECT_URI}`;
-
   return (
     <div className="ds-sign-in">
       <div className="ds-sign-in__left-container">
@@ -78,7 +66,7 @@ export default function SignIn(): JSX.Element {
           </div>
           <div className="ds-sign-in__left-g">
             <button type="button">
-              <Link href={doSignIn}>
+              <Link href={doOpenGoogleLogin}>
                 <Image src="/assets/icons/g-icon.png" width={18} height={18} alt={''} />
                 <span style={{ marginLeft: 12 }}>Continue with Google</span>
               </Link>

@@ -2,7 +2,6 @@ import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAuth } from '@/contexts/auth.context';
-import { GoogleAccessToken } from '@/dtos/google-access-token.dto';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -17,7 +16,7 @@ const OAuth = () => {
   useEffect(() => {
     if (!code) return;
     const authUser = async () => {
-      if (!session?.email) await googleAccessToken({ code, redirectUri: REDIRECT_URI } as GoogleAccessToken);
+      if (!session?.email) await googleAccessToken(code as string).catch(() => router.push('app'));
     };
 
     authUser();

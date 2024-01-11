@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import Store from 'store';
 import { api, customApi, parseUrl } from './api';
 import { STORAGE_KEYS } from '@/constants/store.constant';
@@ -7,6 +8,19 @@ import { GoogleAccessToken } from '@/dtos/google-access-token.dto';
 import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
 
 const PREFIX = '/auth';
+
+const { publicRuntimeConfig } = getConfig();
+
+const REDIRECT_URI = `${publicRuntimeConfig.APP_URL}/auth/oauth-redirect`;
+
+export const doOpenGoogleLogin =
+  'https://accounts.google.com/o/oauth2/v2/auth' +
+  `?client_id=${publicRuntimeConfig.GOOGLE_OAUTH_ID}` +
+  '&scope=profile%20email' +
+  '&response_type=code' +
+  '&access_type=offline' +
+  '&prompt=consent' +
+  `&redirect_uri=${REDIRECT_URI}`;
 
 export const SignInWithEmailAndPassword = async (credentials: Credentials): Promise<'AUTHORIZED' | '2FA'> => {
   const response = await api.post(parseUrl(PREFIX, '/sign-in/credentials'), credentials);
@@ -64,7 +78,8 @@ export const RefreshApiCredentials = async (id?: string, type?: string): Promise
   return response?.data;
 };
 
-export const GetGoogleAccessToken = async (googleAccessToken: GoogleAccessToken): Promise<'AUTHORIZED' | '2FA'> => {
+export const GetGoogleAccessToken = async (code: string): Promise<'AUTHORIZED' | '2FA'> => {
+  const googleAccessToken = { code, redirectUri: REDIRECT_URI } as GoogleAccessToken;
   const response = await api.post(parseUrl(PREFIX, '/google-access-token'), googleAccessToken);
   const access: Access = response.data;
   if (access.status === 'AUTHORIZED') {

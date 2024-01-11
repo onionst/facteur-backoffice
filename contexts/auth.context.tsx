@@ -10,13 +10,13 @@ import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { ROLES } from '@/constants/roles.constants';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Credentials } from '@/dtos/credentials.dto';
-import { GoogleAccessToken } from '@/dtos/google-access-token.dto';
 import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
 import { Session } from '@/dtos/session.dto';
 import { Join as JoinDto } from '@/dtos/users/Join.dto';
 import {
   GetApiCredentials,
   GetGoogleAccessToken,
+  doOpenGoogleLogin,
   GetGoogleRefreshToken,
   GetSessionData,
   RefreshApiCredentials,
@@ -30,6 +30,7 @@ import { Join } from '@/services/user.service';
 export type AuthContextProps = {
   session: Session;
   loading: boolean;
+  doOpenGoogleLogin: string;
   signInWithEmailAndPassword: (credentials: Credentials) => Promise<void>;
   signInWithTFAToken: (token: string) => Promise<void>;
   sendRestorePasswordEmail: (email: string) => Promise<void>;
@@ -37,7 +38,7 @@ export type AuthContextProps = {
   getApiCredentials: (id?: string, type?: string) => Promise<string>;
   acceptInvitation: (join: JoinDto, token: string) => Promise<void>;
   refreshApiCredentials: (id?: string, type?: string) => Promise<string>;
-  googleAccessToken: (googleAccessToken: GoogleAccessToken) => Promise<void>;
+  googleAccessToken: (code: string) => Promise<void>;
   googleRefreshToken: (googleRefreshToken: GoogleRefreshToken) => Promise<string>;
   signOut: () => Promise<void>;
 };
@@ -311,9 +312,13 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
-  const googleAccessToken = async (accessToken: GoogleAccessToken) => {
+  const googleLoginModal = async () => {
+    return doOpenGoogleLogin;
+  };
+
+  const googleAccessToken = async (code: string) => {
     try {
-      await GetGoogleAccessToken(accessToken);
+      await GetGoogleAccessToken(code);
       await getSessionData('/app');
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
@@ -329,6 +334,13 @@ export const AuthProvider = (props: AuthProviderProps) => {
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
           description: err?.response?.data?.message[0]
+        });
+      } else if (err.name === 'AxiosError') {
+        const { message } = err.response.data;
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: message ?? 'Invalid google access token'
         });
       } else {
         notification.error({
@@ -393,6 +405,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
     getApiCredentials,
     refreshApiCredentials,
     signOut,
+    googleLoginModal,
+    doOpenGoogleLogin,
     googleAccessToken,
     googleRefreshToken
   };
