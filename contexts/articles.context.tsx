@@ -2,7 +2,7 @@ import { notification } from 'antd';
 import { createContext, useContext, useState } from 'react';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
-import { CreateArticle, FetchArticles, FetchTranslation } from '@/services/articles.service';
+import { CreateArticle, DeleteArticle, FetchArticles, FetchTranslation } from '@/services/articles.service';
 
 export type ArticlesPage = {
   records: number;
@@ -14,8 +14,10 @@ export type ArticlesContextProps = {
   articles: Article[];
   page: ArticlesPage;
   loading: boolean;
+  fetchArticleData: (id: string) => Promise<Article | undefined>;
   fetchArticles: (filter?: any, pageIndex?: any) => Promise<void>;
   createArticle: (article: any) => Promise<void>;
+  deleteArticle: (id: string) => Promise<void>;
   fetchTranslation: (text: string) => Promise<string>;
 };
 export const ArticlesContext = createContext<ArticlesContextProps>(
@@ -34,6 +36,10 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     nextPage: null,
     records: 0
   });
+
+  const fetchArticleData = async (id: string): Promise<Article | undefined> => {
+    return articles.find(article => article.externalId === id);
+  };
 
   const fetchArticles = async (filter?: any, pageIndex: number = 1) => {
     try {
@@ -123,12 +129,40 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     }
   };
 
+  const deleteArticle = async (id: string) => {
+    try {
+      await DeleteArticle(id);
+      setArticles((prev: any) => prev.filter((article: any) => article.externalId != id));
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'User deleted'
+      });
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+    }
+  };
+
   const context = {
     articles,
     page,
     loading,
+    fetchArticleData,
     fetchArticles,
     createArticle,
+    deleteArticle,
     fetchTranslation
   };
   return <ArticlesContext.Provider value={context}>{props.children}</ArticlesContext.Provider>;

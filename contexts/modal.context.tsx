@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from './auth.context';
 import { AccountModal } from '@/modals/Account.modal';
+import { DeleteArticleModal } from '@/modals/articles/DeleteArticle.modal';
 import { CreateOrganizationModal } from '@/modals/organizations/CreateOrganization.modal';
 import { DeleteOrganizationModal } from '@/modals/organizations/DeleteOrganization.modal';
 import { EditOrganizationModal } from '@/modals/organizations/EditOrganization.modal';
@@ -30,6 +31,9 @@ export const ModalContext = createContext<{
     showEditUser: (id: string) => void;
     showRestoreUser: (id: string) => void;
   };
+  articles: {
+    showDeleteArticle: (id: string) => void;
+  };
   // @ts-ignore
 }>({});
 
@@ -54,6 +58,10 @@ export const ModalProvider = (props: { children: any }) => {
   const [editUserActive, setEditUserActive] = useState<string>('');
   const [restoreUserActive, setRestoreUserActive] = useState<string>('');
   // <!--- users --->
+
+  // <--- articles --->
+  const [deleteArticleActive, setDeleteArticleActive] = useState<string>('');
+  // <!--- articles --->
 
   useEffect(() => {
     setEmailSentActive(false);
@@ -86,6 +94,9 @@ export const ModalProvider = (props: { children: any }) => {
       showDeleteUser: (id: string) => setDeleteUserActive(id),
       showEditUser: (id: string) => setEditUserActive(id),
       showRestoreUser: (id: string) => setRestoreUserActive(id)
+    },
+    articles: {
+      showDeleteArticle: (id: string) => setDeleteArticleActive(id)
     }
   };
 
@@ -158,6 +169,13 @@ export const ModalProvider = (props: { children: any }) => {
           open={restoreUserActive != ''}
           id={restoreUserActive}
           onCancel={() => setRestoreUserActive('')}
+        />
+        <DeleteArticleModal
+          footer={null}
+          width={424}
+          onCancel={() => setDeleteArticleActive('')}
+          id={deleteArticleActive}
+          open={deleteArticleActive != ''}
         />
         {props.children}
       </>

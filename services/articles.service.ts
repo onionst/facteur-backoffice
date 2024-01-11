@@ -38,3 +38,7 @@ export const FetchTranslation = async (text: string): Promise<string> => {
   const response = await api.post(parseUrl(PREFIX, 'translate'), { text });
   return response.data;
 };
+
+export const DeleteArticle = async (id: string): Promise<void> => {
+  await api.delete(parseUrl(PREFIX, id));
+};

@@ -259,7 +259,7 @@ export const InviteUsersModal = (props: InviteUsersModalProps & ModalProps) => {
                       <span>{invitation.email}</span>
 
                       <div className={s['ds-modal-form__invite-item']}>
-                        {parseRole(invitation.role)}
+                        {type === ROLES.FACT_CHECKER ? parseRole(invitation.role) : parseRole(type)}
                         <div onClick={() => setInvitations(prev => prev.filter(_invitation => _invitation.email != invitation.email))}>
                           <X />
                         </div>

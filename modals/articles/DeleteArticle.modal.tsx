@@ -6,28 +6,28 @@ import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
-import { useUsers } from '@/contexts/users.context';
-import { User } from '@/dtos/users/user.dto';
+import { useArticles } from '@/contexts/articles.context';
+import { Article } from '@/dtos/articles/article.dto';
 
-export type DeleteUserInvitationModalProps = {
+export type DeleteArticleModalProps = {
   id: string;
 };
-export const DELETE_USER_INVITATION_CONFIRMATION = 'discard';
-export const DeleteUserInvitationModal = (props: DeleteUserInvitationModalProps & ModalProps) => {
+export const DELETE_ARTICLE_CONFIRMATION = 'delete';
+export const DeleteArticleModal = (props: DeleteArticleModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [confirmation, setConfirmation] = useState<string>('');
-  const { fetchUserData, deleteUser } = useUsers();
-  const [user, setUser] = useState<Partial<User>>({});
+  const { fetchArticleData, deleteArticle } = useArticles();
+  const [article, setArticle] = useState<Partial<Article>>({});
 
-  const handleDeleteUserInvitation = async (e: FormEvent) => {
+  const handleDeleteUser = async (e: FormEvent) => {
     try {
       e?.preventDefault();
       setLoading(true);
-      if (confirmation?.toLowerCase() != DELETE_USER_INVITATION_CONFIRMATION) {
+      if (confirmation?.toLowerCase() != DELETE_ARTICLE_CONFIRMATION) {
         setLoading(false);
         return;
       }
-      await deleteUser(props.id);
+      await deleteArticle(props.id);
       setLoading(false);
       // @ts-ignore
       props.onCancel();
@@ -38,13 +38,13 @@ export const DeleteUserInvitationModal = (props: DeleteUserInvitationModalProps 
   };
 
   const fetchData = async (id: string) => {
-    const data = await fetchUserData(id);
+    const data = await fetchArticleData(id);
     if (!data) {
       // @ts-ignore
       props.onCancel();
     } else {
       setConfirmation('');
-      setUser(data);
+      setArticle(data);
     }
   };
 
@@ -56,27 +56,21 @@ export const DeleteUserInvitationModal = (props: DeleteUserInvitationModalProps 
 
   return (
     <Modal {...props} closeIcon={<X />}>
-      <ModalHeader
-        type="ATTENTION"
-        subTitle="Discard invitation"
-        title={
-          user?.email ? `Are you sure you want to discard ${user?.email} invitation?` : 'Are you sure you want to discard this invitation?'
-        }
-      />
-      <form className={s['ds-modal-form']} onSubmit={handleDeleteUserInvitation}>
+      <ModalHeader type="ATTENTION" subTitle="Delete article" title="Are you sure you want to delete this article?" />
+      <form className={s['ds-modal-form']} onSubmit={handleDeleteUser}>
         <Card>
           <Input
             required
-            label={`Write '${DELETE_USER_INVITATION_CONFIRMATION}' to discard this invitation`}
-            placeholder="Discard confirmation"
+            label={`Write '${DELETE_ARTICLE_CONFIRMATION}' to delete this article`}
+            placeholder="Delete confirmation"
             value={confirmation}
             onChange={v => setConfirmation(v.target.value)}
           />
         </Card>
 
         <div className={s['ds-modal-form__buttons']}>
-          <Button loading={loading} disabled={confirmation?.toLowerCase() != DELETE_USER_INVITATION_CONFIRMATION} theme="ATTENTION">
-            Discard
+          <Button loading={loading} disabled={confirmation?.toLowerCase() != DELETE_ARTICLE_CONFIRMATION} theme="ATTENTION">
+            Delete
           </Button>
           <Button type="button" onClick={props.onCancel} theme="SECONDARY">
             Cancel

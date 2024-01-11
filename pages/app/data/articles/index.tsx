@@ -13,10 +13,13 @@ import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { ARTICLES_LIMIT_PER_PAGE, useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
+import { useModal } from '@/contexts/modal.context';
 
 export default function Articles() {
-  const { session } = useAuth();
   const [filter, setFilter] = useState<any>({});
+  const modals = useModal();
+  const { session } = useAuth();
+  const { showDeleteArticle } = modals.articles;
   const { articles, fetchArticles, page, ...articlesProps } = useArticles();
   return (
     <>
@@ -63,7 +66,9 @@ export default function Articles() {
             ]}
             data={articles.map(article => [
               article?.headlineNative,
-              article?.url,
+              <Link href={article?.url} key={article?.externalId + 'link'}>
+                {article?.url}
+              </Link>,
               dayjs(article?.dateModified).format('DD/MM/YYYY'),
               <Row align="RIGHT" key={article?.externalId + 'actions'}>
                 <IconButton
@@ -76,7 +81,7 @@ export default function Articles() {
 
                 <IconButton
                   onClick={() => {
-                    // showDeleteUser(user?.id);
+                    showDeleteArticle(article?.externalId);
                   }}
                 >
                   <X color="#252f4a" size={18} />

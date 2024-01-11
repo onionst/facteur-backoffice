@@ -4,10 +4,10 @@ import { X } from 'react-feather';
 import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
+import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { useUsers } from '@/contexts/users.context';
 import { User } from '@/dtos/users/user.dto';
-import Card from '@/components/Card/Card';
 
 export type DeleteUserModalProps = {
   id: string;
