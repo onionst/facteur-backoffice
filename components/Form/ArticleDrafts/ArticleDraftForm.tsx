@@ -103,12 +103,13 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
             />
             <Select
               label="Language"
+              required
               defaultValue={form?.inLanguage}
               options={[
                 { label: "Article's language", value: '' },
                 ...Object.entries(LanguageISO).map(([key, value]) => ({
-                  label: key,
-                  value
+                  label: key.split('_').join(' '),
+                  value: value.split('_').join(' ')
                 }))
               ]}
               onChange={v => setForm((prev: any) => ({ ...prev, inLanguage: v }))}

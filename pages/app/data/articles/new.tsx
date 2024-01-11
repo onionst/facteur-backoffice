@@ -12,10 +12,12 @@ import Header from '@/components/Header/Header';
 import Stepper from '@/components/Stepper/Stepper';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { useArticles } from '@/contexts/articles.context';
+import { useAuth } from '@/contexts/auth.context';
 import useWindowSize from '@/hooks/useWindowWidth';
 
 export default function New() {
   const router = useRouter();
+  const { session } = useAuth();
   const { createArticle } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
@@ -28,10 +30,10 @@ export default function New() {
     datePublished: null,
     image: '',
     keywords: [],
-    inLanguage: '',
+    inLanguage: session.organization?.language || '',
     topics: [],
     euRelation: '',
-    countryOfOrigin: '',
+    countryOfOrigin: session.organization?.country || '',
     contentLocation: '',
     claimreviewed: '',
     claimreviewedNative: '',
@@ -145,10 +147,10 @@ export default function New() {
                   datePublished: null,
                   image: '',
                   keywords: [],
-                  inLanguage: '',
+                  inLanguage: session.organization?.language || '',
                   topics: [],
                   euRelation: '',
-                  countryOfOrigin: '',
+                  countryOfOrigin: session.organization?.country || '',
                   contentLocation: '',
                   claimreviewed: '',
                   claimreviewedNative: '',

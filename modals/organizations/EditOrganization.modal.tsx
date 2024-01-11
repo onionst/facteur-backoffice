@@ -3,19 +3,19 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Copy, Eye, EyeOff, RefreshCw, X } from 'react-feather';
 import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
+import IconButton from '@/bases/IconButton/IconButton';
 import { Input } from '@/bases/Input';
+import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select';
+import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
+import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
+import { useAuth } from '@/contexts/auth.context';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { Organization } from '@/dtos/organizations/organization.dto';
 import { UpdateOrganization } from '@/dtos/organizations/updateOrganization.dto';
-import IconButton from '@/bases/IconButton/IconButton';
-import Row from '@/bases/Row/Row';
-import { useAuth } from '@/contexts/auth.context';
-import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
-import Card from '@/components/Card/Card';
 
 export type EditOrganizationModalProps = {
   id: string;
@@ -40,8 +40,8 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
         name: form.name?.trim(),
         domain: form.domain?.trim()
       };
-      if (form.domain) {
-        payload.domain = form.domain;
+      if (form.language) {
+        payload.language = form.language;
       }
       if (form.country) {
         payload.country = form.country;
@@ -160,7 +160,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
               </Card>
             ) : apiKey ? (
               <Card>
-                <h5>Organization's API KEY</h5>
+                <h5>{"Organization's"} API KEY</h5>
                 <Row align="SPACE">
                   <Input
                     style={{ height: 32, width: '100%', backgroundColor: '#FFF' }}

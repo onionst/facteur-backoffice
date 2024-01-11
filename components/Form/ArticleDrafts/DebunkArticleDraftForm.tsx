@@ -113,6 +113,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             />
             <Select
               label="Language"
+              required
               defaultValue={form?.inLanguage}
               options={[
                 { label: "Article's language", value: '' },
