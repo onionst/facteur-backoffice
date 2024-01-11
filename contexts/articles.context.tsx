@@ -1,8 +1,14 @@
 import { notification } from 'antd';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { CreateArticle, FetchTranslation } from '@/services/articles.service';
 
+export type ArticlesPage = {
+  records: number;
+  current: number;
+  prevPage: number | null;
+  nextPage: number | null;
+};
 export type ArticlesContextProps = {
   createArticle: (article: any) => Promise<void>;
   fetchTranslation: (text: string) => Promise<string>;
@@ -13,6 +19,16 @@ export const ArticlesContext = createContext<ArticlesContextProps>(
 );
 export type ArticlesProviderProps = { children: any };
 export const ArticlesProvider = (props: ArticlesProviderProps) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [users, setUsers] = useState<User[]>([]);
+
+  const [page, setPage] = useState<ArticlesPage>({
+    current: 1,
+    prevPage: null,
+    nextPage: null,
+    records: 0
+  });
+
   const createArticle = async (article: any): Promise<void> => {
     try {
       await CreateArticle(article);

@@ -16,6 +16,7 @@ import Page from '@/components/Page/Page';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
+import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
 import { Topic } from '@/constants/topics';
 import { useArticles } from '@/contexts/articles.context';
@@ -270,13 +271,18 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                 label="Author"
                 placeholder="John Doe"
               />
-              <Input
-                value={form.itemReviewed.politicalParty}
-                onChange={v =>
-                  setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, politicalParty: v.target.value } }))
-                }
+
+              <Select
                 label="Political party"
-                placeholder="Organization name"
+                defaultValue={form?.itemReviewed?.politicalParty}
+                options={[
+                  { label: 'Political party', value: '' },
+                  ...Object.entries(PoliticalParty).map(v => ({
+                    value: v[1].split('_').join(' '),
+                    label: v[1].split('_').join(' ')
+                  }))
+                ]}
+                onChange={v => setForm((prev: any) => ({ ...prev, inLanguage: v }))}
               />
             </Row>
           )}
