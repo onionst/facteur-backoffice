@@ -41,6 +41,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
           description: 'Please try again later'
         });
       }
+      throw new Error();
     }
   };
 

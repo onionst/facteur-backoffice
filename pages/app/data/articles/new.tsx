@@ -68,7 +68,7 @@ export default function New() {
           claimreviewedNative: form.claimreviewedNative,
           reviewRating: form.reviewRating,
           itemReviewed: {
-            appearances: form.itemReviewed.appearances
+            appearances: form.itemReviewed.appearances.map(appearance => Object.fromEntries(Object.entries(appearance).filter(v => v[1])))
           }
         };
 
