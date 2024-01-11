@@ -10,10 +10,12 @@ import SelectArticleType, { ArticleType } from '@/components/Form/SelectArticleT
 import Header from '@/components/Header/Header';
 import Stepper from '@/components/Stepper/Stepper';
 import Wrapper from '@/components/Wrapper/Wrapper';
+import { useArticles } from '@/contexts/articles.context';
 import useWindowSize from '@/hooks/useWindowWidth';
 
 export default function New() {
   const router = useRouter();
+  const { createArticle } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
@@ -41,6 +43,66 @@ export default function New() {
     },
     associatedClaimReview: []
   });
+
+  const handleSubmit = async () => {
+    try {
+      let payload: any = {
+        type: articleType,
+        url: form.url,
+        headline: form.headline,
+        headlineNative: form.headlineNative,
+        datePublished: form.datePublished || null,
+        image: form.image || null,
+        keywords: form.keywords || null,
+        inLanguage: form.inLanguage || null,
+        topics: form.topics || null,
+        euRelation: form.euRelation || null,
+        countryOfOrigin: form.countryOfOrigin || null,
+        contentLocation: form.contentLocation || null
+      };
+      if (articleType && [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType)) {
+        payload = {
+          ...payload,
+          claimreviewed: form.claimreviewed,
+          claimreviewedNative: form.claimreviewedNative,
+          reviewRating: form.reviewRating,
+          itemReviewed: {
+            appearances: form.itemReviewed.appearances
+          }
+        };
+
+        if (form.itemReviewed.datePublished) {
+          payload = {
+            ...payload,
+            itemReviewed: {
+              ...payload.itemReviewed,
+              datePublished: form.itemReviewed.datePublished
+            }
+          };
+        }
+
+        if (articleType === ArticleType.Factcheck) {
+          const authorData = Object.fromEntries(
+            Object.entries({ author: form.itemReviewed.author || null, politicalParty: form.itemReviewed.politicalParty || null }).filter(
+              v => v[1] != null
+            )
+          );
+
+          payload = {
+            ...payload,
+            itemReviewed: {
+              ...payload.itemReviewed,
+              ...authorData
+            }
+          };
+        }
+      }
+
+      createArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -89,9 +151,9 @@ export default function New() {
           {step === 2 ? (
             articleType ? (
               [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
-                <DebunkArticlePreviewForm form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
+                <DebunkArticlePreviewForm form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
               ) : (
-                <ArticlePreviewForm form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
+                <ArticlePreviewForm form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
               )
             ) : null
           ) : null}

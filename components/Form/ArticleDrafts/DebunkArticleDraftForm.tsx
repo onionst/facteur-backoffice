@@ -128,9 +128,9 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             <Tagger
               label="Topics"
               value={form.topics}
-              options={Object.entries(Topic).map(([key, value]) => ({
-                value: key.split('_').join(' '),
-                label: value.split('_').join(' ')
+              options={Object.entries(Topic).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
               }))}
               maxTagCount="responsive"
               mode="tags"
@@ -139,6 +139,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             />
             <Select
               label="EU Relation"
+              required
               defaultValue={form?.euRelation}
               options={[
                 { label: 'EU Relation', value: '' },
@@ -151,6 +152,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
           <Row align="SPACE">
             <Select
               label="Country of Origin"
+              required
               defaultValue={form?.countryOfOrigin}
               options={[
                 { label: 'Country of Origin', value: '' },
@@ -193,9 +195,10 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               required
               defaultValue={form?.reviewRating}
               options={[
-                ...Object.entries(ReviewRating).map(([key, value]) => ({
-                  value: key.split('_').join(' '),
-                  label: value.split('_').join(' ')
+                { label: 'Rating', value: '' },
+                ...Object.entries(ReviewRating).map(v => ({
+                  value: v[1].split('_').join(' '),
+                  label: v[1].split('_').join(' ')
                 }))
               ]}
               onChange={v => setForm((prev: any) => ({ ...prev, reviewRating: v }))}

@@ -24,9 +24,14 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
   const handleUpdate = (v: any, k: string) => setForm((prev: any) => ({ ...prev, [k]: v.target.value }));
 
   const handleSubmit = (e: FormEvent) => {
-    setLoading(true);
-    e?.preventDefault();
-    setLoading(false);
+    try {
+      setLoading(true);
+      e?.preventDefault();
+      props.onPublish();
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   return (

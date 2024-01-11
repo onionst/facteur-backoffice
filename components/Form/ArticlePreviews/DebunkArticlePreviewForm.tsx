@@ -27,9 +27,14 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
   const handleUpdate = (v: any, k: string) => setForm((prev: any) => ({ ...prev, [k]: v.target.value }));
 
   const handleSubmit = (e: FormEvent) => {
-    setLoading(true);
-    e?.preventDefault();
-    setLoading(false);
+    try {
+      setLoading(true);
+      e?.preventDefault();
+      props.onPublish();
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -219,9 +224,9 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               disabled
               defaultValue={form?.reviewRating}
               options={[
-                ...Object.entries(ReviewRating).map(([key, value]) => ({
-                  value: key.split('_').join(' '),
-                  label: value.split('_').join(' ')
+                ...Object.entries(ReviewRating).map(v => ({
+                  value: v[1].split('_').join(' '),
+                  label: v[1].split('_').join(' ')
                 }))
               ]}
               onChange={v => setForm((prev: any) => ({ ...prev, reviewRating: v }))}

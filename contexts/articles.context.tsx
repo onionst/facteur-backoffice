@@ -1,9 +1,10 @@
 import { notification } from 'antd';
 import { createContext, useContext } from 'react';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
-import { FetchTranslation } from '@/services/articles.service';
+import { CreateArticle, FetchTranslation } from '@/services/articles.service';
 
 export type ArticlesContextProps = {
+  createArticle: (article: any) => Promise<void>;
   fetchTranslation: (text: string) => Promise<string>;
 };
 export const ArticlesContext = createContext<ArticlesContextProps>(
@@ -12,6 +13,33 @@ export const ArticlesContext = createContext<ArticlesContextProps>(
 );
 export type ArticlesProviderProps = { children: any };
 export const ArticlesProvider = (props: ArticlesProviderProps) => {
+  const createArticle = async (article: any): Promise<void> => {
+    try {
+      return await CreateArticle(article);
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else if (err?.response?.status === 409) {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'The article url already exists'
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+    }
+  };
+
   const fetchTranslation = async (text: string): Promise<string> => {
     try {
       return await FetchTranslation(text);
@@ -34,7 +62,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     }
   };
 
-  const context = { fetchTranslation };
+  const context = { createArticle, fetchTranslation };
   return <ArticlesContext.Provider value={context}>{props.children}</ArticlesContext.Provider>;
 };
 
