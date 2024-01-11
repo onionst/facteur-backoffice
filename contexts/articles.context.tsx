@@ -79,6 +79,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
   const createArticle = async (article: any): Promise<void> => {
     try {
       await CreateArticle(article);
+      fetchArticles({});
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
         message: 'Article published'
