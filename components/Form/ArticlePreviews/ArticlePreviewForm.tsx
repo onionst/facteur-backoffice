@@ -115,8 +115,9 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               disabled
               value={form.keywords}
               mode="tags"
+              suffixIcon={null}
               onChange={v => setForm((prev: any) => ({ ...prev, keywords: v }))}
-              placeholder="Ukraine, Covid, EE24"
+              placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
             <Select
               label="Language"

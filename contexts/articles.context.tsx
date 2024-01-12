@@ -2,7 +2,7 @@ import { notification } from 'antd';
 import { createContext, useContext, useState } from 'react';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
-import { CreateArticle, DeleteArticle, FetchArticles, FetchTranslation } from '@/services/articles.service';
+import { CreateArticle, DeleteArticle, FetchArticles, FetchTranslation, UpdateArticle } from '@/services/articles.service';
 
 export type ArticlesPage = {
   records: number;
@@ -17,6 +17,7 @@ export type ArticlesContextProps = {
   fetchArticleData: (id: string) => Promise<Article | undefined>;
   fetchArticles: (filter?: any, pageIndex?: any) => Promise<void>;
   createArticle: (article: any) => Promise<void>;
+  updateArticle: (article: any) => Promise<void>;
   deleteArticle: (id: string) => Promise<void>;
   fetchTranslation: (text: string) => Promise<string>;
 };
@@ -79,7 +80,38 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
   const createArticle = async (article: any): Promise<void> => {
     try {
       await CreateArticle(article);
-      fetchArticles({});
+      notification.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'Article updated'
+      });
+    } catch (err: any) {
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else if (err?.response?.status === 409) {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'The article url already exists'
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      throw new Error();
+    }
+  };
+
+  const updateArticle = async (article: any): Promise<void> => {
+    try {
+      const { externalId, ...payload } = article;
+      await UpdateArticle(externalId, payload);
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
         message: 'Article published'
@@ -163,6 +195,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     fetchArticleData,
     fetchArticles,
     createArticle,
+    updateArticle,
     deleteArticle,
     fetchTranslation
   };

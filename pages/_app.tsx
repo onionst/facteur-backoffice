@@ -26,14 +26,18 @@ const theme: ThemeConfig = {
       activeShadow: 'none',
       colorBgContainerDisabled: '#F1F1F4'
     },
+    Input: {
+      colorTextPlaceholder: '#99a1b7'
+    },
     Tag: {
       boxShadow: 'none'
     },
     Select: {
-      colorTextPlaceholder: '#99a1b7',
       motion: false,
+      colorText: '#4b5675',
       optionSelectedBg: '#f1f1f4',
-      colorBgContainerDisabled: '#F1F1F4'
+      colorBgContainerDisabled: '#F1F1F4',
+      colorTextPlaceholder: '#99a1b7'
     }
   }
 };

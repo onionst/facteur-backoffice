@@ -1,13 +1,13 @@
+import { Skeleton } from 'antd';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { File } from 'react-feather';
 import Row from '@/bases/Row/Row';
-import ArticleDraftForm from '@/components/Form/ArticleDrafts/ArticleDraftForm';
-import DebunkArticleDraftForm from '@/components/Form/ArticleDrafts/DebunkArticleDraftForm';
+import EditArticleDraftForm from '@/components/Form/ArticleDrafts/EditArticleDraftForm';
+import EditDebunkArticleDraftForm from '@/components/Form/ArticleDrafts/EditDebunkArticleDraftForm';
 import ArticlePreviewForm from '@/components/Form/ArticlePreviews/ArticlePreviewForm';
 import DebunkArticlePreviewForm from '@/components/Form/ArticlePreviews/DebunkArticlePreviewForm';
-import ArticlePublished from '@/components/Form/ArticlePublish';
-import SelectArticleType, { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
+import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
 import Stepper from '@/components/Stepper/Stepper';
 import Wrapper from '@/components/Wrapper/Wrapper';
@@ -15,14 +15,16 @@ import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
 import useWindowSize from '@/hooks/useWindowWidth';
 
-export default function New() {
+export default function Edit() {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(true);
   const { session } = useAuth();
-  const { createArticle, fetchArticles } = useArticles();
+  const { updateArticle, fetchArticles, fetchArticleData } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
   const [form, setForm] = useState({
+    externalId: '',
     type: '',
     url: '',
     headline: '',
@@ -47,9 +49,32 @@ export default function New() {
     associatedClaimReview: []
   });
 
+  const handleSetup = async (id?: any) => {
+    try {
+      setLoading(true);
+      setStep(0);
+      const article: any = await fetchArticleData(id);
+      if (!article) {
+        router.push('/app/data/articles');
+      }
+      setForm(article);
+      setArticleType(article?.type);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (router?.query?.id) {
+      handleSetup(router?.query?.id);
+    }
+  }, [router]);
+
   const handleSubmit = async () => {
     try {
       let payload: any = {
+        externalId: form?.externalId,
         type: articleType,
         url: form.url,
         headline: form.headline,
@@ -101,16 +126,29 @@ export default function New() {
         }
       }
 
-      await createArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
+      await updateArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
+
       fetchArticles({
         publisher: session.organization?.domain
       });
-      setStep(3);
+      router.push('/app/data/articles');
     } catch (err) {
       console.log(err);
       setStep(1);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="w-full">
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -124,7 +162,7 @@ export default function New() {
         }}
         backable
         icon={<File />}
-        title="Create article"
+        title="Edit article"
       ></Header>
       <Wrapper>
         <Row align="SPACE" style={{ alignItems: 'flex-start' }}>
@@ -132,82 +170,49 @@ export default function New() {
             <Stepper
               current={step}
               items={[
-                { title: 'Type', description: '' },
                 { title: 'Draft', description: '' },
                 { title: 'Preview', description: '' },
                 { title: 'Publish', description: '' }
               ]}
             />
           </div>
-          {step === 0 && (
-            <SelectArticleType
-              onSelect={type => {
-                setArticleType(type);
-                setForm({
-                  type: '',
-                  url: '',
-                  headline: '',
-                  headlineNative: '',
-                  datePublished: null,
-                  image: '',
-                  keywords: [],
-                  inLanguage: session.organization?.language || '',
-                  topics: [],
-                  euRelation: '',
-                  countryOfOrigin: session.organization?.country || '',
-                  contentLocation: '',
-                  claimreviewed: '',
-                  claimreviewedNative: '',
-                  reviewRating: '',
-                  itemReviewed: {
-                    datePublished: null,
-                    author: '',
-                    politicalParty: '',
-                    appearances: []
-                  },
-                  associatedClaimReview: []
-                });
-                setStep(1);
-              }}
-            />
-          )}
-          {step === 1 ? (
+
+          {step === 0 ? (
             articleType ? (
               [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
-                <DebunkArticleDraftForm
+                <EditDebunkArticleDraftForm
                   onBack={() => setStep(0)}
                   form={form}
                   setForm={setForm}
                   type={articleType}
-                  onContinue={() => setStep(2)}
+                  onContinue={() => setStep(1)}
                 />
               ) : (
-                <ArticleDraftForm
+                <EditArticleDraftForm
                   onBack={() => setStep(0)}
                   form={form}
                   setForm={setForm}
                   type={articleType}
-                  onContinue={() => setStep(2)}
+                  onContinue={() => setStep(1)}
                 />
               )
             ) : null
           ) : null}
-          {step === 2 ? (
+          {step === 1 ? (
             articleType ? (
               [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
                 <DebunkArticlePreviewForm
-                  onBack={() => setStep(1)}
+                  onBack={() => setStep(0)}
                   form={form}
                   setForm={setForm}
                   type={articleType}
                   onPublish={handleSubmit}
                 />
               ) : (
-                <ArticlePreviewForm onBack={() => setStep(1)} form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
+                <ArticlePreviewForm onBack={() => setStep(0)} form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
               )
             ) : null
           ) : null}
-          {step === 3 ? <ArticlePublished /> : null}
           {width >= 768 && <div style={{ width: '25%' }}></div>}
         </Row>
       </Wrapper>

@@ -71,13 +71,11 @@ export default function Articles() {
               </Link>,
               dayjs(article?.dateModified).format('DD/MM/YYYY'),
               <Row align="RIGHT" key={article?.externalId + 'actions'}>
-                <IconButton
-                  onClick={() => {
-                    // showEditUser(user?.id);
-                  }}
-                >
-                  <Edit color="#252f4a" size={18} />
-                </IconButton>
+                <Link href={`/app/data/articles/edit?id=${article?.externalId}`}>
+                  <IconButton>
+                    <Edit color="#252f4a" size={18} />
+                  </IconButton>
+                </Link>
 
                 <IconButton
                   onClick={() => {

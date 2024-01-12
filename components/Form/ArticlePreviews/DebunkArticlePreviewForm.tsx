@@ -116,10 +116,11 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               label="Keywords"
               maxTagCount="responsive"
               disabled
+              suffixIcon={null}
               value={form.keywords}
               mode="tags"
               onChange={v => setForm((prev: any) => ({ ...prev, keywords: v }))}
-              placeholder="Ukraine, Covid, EE24"
+              placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
             <Select
               label="Language"

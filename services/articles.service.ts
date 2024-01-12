@@ -3,7 +3,7 @@ import { Article } from '@/dtos/articles/article.dto';
 
 const PREFIX = '/articles';
 
-export const CreateArticle = async (article: any) => {
+export const CreateArticle = async (article: Partial<Article>) => {
   const response = await api.post(parseUrl(PREFIX), article);
   return response.data;
 };
@@ -36,6 +36,11 @@ export const FetchArticles = async (
 
 export const FetchTranslation = async (text: string): Promise<string> => {
   const response = await api.post(parseUrl(PREFIX, 'translate'), { text });
+  return response.data;
+};
+
+export const UpdateArticle = async (id: string, article?: Partial<Article>) => {
+  const response = await api.patch(parseUrl(PREFIX, id), article);
   return response.data;
 };
 

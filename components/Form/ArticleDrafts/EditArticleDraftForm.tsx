@@ -1,4 +1,4 @@
-import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined } from '@ant-design/icons';
 import { Divider } from 'antd';
 import { FormEvent, useState } from 'react';
 import { IArticleDraft } from './articleDraft.interface';
@@ -18,7 +18,7 @@ import { Topic } from '@/constants/topics';
 import { useArticles } from '@/contexts/articles.context';
 
 export type ArticleDraftFormProps = {};
-export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticleDraft) {
+export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArticleDraft) {
   const { fetchTranslation } = useArticles();
   const [loading, setLoading] = useState<boolean>(false);
   const { setForm, form } = props;
@@ -43,8 +43,8 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
       <Page>
         <ModalHeader
           style={{ margin: 0 }}
-          subTitle={'Write the draft'}
-          title={`Complete the following form to create a new ${props.type} article`}
+          subTitle={'Edit the draft'}
+          title={`Complete the following form to edit the ${props.type} article`}
         />
         <Card>
           <h4>Overview</h4>
@@ -173,10 +173,6 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
       </Page>
       <div className={s['ds-article-draft-form__fab']}>
         <Row align="RIGHT">
-          <Button type="button" theme="TERTIARY" onClick={props.onBack}>
-            <ArrowLeftOutlined />
-            Go back
-          </Button>
           <Button loading={loading} theme="CTA">
             Continue
             <ArrowRightOutlined />
