@@ -64,14 +64,14 @@ export default function SignIn(): JSX.Element {
             <h1>Sign in</h1>
             <p>Enter your email and password to continue</p>
           </div>
-          <div className="ds-sign-in__left-g">
-            <button type="button">
-              <Link href={doOpenGoogleLogin}>
+          <Link href={doOpenGoogleLogin}>
+            <div className="ds-sign-in__left-g">
+              <button type="button">
                 <Image src="/assets/icons/g-icon.png" width={18} height={18} alt={''} />
                 <span style={{ marginLeft: 12 }}>Continue with Google</span>
-              </Link>
-            </button>
-          </div>
+              </button>
+            </div>
+          </Link>
           <div className="ds-sign-in__left-s">
             <div />
             <span>or</span>

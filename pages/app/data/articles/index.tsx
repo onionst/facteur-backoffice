@@ -66,7 +66,7 @@ export default function Articles() {
             ]}
             data={articles.map(article => [
               article?.headlineNative,
-              <Link href={article?.url} key={article?.externalId + 'link'}>
+              <Link target="_blank" href={article?.url} key={article?.externalId + 'link'}>
                 {article?.url}
               </Link>,
               dayjs(article?.dateModified).format('DD/MM/YYYY'),
