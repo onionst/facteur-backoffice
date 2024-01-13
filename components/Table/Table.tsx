@@ -37,10 +37,7 @@ export function Table(props: TableProps) {
       props.data.map((data, index) => (
         <tr key={index}>
           {data.map((column, _index) => (
-            <td
-              className={`${s['ds-table-row__item']} ${props.firstExtended ? s['ds-table-row__item--extended'] : ''}`}
-              key={`${index}${_index}`}
-            >
+            <td className={s['ds-table-row__item']} key={`${index}${_index}`}>
               {column}
             </td>
           ))}
