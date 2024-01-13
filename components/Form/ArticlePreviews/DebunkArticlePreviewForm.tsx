@@ -1,5 +1,6 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Badge, Divider } from 'antd';
+import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticlePreview } from './articlePreview.interface';
@@ -101,7 +102,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
             />
             <DatePicker
               label="Date published"
-              value={form.datePublished}
+              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               disabled
               onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
@@ -234,7 +235,9 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
             <DatePicker
               label="Date published"
               disabled
-              value={form.itemReviewed.datePublished}
+              value={
+                dayjs(form.itemReviewed.datePublished).isValid() ? dayjs(form.itemReviewed.datePublished) : form.itemReviewed.datePublished
+              }
               onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, datePublished: v } }))}
             />
           </Row>

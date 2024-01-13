@@ -1,5 +1,6 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Badge, Divider } from 'antd';
+import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { IArticlePreview } from './articlePreview.interface';
 import s from './ArticlePreviewForm.module.scss';
@@ -98,7 +99,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
             />
             <DatePicker
               label="Date published"
-              value={form.datePublished}
+              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               disabled
               onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />

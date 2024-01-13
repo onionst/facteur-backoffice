@@ -10,11 +10,9 @@ export enum MediaFormat {
   Video = 'video',
   Article = 'article',
   Audio = 'audio',
-  FbPost = 'fb post',
-  InstagramStory = 'instagram story',
-  InstagramPost = 'instagram post',
   Other = 'other'
 }
+
 export enum Platform {
   X = 'x',
   Facebook = 'facebook',

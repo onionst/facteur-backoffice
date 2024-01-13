@@ -1,5 +1,6 @@
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { Divider } from 'antd';
+import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { Plus, X } from 'react-feather';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
@@ -95,7 +96,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
             />
             <DatePicker
               label="Date published"
-              value={form.datePublished}
+              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
           </Row>
@@ -209,7 +210,9 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
             />
             <DatePicker
               label="Date published"
-              value={form.itemReviewed.datePublished}
+              value={
+                dayjs(form.itemReviewed.datePublished).isValid() ? dayjs(form.itemReviewed.datePublished) : form.itemReviewed.datePublished
+              }
               onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, datePublished: v } }))}
             />
           </Row>

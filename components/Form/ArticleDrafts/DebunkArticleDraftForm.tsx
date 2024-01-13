@@ -1,5 +1,6 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Divider } from 'antd';
+import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { Plus, X } from 'react-feather';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
@@ -95,7 +96,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             />
             <DatePicker
               label="Date published"
-              value={form.datePublished}
+              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
           </Row>
@@ -209,7 +210,9 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             />
             <DatePicker
               label="Date published"
-              value={form.itemReviewed.datePublished}
+              value={
+                dayjs(form.itemReviewed.datePublished).isValid() ? dayjs(form.itemReviewed.datePublished) : form.itemReviewed.datePublished
+              }
               onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, datePublished: v } }))}
             />
           </Row>
@@ -300,7 +303,6 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                 >
                   <Input
                     label="URL"
-                    required
                     key={`${appearance.id}_URL`}
                     value={appearance?.url}
                     onChange={v =>
@@ -321,32 +323,37 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                       }))
                     }
                   />
-                  <Input
-                    label="Archived url"
-                    key={`${appearance.id}_archived`}
-                    value={appearance?.archivedAt}
-                    onChange={v =>
-                      setForm((prev: any) => ({
-                        ...prev,
-                        itemReviewed: {
-                          ...prev.itemReviewed,
-                          appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                            if (_appearance.id != appearance.id) {
-                              return _appearance;
-                            }
-                            return {
-                              ..._appearance,
-                              archivedAt: v.target.value
-                            };
-                          })
-                        }
-                      }))
-                    }
-                  />
+
                   <Row align="SPACE">
                     <Select
+                      label="Platform"
+                      defaultValue={appearance?.platform}
+                      options={[
+                        ...Object.entries(Platform).map(([key, value]) => ({
+                          value: key.split('_').join(' '),
+                          label: value.split('_').join(' ')
+                        }))
+                      ]}
+                      onChange={v =>
+                        setForm((prev: any) => ({
+                          ...prev,
+                          itemReviewed: {
+                            ...prev.itemReviewed,
+                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
+                              if (_appearance.id != appearance.id) {
+                                return _appearance;
+                              }
+                              return {
+                                ..._appearance,
+                                platform: v
+                              };
+                            })
+                          }
+                        }))
+                      }
+                    />
+                    <Select
                       label="Media format"
-                      required
                       defaultValue={appearance?.mediaFormat}
                       options={[
                         ...Object.entries(MediaFormat).map(([key, value]) => ({
@@ -372,10 +379,13 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                         }))
                       }
                     />
+                  </Row>
+
+                  <Row align="SPACE">
+                    <Input type="file" label="Associated media upload" />
 
                     <Select
-                      label="Associated media"
-                      required
+                      label="Associated media format"
                       defaultValue={appearance?.associatedMedia}
                       options={[
                         ...Object.entries(MediaType).map(([key, value]) => ({
@@ -402,17 +412,10 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                       }
                     />
                   </Row>
-
-                  <Select
-                    label="Platform"
-                    required
-                    defaultValue={appearance?.platform}
-                    options={[
-                      ...Object.entries(Platform).map(([key, value]) => ({
-                        value: key.split('_').join(' '),
-                        label: value.split('_').join(' ')
-                      }))
-                    ]}
+                  <Input
+                    label="Archived url"
+                    key={`${appearance.id}_archived`}
+                    value={appearance?.archivedAt}
                     onChange={v =>
                       setForm((prev: any) => ({
                         ...prev,
@@ -424,14 +427,13 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                             }
                             return {
                               ..._appearance,
-                              platform: v
+                              archivedAt: v.target.value
                             };
                           })
                         }
                       }))
                     }
                   />
-
                   <Row align="RIGHT">
                     <span
                       className="c-pointer mt-2"

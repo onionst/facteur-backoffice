@@ -1,5 +1,6 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Divider } from 'antd';
+import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
@@ -84,7 +85,7 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
             />
             <DatePicker
               label="Date published"
-              value={form.datePublished}
+              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
           </Row>
