@@ -100,7 +100,7 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
             />
             <DatePicker
               label="Date published"
-              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
+              defaultValue={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
           </Row>

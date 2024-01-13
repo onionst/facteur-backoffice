@@ -57,7 +57,7 @@ export default function Edit() {
       if (!article) {
         router.push('/app/data/articles');
       }
-      setForm(article);
+      setForm(prev => ({ ...prev, ...article }));
       setArticleType(article?.type);
       setLoading(false);
     } catch (err) {
