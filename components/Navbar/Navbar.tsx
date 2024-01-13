@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Paperclip, Plus } from 'react-feather';
+import { useState } from 'react';
+import { Plus } from 'react-feather';
+import { Uploader } from '../Uploader/Uploader';
 import s from './Navbar.module.scss';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
@@ -16,6 +18,7 @@ export type NavbarProps = {
 
 export default function Navbar(props: NavbarProps) {
   const router = useRouter();
+  const [uploadingImage, setUploadingImage] = useState<boolean>(false);
   const { width } = useWindowSize();
   const { session } = useAuth();
   return (
@@ -31,9 +34,14 @@ export default function Navbar(props: NavbarProps) {
             <Plus color="#252f4a" size={18} />
           </IconButton>
         )}
-        <Input className={s['ds-navbar__left-input']} placeholder="Search in the EE24 dataset..." />
+        <Input disabled={uploadingImage} className={s['ds-navbar__left-input']} placeholder="Search in the EE24 dataset..." />
         <div className={s['ds-navbar__left-input__clip']}>
-          <Paperclip size={18} color="#4b5675" />
+          <Uploader
+            onLoadFinished={() => setUploadingImage(false)}
+            onLoad={() => {
+              setUploadingImage(true);
+            }}
+          />
         </div>
       </section>
       <section className={s['ds-navbar__right']}>

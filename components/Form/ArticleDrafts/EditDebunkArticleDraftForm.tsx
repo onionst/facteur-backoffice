@@ -303,7 +303,6 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                 >
                   <Input
                     label="URL"
-                    required
                     key={`${appearance.id}_URL`}
                     value={appearance?.url}
                     onChange={v =>
@@ -324,32 +323,37 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                       }))
                     }
                   />
-                  <Input
-                    label="Archived url"
-                    key={`${appearance.id}_archived`}
-                    value={appearance?.archivedAt}
-                    onChange={v =>
-                      setForm((prev: any) => ({
-                        ...prev,
-                        itemReviewed: {
-                          ...prev.itemReviewed,
-                          appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                            if (_appearance.id != appearance.id) {
-                              return _appearance;
-                            }
-                            return {
-                              ..._appearance,
-                              archivedAt: v.target.value
-                            };
-                          })
-                        }
-                      }))
-                    }
-                  />
+
                   <Row align="SPACE">
                     <Select
+                      label="Platform"
+                      defaultValue={appearance?.platform}
+                      options={[
+                        ...Object.entries(Platform).map(([key, value]) => ({
+                          value: key.split('_').join(' '),
+                          label: value.split('_').join(' ')
+                        }))
+                      ]}
+                      onChange={v =>
+                        setForm((prev: any) => ({
+                          ...prev,
+                          itemReviewed: {
+                            ...prev.itemReviewed,
+                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
+                              if (_appearance.id != appearance.id) {
+                                return _appearance;
+                              }
+                              return {
+                                ..._appearance,
+                                platform: v
+                              };
+                            })
+                          }
+                        }))
+                      }
+                    />
+                    <Select
                       label="Media format"
-                      required
                       defaultValue={appearance?.mediaFormat}
                       options={[
                         ...Object.entries(MediaFormat).map(([key, value]) => ({
@@ -375,10 +379,13 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                         }))
                       }
                     />
+                  </Row>
+
+                  <Row align="SPACE">
+                    <Input type="file" label="Associated media upload" />
 
                     <Select
-                      label="Associated media"
-                      required
+                      label="Associated media format"
                       defaultValue={appearance?.associatedMedia}
                       options={[
                         ...Object.entries(MediaType).map(([key, value]) => ({
@@ -405,17 +412,10 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                       }
                     />
                   </Row>
-
-                  <Select
-                    label="Platform"
-                    required
-                    defaultValue={appearance?.platform}
-                    options={[
-                      ...Object.entries(Platform).map(([key, value]) => ({
-                        value: key.split('_').join(' '),
-                        label: value.split('_').join(' ')
-                      }))
-                    ]}
+                  <Input
+                    label="Archived url"
+                    key={`${appearance.id}_archived`}
+                    value={appearance?.archivedAt}
                     onChange={v =>
                       setForm((prev: any) => ({
                         ...prev,
@@ -427,14 +427,13 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                             }
                             return {
                               ..._appearance,
-                              platform: v
+                              archivedAt: v.target.value
                             };
                           })
                         }
                       }))
                     }
                   />
-
                   <Row align="RIGHT">
                     <span
                       className="c-pointer mt-2"

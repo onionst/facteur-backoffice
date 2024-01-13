@@ -273,8 +273,8 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                     }}
                   >
                     <Input
+                      disabled
                       label="URL"
-                      disabled
                       key={`${appearance.id}_URL`}
                       value={appearance?.url}
                       onChange={v =>
@@ -295,33 +295,39 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                         }))
                       }
                     />
-                    <Input
-                      label="Archived url"
-                      disabled
-                      key={`${appearance.id}_URL`}
-                      value={appearance?.url}
-                      onChange={v =>
-                        setForm((prev: any) => ({
-                          ...prev,
-                          itemReviewed: {
-                            ...prev.itemReviewed,
-                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                              if (_appearance.id != appearance.id) {
-                                return _appearance;
-                              }
-                              return {
-                                ..._appearance,
-                                url: v.target.value
-                              };
-                            })
-                          }
-                        }))
-                      }
-                    />
+
                     <Row align="SPACE">
                       <Select
-                        label="Media format"
                         disabled
+                        label="Platform"
+                        defaultValue={appearance?.platform}
+                        options={[
+                          ...Object.entries(Platform).map(([key, value]) => ({
+                            value: key.split('_').join(' '),
+                            label: value.split('_').join(' ')
+                          }))
+                        ]}
+                        onChange={v =>
+                          setForm((prev: any) => ({
+                            ...prev,
+                            itemReviewed: {
+                              ...prev.itemReviewed,
+                              appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
+                                if (_appearance.id != appearance.id) {
+                                  return _appearance;
+                                }
+                                return {
+                                  ..._appearance,
+                                  platform: v
+                                };
+                              })
+                            }
+                          }))
+                        }
+                      />
+                      <Select
+                        disabled
+                        label="Media format"
                         defaultValue={appearance?.mediaFormat}
                         options={[
                           ...Object.entries(MediaFormat).map(([key, value]) => ({
@@ -347,10 +353,14 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                           }))
                         }
                       />
+                    </Row>
+
+                    <Row align="SPACE">
+                      <Input type="file" disabled label="Associated media upload" />
 
                       <Select
-                        label="Associated media"
                         disabled
+                        label="Associated media format"
                         defaultValue={appearance?.associatedMedia}
                         options={[
                           ...Object.entries(MediaType).map(([key, value]) => ({
@@ -377,17 +387,11 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                         }
                       />
                     </Row>
-
-                    <Select
-                      label="Platform"
+                    <Input
                       disabled
-                      defaultValue={appearance?.platform}
-                      options={[
-                        ...Object.entries(Platform).map(([key, value]) => ({
-                          value: key.split('_').join(' '),
-                          label: value.split('_').join(' ')
-                        }))
-                      ]}
+                      label="Archived url"
+                      key={`${appearance.id}_archived`}
+                      value={appearance?.archivedAt}
                       onChange={v =>
                         setForm((prev: any) => ({
                           ...prev,
@@ -399,7 +403,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                               }
                               return {
                                 ..._appearance,
-                                platform: v
+                                archivedAt: v.target.value
                               };
                             })
                           }
