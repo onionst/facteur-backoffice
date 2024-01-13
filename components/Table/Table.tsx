@@ -3,13 +3,22 @@ import { useMemo } from 'react';
 import s from './Table.module.scss';
 
 export type TableProps = {
+  firstExtended?: boolean;
   columns: any[];
   data: any[][];
   loading?: boolean;
 };
 
 export function Table(props: TableProps) {
-  const Columns = useMemo(() => props.columns.map(title => <th key={title}>{title}</th>), [props.columns]);
+  const Columns = useMemo(
+    () =>
+      props.columns.map(title => (
+        <th key={title} className={props.firstExtended ? s['ds-table-column--extended'] : ''}>
+          {title}
+        </th>
+      )),
+    [props.columns]
+  );
 
   const Loading = useMemo(
     () =>
@@ -28,7 +37,10 @@ export function Table(props: TableProps) {
       props.data.map((data, index) => (
         <tr key={index}>
           {data.map((column, _index) => (
-            <td className={s['ds-table-row__item']} key={`${index}${_index}`}>
+            <td
+              className={`${s['ds-table-row__item']} ${props.firstExtended ? s['ds-table-row__item--extended'] : ''}`}
+              key={`${index}${_index}`}
+            >
               {column}
             </td>
           ))}

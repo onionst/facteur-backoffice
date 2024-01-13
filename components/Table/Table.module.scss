@@ -1,10 +1,15 @@
-@import "@/styles/app/variables.scss";
+@import '@/styles/app/variables.scss';
 
 .ds-table {
   width: 100%;
   & > thead > tr > th {
     padding-top: 8px !important;
     padding-bottom: 16px !important;
+  }
+  &-column {
+    &--extended:first-child {
+      width: 50% !important;
+    }
   }
 
   & > tbody > tr {

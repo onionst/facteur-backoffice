@@ -37,6 +37,12 @@ export default function Navbar(props: NavbarProps) {
         <Input disabled={uploadingImage} className={s['ds-navbar__left-input']} placeholder="Search in the EE24 dataset..." />
         <div className={s['ds-navbar__left-input__clip']}>
           <Uploader
+            accept={{
+              'image/png': ['.png', '.jpeg', '.jpg'],
+              'audio/mp3': ['.mp3', '.wav', '.ogg'],
+              'video/mp4': ['.mp4', '.avi', '.mov', '.wav']
+            }}
+            onChange={() => {}}
             onLoadFinished={() => setUploadingImage(false)}
             onLoad={() => {
               setUploadingImage(true);

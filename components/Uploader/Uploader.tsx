@@ -1,7 +1,7 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 import { useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { Accept, useDropzone } from 'react-dropzone';
 import { Paperclip } from 'react-feather';
 
 import s from './Uploader.module.scss';
@@ -10,6 +10,7 @@ import { useFiles } from '@/contexts/files.context';
 export type UploaderProps = {
   onChange: (url: string) => void;
   onLoad: () => void;
+  accept: Accept;
   onLoadFinished: () => void;
 };
 
@@ -34,7 +35,7 @@ export function Uploader(props: UploaderProps) {
       handleUpload(acceptedFiles[0]);
     }
   }, []);
-  const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, accept: props.accept });
 
   return (
     <div>

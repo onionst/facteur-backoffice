@@ -55,6 +55,7 @@ export default function Articles() {
         </Page>
         <Page>
           <Table
+            firstExtended
             loading={articlesProps.loading}
             columns={[
               'Headline',

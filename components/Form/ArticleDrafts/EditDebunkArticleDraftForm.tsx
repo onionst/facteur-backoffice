@@ -98,6 +98,9 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                   onLoad={() => {
                     setUploadingImage(true);
                   }}
+                  accept={{
+                    'image/png': ['.png', '.jpeg', '.jpg']
+                  }}
                   onChange={url => setForm((prev: any) => ({ ...prev, image: url }))}
                 />
               }
