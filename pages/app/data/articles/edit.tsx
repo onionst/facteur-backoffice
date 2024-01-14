@@ -19,7 +19,7 @@ export default function Edit() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const { session } = useAuth();
-  const { updateArticle, fetchArticles, fetchArticleData } = useArticles();
+  const { updateArticle, fetchArticles, fetchArticleData, fetchArticleById } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
@@ -55,11 +55,18 @@ export default function Edit() {
       setStep(0);
       const article: any = await fetchArticleData(id);
       if (!article) {
-        router.push('/app/data/articles');
+        const articleFound: any = await fetchArticleById(id);
+        setForm(prev => ({ ...prev, ...articleFound }));
+        setArticleType(articleFound?.type);
+        setLoading(false);
+        if (!articleFound) {
+          router.push('/app/data/articles');
+        }
+      } else {
+        setForm(prev => ({ ...prev, ...article }));
+        setArticleType(article?.type);
+        setLoading(false);
       }
-      setForm(prev => ({ ...prev, ...article }));
-      setArticleType(article?.type);
-      setLoading(false);
     } catch (err) {
       console.error(err);
     }

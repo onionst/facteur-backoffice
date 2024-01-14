@@ -2,7 +2,14 @@ import { notification } from 'antd';
 import { createContext, useContext, useState } from 'react';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
-import { CreateArticle, DeleteArticle, FetchArticles, FetchTranslation, UpdateArticle } from '@/services/articles.service';
+import {
+  CreateArticle,
+  DeleteArticle,
+  FetchArticleById,
+  FetchArticles,
+  FetchTranslation,
+  UpdateArticle
+} from '@/services/articles.service';
 
 export type ArticlesPage = {
   records: number;
@@ -15,6 +22,7 @@ export type ArticlesContextProps = {
   page: ArticlesPage;
   loading: boolean;
   fetchArticleData: (id: string) => Promise<Article | undefined>;
+  fetchArticleById: (id: string) => Promise<Article | undefined>;
   fetchArticles: (filter?: any, pageIndex?: any) => Promise<void>;
   createArticle: (article: any) => Promise<void>;
   updateArticle: (article: any) => Promise<void>;
@@ -40,6 +48,28 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
 
   const fetchArticleData = async (id: string): Promise<Article | undefined> => {
     return articles.find(article => article.externalId === id);
+  };
+
+  const fetchArticleById = async (id: string): Promise<Article | undefined> => {
+    try {
+      return await FetchArticleById(id);
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      return undefined;
+    }
   };
 
   const fetchArticles = async (filter?: any, pageIndex: number = 1) => {
@@ -193,6 +223,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     page,
     loading,
     fetchArticleData,
+    fetchArticleById,
     fetchArticles,
     createArticle,
     updateArticle,

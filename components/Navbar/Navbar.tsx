@@ -37,23 +37,25 @@ export default function Navbar(props: NavbarProps) {
           </IconButton>
         )}
         <Popover placement="bottomRight" content={<div></div>}>
-          <Row align="LEFT">
-            <Input disabled={uploadingImage} className={s['ds-navbar__left-input']} placeholder="Search in the EE24 dataset..." />
-            <div className={s['ds-navbar__left-input__clip']}>
-              <Uploader
-                accept={{
-                  'image/png': ['.png', '.jpeg', '.jpg'],
-                  'audio/mp3': ['.mp3', '.wav', '.ogg'],
-                  'video/mp4': ['.mp4', '.avi', '.mov', '.wav']
-                }}
-                onChange={() => {}}
-                onLoadFinished={() => setUploadingImage(false)}
-                onLoad={() => {
-                  setUploadingImage(true);
-                }}
-              />
-            </div>
-          </Row>
+          {!router.asPath.includes('/ee24') && (
+            <Row align="LEFT">
+              <Input disabled={uploadingImage} className={s['ds-navbar__left-input']} placeholder="Search in the EE24 dataset..." />
+              <div className={s['ds-navbar__left-input__clip']}>
+                <Uploader
+                  accept={{
+                    'image/png': ['.png', '.jpeg', '.jpg'],
+                    'audio/mp3': ['.mp3', '.wav', '.ogg'],
+                    'video/mp4': ['.mp4', '.avi', '.mov', '.wav']
+                  }}
+                  onChange={() => {}}
+                  onLoadFinished={() => setUploadingImage(false)}
+                  onLoad={() => {
+                    setUploadingImage(true);
+                  }}
+                />
+              </div>
+            </Row>
+          )}
         </Popover>
       </section>
       <section className={s['ds-navbar__right']}>
