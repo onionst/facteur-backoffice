@@ -9,6 +9,7 @@ import s from './ArticleDraftForm.module.scss';
 import Button from '@/bases/Button/Button';
 import { DatePicker } from '@/bases/DatePicker/DatePicker';
 import { Input } from '@/bases/Input';
+import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select';
 import Tagger from '@/bases/Tagger/Tagger';
@@ -397,11 +398,41 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                   </Row>
 
                   <Row align="SPACE">
-                    <Input type="file" label="Associated media upload" />
+                    <InputUploader
+                      accept={{
+                        'image/png': ['.png', '.jpeg', '.jpg'],
+                        'audio/mp3': ['.mp3', '.wav', '.ogg'],
+                        'video/mp4': ['.mp4', '.avi', '.mov', '.wav'],
+                        'application/pdf': ['.pdf'],
+                        'text/csv': ['.csv'],
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
+                      }}
+                      label="Associated media"
+                      value={appearance?.associatedMedia}
+                      onUrlChange={(url: string) => {
+                        setForm((prev: any) => ({
+                          ...prev,
+                          itemReviewed: {
+                            ...prev.itemReviewed,
+                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
+                              if (_appearance.id != appearance.id) {
+                                return _appearance;
+                              }
+                              return {
+                                ..._appearance,
+                                associatedMedia: url
+                              };
+                            })
+                          }
+                        }));
+                      }}
+                      placeholder="Upload file"
+                    />
 
                     <Select
                       label="Associated media format"
-                      defaultValue={appearance?.associatedMedia}
+                      defaultValue={appearance?.associatedMediaType}
                       options={[
                         ...Object.entries(MediaType).map(([key, value]) => ({
                           value: key.split('_').join(' '),
@@ -419,7 +450,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                               }
                               return {
                                 ..._appearance,
-                                associatedMedia: v
+                                associatedMediaType: v
                               };
                             })
                           }
@@ -483,6 +514,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                         url: '',
                         archivedAt: '',
                         associatedMedia: '',
+                        associatedMediaType: '',
                         mediaFormat: '',
                         platform: ''
                       }
