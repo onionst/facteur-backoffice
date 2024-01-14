@@ -1,0 +1,39 @@
+@import '@/styles/app/variables.scss';
+
+.ds-segment {
+  display: grid;
+  width: 100%;
+  border-radius: 0.712rem;
+  padding: 8px;
+  background-color: $ds-white;
+  border: 1px solid $ds-gray-300;
+  &--selected {
+    transition: 200ms;
+    border-style: none;
+    height: 4rem;
+    border-radius: 0.475rem;
+    background-color: $ds-white;
+    font-weight: 500;
+    background-color: $ds-primary !important;
+    color: $ds-white !important;
+    &:hover {
+      background-color: $ds-primary !important;
+      opacity: 0.9 !important;
+      color: $ds-gray-100 !important;
+    }
+  }
+  &--unselected {
+    transition: 200ms;
+    border-style: none;
+    height: 4rem;
+    border-radius: 0.475rem;
+    background-color: $ds-white;
+    color: $ds-gray-700;
+    font-weight: 500;
+    &:hover {
+      background: linear-gradient($ds-gray-100, $ds-gray-200);
+      opacity: 0.9;
+      color: $ds-gray-800;
+    }
+  }
+}

@@ -17,7 +17,8 @@ export default function Organizations() {
   const modals = useModal();
   const [filter, setFilter] = useState<any>({});
   const { organizations, fetchOrganizations, page, ...organizationsProps } = useOrganizations();
-  const { showCreateOrganization, showEditOrganization, showDeleteOrganization, showRestoreOrganization } = modals.organizations;
+  const { showCreateOrganization, showEditOrganization, showDeleteOrganization, showRestoreOrganization, showDownloadOrganizations } =
+    modals.organizations;
 
   return (
     <>
@@ -88,7 +89,7 @@ export default function Organizations() {
         </Page>
         <Row align="SPACE">
           <Row align="LEFT">
-            <IconButton>
+            <IconButton key={'download_organizations'} type="button" onClick={() => showDownloadOrganizations()}>
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>

@@ -4,6 +4,7 @@ export class User {
   id: string;
   name: string;
   surname: string;
+  apiKey?: string;
   email: string;
   organizationId?: string;
   role: ROLES;

@@ -23,7 +23,7 @@ export default function Users() {
   const { session } = useAuth();
   const { users, fetchUsers, page, resendInvitation, ...usersProps } = useUsers();
   const { listOrganizations } = useOrganizations();
-  const { showInviteUsers, showEditUser, showDeleteUserInvitation, showRestoreUser, showDeleteUser } = modals.users;
+  const { showInviteUsers, showEditUser, showDownloadUsers, showDeleteUserInvitation, showRestoreUser, showDeleteUser } = modals.users;
 
   const [resentsList, setResentsList] = useState<Record<string, boolean>>({});
 
@@ -169,7 +169,7 @@ export default function Users() {
         </Page>
         <Row align="SPACE">
           <Row align="LEFT">
-            <IconButton>
+            <IconButton type="button" onClick={showDownloadUsers}>
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>

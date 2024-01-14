@@ -4,11 +4,13 @@ import { AccountModal } from '@/modals/Account.modal';
 import { DeleteArticleModal } from '@/modals/articles/DeleteArticle.modal';
 import { CreateOrganizationModal } from '@/modals/organizations/CreateOrganization.modal';
 import { DeleteOrganizationModal } from '@/modals/organizations/DeleteOrganization.modal';
+import { DownloadOrganizationsModal } from '@/modals/organizations/DownloadOrganizations.modal';
 import { EditOrganizationModal } from '@/modals/organizations/EditOrganization.modal';
 import { RestoreOrganizationModal } from '@/modals/organizations/RestoreOrganization.modal';
 import { TFAEmailSentModal } from '@/modals/TFAEmailSent.modal';
 import { DeleteUserModal } from '@/modals/users/DeleteUser.modal';
 import { DeleteUserInvitationModal } from '@/modals/users/DeleteUserInvitation.modal';
+import { DownloadUsersModal } from '@/modals/users/DownloadUsers.modal';
 import { EditUserModal } from '@/modals/users/EditUser.modal';
 import { InviteUsersModal } from '@/modals/users/InviteUsers.modal';
 import { RestoreUserModal } from '@/modals/users/RestoreUser.modal';
@@ -22,6 +24,7 @@ export const ModalContext = createContext<{
     showCreateOrganization: () => void;
     showEditOrganization: (id: string) => void;
     showDeleteOrganization: (id: string) => void;
+    showDownloadOrganizations: () => void;
     showRestoreOrganization: (id: string) => void;
   };
   users: {
@@ -30,6 +33,7 @@ export const ModalContext = createContext<{
     showDeleteUser: (id: string) => void;
     showEditUser: (id: string) => void;
     showRestoreUser: (id: string) => void;
+    showDownloadUsers: () => void;
   };
   articles: {
     showDeleteArticle: (id: string) => void;
@@ -46,6 +50,7 @@ export const ModalProvider = (props: { children: any }) => {
 
   // <--- organizations --->
   const [createOrganizationActive, setCreateOrganizationActive] = useState<string>('');
+  const [downloadOrganizationsActive, setDownloadOrganizationsActive] = useState<string>('');
   const [editOrganizationActive, setEditOrganizationActive] = useState<string>('');
   const [deleteOrganizationActive, setDeleteOrganizationActive] = useState<string>('');
   const [restoreOrganizationActive, setRestoreOrganizationActive] = useState<string>('');
@@ -53,6 +58,7 @@ export const ModalProvider = (props: { children: any }) => {
 
   // <--- users --->
   const [inviteUsersActive, setInviteUsersActive] = useState<string>('');
+  const [downloadUsersActive, setDownloadUsersActive] = useState<string>('');
   const [deleteUserInvitationActive, setDeleteUserInvitationActive] = useState<string>('');
   const [deleteUserActive, setDeleteUserActive] = useState<string>('');
   const [editUserActive, setEditUserActive] = useState<string>('');
@@ -83,12 +89,14 @@ export const ModalProvider = (props: { children: any }) => {
       showAccount: () => setAccountActive(true)
     },
     organizations: {
+      showDownloadOrganizations: () => setDownloadOrganizationsActive(Date.now().toString()),
       showCreateOrganization: () => setCreateOrganizationActive(Date.now().toString()),
       showEditOrganization: (id: string) => setEditOrganizationActive(id),
       showDeleteOrganization: (id: string) => setDeleteOrganizationActive(id),
       showRestoreOrganization: (id: string) => setRestoreOrganizationActive(id)
     },
     users: {
+      showDownloadUsers: () => setDownloadUsersActive(Date.now().toString()),
       showInviteUsers: () => setInviteUsersActive(Date.now().toString()),
       showDeleteUserInvitation: (id: string) => setDeleteUserInvitationActive(id),
       showDeleteUser: (id: string) => setDeleteUserActive(id),
@@ -113,6 +121,7 @@ export const ModalProvider = (props: { children: any }) => {
           open={accountActive}
           onClose={() => setAccountActive(false)}
         />
+
         <CreateOrganizationModal
           footer={null}
           width={424}
@@ -133,6 +142,13 @@ export const ModalProvider = (props: { children: any }) => {
           open={deleteOrganizationActive != ''}
           id={deleteOrganizationActive}
           onCancel={() => setDeleteOrganizationActive('')}
+        />
+        <DownloadOrganizationsModal
+          footer={null}
+          width={424}
+          open={downloadOrganizationsActive != ''}
+          id={downloadOrganizationsActive}
+          onCancel={() => setDownloadOrganizationsActive('')}
         />
         <RestoreOrganizationModal
           footer={null}
@@ -161,6 +177,13 @@ export const ModalProvider = (props: { children: any }) => {
           onCancel={() => setDeleteUserActive('')}
           id={deleteUserActive}
           open={deleteUserActive != ''}
+        />
+        <DownloadUsersModal
+          footer={null}
+          width={424}
+          open={downloadUsersActive != ''}
+          id={downloadUsersActive}
+          onCancel={() => setDownloadUsersActive('')}
         />
         <EditUserModal footer={null} width={424} onCancel={() => setEditUserActive('')} id={editUserActive} open={editUserActive != ''} />
         <RestoreUserModal
