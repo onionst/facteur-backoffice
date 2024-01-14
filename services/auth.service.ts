@@ -64,6 +64,10 @@ export const RestorePassword = async (token: string, password: string): Promise<
   );
 };
 
+export const SetupTFA = async (): Promise<void> => {
+  await api.patch(parseUrl(PREFIX, '/2fa/enable'));
+};
+
 export const GetSessionData = async () => {
   return await api.get(parseUrl(PREFIX, '/session'));
 };

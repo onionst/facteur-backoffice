@@ -14,7 +14,8 @@ import { useAuth } from '@/contexts/auth.context';
 
 export type AccountModalProps = {};
 export function AccountModal(props: AccountModalProps & DrawerProps) {
-  const { session, getApiCredentials, refreshApiCredentials } = useAuth();
+  const { session, getApiCredentials, refreshApiCredentials, setupTFA } = useAuth();
+  const [tfaLoading, setTfaLoading] = useState<boolean>(false);
   const [loadingApiKey, setLoadingApiKey] = useState<boolean>(false);
   const [refreshingApiKey, setRefreshingApiKey] = useState<boolean>(false);
   const [apiKey, setApiKey] = useState<string>('');
@@ -48,6 +49,16 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
       fetchApiCredentials();
     }
   }, [session]);
+
+  const handleSetupTFA = async () => {
+    try {
+      setTfaLoading(true);
+      await setupTFA();
+      setTfaLoading(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <Drawer {...props}>
@@ -144,7 +155,11 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
         <Page>
           <Row align="SPACE">
             <Preset title="Two factor authentication" value={session.TFA ? 'Active' : 'Unactive'} />
-            {!session.TFA && <Button theme="SECONDARY">Activate</Button>}
+            {!session.TFA && (
+              <Button theme="SECONDARY" loading={tfaLoading} onClick={handleSetupTFA}>
+                Activate
+              </Button>
+            )}
           </Row>
         </Page>
       </Card>

@@ -24,7 +24,8 @@ import {
   RestorePassword,
   SendRestorePasswordEmail,
   SignInWithEmailAndPassword,
-  SignInWithTFAToken
+  SignInWithTFAToken,
+  SetupTFA
 } from '@/services/auth.service';
 import { Join } from '@/services/user.service';
 
@@ -41,6 +42,7 @@ export type AuthContextProps = {
   refreshApiCredentials: (id?: string, type?: string) => Promise<string>;
   googleAccessToken: (code: string) => Promise<void>;
   googleRefreshToken: (googleRefreshToken: GoogleRefreshToken) => Promise<string>;
+  setupTFA: () => Promise<void>;
   signOut: () => Promise<void>;
 };
 export type AuthProviderProps = { children: any };
@@ -379,6 +381,40 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
+  const setupTFA = async () => {
+    try {
+      await SetupTFA();
+      setSession(prev => ({
+        ...prev,
+        TFA: true
+      }));
+    } catch (err: any) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else if (err.name === 'AxiosError') {
+        const { message } = err.response.data;
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: message ?? 'Invalid google access token'
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Invalid google access token'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
+
   const signOut = async () => {
     try {
       setSession({
@@ -411,7 +447,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
     googleLoginModal,
     doOpenGoogleLogin,
     googleAccessToken,
-    googleRefreshToken
+    googleRefreshToken,
+    setupTFA
   };
 
   return (

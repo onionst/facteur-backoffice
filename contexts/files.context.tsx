@@ -29,10 +29,10 @@ export const FilesProvider = (props: FilesProviderProps) => {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
-          description: 'Please try again later'
+          description: 'File could not be uploaded. Please try again later'
         });
       }
-      throw new Error('Forbidden');
+      return '';
     }
   };
 
