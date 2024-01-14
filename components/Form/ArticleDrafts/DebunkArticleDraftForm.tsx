@@ -319,6 +319,8 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                 >
                   <Input
                     label="URL"
+                    pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+                    placeholder="https://example.com/factchecking/article-010101"
                     key={`${appearance.id}_URL`}
                     value={appearance?.url}
                     onChange={v =>
@@ -345,6 +347,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                       label="Platform"
                       defaultValue={appearance?.platform}
                       options={[
+                        { label: 'Select platform where appearance was found', value: '' },
                         ...Object.entries(Platform).map(([key, value]) => ({
                           value: key.split('_').join(' '),
                           label: value.split('_').join(' ')
@@ -372,6 +375,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                       label="Media format"
                       defaultValue={appearance?.mediaFormat}
                       options={[
+                        { label: 'Select media format', value: '' },
                         ...Object.entries(MediaFormat).map(([key, value]) => ({
                           value: key.split('_').join(' '),
                           label: value.split('_').join(' ')
@@ -434,6 +438,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                       label="Associated media format"
                       defaultValue={appearance?.associatedMediaType}
                       options={[
+                        { label: 'Select associated media format', value: '' },
                         ...Object.entries(MediaType).map(([key, value]) => ({
                           value: key.split('_').join(' '),
                           label: value.split('_').join(' ')
@@ -460,6 +465,8 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                   </Row>
                   <Input
                     label="Archived url"
+                    pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+                    placeholder="https://example.com/factchecking/article-010101"
                     key={`${appearance.id}_archived`}
                     value={appearance?.archivedAt}
                     onChange={v =>

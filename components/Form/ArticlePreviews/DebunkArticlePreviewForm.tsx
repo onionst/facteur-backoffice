@@ -273,8 +273,10 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                     }}
                   >
                     <Input
-                      disabled
                       label="URL"
+                      disabled
+                      pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+                      placeholder="https://example.com/factchecking/article-010101"
                       key={`${appearance.id}_URL`}
                       value={appearance?.url}
                       onChange={v =>
@@ -298,10 +300,11 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
 
                     <Row align="SPACE">
                       <Select
-                        disabled
                         label="Platform"
+                        disabled
                         defaultValue={appearance?.platform}
                         options={[
+                          { label: 'Select platform where appearance was found', value: '' },
                           ...Object.entries(Platform).map(([key, value]) => ({
                             value: key.split('_').join(' '),
                             label: value.split('_').join(' ')
@@ -330,6 +333,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                         label="Media format"
                         defaultValue={appearance?.mediaFormat}
                         options={[
+                          { label: 'Select media format', value: '' },
                           ...Object.entries(MediaFormat).map(([key, value]) => ({
                             value: key.split('_').join(' '),
                             label: value.split('_').join(' ')
@@ -356,13 +360,14 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                     </Row>
 
                     <Row align="SPACE">
-                      <Input type="file" disabled label="Associated media upload" />
+                      <Input label="Associated media" value={appearance?.associatedMedia} disabled placeholder="Upload file" />
 
                       <Select
                         disabled
                         label="Associated media format"
-                        defaultValue={appearance?.associatedMedia}
+                        defaultValue={appearance?.associatedMediaType}
                         options={[
+                          { label: 'Select associated media format', value: '' },
                           ...Object.entries(MediaType).map(([key, value]) => ({
                             value: key.split('_').join(' '),
                             label: value.split('_').join(' ')
@@ -379,7 +384,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                                 }
                                 return {
                                   ..._appearance,
-                                  associatedMedia: v
+                                  associatedMediaType: v
                                 };
                               })
                             }
@@ -390,6 +395,8 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                     <Input
                       disabled
                       label="Archived url"
+                      pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+                      placeholder="https://example.com/factchecking/article-010101"
                       key={`${appearance.id}_archived`}
                       value={appearance?.archivedAt}
                       onChange={v =>
