@@ -19,7 +19,7 @@ export default function Articles() {
   const [filter, setFilter] = useState<any>({});
   const modals = useModal();
   const { session } = useAuth();
-  const { showDeleteArticle } = modals.articles;
+  const { showDeleteArticle, showDownloadArticles } = modals.articles;
   const { articles, fetchArticles, page, ...articlesProps } = useArticles();
   return (
     <>
@@ -91,7 +91,7 @@ export default function Articles() {
         </Page>
         <Row align="SPACE">
           <Row align="LEFT">
-            <IconButton>
+            <IconButton type="button" onClick={showDownloadArticles}>
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>

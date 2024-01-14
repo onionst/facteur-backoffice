@@ -1,83 +1,49 @@
 import { Modal, ModalProps, notification } from 'antd';
 import dayjs from 'dayjs';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { X } from 'react-feather';
 import { utils, writeFile } from 'xlsx';
 import s from '../Modals.module.scss';
-import { parseRole } from './InviteUsers.modal';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import { Segment } from '@/bases/Segment/Segment';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
-import { ROLES } from '@/constants/roles.constants';
+import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
-import { useOrganizations } from '@/contexts/organizations.context';
-import { useUsers } from '@/contexts/users.context';
 import { convertJsonToCsv } from '@/utils/convertJsonToCsv';
 
-export type DownloadUsersModalProps = {
+export type DownloadArticlesModalProps = {
   id: string;
 };
-export const DownloadUsersModal = (props: DownloadUsersModalProps & ModalProps) => {
+export const DownloadArticlesModal = (props: DownloadArticlesModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [organizations, setOrganizations] = useState<Array<{ value: string; label: string }>>([]);
   const [fileType, setFileType] = useState<string>('CSV');
-  const { downloadUsers } = useUsers();
   const { session } = useAuth();
-  const { listOrganizations } = useOrganizations();
+  const { downloadArticles } = useArticles();
 
-  const handleListOrganization = async () => {
-    setOrganizations([
-      {
-        value: '',
-        label: ''
-      },
-      ...(await listOrganizations()).map(organization => ({
-        value: organization?.id || '',
-        label: organization?.name || ''
-      }))
-    ]);
-  };
-
-  useEffect(() => {
-    if (session.role === ROLES.SUPER_ADMIN) {
-      handleListOrganization();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
-
-  const handleDownloadUsers = async (e: FormEvent) => {
+  const handleDownloadArticles = async (e: FormEvent) => {
     try {
       e?.preventDefault();
       setLoading(true);
       notification.success({ ...NOTIFICATIONS_CONFIG.success, message: 'Download started', description: 'It may take a few minutes' });
-      const users = await downloadUsers(0, []);
+      const articles = await downloadArticles(0, [], session.organization?.domain || 'undefined');
 
-      const data = users
-        .filter(user => user?.name || user?.surname)
-        .map(user => {
-          let payload = {
-            name: user?.name || '',
-            surname: user?.surname || '',
-            email: user?.email || '',
-            active: user?.active ? 1 : 0,
-            role: parseRole(user?.role) || ''
-            // apiKey: user?.apiKey || ''
-          };
-          if (session.role === ROLES.SUPER_ADMIN) {
-            payload = {
-              ...payload,
-              // @ts-ignore
-              organization: organizations.find((i: any) => i.value === user.organizationId)?.label || ''
-            };
-          }
-          return payload;
-        });
+      const data = articles.map(article => ({
+        type: article?.type || '',
+        headline: article?.headline || '',
+        nativeHeadline: article?.headlineNative || '',
+        url: article?.url || '',
+        image: article?.image || '',
+        euRelation: article?.euRelation || '',
+        claimReviewed: article?.claimreviewed || '',
+        claimReviewedNative: article?.claimreviewedNative || '',
+        rating: article?.reviewRating || ''
+      }));
 
       let blob: Blob;
-      const filename = `users-${dayjs().format('DD-MM-YYYY')}.${fileType === 'CSV' ? 'csv' : 'xlsx'}`;
+      const filename = `articles-${dayjs().format('DD-MM-YYYY')}.${fileType === 'CSV' ? 'csv' : 'xlsx'}`;
 
       if (fileType === 'CSV') {
         blob = convertJsonToCsv(data);
@@ -95,7 +61,7 @@ export const DownloadUsersModal = (props: DownloadUsersModalProps & ModalProps) 
       } else {
         const wb = utils.book_new();
         const ws = utils.json_to_sheet(data);
-        utils.book_append_sheet(wb, ws, 'users');
+        utils.book_append_sheet(wb, ws, 'articles');
         writeFile(wb, filename);
       }
 
@@ -110,8 +76,8 @@ export const DownloadUsersModal = (props: DownloadUsersModalProps & ModalProps) 
 
   return (
     <Modal {...props} closeIcon={<X />} closable={!loading} maskClosable={!loading}>
-      <ModalHeader subTitle="Export users" title="Select an export file type" />
-      <form className={s['ds-modal-form']} onSubmit={handleDownloadUsers}>
+      <ModalHeader subTitle="Export articles" title="Select an export file type" />
+      <form className={s['ds-modal-form']} onSubmit={handleDownloadArticles}>
         {!loading && (
           <Card>
             <Input label="File type" required>

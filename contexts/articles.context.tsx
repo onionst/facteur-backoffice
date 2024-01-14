@@ -28,6 +28,7 @@ export type ArticlesContextProps = {
   updateArticle: (article: any) => Promise<void>;
   deleteArticle: (id: string) => Promise<void>;
   fetchTranslation: (text: string) => Promise<string>;
+  downloadArticles: (page: number, articles: Array<Partial<Article>>, domain: string) => Promise<Array<Partial<Article>>>;
 };
 export const ArticlesContext = createContext<ArticlesContextProps>(
   // @ts-ignore
@@ -192,6 +193,46 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     }
   };
 
+  const downloadArticles = async (
+    page: number = 0,
+    organizations: Array<Partial<Article>> = [],
+    domain: string = ''
+  ): Promise<Array<Partial<Article>>> => {
+    try {
+      const DOWNLOAD_ARTICLES_LIMIT_PER_PAGE = 50;
+      let currentPage = page;
+      const organizationsToDownload: Array<Partial<Article>> = organizations;
+
+      const filter = { skip: currentPage * DOWNLOAD_ARTICLES_LIMIT_PER_PAGE, limit: DOWNLOAD_ARTICLES_LIMIT_PER_PAGE, publisher: domain };
+      const response = await FetchArticles(filter);
+      if (response.articles.length === 0) {
+        return organizationsToDownload;
+      } else if (response.articles.length < DOWNLOAD_ARTICLES_LIMIT_PER_PAGE) {
+        return [...organizationsToDownload, ...response.articles];
+      } else {
+        organizationsToDownload.concat(response.articles);
+        currentPage += 1;
+        return downloadArticles(currentPage, organizationsToDownload, domain);
+      }
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
+
   const deleteArticle = async (id: string) => {
     try {
       await DeleteArticle(id);
@@ -228,7 +269,8 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     createArticle,
     updateArticle,
     deleteArticle,
-    fetchTranslation
+    fetchTranslation,
+    downloadArticles
   };
   return <ArticlesContext.Provider value={context}>{props.children}</ArticlesContext.Provider>;
 };

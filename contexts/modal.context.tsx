@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from './auth.context';
 import { AccountModal } from '@/modals/Account.modal';
 import { DeleteArticleModal } from '@/modals/articles/DeleteArticle.modal';
+import { DownloadArticlesModal } from '@/modals/articles/DownloadArticles.modal';
 import { CreateOrganizationModal } from '@/modals/organizations/CreateOrganization.modal';
 import { DeleteOrganizationModal } from '@/modals/organizations/DeleteOrganization.modal';
 import { DownloadOrganizationsModal } from '@/modals/organizations/DownloadOrganizations.modal';
@@ -37,6 +38,7 @@ export const ModalContext = createContext<{
   };
   articles: {
     showDeleteArticle: (id: string) => void;
+    showDownloadArticles: () => void;
   };
   // @ts-ignore
 }>({});
@@ -67,6 +69,7 @@ export const ModalProvider = (props: { children: any }) => {
 
   // <--- articles --->
   const [deleteArticleActive, setDeleteArticleActive] = useState<string>('');
+  const [downloadArticlesActive, setDownloadArticlesActive] = useState<string>('');
   // <!--- articles --->
 
   useEffect(() => {
@@ -104,7 +107,8 @@ export const ModalProvider = (props: { children: any }) => {
       showRestoreUser: (id: string) => setRestoreUserActive(id)
     },
     articles: {
-      showDeleteArticle: (id: string) => setDeleteArticleActive(id)
+      showDeleteArticle: (id: string) => setDeleteArticleActive(id),
+      showDownloadArticles: () => setDownloadArticlesActive(Date.now().toString())
     }
   };
 
@@ -199,6 +203,13 @@ export const ModalProvider = (props: { children: any }) => {
           onCancel={() => setDeleteArticleActive('')}
           id={deleteArticleActive}
           open={deleteArticleActive != ''}
+        />
+        <DownloadArticlesModal
+          footer={null}
+          width={424}
+          open={downloadArticlesActive != ''}
+          id={downloadArticlesActive}
+          onCancel={() => setDownloadArticlesActive('')}
         />
         {props.children}
       </>
