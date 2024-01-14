@@ -56,12 +56,12 @@ export default function Edit() {
       const article: any = await fetchArticleData(id);
       if (!article) {
         const articleFound: any = await fetchArticleById(id);
-        setForm(prev => ({ ...prev, ...articleFound }));
-        setArticleType(articleFound?.type);
-        setLoading(false);
         if (!articleFound) {
           router.push('/app/data/articles');
         }
+        setForm(prev => ({ ...prev, ...articleFound }));
+        setArticleType(articleFound?.type);
+        setLoading(false);
       } else {
         setForm(prev => ({ ...prev, ...article }));
         setArticleType(article?.type);
