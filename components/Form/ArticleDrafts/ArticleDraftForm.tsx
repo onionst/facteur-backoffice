@@ -84,7 +84,7 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
               withIcon={
                 <Uploader
                   accept={{
-                    'image/png': ['.png', '.jpeg', '.jpg']
+                    'image/png': ['.png', '.jpeg', '.jpg', '.webp']
                   }}
                   onLoadFinished={() => setUploadingImage(false)}
                   onLoad={() => {

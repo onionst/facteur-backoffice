@@ -100,7 +100,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                     setUploadingImage(true);
                   }}
                   accept={{
-                    'image/png': ['.png', '.jpeg', '.jpg']
+                    'image/png': ['.png', '.jpeg', '.jpg', '.webp']
                   }}
                   onChange={url => setForm((prev: any) => ({ ...prev, image: url }))}
                 />
@@ -404,7 +404,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                   <Row align="SPACE">
                     <InputUploader
                       accept={{
-                        'image/png': ['.png', '.jpeg', '.jpg'],
+                        'image/png': ['.png', '.jpeg', '.jpg', '.webp'],
                         'audio/mp3': ['.mp3', '.wav', '.ogg'],
                         'video/mp4': ['.mp4', '.avi', '.mov', '.wav'],
                         'application/pdf': ['.pdf'],

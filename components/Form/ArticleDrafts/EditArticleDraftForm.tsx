@@ -88,7 +88,7 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
                     setUploadingImage(true);
                   }}
                   accept={{
-                    'image/png': ['.png', '.jpeg', '.jpg']
+                    'image/png': ['.png', '.jpeg', '.jpg', '.webp']
                   }}
                   onChange={url => setForm((prev: any) => ({ ...prev, image: url }))}
                 />
