@@ -6,6 +6,7 @@ import App, { AppContext, AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { ArticlesProvider } from '@/contexts/articles.context';
 import { AuthProvider } from '@/contexts/auth.context';
+import { EE24Provider } from '@/contexts/ee24.context';
 import { FilesProvider } from '@/contexts/files.context';
 import { ModalProvider } from '@/contexts/modal.context';
 import { OrganizationsProvider } from '@/contexts/organizations.context';
@@ -49,25 +50,27 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ConfigProvider theme={theme}>
-      <FilesProvider>
-        <ArticlesProvider>
-          <OrganizationsProvider>
-            <UsersProvider>
-              <AuthProvider>
-                <ModalProvider>
-                  {router.asPath.includes('/app') ? (
-                    <AppLayout>
+      <EE24Provider>
+        <FilesProvider>
+          <ArticlesProvider>
+            <OrganizationsProvider>
+              <UsersProvider>
+                <AuthProvider>
+                  <ModalProvider>
+                    {router.asPath.includes('/app') ? (
+                      <AppLayout>
+                        <Component {...pageProps} />
+                      </AppLayout>
+                    ) : (
                       <Component {...pageProps} />
-                    </AppLayout>
-                  ) : (
-                    <Component {...pageProps} />
-                  )}
-                </ModalProvider>
-              </AuthProvider>
-            </UsersProvider>
-          </OrganizationsProvider>
-        </ArticlesProvider>
-      </FilesProvider>
+                    )}
+                  </ModalProvider>
+                </AuthProvider>
+              </UsersProvider>
+            </OrganizationsProvider>
+          </ArticlesProvider>
+        </FilesProvider>
+      </EE24Provider>
     </ConfigProvider>
   );
 }

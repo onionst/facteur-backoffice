@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Download, Search as SearchIcon } from 'react-feather';
+import Column from '@/bases/Column/Column';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
 import EE24Filter, { Filter } from '@/components/EE24Filter/EE24Filter';
@@ -30,9 +31,6 @@ export default function Repository() {
     <>
       <Header icon={<SearchIcon />} title="EE24 Repository" />
       <Wrapper>
-        <Page>
-          <Search placeholder="Search articles..." onSearch={search => search} />
-        </Page>
         <Grid size="20-80">
           <EE24Filter
             filter={filter}
@@ -44,9 +42,14 @@ export default function Repository() {
               }));
             }}
           />
-          <Page>
-            <Table columns={[]} data={[]} />
-          </Page>
+          <Column align="LEFT">
+            <Page>
+              <Search defaultValue={filter.search} placeholder="Search articles..." onSearch={search => search} />
+            </Page>
+            <Page>
+              <Table columns={[]} data={[]} />
+            </Page>
+          </Column>
         </Grid>
         <Row align="SPACE">
           <Row align="LEFT">

@@ -8,17 +8,24 @@ import Select from '@/bases/Select/Select';
 
 export type SearchProps = {
   placeholder: string;
+  defaultValue?: string;
   onSearch: (search: string, selector?: string) => void;
   withSelector?: Array<{ label: string; value: string }>;
 };
 
 export default function Search(props: SearchProps) {
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>(props.defaultValue || '');
   const [selector, setSelector] = useState<any>('');
 
   useEffect(() => {
     setSearch('');
   }, []);
+
+  useEffect(() => {
+    if (typeof props.defaultValue === 'string') {
+      setSearch(props.defaultValue);
+    }
+  }, [props.defaultValue]);
 
   const handleSearch = (e: FormEvent) => {
     e?.preventDefault();
@@ -29,7 +36,12 @@ export default function Search(props: SearchProps) {
     <form onSubmit={handleSearch} className={s['ds-search']}>
       <div className={s['ds-search__left']}>
         {/* <span>Filter</span> */}
-        <Input placeholder={props.placeholder} value={search} onChange={v => setSearch(v.target.value)} />
+        <Input
+          defaultValue={props?.defaultValue}
+          placeholder={props.placeholder}
+          value={search}
+          onChange={v => setSearch(v.target.value)}
+        />
         {props.withSelector && (
           <Select
             options={props.withSelector}
