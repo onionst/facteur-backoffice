@@ -16,7 +16,7 @@ export default function Footer() {
           </Link>
         </section>
         <Link target="_blank" href={'https://newtral.es'}>
-          <Image src="/assets/powered.svg" height={70} width={155} alt={''} />
+          <Image src="/assets/powered.svg" height={38} width={105} alt={''} />
         </Link>
         <section className={s['ds-footer__right']}>
           <Image src="/assets/flags/eu.png" height={70} width={105} alt={''} />
