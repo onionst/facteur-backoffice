@@ -1,5 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { Spin } from 'antd';
+import { Spin, Tooltip } from 'antd';
 import { useCallback, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Paperclip } from 'react-feather';
@@ -42,9 +42,11 @@ export function Uploader(props: UploaderProps) {
       {!loading ? (
         <div {...getRootProps()}>
           <input {...getInputProps()} />
-          <button type="button" className={s['ds-uploader']}>
-            <Paperclip color="#252f4a" size={18} />
-          </button>
+          <Tooltip title="Upload file">
+            <button type="button" className={s['ds-uploader']}>
+              <Paperclip color="#252f4a" size={18} />
+            </button>
+          </Tooltip>
         </div>
       ) : (
         <Spin indicator={<LoadingOutlined style={{ fontSize: 24, color: '#00986d' }} />} />
