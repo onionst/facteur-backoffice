@@ -15,8 +15,7 @@ export const FilesContext = createContext<FilesContextProps>(
 export const FilesProvider = (props: FilesProviderProps) => {
   const uploadFile = async (file: File): Promise<string> => {
     try {
-      // const url = await UploadFile(file);
-      const url = 'http://please-replace-upload-service-from-context.com';
+      const url = await UploadFile(file);
       return url;
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {

@@ -31,7 +31,7 @@ export default function InputUploader(props: any) {
       handleUpload(acceptedFiles[0]);
     }
   }, []);
-  const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, accept: props.accept });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, maxSize: 102400, accept: props.accept });
 
   return (
     <div {...(!uploadedUrl ? getRootProps() : {})} className="w-full" style={{ position: 'relative' }}>
