@@ -6,7 +6,7 @@ import s from './EE24Search.module.scss';
 import Button from '@/bases/Button/Button';
 import Row from '@/bases/Row/Row';
 export type EE24SearchProps = {
-  onSearch: (filter: string) => void;
+  onSearch: (filter: { value: string; type: 'TEXT' | 'URL' }) => void;
 };
 
 export default function EE24Search(props: EE24SearchProps) {
@@ -17,7 +17,10 @@ export default function EE24Search(props: EE24SearchProps) {
   const handleSearch = (e: FormEvent) => {
     try {
       e.preventDefault();
-      props.onSearch(filter);
+      props.onSearch({
+        type: 'TEXT',
+        value: filter
+      });
     } catch (err) {
       console.log(err);
     }
@@ -30,19 +33,28 @@ export default function EE24Search(props: EE24SearchProps) {
         trigger={[]}
         open={uploadedUrl != ''}
         content={
-          <form className={s['ds-ee24-search__popover']} key={uploadedUrl}>
+          <div className={s['ds-ee24-search__popover']} key={uploadedUrl}>
             <button type="button" className={s['ds-ee24-search__popover-x']} onClick={() => setUploadedUrl('')}>
               <X color="#4b5675" size={18} />
             </button>
             <div className={s['ds-ee24-search__popover-portrait']}>
-              <img src={uploadedUrl} />
+              <img alt="portrait" src={uploadedUrl} />
             </div>
             <div className={s['ds-ee24-search__popover-form']}>
-              <Button theme="CTA">
+              <Button
+                theme="CTA"
+                type="button"
+                onClick={() => {
+                  props.onSearch({
+                    type: 'URL',
+                    value: uploadedUrl
+                  });
+                }}
+              >
                 Search <Search />
               </Button>
             </div>
-          </form>
+          </div>
         }
       >
         <Row align="LEFT">

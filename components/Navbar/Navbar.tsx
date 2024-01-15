@@ -31,7 +31,13 @@ export default function Navbar(props: NavbarProps) {
             <Plus color="#252f4a" size={18} />
           </IconButton>
         )}
-        {!router.asPath.includes('/ee24') && <EE24Search onSearch={() => {}} />}
+        {!router.asPath.includes('/ee24') && (
+          <EE24Search
+            onSearch={filter => {
+              router.push(`/app/ee24/search?q=${filter.value}&&c=${filter.type}`);
+            }}
+          />
+        )}
       </section>
       <section className={s['ds-navbar__right']}>
         {[ROLES.ADMIN, ROLES.FACT_CHECKER].includes(session.role) && !router.asPath.includes('/articles') && (
