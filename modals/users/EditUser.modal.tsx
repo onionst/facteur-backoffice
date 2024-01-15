@@ -6,7 +6,7 @@ import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
-import Select from '@/bases/Select';
+import Select from '@/bases/Select/Select';
 import Switch from '@/bases/Switch/Switch';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';

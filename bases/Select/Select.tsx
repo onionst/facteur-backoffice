@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import s from './Select.module.scss';
 
 export type SelectProps = {
   label?: string;
@@ -35,7 +36,12 @@ export default function Select({ label, required, options, defaultValue, onChang
         onChange={handleChange}
       >
         {options.map(option => (
-          <option key={option.value} selected={option.value === selectedValue} value={option.value}>
+          <option
+            key={option.value}
+            selected={option.value === selectedValue}
+            value={option.value}
+            className={option?.value ? s['ds-select--default'] : s['ds-select--placeholder']}
+          >
             {option.label}
           </option>
         ))}

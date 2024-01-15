@@ -9,7 +9,7 @@ import Button from '@/bases/Button/Button';
 import { DatePicker } from '@/bases/DatePicker/DatePicker';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
-import Select from '@/bases/Select';
+import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';

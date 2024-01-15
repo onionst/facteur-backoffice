@@ -6,7 +6,7 @@ import Button from '@/bases/Button/Button';
 import Column from '@/bases/Column/Column';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
-import Select from '@/bases/Select';
+import Select from '@/bases/Select/Select';
 import ItemSelect from '@/components/Form/ItemSelect/ItemSelect';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { ROLES } from '@/constants/roles.constants';

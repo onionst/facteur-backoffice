@@ -152,19 +152,6 @@ body {
   width: 100%;
 }
 
-.c-pointer {
-  cursor: pointer;
-  padding: 4px 8px;
-  border: 1px solid #dbdfe9;
-  color: #252f4a;
-  border-radius: 0.475rem;
-  display: flex;
-  justify-content: flex-start;
-  width: max-content;
-  gap: 8px;
-  align-items: center;
-}
-
 .ant-select-focused .ant-select-selector,
 .ant-select-selector:focus,
 .ant-select-selector:active,

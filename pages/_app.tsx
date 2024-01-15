@@ -27,6 +27,7 @@ const theme: ThemeConfig = {
       activeShadow: 'none',
       colorBgContainerDisabled: '#F1F1F4'
     },
+
     Input: {
       colorTextPlaceholder: '#99a1b7'
     },

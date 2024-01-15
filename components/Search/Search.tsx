@@ -4,7 +4,7 @@ import s from './Search.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
-import Select from '@/bases/Select';
+import Select from '@/bases/Select/Select';
 
 export type SearchProps = {
   placeholder: string;
