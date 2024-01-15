@@ -31,7 +31,6 @@ export function Uploader(props: UploaderProps) {
   };
   const onDrop = useCallback((acceptedFiles: any[]) => {
     if (acceptedFiles[0]) {
-      console.log(acceptedFiles[0]);
       handleUpload(acceptedFiles[0]);
     }
   }, []);

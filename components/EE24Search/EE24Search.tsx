@@ -22,7 +22,7 @@ export default function EE24Search(props: EE24SearchProps) {
         value: filter
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

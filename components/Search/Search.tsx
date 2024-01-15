@@ -28,7 +28,7 @@ export default function Search(props: SearchProps) {
   return (
     <form onSubmit={handleSearch} className={s['ds-search']}>
       <div className={s['ds-search__left']}>
-        <span>Filter</span>
+        {/* <span>Filter</span> */}
         <Input placeholder={props.placeholder} value={search} onChange={v => setSearch(v.target.value)} />
         {props.withSelector && (
           <Select

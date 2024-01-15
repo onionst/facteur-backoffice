@@ -141,7 +141,7 @@ export default function Edit() {
       });
       router.push('/app/data/articles');
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setStep(1);
     }
   };

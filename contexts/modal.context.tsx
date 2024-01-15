@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from './auth.context';
+import useWindowSize from '@/hooks/useWindowWidth';
 import { AccountModal } from '@/modals/Account.modal';
 import { DeleteArticleModal } from '@/modals/articles/DeleteArticle.modal';
 import { DownloadArticlesModal } from '@/modals/articles/DownloadArticles.modal';
@@ -44,6 +45,7 @@ export const ModalContext = createContext<{
 }>({});
 
 export const ModalProvider = (props: { children: any }) => {
+  const { width } = useWindowSize();
   const { session } = useAuth();
   // <--- auth --->
   const [emailSentActive, setEmailSentActive] = useState<boolean>(false);
@@ -121,70 +123,70 @@ export const ModalProvider = (props: { children: any }) => {
           placement="right"
           styles={{ header: { display: 'none' } }}
           footer={null}
-          width={400}
+          width={width <= 440 ? width - 40 : 400}
           open={accountActive}
           onClose={() => setAccountActive(false)}
         />
 
         <CreateOrganizationModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           open={createOrganizationActive != ''}
           id={createOrganizationActive}
           onCancel={() => setCreateOrganizationActive('')}
         />
         <EditOrganizationModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           open={editOrganizationActive != ''}
           id={editOrganizationActive}
           onCancel={() => setEditOrganizationActive('')}
         />
         <DeleteOrganizationModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           open={deleteOrganizationActive != ''}
           id={deleteOrganizationActive}
           onCancel={() => setDeleteOrganizationActive('')}
         />
         <DownloadOrganizationsModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           open={downloadOrganizationsActive != ''}
           id={downloadOrganizationsActive}
           onCancel={() => setDownloadOrganizationsActive('')}
         />
         <RestoreOrganizationModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           open={restoreOrganizationActive != ''}
           id={restoreOrganizationActive}
           onCancel={() => setRestoreOrganizationActive('')}
         />
         <InviteUsersModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           onCancel={() => setInviteUsersActive('')}
           id={inviteUsersActive}
           open={inviteUsersActive != ''}
         />
         <DeleteUserInvitationModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           onCancel={() => setDeleteUserInvitationActive('')}
           id={deleteUserInvitationActive}
           open={deleteUserInvitationActive != ''}
         />
         <DeleteUserModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           onCancel={() => setDeleteUserActive('')}
           id={deleteUserActive}
           open={deleteUserActive != ''}
         />
         <DownloadUsersModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           open={downloadUsersActive != ''}
           id={downloadUsersActive}
           onCancel={() => setDownloadUsersActive('')}
@@ -192,21 +194,21 @@ export const ModalProvider = (props: { children: any }) => {
         <EditUserModal footer={null} width={424} onCancel={() => setEditUserActive('')} id={editUserActive} open={editUserActive != ''} />
         <RestoreUserModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           open={restoreUserActive != ''}
           id={restoreUserActive}
           onCancel={() => setRestoreUserActive('')}
         />
         <DeleteArticleModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           onCancel={() => setDeleteArticleActive('')}
           id={deleteArticleActive}
           open={deleteArticleActive != ''}
         />
         <DownloadArticlesModal
           footer={null}
-          width={424}
+          width={width <= 464 ? width - 40 : 424}
           open={downloadArticlesActive != ''}
           id={downloadArticlesActive}
           onCancel={() => setDownloadArticlesActive('')}

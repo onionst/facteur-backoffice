@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className={s['ds-footer']}>
       <Row align="SPACE">
         <section className={s['ds-footer__left']}>
-          <Link href={'https://efcsn.com/code-of-standards/#:~:text=Template%20Article%206-,POINT%20OF%20CONTACT,-PRIVACY%20POLICY'}>
+          <Link href={'https://efcsn.com/contact/'}>
             <span>Point of contact</span>
           </Link>
           <Link href={'https://efcsn.com/privacy-policy'}>

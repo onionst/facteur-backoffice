@@ -30,7 +30,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
       e?.preventDefault();
       props.onPublish();
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

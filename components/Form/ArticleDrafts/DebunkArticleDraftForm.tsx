@@ -16,7 +16,6 @@ import Tagger from '@/bases/Tagger/Tagger';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
-import { Uploader } from '@/components/Uploader/Uploader';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
@@ -29,7 +28,6 @@ export type DebunkArticleDraftFormProps = {};
 export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProps & IArticleDraft) {
   const [loading, setLoading] = useState<boolean>(false);
   const { fetchTranslation } = useArticles();
-  const [uploadingImage, setUploadingImage] = useState(false);
   const { setForm, form } = props;
   const handleUpdate = (v: any, k: string) => setForm((prev: any) => ({ ...prev, [k]: v.target.value }));
 
@@ -86,29 +84,19 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
           />
           <Row align="SPACE">
-            <Input
-              type="url"
-              name="url"
-              value={form.image}
-              onChange={v => handleUpdate(v, 'image')}
-              minLength={10}
-              disabled={uploadingImage}
-              withIcon={
-                <Uploader
-                  onLoadFinished={() => setUploadingImage(false)}
-                  onLoad={() => {
-                    setUploadingImage(true);
-                  }}
-                  accept={{
-                    'image/png': ['.png', '.jpeg', '.jpg', '.webp']
-                  }}
-                  onChange={url => setForm((prev: any) => ({ ...prev, image: url }))}
-                />
-              }
-              id="url"
-              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+            <InputUploader
+              accept={{
+                'image/png': ['.png', '.jpeg', '.jpg', '.webp']
+              }}
               label="Image URL"
-              placeholder="https://example.com/factchecking/article-010101"
+              value={form.image}
+              onUrlChange={(url: string) => {
+                setForm((prev: any) => ({
+                  ...prev,
+                  image: url
+                }));
+              }}
+              placeholder="Upload image"
             />
             <DatePicker
               label="Date published"

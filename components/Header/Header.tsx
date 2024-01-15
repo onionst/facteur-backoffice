@@ -17,7 +17,7 @@ export default function Header(props: HeaderProps) {
   return (
     <>
       <Head>
-        <title>{props.title} | EFCSN</title>
+        <title>{props.title ? `${props.title} | ` : ''}EFCSN</title>
       </Head>
       <header className={s['ds-header']}>
         <h1>
