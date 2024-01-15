@@ -31,6 +31,9 @@
       background-color: $ds-primary;
       border-radius: 0 0.475rem 0.475rem 0 !important;
     }
+    &--small {
+      grid-template-columns: 90% auto;
+    }
     &-item {
       width: 100%;
       display: flex;

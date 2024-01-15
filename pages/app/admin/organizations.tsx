@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Badge } from 'react-bootstrap';
 import { Box, Download, Edit, RefreshCcw, X } from 'react-feather';
 import Button from '@/bases/Button/Button';
@@ -14,6 +15,7 @@ import { ORGANIZATIONS_LIMIT_PER_PAGE, useOrganizations } from '@/contexts/organ
 
 export default function Organizations() {
   const modals = useModal();
+  const [filter, setFilter] = useState<any>({});
   const { organizations, fetchOrganizations, page, ...organizationsProps } = useOrganizations();
   const { showCreateOrganization, showEditOrganization, showDeleteOrganization, showRestoreOrganization } = modals.organizations;
 
@@ -28,11 +30,14 @@ export default function Organizations() {
         <Page>
           <Search
             placeholder="Search organizations..."
-            onSearch={search =>
+            onSearch={search => {
+              setFilter({
+                search
+              });
               fetchOrganizations({
                 search
-              })
-            }
+              });
+            }}
           />
         </Page>
         <Page>
@@ -96,12 +101,12 @@ export default function Organizations() {
               currentPage={page.current}
               totalRecordsCount={page.records}
               prevPage={() => {
-                fetchOrganizations({}, page.current - 1 - 1);
+                fetchOrganizations(filter, page.current - 1 - 1);
               }}
               nextPage={() => {
-                fetchOrganizations({}, page.current - 1 + 1);
+                fetchOrganizations(filter, page.current - 1 + 1);
               }}
-              skip={skip => fetchOrganizations({}, skip - 1)}
+              skip={skip => fetchOrganizations(filter, skip - 1)}
             />
           </Row>
         </Row>

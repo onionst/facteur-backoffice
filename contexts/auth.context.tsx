@@ -3,6 +3,7 @@ import { Spin, notification } from 'antd';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react';
 import Store from 'store';
+import { useArticles } from './articles.context';
 import { useOrganizations } from './organizations.context';
 import { useUsers } from './users.context';
 import Logo from '@/bases/Logo';
@@ -23,7 +24,8 @@ import {
   RestorePassword,
   SendRestorePasswordEmail,
   SignInWithEmailAndPassword,
-  SignInWithTFAToken
+  SignInWithTFAToken,
+  SetupTFA
 } from '@/services/auth.service';
 import { Join } from '@/services/user.service';
 
@@ -40,6 +42,7 @@ export type AuthContextProps = {
   refreshApiCredentials: (id?: string, type?: string) => Promise<string>;
   googleAccessToken: (code: string) => Promise<void>;
   googleRefreshToken: (googleRefreshToken: GoogleRefreshToken) => Promise<string>;
+  setupTFA: () => Promise<void>;
   signOut: () => Promise<void>;
 };
 export type AuthProviderProps = { children: any };
@@ -53,11 +56,12 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const organizations = useOrganizations();
   const users = useUsers();
+  const articles = useArticles();
   const router = useRouter();
 
   const [session, setSession] = useState<Session>({
     email: '',
-    role: ROLES.VIEWER,
+    role: ROLES.NONE,
     name: '',
     surname: '',
     organizationId: ''
@@ -133,13 +137,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
           setLoading(true);
         }
         const { data } = await GetSessionData();
-        setSession({
-          email: data?.email,
-          role: data?.role,
-          name: data?.name,
-          surname: data?.surname,
-          organizationId: data?.organizationId
-        });
+        setSession(data);
 
         if (data?.role === ROLES.SUPER_ADMIN) {
           organizations.fetchOrganizations({});
@@ -147,7 +145,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
         if ([ROLES.SUPER_ADMIN, ROLES.ADMIN].includes(data?.role)) {
           users.fetchUsers({});
         }
-
+        if ([ROLES.ADMIN, ROLES.FACT_CHECKER].includes(data?.role)) {
+          articles.fetchArticles({
+            publisher: data.organization.domain
+          });
+        }
         setLoading(false);
       }
     } catch (err) {
@@ -255,7 +257,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
       RestorePassword(token, password);
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
-        message: 'Password reset'
+        message: 'Password changed'
       });
       router.push('/auth/sign-in');
     } catch (err: any) {
@@ -379,8 +381,49 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
+  const setupTFA = async () => {
+    try {
+      await SetupTFA();
+      setSession(prev => ({
+        ...prev,
+        TFA: true
+      }));
+    } catch (err: any) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else if (err.name === 'AxiosError') {
+        const { message } = err.response.data;
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: message ?? 'Invalid google access token'
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Invalid google access token'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
+
   const signOut = async () => {
     try {
+      setSession({
+        email: '',
+        role: ROLES.NONE,
+        name: '',
+        surname: '',
+        organizationId: ''
+      });
       await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
       router.push('/auth/sign-in');
     } catch (err) {
@@ -404,7 +447,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
     googleLoginModal,
     doOpenGoogleLogin,
     googleAccessToken,
-    googleRefreshToken
+    googleRefreshToken,
+    setupTFA
   };
 
   return (

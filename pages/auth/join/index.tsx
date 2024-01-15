@@ -1,5 +1,4 @@
 import { ArrowRightOutlined } from '@ant-design/icons';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
 import Button from '@/bases/Button/Button';
@@ -107,19 +106,7 @@ export default function Join() {
             <h1>Join your team</h1>
             <p>Enter your name, surname and password to continue</p>
           </div>
-          <div className="ds-sign-in__left-g">
-            <button type="button">
-              <span>
-                <Image src="/assets/icons/g-icon.png" width={18} height={18} alt={''} />
-                <span style={{ marginLeft: 12 }}>Continue with Google</span>
-              </span>
-            </button>
-          </div>
-          <div className="ds-sign-in__left-s">
-            <div />
-            <span>or</span>
-            <div />
-          </div>
+
           <form onSubmit={handleJoinTeam}>
             <Input
               required

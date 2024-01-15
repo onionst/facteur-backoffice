@@ -1,0 +1,548 @@
+import { ArrowRightOutlined } from '@ant-design/icons';
+import { Divider } from 'antd';
+import dayjs from 'dayjs';
+import { FormEvent, useState } from 'react';
+import { Plus, X } from 'react-feather';
+import { ArticleType } from '../SelectArticleType/SelectArticleType';
+import { IArticleDraft } from './articleDraft.interface';
+import s from './ArticleDraftForm.module.scss';
+import Button from '@/bases/Button/Button';
+import { DatePicker } from '@/bases/DatePicker/DatePicker';
+import { Input } from '@/bases/Input';
+import InputUploader from '@/bases/InputUploader/InputUploader';
+import Row from '@/bases/Row/Row';
+import Select from '@/bases/Select';
+import Tagger from '@/bases/Tagger/Tagger';
+import Card from '@/components/Card/Card';
+import ModalHeader from '@/components/ModalHeader/ModalHeader';
+import Page from '@/components/Page/Page';
+import { Uploader } from '@/components/Uploader/Uploader';
+import { CountryISO } from '@/constants/country';
+import { LanguageISO } from '@/constants/language';
+import { MediaFormat, MediaType, Platform } from '@/constants/media';
+import { PoliticalParty } from '@/constants/politicalParty';
+import { ReviewRating } from '@/constants/ratings';
+import { Topic } from '@/constants/topics';
+import { useArticles } from '@/contexts/articles.context';
+
+export type DebunkArticleDraftFormProps = {};
+export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftFormProps & IArticleDraft) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [uploadingImage, setUploadingImage] = useState<boolean>(false);
+  const { fetchTranslation } = useArticles();
+  const { setForm, form } = props;
+  const handleUpdate = (v: any, k: string) => setForm((prev: any) => ({ ...prev, [k]: v.target.value }));
+
+  const handleSubmit = async (e: FormEvent) => {
+    try {
+      e?.preventDefault();
+      setLoading(true);
+      const [headline, claimreviewed] = await Promise.all([
+        fetchTranslation(form.headlineNative),
+        fetchTranslation(form.claimreviewedNative)
+      ]);
+      setForm((prev: any) => ({
+        ...prev,
+        headline,
+        claimreviewed
+      }));
+      setLoading(false);
+      props.onContinue(form);
+    } catch (err) {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form className={s['ds-article-draft-form']} onSubmit={handleSubmit}>
+      <Page>
+        <ModalHeader
+          style={{ margin: 0 }}
+          subTitle={'Edit the draft'}
+          title={`Complete the following form to edit the ${props.type} article`}
+        />
+        <Card>
+          <h4>Overview</h4>
+          <Divider style={{ margin: '8px 0' }} />
+          <Input
+            label="URL"
+            type="url"
+            name="url"
+            minLength={10}
+            value={form.url}
+            onChange={v => handleUpdate(v, 'url')}
+            id="url"
+            pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+            required
+            placeholder="https://example.com/factchecking/article-010101"
+          />
+          <Input
+            type="text"
+            minLength={10}
+            required
+            value={form.headlineNative}
+            onChange={v => handleUpdate(v, 'headlineNative')}
+            label="Headline"
+            placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
+          />
+          <Row align="SPACE">
+            <Input
+              type="url"
+              name="url"
+              value={form.image}
+              onChange={v => handleUpdate(v, 'image')}
+              minLength={10}
+              disabled={uploadingImage}
+              withIcon={
+                <Uploader
+                  onLoadFinished={() => setUploadingImage(false)}
+                  onLoad={() => {
+                    setUploadingImage(true);
+                  }}
+                  accept={{
+                    'image/png': ['.png', '.jpeg', '.jpg']
+                  }}
+                  onChange={url => setForm((prev: any) => ({ ...prev, image: url }))}
+                />
+              }
+              id="url"
+              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+              label="Image URL"
+              placeholder="https://example.com/factchecking/article-010101"
+            />
+            <DatePicker
+              label="Date published"
+              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
+              onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
+            />
+          </Row>
+        </Card>
+        <Card>
+          <h4>Article Details</h4>
+          <Divider style={{ margin: '8px 0' }} />
+
+          <Row align="SPACE">
+            <Tagger
+              label="Keywords"
+              maxTagCount="responsive"
+              suffixIcon={null}
+              value={form.keywords}
+              mode="tags"
+              onChange={v => setForm((prev: any) => ({ ...prev, keywords: v }))}
+              placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
+            />
+            <Select
+              label="Language"
+              required
+              defaultValue={form?.inLanguage}
+              options={[
+                { label: "Article's language", value: '' },
+                ...Object.entries(LanguageISO).map(([key, value]) => ({
+                  label: key,
+                  value
+                }))
+              ]}
+              onChange={v => setForm((prev: any) => ({ ...prev, inLanguage: v }))}
+            />
+          </Row>
+          <Row align="SPACE">
+            <Tagger
+              label="Topics"
+              value={form.topics}
+              options={Object.entries(Topic).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))}
+              maxTagCount="responsive"
+              mode="tags"
+              onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
+              placeholder="Article's topics"
+            />
+            <Select
+              label="EU Relation"
+              required
+              defaultValue={form?.euRelation}
+              options={[
+                { label: 'EU Relation', value: '' },
+                { label: 'Direct', value: 'Direct' },
+                { label: 'Indirect', value: 'Indirect' }
+              ]}
+              onChange={v => setForm((prev: any) => ({ ...prev, euRelation: v }))}
+            />
+          </Row>
+          <Row align="SPACE">
+            <Select
+              label="Country of Origin"
+              required
+              defaultValue={form?.countryOfOrigin}
+              options={[
+                { label: 'Country of Origin', value: '' },
+                ...Object.entries(CountryISO).map(([key, value]) => ({
+                  label: key.split('_').join(' '),
+                  value: value.split('_').join(' ')
+                }))
+              ]}
+              onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
+            />
+            <Select
+              label="Content location"
+              defaultValue={form?.contentLocation}
+              options={[
+                { label: 'Content location', value: '' },
+                ...Object.entries(CountryISO).map(([key, value]) => ({
+                  label: key.split('_').join(' '),
+                  value: value.split('_').join(' ')
+                }))
+              ]}
+              onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
+            />
+          </Row>
+        </Card>
+        <Card>
+          <h4>Claim Details</h4>
+          <Divider style={{ margin: '8px 0' }} />
+          <Input
+            label="Claim reviewed"
+            value={form.claimreviewedNative}
+            onChange={v => handleUpdate(v, 'claimreviewedNative')}
+            type="text"
+            minLength={10}
+            required
+            placeholder="Quoted hours are falling in Spain"
+          />
+          <Row align="SPACE">
+            <Select
+              label="Rating"
+              required
+              defaultValue={form?.reviewRating}
+              options={[
+                { label: 'Rating', value: '' },
+                ...Object.entries(ReviewRating).map(v => ({
+                  value: v[1].split('_').join(' '),
+                  label: v[1].split('_').join(' ')
+                }))
+              ]}
+              onChange={v => setForm((prev: any) => ({ ...prev, reviewRating: v }))}
+            />
+            <DatePicker
+              label="Date published"
+              value={
+                dayjs(form.itemReviewed.datePublished).isValid() ? dayjs(form.itemReviewed.datePublished) : form.itemReviewed.datePublished
+              }
+              onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, datePublished: v } }))}
+            />
+          </Row>
+          {/* <Input label="Associated claim reviews url" required={form.associatedClaimReview.length > 0}>
+            {form.associatedClaimReview.map((claimReview: any) => (
+              <Input
+                key={claimReview.id}
+                style={{
+                  marginBottom: 8
+                }}
+                required
+                placeholder="https://example.com/factchecking/article-020202"
+                value={claimReview?.url}
+                onChange={v => {
+                  setForm((prev: any) => ({
+                    ...prev,
+                    associatedClaimReview: prev.associatedClaimReview.map((claim: any) => {
+                      if (claim.id != claimReview.id) {
+                        return claim;
+                      }
+                      return {
+                        ...claim,
+                        url: v.target.value
+                      };
+                    })
+                  }));
+                }}
+                onIconClick={() =>
+                  setForm((prev: any) => ({
+                    ...prev,
+                    associatedClaimReview: prev.associatedClaimReview.filter((claim: any) => claim.id != claimReview.id)
+                  }))
+                }
+                withIcon={<X color="#4b5675" size={20} />}
+              />
+            ))}
+            <span
+              className="c-pointer mt-1"
+              onClick={() =>
+                setForm((prev: any) => ({
+                  ...prev,
+                  associatedClaimReview: [
+                    ...prev.associatedClaimReview,
+                    {
+                      id: Date.now(),
+                      url: ''
+                    }
+                  ]
+                }))
+              }
+            >
+              <Plus size={14} /> Add associated claim review url
+            </span>
+          </Input> */}
+
+          {props.type === ArticleType.Factcheck && (
+            <Row align="SPACE">
+              <Input
+                value={form.itemReviewed.author}
+                onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, author: v.target.value } }))}
+                label="Author"
+                placeholder="John Doe"
+              />
+
+              <Select
+                label="Political party"
+                defaultValue={form?.itemReviewed?.politicalParty}
+                options={[
+                  { label: 'Political party', value: '' },
+                  ...Object.entries(PoliticalParty).map(v => ({
+                    value: v[1].split('_').join(' '),
+                    label: v[1].split('_').join(' ')
+                  }))
+                ]}
+                onChange={v => setForm((prev: any) => ({ ...prev, inLanguage: v }))}
+              />
+            </Row>
+          )}
+
+          <Input label="Appearances" required={form.itemReviewed.appearances.length > 0}>
+            {form.itemReviewed.appearances.map((appearance: any) => (
+              <div key={appearance.id}>
+                <Card
+                  key={appearance.id}
+                  style={{
+                    marginBottom: 8
+                  }}
+                >
+                  <Input
+                    label="URL"
+                    pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+                    placeholder="https://example.com/factchecking/article-010101"
+                    key={`${appearance.id}_URL`}
+                    value={appearance?.url}
+                    onChange={v =>
+                      setForm((prev: any) => ({
+                        ...prev,
+                        itemReviewed: {
+                          ...prev.itemReviewed,
+                          appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
+                            if (_appearance.id != appearance.id) {
+                              return _appearance;
+                            }
+                            return {
+                              ..._appearance,
+                              url: v.target.value
+                            };
+                          })
+                        }
+                      }))
+                    }
+                  />
+
+                  <Row align="SPACE">
+                    <Select
+                      label="Platform"
+                      defaultValue={appearance?.platform}
+                      options={[
+                        { label: 'Select platform where appearance was found', value: '' },
+                        ...Object.entries(Platform).map(([key, value]) => ({
+                          value: key.split('_').join(' '),
+                          label: value.split('_').join(' ')
+                        }))
+                      ]}
+                      onChange={v =>
+                        setForm((prev: any) => ({
+                          ...prev,
+                          itemReviewed: {
+                            ...prev.itemReviewed,
+                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
+                              if (_appearance.id != appearance.id) {
+                                return _appearance;
+                              }
+                              return {
+                                ..._appearance,
+                                platform: v
+                              };
+                            })
+                          }
+                        }))
+                      }
+                    />
+                    <Select
+                      label="Media format"
+                      defaultValue={appearance?.mediaFormat}
+                      options={[
+                        { label: 'Select media format', value: '' },
+                        ...Object.entries(MediaFormat).map(([key, value]) => ({
+                          value: key.split('_').join(' '),
+                          label: value.split('_').join(' ')
+                        }))
+                      ]}
+                      onChange={v =>
+                        setForm((prev: any) => ({
+                          ...prev,
+                          itemReviewed: {
+                            ...prev.itemReviewed,
+                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
+                              if (_appearance.id != appearance.id) {
+                                return _appearance;
+                              }
+                              return {
+                                ..._appearance,
+                                mediaFormat: v
+                              };
+                            })
+                          }
+                        }))
+                      }
+                    />
+                  </Row>
+
+                  <Row align="SPACE">
+                    <InputUploader
+                      accept={{
+                        'image/png': ['.png', '.jpeg', '.jpg'],
+                        'audio/mp3': ['.mp3', '.wav', '.ogg'],
+                        'video/mp4': ['.mp4', '.avi', '.mov', '.wav'],
+                        'application/pdf': ['.pdf'],
+                        'text/csv': ['.csv'],
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
+                      }}
+                      label="Associated media"
+                      value={appearance?.associatedMedia}
+                      onUrlChange={(url: string) => {
+                        setForm((prev: any) => ({
+                          ...prev,
+                          itemReviewed: {
+                            ...prev.itemReviewed,
+                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
+                              if (_appearance.id != appearance.id) {
+                                return _appearance;
+                              }
+                              return {
+                                ..._appearance,
+                                associatedMedia: url
+                              };
+                            })
+                          }
+                        }));
+                      }}
+                      placeholder="Upload file"
+                    />
+
+                    <Select
+                      label="Associated media format"
+                      defaultValue={appearance?.associatedMediaType}
+                      options={[
+                        { label: 'Select associated media format', value: '' },
+                        ...Object.entries(MediaType).map(([key, value]) => ({
+                          value: key.split('_').join(' '),
+                          label: value.split('_').join(' ')
+                        }))
+                      ]}
+                      onChange={v =>
+                        setForm((prev: any) => ({
+                          ...prev,
+                          itemReviewed: {
+                            ...prev.itemReviewed,
+                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
+                              if (_appearance.id != appearance.id) {
+                                return _appearance;
+                              }
+                              return {
+                                ..._appearance,
+                                associatedMediaType: v
+                              };
+                            })
+                          }
+                        }))
+                      }
+                    />
+                  </Row>
+                  <Input
+                    label="Archived url"
+                    pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+                    placeholder="https://example.com/factchecking/article-010101"
+                    key={`${appearance.id}_archived`}
+                    value={appearance?.archivedAt}
+                    onChange={v =>
+                      setForm((prev: any) => ({
+                        ...prev,
+                        itemReviewed: {
+                          ...prev.itemReviewed,
+                          appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
+                            if (_appearance.id != appearance.id) {
+                              return _appearance;
+                            }
+                            return {
+                              ..._appearance,
+                              archivedAt: v.target.value
+                            };
+                          })
+                        }
+                      }))
+                    }
+                  />
+                  <Row align="RIGHT">
+                    <span
+                      className="c-pointer mt-2"
+                      onClick={() =>
+                        setForm((prev: any) => ({
+                          ...prev,
+                          itemReviewed: {
+                            ...prev.itemReviewed,
+                            appearances: prev.itemReviewed.appearances.filter((_appearance: any) => _appearance.id != appearance.id)
+                          }
+                        }))
+                      }
+                    >
+                      <X size={14} /> Remove appearance
+                    </span>
+                  </Row>
+                </Card>
+              </div>
+            ))}
+            <span
+              className="c-pointer"
+              onClick={() => {
+                const id = Date.now();
+                setForm((prev: any) => ({
+                  ...prev,
+                  itemReviewed: {
+                    ...prev.itemReviewed,
+                    appearances: [
+                      ...prev.itemReviewed.appearances,
+                      {
+                        id,
+                        url: '',
+                        archivedAt: '',
+                        associatedMedia: '',
+                        associatedMediaType: '',
+                        mediaFormat: '',
+                        platform: ''
+                      }
+                    ]
+                  }
+                }));
+              }}
+            >
+              <Plus size={14} /> Add appearance
+            </span>
+          </Input>
+        </Card>
+      </Page>
+      <div className={s['ds-article-draft-form__fab']}>
+        <Row align="RIGHT">
+          <Button loading={loading} theme="CTA">
+            Continue
+            <ArrowRightOutlined />
+          </Button>
+        </Row>
+      </div>
+    </form>
+  );
+}

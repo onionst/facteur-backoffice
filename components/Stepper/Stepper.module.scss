@@ -1,0 +1,56 @@
+@import '@/styles/app/variables.scss';
+
+.ds-stepper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: max-content !important;
+  gap: 20px;
+  &__item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+    opacity: 0.6;
+    &--active {
+      opacity: 1;
+      & .ds-stepper__item-position {
+        background-color: $ds-primary !important;
+        color: $ds-white;
+        border-color: $ds-primary;
+      }
+    }
+    &--passed {
+      opacity: 0.3;
+      .ds-stepper__item-text {
+        text-decoration: line-through !important;
+      }
+    }
+    &-position {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      max-width: 32px;
+      min-height: 32px;
+      max-height: 32px;
+      border-radius: 0.712rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $ds-gray-800;
+      border: 1px solid $ds-gray-400;
+    }
+    &-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      align-items: flex-start;
+      min-height: 32px;
+      & > h6 {
+        margin: 0;
+      }
+    }
+  }
+}

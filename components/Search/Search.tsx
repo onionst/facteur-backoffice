@@ -30,7 +30,15 @@ export default function Search(props: SearchProps) {
       <div className={s['ds-search__left']}>
         <span>Filter</span>
         <Input placeholder={props.placeholder} value={search} onChange={v => setSearch(v.target.value)} />
-        {props.withSelector && <Select options={props.withSelector} onChange={setSelector} />}
+        {props.withSelector && (
+          <Select
+            options={props.withSelector}
+            onChange={v => {
+              setSelector(v);
+              props.onSearch(search, v);
+            }}
+          />
+        )}
       </div>
       <div className={s['ds-search__right']}>
         <Row align="RIGHT">

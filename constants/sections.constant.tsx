@@ -33,12 +33,12 @@ export const SECTIONS: Section[] = [
     ]
   },
   {
-    access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.VIEWER],
+    access: [ROLES.ADMIN, ROLES.FACT_CHECKER],
     name: 'Data',
     type: 'MENU',
     sections: [
       {
-        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER, ROLES.VIEWER],
+        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
         icon: <File size={18} strokeWidth={2.3} color="#4b5675" />,
         name: 'Articles',
         type: 'ITEM',
@@ -47,19 +47,19 @@ export const SECTIONS: Section[] = [
     ]
   },
   {
-    access: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER, ROLES.VIEWER],
+    access: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
     name: 'EE24 Dataset',
     type: 'MENU',
     sections: [
       {
-        access: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER, ROLES.VIEWER],
+        access: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
         icon: <Search size={18} strokeWidth={2.3} color="#4b5675" />,
         name: 'Search',
         type: 'ITEM',
         path: '/app/ee24/search'
       },
       {
-        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER, ROLES.VIEWER],
+        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
         icon: <BarChart2 size={18} strokeWidth={2.3} color="#4b5675" />,
         name: 'Stats',
         type: 'ITEM',

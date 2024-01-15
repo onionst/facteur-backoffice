@@ -6,11 +6,11 @@ import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import Select from '@/bases/Select';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
-import Wrapper from '@/components/Wrapper/Wrapper';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { CreateOrganization } from '@/dtos/organizations/createOrganization.dto';
+import Card from '@/components/Card/Card';
 
 export type CreateOrganizationModalProps = { id: string };
 export const CreateOrganizationModal = (props: CreateOrganizationModalProps & ModalProps) => {
@@ -61,7 +61,7 @@ export const CreateOrganizationModal = (props: CreateOrganizationModalProps & Mo
     <Modal {...props} closeIcon={<X />} key={props.id}>
       <ModalHeader subTitle="Create organization" title="Complete the following data to create a new organization" />
       <form className={s['ds-modal-form']} onSubmit={handleCreateOrganization}>
-        <Wrapper>
+        <Card>
           <Input
             required
             label="Name"
@@ -104,7 +104,7 @@ export const CreateOrganizationModal = (props: CreateOrganizationModalProps & Mo
             ]}
             onChange={v => setForm(prev => ({ ...prev, language: v }))}
           />
-        </Wrapper>
+        </Card>
         <div className={s['ds-modal-form__buttons']}>
           <Button disabled={form?.name === '' || form?.domain === ''} loading={loading} theme="CTA">
             Create

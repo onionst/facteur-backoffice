@@ -3,6 +3,8 @@ import { Eye, EyeOff } from 'react-feather';
 
 export type InputProps = {
   label?: string;
+  withIcon?: any;
+  onIconClick?: () => void;
 };
 
 export function Input(props: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & InputProps) {
@@ -15,26 +17,46 @@ export function Input(props: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
         </label>
       )}
       <div className="w-full" style={{ position: 'relative' }}>
-        <input
-          {...props}
-          type={type}
-          className={`form-control ${props.type === 'password' ? 'form-control__input' : ''} ${props.className || ''}`}
-        />
-        {props.type === 'password' && (
-          <span
-            onClick={() => {
-              setType(prev => (prev === 'password' ? 'text' : 'password'));
-            }}
-            style={{
-              position: 'absolute',
-              right: 16,
-              top: 42,
-              cursor: 'pointer',
-              transform: 'translateY(-31px)'
-            }}
-          >
-            {type === 'password' ? <Eye color="#4b5675" size={20} /> : <EyeOff color="#00986d" size={20} />}
-          </span>
+        {props.children ? (
+          props.children
+        ) : (
+          <>
+            <input
+              {...props}
+              type={type}
+              className={`form-control ${props.type === 'password' ? 'form-control__input' : ''} ${props.className || ''}`}
+            />
+            {props.type === 'password' && (
+              <span
+                onClick={() => {
+                  setType(prev => (prev === 'password' ? 'text' : 'password'));
+                }}
+                style={{
+                  position: 'absolute',
+                  right: 16,
+                  top: 42,
+                  cursor: 'pointer',
+                  transform: 'translateY(-31px)'
+                }}
+              >
+                {type === 'password' ? <Eye color="#4b5675" size={20} /> : <EyeOff color="#00986d" size={20} />}
+              </span>
+            )}
+            {props.withIcon && (
+              <span
+                onClick={props.onIconClick}
+                style={{
+                  position: 'absolute',
+                  right: 16,
+                  top: 42,
+                  cursor: 'pointer',
+                  transform: 'translateY(-31px)'
+                }}
+              >
+                {props.withIcon}
+              </span>
+            )}
+          </>
         )}
       </div>
     </div>

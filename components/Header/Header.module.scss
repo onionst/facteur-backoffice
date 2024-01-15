@@ -1,4 +1,4 @@
-@import "@/styles/app/variables.scss";
+@import '@/styles/app/variables.scss';
 
 .ds-header {
   width: 100%;
@@ -13,11 +13,18 @@
     font-weight: bold;
     color: $ds-gray-900;
     gap: 8px;
-    & * {
+    & > svg {
       stroke: $ds-primary !important;
     }
+
     display: flex;
     justify-content: flex-start;
     align-items: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .ds-header {
+    padding: 0 0 20px 0;
   }
 }

@@ -11,7 +11,31 @@
   border: 1px solid $ds-gray-300;
   align-items: flex-start;
   gap: 8px;
-  & > h4 {
+  &--light {
+    border-radius: 0.712rem;
+    width: 100%;
+    padding: 16px;
+    background-color: $ds-white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid $ds-gray-400;
+    align-items: flex-start;
+    gap: 8px;
+    & > h6 {
+      color: $ds-gray-800;
+    }
+    & > section {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  }
+
+  & > h6 {
     color: $ds-gray-800;
   }
   & > section {

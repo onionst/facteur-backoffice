@@ -19,7 +19,7 @@ import { USERS_LIMIT_PER_PAGE, useUsers } from '@/contexts/users.context';
 export default function Users() {
   const modals = useModal();
   const [organizations, setOrganizations] = useState<Array<{ value: string; label: string }>>([]);
-
+  const [filter, setFilter] = useState<any>({});
   const { session } = useAuth();
   const { users, fetchUsers, page, resendInvitation, ...usersProps } = useUsers();
   const { listOrganizations } = useOrganizations();
@@ -60,6 +60,12 @@ export default function Users() {
             placeholder="Search users..."
             onSearch={(search, organizationId) => {
               if (organizationId || session.role != ROLES.SUPER_ADMIN) {
+                setFilter({
+                  surname: search,
+                  name: search,
+                  email: search,
+                  organizationId: session.role === ROLES.SUPER_ADMIN ? organizationId : session.organizationId
+                });
                 fetchUsers({
                   surname: search,
                   name: search,
@@ -67,6 +73,11 @@ export default function Users() {
                   organizationId: session.role === ROLES.SUPER_ADMIN ? organizationId : session.organizationId
                 });
               } else {
+                setFilter({
+                  surname: search,
+                  name: search,
+                  email: search
+                });
                 fetchUsers({
                   surname: search,
                   name: search,
@@ -171,12 +182,12 @@ export default function Users() {
               currentPage={page.current + 1}
               totalRecordsCount={page.records}
               prevPage={() => {
-                fetchUsers({}, page.current);
+                fetchUsers(filter, page.current);
               }}
               nextPage={() => {
-                fetchUsers({}, page.current + 1 + 1);
+                fetchUsers(filter, page.current + 1 + 1);
               }}
-              skip={skip => fetchUsers({}, skip)}
+              skip={skip => fetchUsers(filter, skip)}
             />
           </Row>
         </Row>

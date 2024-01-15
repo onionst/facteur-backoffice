@@ -3,21 +3,20 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Copy, Eye, EyeOff, RefreshCw, X } from 'react-feather';
 import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
+import IconButton from '@/bases/IconButton/IconButton';
 import { Input } from '@/bases/Input';
-import { useUsers } from '@/contexts/users.context';
-import { User } from '@/dtos/users/user.dto';
+import Row from '@/bases/Row/Row';
+import Select from '@/bases/Select';
+import Switch from '@/bases/Switch/Switch';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
-import Row from '@/bases/Row/Row';
-import Switch from '@/bases/Switch/Switch';
+import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { ROLES } from '@/constants/roles.constants';
 import { useAuth } from '@/contexts/auth.context';
-import Wrapper from '@/components/Wrapper/Wrapper';
-import IconButton from '@/bases/IconButton/IconButton';
-import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { useOrganizations } from '@/contexts/organizations.context';
-import Select from '@/bases/Select';
+import { useUsers } from '@/contexts/users.context';
 import { Organization } from '@/dtos/organizations/organization.dto';
+import { User } from '@/dtos/users/user.dto';
 
 export type EditUserModalProps = {
   id: string;
@@ -112,7 +111,7 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
       <form className={s['ds-modal-form']} onSubmit={handleUpdateUser}>
         <Tabs>
           <Tabs.TabPane key={0} tab="Information">
-            <Wrapper>
+            <Card>
               {session.role === ROLES.SUPER_ADMIN && (
                 <Select
                   defaultValue={user?.organizationId}
@@ -153,7 +152,7 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
                 value={user?.surname}
                 onChange={v => setUser(prev => ({ ...prev, surname: v.target.value }))}
               />
-            </Wrapper>
+            </Card>
           </Tabs.TabPane>
           <Tabs.TabPane key={1} tab="Security">
             <Card>
@@ -161,7 +160,7 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
                 <Card title="2FA" style={{ background: '#FFF' }}>
                   <Switch checked={user?.TFA} onChange={TFA => setUser(prev => ({ ...prev, TFA }))} left="Unactive" right="Active" />
                 </Card>
-                {user?.email != session?.email ? (
+                {user?.email != session?.email && user.organizationId ? (
                   <Card title="Role" style={{ background: '#FFF' }}>
                     <Switch
                       checked={user?.organizationId ? ROLES.ADMIN === user?.role : ROLES.SUPER_ADMIN === user?.role}
@@ -191,12 +190,12 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
             <Tabs.TabPane key={2} tab="API">
               {' '}
               {loadingApiKey ? (
-                <Wrapper>
+                <Card>
                   <Skeleton active />
-                </Wrapper>
+                </Card>
               ) : apiKey ? (
-                <Wrapper>
-                  <h5>Researcher's API KEY</h5>
+                <Card>
+                  <h5>{"Researcher's"} API KEY</h5>
                   <Row align="SPACE">
                     <Input
                       style={{ height: 32, width: '100%', backgroundColor: '#FFF' }}
@@ -248,10 +247,10 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
                       </Row>
                     </div>
                   </Row>
-                  <p>Secret keys grants access to the API. Keep key safe and do not expose it.</p>
-                </Wrapper>
+                  <p style={{ color: '#252f4a', margin: 0 }}>Secret keys grants access to the API. Keep key safe and do not expose it.</p>
+                </Card>
               ) : (
-                <Wrapper>
+                <Card>
                   <h5 className="m-0">Setup API Key</h5>
                   <Button type="button" onClick={handleRefreshApiKey} loading={refreshingApiKey} theme="TERTIARY">
                     Generate API Key
@@ -260,7 +259,7 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
                     Let researchers find articles using the API. The researcher has to pass this key into all API requests as
                     <code>X-API-KEY={'<API_key>'}</code> header.
                   </p>
-                </Wrapper>
+                </Card>
               )}
             </Tabs.TabPane>
           )}

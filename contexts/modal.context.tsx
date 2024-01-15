@@ -1,4 +1,7 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useAuth } from './auth.context';
+import { AccountModal } from '@/modals/Account.modal';
+import { DeleteArticleModal } from '@/modals/articles/DeleteArticle.modal';
 import { CreateOrganizationModal } from '@/modals/organizations/CreateOrganization.modal';
 import { DeleteOrganizationModal } from '@/modals/organizations/DeleteOrganization.modal';
 import { EditOrganizationModal } from '@/modals/organizations/EditOrganization.modal';
@@ -13,6 +16,7 @@ import { RestoreUserModal } from '@/modals/users/RestoreUser.modal';
 export const ModalContext = createContext<{
   auth: {
     showTFAEmailSent: () => void;
+    showAccount: () => void;
   };
   organizations: {
     showCreateOrganization: () => void;
@@ -27,11 +31,18 @@ export const ModalContext = createContext<{
     showEditUser: (id: string) => void;
     showRestoreUser: (id: string) => void;
   };
+  articles: {
+    showDeleteArticle: (id: string) => void;
+  };
   // @ts-ignore
 }>({});
 
 export const ModalProvider = (props: { children: any }) => {
+  const { session } = useAuth();
+  // <--- auth --->
   const [emailSentActive, setEmailSentActive] = useState<boolean>(false);
+  const [accountActive, setAccountActive] = useState<boolean>(false);
+  // <--- auth --->
 
   // <--- organizations --->
   const [createOrganizationActive, setCreateOrganizationActive] = useState<string>('');
@@ -46,12 +57,30 @@ export const ModalProvider = (props: { children: any }) => {
   const [deleteUserActive, setDeleteUserActive] = useState<string>('');
   const [editUserActive, setEditUserActive] = useState<string>('');
   const [restoreUserActive, setRestoreUserActive] = useState<string>('');
-
   // <!--- users --->
+
+  // <--- articles --->
+  const [deleteArticleActive, setDeleteArticleActive] = useState<string>('');
+  // <!--- articles --->
+
+  useEffect(() => {
+    setEmailSentActive(false);
+    setAccountActive(false);
+    setCreateOrganizationActive('');
+    setEditOrganizationActive('');
+    setDeleteOrganizationActive('');
+    setRestoreOrganizationActive('');
+    setInviteUsersActive('');
+    setDeleteUserInvitationActive('');
+    setDeleteUserActive('');
+    setEditUserActive('');
+    setRestoreUserActive('');
+  }, [session]);
 
   const context = {
     auth: {
-      showTFAEmailSent: () => setEmailSentActive(true)
+      showTFAEmailSent: () => setEmailSentActive(true),
+      showAccount: () => setAccountActive(true)
     },
     organizations: {
       showCreateOrganization: () => setCreateOrganizationActive(Date.now().toString()),
@@ -65,6 +94,9 @@ export const ModalProvider = (props: { children: any }) => {
       showDeleteUser: (id: string) => setDeleteUserActive(id),
       showEditUser: (id: string) => setEditUserActive(id),
       showRestoreUser: (id: string) => setRestoreUserActive(id)
+    },
+    articles: {
+      showDeleteArticle: (id: string) => setDeleteArticleActive(id)
     }
   };
 
@@ -72,6 +104,15 @@ export const ModalProvider = (props: { children: any }) => {
     <ModalContext.Provider value={context}>
       <>
         <TFAEmailSentModal footer={null} width={350} open={emailSentActive} onCancel={() => setEmailSentActive(false)} />
+        <AccountModal
+          drawerStyle={{ padding: 20 }}
+          placement="right"
+          styles={{ header: { display: 'none' } }}
+          footer={null}
+          width={400}
+          open={accountActive}
+          onClose={() => setAccountActive(false)}
+        />
         <CreateOrganizationModal
           footer={null}
           width={424}
@@ -128,6 +169,13 @@ export const ModalProvider = (props: { children: any }) => {
           open={restoreUserActive != ''}
           id={restoreUserActive}
           onCancel={() => setRestoreUserActive('')}
+        />
+        <DeleteArticleModal
+          footer={null}
+          width={424}
+          onCancel={() => setDeleteArticleActive('')}
+          id={deleteArticleActive}
+          open={deleteArticleActive != ''}
         />
         {props.children}
       </>

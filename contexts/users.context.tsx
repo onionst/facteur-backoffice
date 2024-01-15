@@ -2,9 +2,9 @@ import { notification } from 'antd';
 import { createContext, useContext, useState } from 'react';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { InviteUser as InviteUserDto } from '@/dtos/users/InviteUser.dto';
-import { User } from '@/dtos/users/user.dto';
-import { DeleteUser, FetchUsers, InviteUser, UpdateUser } from '@/services/user.service';
 import { UpdateUser as UpdateUserDto } from '@/dtos/users/updateUser.dto';
+import { User } from '@/dtos/users/user.dto';
+import { DeleteUser, FetchUsers, InviteUser, ResendInvitation, UpdateUser } from '@/services/user.service';
 
 export type UsersPage = {
   records: number;
@@ -36,6 +36,7 @@ export const UsersContext = createContext<UsersContextProps>(
 export const UsersProvider = (props: UsersProviderProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [users, setUsers] = useState<User[]>([]);
+
   const [page, setPage] = useState<UsersPage>({
     current: 1,
     prevPage: null,
@@ -88,6 +89,7 @@ export const UsersProvider = (props: UsersProviderProps) => {
         ...NOTIFICATIONS_CONFIG.success,
         message: 'Invitation resent'
       });
+      await ResendInvitation(id);
     } catch (err) {
       console.error(err);
     }

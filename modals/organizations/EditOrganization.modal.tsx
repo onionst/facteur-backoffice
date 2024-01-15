@@ -7,8 +7,8 @@ import IconButton from '@/bases/IconButton/IconButton';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select';
+import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
-import Wrapper from '@/components/Wrapper/Wrapper';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
@@ -40,8 +40,8 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
         name: form.name?.trim(),
         domain: form.domain?.trim()
       };
-      if (form.domain) {
-        payload.domain = form.domain;
+      if (form.language) {
+        payload.language = form.language;
       }
       if (form.country) {
         payload.country = form.country;
@@ -97,8 +97,6 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props?.id]);
 
-  const titleKey = "Organization's API KEY";
-
   return (
     <Modal {...props} closeIcon={<X />} key={organization?.id}>
       <ModalHeader
@@ -108,7 +106,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
       <form className={s['ds-modal-form']} onSubmit={handleUpdateOrganization}>
         <Tabs>
           <Tabs.TabPane tab="Information" key={0}>
-            <Wrapper>
+            <Card>
               <Input
                 required
                 label="Name"
@@ -154,16 +152,16 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
                 ]}
                 onChange={v => setOrganization(prev => ({ ...prev, language: v }))}
               />
-            </Wrapper>
+            </Card>
           </Tabs.TabPane>
           <Tabs.TabPane tab="API" key={1}>
             {loadingApiKey ? (
-              <Wrapper>
+              <Card>
                 <Skeleton active />
-              </Wrapper>
+              </Card>
             ) : apiKey ? (
-              <Wrapper>
-                <h5>{titleKey}</h5>
+              <Card>
+                <h5>{"Organization's"} API KEY</h5>
                 <Row align="SPACE">
                   <Input
                     style={{ height: 32, width: '100%', backgroundColor: '#FFF' }}
@@ -215,10 +213,10 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
                     </Row>
                   </div>
                 </Row>
-                <p>Secret keys grants access to the API. Keep key safe and do not expose it.</p>
-              </Wrapper>
+                <p style={{ color: '#252f4a', margin: 0 }}>Secret keys grants access to the API. Keep key safe and do not expose it.</p>
+              </Card>
             ) : (
-              <Wrapper>
+              <Card>
                 <h5 className="m-0">Setup API Key</h5>
                 <Button type="button" onClick={handleRefreshApiKey} loading={refreshingApiKey} theme="TERTIARY">
                   Generate API Key
@@ -227,7 +225,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
                   Let organizations manage their articles using the API. The organization has to pass this key into all API requests as
                   <code>X-API-KEY={'<API_key>'}</code> header.
                 </p>
-              </Wrapper>
+              </Card>
             )}
           </Tabs.TabPane>
         </Tabs>
