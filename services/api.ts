@@ -13,8 +13,8 @@ export const api = axios.create({
   baseURL: publicRuntimeConfig.PUBLIC_API_URL
 });
 
-const ee24api = axios.create({
-  baseURL: publicRuntimeConfig.PUBLIC_API_URL
+export const ee24api = axios.create({
+  baseURL: publicRuntimeConfig.PUBLIC_ES_API_URL
 });
 
 export const customApi = axios.create({

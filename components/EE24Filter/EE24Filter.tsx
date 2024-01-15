@@ -1,10 +1,13 @@
+import dayjs from 'dayjs';
 import { FormEvent, useEffect, useState } from 'react';
+import { X } from 'react-feather';
 import { ArticleType } from '../Form/SelectArticleType/SelectArticleType';
 import Page from '../Page/Page';
 import RadioGroup from '../RadioGroup/RadioGroup';
 import RangePicker from '../RangePicker/RangePicker';
 import s from './EE24Filter.module.scss';
 import { Input } from '@/bases/Input';
+import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
 import { CountryISO } from '@/constants/country';
@@ -30,10 +33,12 @@ export type Filter = {
 export type EE24FilterProps = {
   onChange: (filter: Filter) => void;
   onSubmit: () => void;
+  reset: () => void;
   filter: Filter & { search: string };
 };
 export default function EE24Filter(props: EE24FilterProps) {
   const [filter, setFilter] = useState<Partial<Filter>>({});
+
   const handleSubmit = (e: FormEvent) => {
     try {
       e?.preventDefault();
@@ -50,10 +55,18 @@ export default function EE24Filter(props: EE24FilterProps) {
   return (
     <Page>
       <div className={s['ds-ee24-filter']}>
-        <h4>Filter</h4>
+        <Row align="SPACE">
+          <h4>Filter</h4>
+          {Object.values(filter).find(i => i) && (
+            <span className="c-pointer" onClick={() => props.reset()}>
+              Clear filter <X size={18} />
+            </span>
+          )}
+        </Row>
         <form onSubmit={handleSubmit} className={s['ds-ee24-filter__form']}>
           <Input label="Date range">
             <RangePicker
+              value={[filter.sinceDate ? dayjs(filter.sinceDate) : null, filter.untilDate ? dayjs(filter.untilDate) : null]}
               onChange={range => {
                 if (range) {
                   setFilter(prev => ({
@@ -62,11 +75,11 @@ export default function EE24Filter(props: EE24FilterProps) {
                     untilDate: range[1]?.toDate()
                   }));
                 } else {
-                  setFilter(prev => {
-                    delete prev.sinceDate;
-                    delete prev.untilDate;
-                    return prev;
-                  });
+                  setFilter((prev: any) => ({
+                    ...prev,
+                    sinceDate: null,
+                    untilDate: null
+                  }));
                 }
               }}
             />

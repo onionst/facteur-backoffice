@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Download, Search as SearchIcon } from 'react-feather';
@@ -8,13 +10,16 @@ import EE24Filter, { Filter } from '@/components/EE24Filter/EE24Filter';
 import Grid from '@/components/Grid/Grid';
 import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
-// import Pagination from '@/components/Pagination/Pagination';
+import Pagination from '@/components/Pagination/Pagination';
 import Search from '@/components/Search/Search';
 import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
+import { EE24_ARTICLES_LIMIT_PER_PAGE, useEE24 } from '@/contexts/ee24.context';
 
 export default function Repository() {
   const router = useRouter();
+  const { articles, page, fetchEE24Articles, ...ee24Props } = useEE24();
+  const [key, setKey] = useState(Date.now());
   const [filter, setFilter] = useState<Filter & { search: string }>({ search: '' });
 
   useEffect(() => {
@@ -33,6 +38,13 @@ export default function Repository() {
       <Wrapper>
         <Grid size="20-80">
           <EE24Filter
+            key={key}
+            reset={() => {
+              setKey(Date.now());
+              setFilter(prev => ({
+                search: prev?.search
+              }));
+            }}
             filter={filter}
             onSubmit={() => {}}
             onChange={(data: Filter) => {
@@ -44,10 +56,28 @@ export default function Repository() {
           />
           <Column align="LEFT">
             <Page>
-              <Search defaultValue={filter.search} placeholder="Search articles..." onSearch={search => search} />
+              <Search
+                defaultValue={filter.search}
+                placeholder="Search articles..."
+                onSearch={search => {
+                  setFilter(prev => ({ ...prev, search }));
+                  fetchEE24Articles(filter);
+                }}
+              />
             </Page>
             <Page>
-              <Table columns={[]} data={[]} />
+              <Table
+                firstExtended
+                loading={ee24Props.loading}
+                columns={['Headline', 'URL', 'Date modified']}
+                data={articles.map(article => [
+                  article?.headline,
+                  <Link target="_blank" href={article?.url} key={article?.externalId + 'link'}>
+                    {article?.url}
+                  </Link>,
+                  dayjs(article?.dateModified).format('DD/MM/YYYY')
+                ])}
+              />
             </Page>
           </Column>
         </Grid>
@@ -56,21 +86,23 @@ export default function Repository() {
             <IconButton type="button" onClick={() => {}}>
               <Download color="#252f4a" size={16} />
             </IconButton>
-            <span>Showing _ of _ articles</span>
+            <span>
+              Showing {articles.length} of {page.records} articles
+            </span>
           </Row>
           <Row align="RIGHT">
-            {/* <Pagination
-              limit={USERS_LIMIT_PER_PAGE}
+            <Pagination
+              limit={EE24_ARTICLES_LIMIT_PER_PAGE}
               currentPage={page.current + 1}
               totalRecordsCount={page.records}
               prevPage={() => {
-                fetchUsers(filter, page.current);
+                fetchEE24Articles(filter, page.current);
               }}
               nextPage={() => {
-                fetchUsers(filter, page.current + 1 + 1);
+                fetchEE24Articles(filter, page.current + 1 + 1);
               }}
-              skip={skip => fetchUsers(filter, skip)}
-            /> */}
+              skip={skip => fetchEE24Articles(filter, skip)}
+            />
           </Row>
         </Row>
       </Wrapper>
