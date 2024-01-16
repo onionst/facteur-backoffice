@@ -15,10 +15,13 @@ import Search from '@/components/Search/Search';
 import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { EE24_ARTICLES_LIMIT_PER_PAGE, useEE24 } from '@/contexts/ee24.context';
+import { useModal } from '@/contexts/modal.context';
 
 export default function Repository() {
+  const modals = useModal();
   const router = useRouter();
   const { articles, page, fetchEE24Articles, ...ee24Props } = useEE24();
+  const { showDownloadEE24Articles } = modals.ee24;
   const [key, setKey] = useState(Date.now());
   const [filter, setFilter] = useState<Filter & { search: string }>({ search: '' });
 
@@ -87,7 +90,7 @@ export default function Repository() {
         </Grid>
         <Row align="SPACE">
           <Row align="LEFT">
-            <IconButton type="button" onClick={() => {}}>
+            <IconButton type="button" onClick={showDownloadEE24Articles}>
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>

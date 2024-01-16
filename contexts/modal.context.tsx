@@ -4,6 +4,7 @@ import useWindowSize from '@/hooks/useWindowWidth';
 import { AccountModal } from '@/modals/Account.modal';
 import { DeleteArticleModal } from '@/modals/articles/DeleteArticle.modal';
 import { DownloadArticlesModal } from '@/modals/articles/DownloadArticles.modal';
+import { DownloadEE24ArticlesModal } from '@/modals/ee24/DownloadEE24Articles.modal';
 import { CreateOrganizationModal } from '@/modals/organizations/CreateOrganization.modal';
 import { DeleteOrganizationModal } from '@/modals/organizations/DeleteOrganization.modal';
 import { DownloadOrganizationsModal } from '@/modals/organizations/DownloadOrganizations.modal';
@@ -41,6 +42,9 @@ export const ModalContext = createContext<{
     showDeleteArticle: (id: string) => void;
     showDownloadArticles: () => void;
   };
+  ee24: {
+    showDownloadEE24Articles: () => void;
+  };
   // @ts-ignore
 }>({});
 
@@ -73,6 +77,10 @@ export const ModalProvider = (props: { children: any }) => {
   const [deleteArticleActive, setDeleteArticleActive] = useState<string>('');
   const [downloadArticlesActive, setDownloadArticlesActive] = useState<string>('');
   // <!--- articles --->
+
+  // <--- ee24 --->
+  const [downloadEE24ArticlesActive, setDownloadEE24ArticlesActive] = useState<string>('');
+  // <!--- ee24 --->
 
   useEffect(() => {
     setEmailSentActive(false);
@@ -111,6 +119,9 @@ export const ModalProvider = (props: { children: any }) => {
     articles: {
       showDeleteArticle: (id: string) => setDeleteArticleActive(id),
       showDownloadArticles: () => setDownloadArticlesActive(Date.now().toString())
+    },
+    ee24: {
+      showDownloadEE24Articles: () => setDownloadEE24ArticlesActive(Date.now().toString())
     }
   };
 
@@ -212,6 +223,13 @@ export const ModalProvider = (props: { children: any }) => {
           open={downloadArticlesActive != ''}
           id={downloadArticlesActive}
           onCancel={() => setDownloadArticlesActive('')}
+        />
+        <DownloadEE24ArticlesModal
+          footer={null}
+          width={width <= 464 ? width - 40 : 424}
+          open={downloadEE24ArticlesActive != ''}
+          id={downloadEE24ArticlesActive}
+          onCancel={() => setDownloadEE24ArticlesActive('')}
         />
         {props.children}
       </>
