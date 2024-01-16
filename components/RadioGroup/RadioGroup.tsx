@@ -15,6 +15,8 @@ export default function RadioGroup(props: RadioGroupProps) {
 
   useEffect(() => {
     props.onChange(selected);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
   return (

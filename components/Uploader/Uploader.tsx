@@ -33,6 +33,7 @@ export function Uploader(props: UploaderProps) {
     if (acceptedFiles[0]) {
       handleUpload(acceptedFiles[0]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, accept: props.accept, maxSize: MAX_FILE_SIZE });
 

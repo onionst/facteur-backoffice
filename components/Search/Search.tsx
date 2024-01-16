@@ -52,6 +52,7 @@ export default function Search(props: SearchProps) {
           portraitType = 'VIDEO';
         }
       });
+      // eslint-disable-next-line no-shadow
       const portrait = {
         NONE: '',
         IMAGE: url,
@@ -90,6 +91,7 @@ export default function Search(props: SearchProps) {
               <X color="#4b5675" size={18} />
             </button>
             <div className={s['ds-ee24-search__popover-portrait']}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img alt="portrait" src={portrait} />
             </div>
             <div className={s['ds-ee24-search__popover-form']}>

@@ -77,6 +77,7 @@ export default function Edit() {
     if (router?.query?.id) {
       handleSetup(router?.query?.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   const handleSubmit = async () => {

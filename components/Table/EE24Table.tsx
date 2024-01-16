@@ -16,6 +16,7 @@ export type EE24HeadlineProps = {
 export function EE24Headline(props: EE24HeadlineProps) {
   return (
     <div className={s['ds-headline']}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={props.image || '/assets/portraits/image.svg'} alt={'ee24 image'} />
       <p>{props.headline}</p>
     </div>
@@ -30,6 +31,7 @@ export function EE24Table(props: EE24TableProps) {
           {title}
         </th>
       )),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.columns]
   );
 
@@ -56,6 +58,7 @@ export function EE24Table(props: EE24TableProps) {
           ))}
         </tr>
       )),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.data]
   );
 

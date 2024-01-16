@@ -32,6 +32,7 @@ export default function Sidebar(props: SidebarProps) {
     if (router.asPath.includes('/ee24/search')) {
       setCollapsed(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   const allowedSections = session.role

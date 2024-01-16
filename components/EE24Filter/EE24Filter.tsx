@@ -55,6 +55,7 @@ export default function EE24Filter(props: EE24FilterProps) {
   useEffect(() => {
     props.onChange(filter);
     setSubmitted(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   return (

@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { AlertTriangle, MessageCircle, MoreHorizontal, Search } from 'react-feather';
 import ItemSelect from '../ItemSelect/ItemSelect';
 import Column from '@/bases/Column/Column';
