@@ -1,3 +1,4 @@
+import { ArrowRightOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { FormEvent, useEffect, useState } from 'react';
 import { X } from 'react-feather';
@@ -6,6 +7,7 @@ import Page from '../Page/Page';
 import RadioGroup from '../RadioGroup/RadioGroup';
 import RangePicker from '../RangePicker/RangePicker';
 import s from './EE24Filter.module.scss';
+import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
@@ -37,12 +39,14 @@ export type EE24FilterProps = {
   filter: Filter & { search: string };
 };
 export default function EE24Filter(props: EE24FilterProps) {
+  const [submitted, setSubmitted] = useState<boolean>(false);
   const [filter, setFilter] = useState<Partial<Filter>>({});
 
   const handleSubmit = (e: FormEvent) => {
     try {
       e?.preventDefault();
       props.onSubmit();
+      setSubmitted(true);
     } catch (err) {
       console.error(err);
     }
@@ -50,10 +54,11 @@ export default function EE24Filter(props: EE24FilterProps) {
 
   useEffect(() => {
     props.onChange(filter);
+    setSubmitted(false);
   }, [filter]);
 
   return (
-    <Page>
+    <Page className={s['ds-ee24-filter__container']}>
       <div className={s['ds-ee24-filter']}>
         <Row align="SPACE">
           <h4>Filter</h4>
@@ -244,6 +249,17 @@ export default function EE24Filter(props: EE24FilterProps) {
               }));
             }}
           />
+          {Object.values(filter).find(i => i) && !submitted ? (
+            <div className={s['ds-ee24-filter__apply']}>
+              <Row align="RIGHT">
+                <Button theme="CTA">
+                  Apply filter <ArrowRightOutlined />
+                </Button>
+              </Row>
+            </div>
+          ) : (
+            <div />
+          )}
         </form>
       </div>
     </Page>

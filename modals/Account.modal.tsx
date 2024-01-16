@@ -1,6 +1,7 @@
 import { Drawer, DrawerProps, Popconfirm, Skeleton, Tooltip, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { Copy, Eye, EyeOff, Minus, RefreshCw } from 'react-feather';
+import { parseRole } from './users/InviteUsers.modal';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import { Input } from '@/bases/Input';
@@ -170,6 +171,7 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
             <Preset title="Surname" value={session.surname} />
           </Row>
           <Preset title="Email" value={session.email} />
+          <Preset title="Role" value={parseRole(session.role)} />
         </Page>
       </Card>
     </Drawer>

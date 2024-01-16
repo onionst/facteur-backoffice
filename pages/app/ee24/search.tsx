@@ -37,23 +37,27 @@ export default function Repository() {
       <Header icon={<SearchIcon />} title="EE24 Repository" />
       <Wrapper>
         <Grid size="20-80">
-          <EE24Filter
-            key={key}
-            reset={() => {
-              setKey(Date.now());
-              setFilter(prev => ({
-                search: prev?.search
-              }));
-            }}
-            filter={filter}
-            onSubmit={() => {}}
-            onChange={(data: Filter) => {
-              setFilter(prev => ({
-                ...data,
-                search: prev.search
-              }));
-            }}
-          />
+          <div className="p-rel">
+            <EE24Filter
+              key={key}
+              reset={() => {
+                setKey(Date.now());
+                setFilter(prev => ({
+                  search: prev?.search
+                }));
+              }}
+              filter={filter}
+              onSubmit={() => {
+                fetchEE24Articles(filter);
+              }}
+              onChange={(data: Filter) => {
+                setFilter(prev => ({
+                  ...data,
+                  search: prev.search
+                }));
+              }}
+            />
+          </div>
           <Column align="LEFT">
             <Page>
               <Search
