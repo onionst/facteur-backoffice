@@ -3,8 +3,8 @@ import { Spin, Tooltip } from 'antd';
 import { useCallback, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Paperclip } from 'react-feather';
-
 import s from './Uploader.module.scss';
+import { MAX_FILE_SIZE } from '@/constants/accept';
 import { useFiles } from '@/contexts/files.context';
 
 export type UploaderProps = {
@@ -34,7 +34,7 @@ export function Uploader(props: UploaderProps) {
       handleUpload(acceptedFiles[0]);
     }
   }, []);
-  const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, accept: props.accept, maxSize: 102400 });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, accept: props.accept, maxSize: MAX_FILE_SIZE });
 
   return (
     <div>

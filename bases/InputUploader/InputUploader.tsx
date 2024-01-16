@@ -3,7 +3,7 @@ import { Spin } from 'antd';
 import { useCallback, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Paperclip, X } from 'react-feather';
-
+import { MAX_FILE_SIZE } from '@/constants/accept';
 import { useFiles } from '@/contexts/files.context';
 
 export type InputUploaderProps = {
@@ -31,7 +31,7 @@ export default function InputUploader(props: any) {
       handleUpload(acceptedFiles[0]);
     }
   }, []);
-  const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, maxSize: 102400, accept: props.accept });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, maxSize: MAX_FILE_SIZE, accept: props.accept });
 
   return (
     <div {...(!uploadedUrl ? getRootProps() : {})} className="w-full" style={{ position: 'relative' }}>
