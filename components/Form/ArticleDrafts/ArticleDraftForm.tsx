@@ -76,7 +76,7 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
           <Row align="SPACE">
             <InputUploader
               accept={{
-                'image/*': FILE_TYPES.images
+                'image/png': FILE_TYPES.images
               }}
               label="Image URL"
               value={form.image}

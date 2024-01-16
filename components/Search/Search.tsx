@@ -31,34 +31,36 @@ export default function Search(props: SearchProps) {
     setSearch('');
   }, []);
 
-  const handleUpdatePortrait = (url: string) => {
-    if (!url) {
+  const handleUpdatePortrait = (urlUploaded: string) => {
+    if (!urlUploaded) {
       setPortait('');
-    }
-    let portraitType = 'NONE';
-    FILE_TYPES.images.forEach(ext => {
-      if (url.includes(ext)) {
-        portraitType = 'IMAGE';
-      }
-    });
-    FILE_TYPES.audio.forEach(ext => {
-      if (url.includes(ext)) {
-        portraitType = 'AUDIO';
-      }
-    });
-    FILE_TYPES.videos.forEach(ext => {
-      if (url.includes(ext)) {
-        portraitType = 'VIDEO';
-      }
-    });
-    const portrait = {
-      NONE: '',
-      IMAGE: url,
-      AUDIO: '/assets/portraits/audio.svg',
-      VIDEO: '/assets/portraits/video.svg'
-    }[portraitType];
+    } else {
+      const url = urlUploaded.toLowerCase();
+      let portraitType = 'NONE';
+      FILE_TYPES.images.forEach(ext => {
+        if (url.includes(ext)) {
+          portraitType = 'IMAGE';
+        }
+      });
+      FILE_TYPES.audio.forEach(ext => {
+        if (url.includes(ext)) {
+          portraitType = 'AUDIO';
+        }
+      });
+      FILE_TYPES.videos.forEach(ext => {
+        if (url.includes(ext)) {
+          portraitType = 'VIDEO';
+        }
+      });
+      const portrait = {
+        NONE: '',
+        IMAGE: url,
+        AUDIO: '/assets/portraits/audio.svg',
+        VIDEO: '/assets/portraits/video.svg'
+      }[portraitType];
 
-    setPortait(portrait || '');
+      setPortait(portrait || '');
+    }
   };
 
   useEffect(() => {

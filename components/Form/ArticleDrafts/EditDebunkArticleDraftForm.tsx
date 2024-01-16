@@ -87,7 +87,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
           <Row align="SPACE">
             <InputUploader
               accept={{
-                'image/*': FILE_TYPES.images
+                'image/png': FILE_TYPES.images
               }}
               label="Image URL"
               value={form.image}
@@ -393,9 +393,9 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                   <Row align="SPACE">
                     <InputUploader
                       accept={{
-                        'image/*': FILE_TYPES.images,
-                        'audio/*': FILE_TYPES.audio,
-                        'video/*': FILE_TYPES.videos,
+                        'image/png': FILE_TYPES.images,
+                        'audio/mp3': FILE_TYPES.audio,
+                        'video/mp4': FILE_TYPES.videos,
                         'application/*': FILE_TYPES.files
                       }}
                       label="Associated media"

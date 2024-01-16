@@ -67,9 +67,9 @@ export default function Repository() {
               <Search
                 withUploader
                 accept={{
-                  'image/*': FILE_TYPES.images,
-                  'video/*': FILE_TYPES.videos,
-                  'audio/*': FILE_TYPES.audio
+                  'image/png': FILE_TYPES.images,
+                  'video/mp4': FILE_TYPES.videos,
+                  'audio/mp3': FILE_TYPES.audio
                 }}
                 onUpload={() => {}}
                 defaultValue={filter.search}

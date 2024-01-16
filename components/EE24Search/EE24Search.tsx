@@ -27,34 +27,36 @@ export default function EE24Search(props: EE24SearchProps) {
       console.error(err);
     }
   };
-  const handleUpdatePortrait = (url: string) => {
-    if (!url) {
+  const handleUpdatePortrait = (urlUploaded: string) => {
+    if (!urlUploaded) {
       setPortait('');
-    }
-    let portraitType = 'NONE';
-    FILE_TYPES.images.forEach(ext => {
-      if (url.includes(ext)) {
-        portraitType = 'IMAGE';
-      }
-    });
-    FILE_TYPES.audio.forEach(ext => {
-      if (url.includes(ext)) {
-        portraitType = 'AUDIO';
-      }
-    });
-    FILE_TYPES.videos.forEach(ext => {
-      if (url.includes(ext)) {
-        portraitType = 'VIDEO';
-      }
-    });
-    const portrait = {
-      NONE: '',
-      IMAGE: url,
-      AUDIO: '/assets/portraits/audio.svg',
-      VIDEO: '/assets/portraits/video.svg'
-    }[portraitType];
+    } else {
+      const url = urlUploaded.toLowerCase();
+      let portraitType = 'NONE';
+      FILE_TYPES.images.forEach(ext => {
+        if (url.includes(ext)) {
+          portraitType = 'IMAGE';
+        }
+      });
+      FILE_TYPES.audio.forEach(ext => {
+        if (url.includes(ext)) {
+          portraitType = 'AUDIO';
+        }
+      });
+      FILE_TYPES.videos.forEach(ext => {
+        if (url.includes(ext)) {
+          portraitType = 'VIDEO';
+        }
+      });
+      const portrait = {
+        NONE: '',
+        IMAGE: url,
+        AUDIO: '/assets/portraits/audio.svg',
+        VIDEO: '/assets/portraits/video.svg'
+      }[portraitType];
 
-    setPortait(portrait || '');
+      setPortait(portrait || '');
+    }
   };
 
   useEffect(() => {
@@ -104,9 +106,9 @@ export default function EE24Search(props: EE24SearchProps) {
             />
             <Uploader
               accept={{
-                'image/*': FILE_TYPES.images,
-                'video/*': FILE_TYPES.videos,
-                'audio/*': FILE_TYPES.audio
+                'image/png': FILE_TYPES.images,
+                'video/mp4': FILE_TYPES.videos,
+                'audio/mp3': FILE_TYPES.audio
               }}
               onChange={setUploadedUrl}
               onLoadFinished={() => setUploadingImage(false)}
