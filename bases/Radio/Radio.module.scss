@@ -25,6 +25,12 @@
   &--selected {
     border-color: $ds-primary;
   }
+  &--sq {
+    border-radius: 0.475rem !important;
+    & > div {
+      border-radius: 0.237rem !important;
+    }
+  }
   &-label {
     color: $ds-gray-700;
     font-weight: 500;

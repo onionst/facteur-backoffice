@@ -23,6 +23,7 @@ export default function RadioGroup(props: RadioGroupProps) {
     <div className={s['ds-radio-group']}>
       {props.options.map(option => (
         <Radio
+          multiple={props.multiple}
           key={option.value}
           checked={props.multiple ? selected.includes(option.value) : selected === option.value}
           label={option.label}
