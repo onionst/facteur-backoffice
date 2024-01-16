@@ -1,5 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react';
+import { Accept } from 'react-dropzone';
 import { Search as SearchIcon } from 'react-feather';
+import { Uploader } from '../Uploader/Uploader';
 import s from './Search.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
@@ -9,11 +11,15 @@ import Select from '@/bases/Select/Select';
 export type SearchProps = {
   placeholder: string;
   defaultValue?: string;
+  onUpload?: (url: string) => void;
   onSearch: (search: string, selector?: string) => void;
+  accept?: Accept;
+  withUploader?: boolean;
   withSelector?: Array<{ label: string; value: string }>;
 };
 
 export default function Search(props: SearchProps) {
+  const [uploadingImage, setUploadingImage] = useState<boolean>(false);
   const [search, setSearch] = useState<string>(props.defaultValue || '');
   const [selector, setSelector] = useState<any>('');
 
@@ -40,6 +46,17 @@ export default function Search(props: SearchProps) {
           defaultValue={props?.defaultValue}
           placeholder={props.placeholder}
           value={search}
+          withIcon={
+            props.withUploader ? (
+              <Uploader
+                accept={props.accept || {}}
+                onChange={url => props.onUpload && props.onUpload(url)}
+                onLoad={() => setUploadingImage(true)}
+                onLoadFinished={() => setUploadingImage(false)}
+              />
+            ) : null
+          }
+          disabled={uploadingImage}
           onChange={v => setSearch(v.target.value)}
         />
         {props.withSelector && (

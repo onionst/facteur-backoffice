@@ -16,6 +16,7 @@ import Tagger from '@/bases/Tagger/Tagger';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
+import { FILE_TYPES } from '@/constants/accept';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
@@ -86,7 +87,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
           <Row align="SPACE">
             <InputUploader
               accept={{
-                'image/png': ['.png', '.jpeg', '.jpg', '.webp']
+                'image/*': FILE_TYPES.images
               }}
               label="Image URL"
               value={form.image}
@@ -392,13 +393,10 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                   <Row align="SPACE">
                     <InputUploader
                       accept={{
-                        'image/png': ['.png', '.jpeg', '.jpg', '.webp'],
-                        'audio/mp3': ['.mp3', '.wav', '.ogg'],
-                        'video/mp4': ['.mp4', '.avi', '.mov', '.wav'],
-                        'application/pdf': ['.pdf'],
-                        'text/csv': ['.csv'],
-                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
-                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
+                        'image/*': FILE_TYPES.images,
+                        'audio/*': FILE_TYPES.audio,
+                        'video/*': FILE_TYPES.videos,
+                        'application/*': FILE_TYPES.files
                       }}
                       label="Associated media"
                       value={appearance?.associatedMedia}

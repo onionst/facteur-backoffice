@@ -14,6 +14,7 @@ import Tagger from '@/bases/Tagger/Tagger';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
+import { FILE_TYPES } from '@/constants/accept';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { Topic } from '@/constants/topics';
@@ -75,7 +76,7 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
           <Row align="SPACE">
             <InputUploader
               accept={{
-                'image/png': ['.png', '.jpeg', '.jpg', '.webp']
+                'image/*': FILE_TYPES.images
               }}
               label="Image URL"
               value={form.image}

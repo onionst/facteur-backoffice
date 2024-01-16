@@ -14,6 +14,7 @@ import Pagination from '@/components/Pagination/Pagination';
 import Search from '@/components/Search/Search';
 import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
+import { FILE_TYPES } from '@/constants/accept';
 import { EE24_ARTICLES_LIMIT_PER_PAGE, useEE24 } from '@/contexts/ee24.context';
 import { useModal } from '@/contexts/modal.context';
 
@@ -64,6 +65,13 @@ export default function Repository() {
           <Column align="LEFT">
             <Page>
               <Search
+                withUploader
+                accept={{
+                  'image/*': FILE_TYPES.images,
+                  'video/*': FILE_TYPES.videos,
+                  'audio/*': FILE_TYPES.audio
+                }}
+                onUpload={() => {}}
                 defaultValue={filter.search}
                 placeholder="Search articles..."
                 onSearch={search => {

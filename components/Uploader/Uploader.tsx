@@ -34,7 +34,7 @@ export function Uploader(props: UploaderProps) {
       handleUpload(acceptedFiles[0]);
     }
   }, []);
-  const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, accept: props.accept });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, accept: props.accept, maxSize: 102400 });
 
   return (
     <div>

@@ -5,6 +5,7 @@ import { Uploader } from '../Uploader/Uploader';
 import s from './EE24Search.module.scss';
 import Button from '@/bases/Button/Button';
 import Row from '@/bases/Row/Row';
+import { FILE_TYPES } from '@/constants/accept';
 export type EE24SearchProps = {
   onSearch: (filter: { value: string; type: 'TEXT' | 'URL' }) => void;
 };
@@ -69,8 +70,9 @@ export default function EE24Search(props: EE24SearchProps) {
             />
             <Uploader
               accept={{
-                'image/png': ['.png', '.jpeg', '.jpg', '.webp'],
-                'video/mp4': ['.mp4', '.avi', '.mov', '.wav']
+                'image/*': FILE_TYPES.images,
+                'video/*': FILE_TYPES.videos,
+                'audio/*': FILE_TYPES.audio
               }}
               onChange={setUploadedUrl}
               onLoadFinished={() => setUploadingImage(false)}
