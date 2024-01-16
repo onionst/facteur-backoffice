@@ -16,7 +16,7 @@ export const FetchEE24Articles = async (
     nextPage: number | null;
   };
 }> => {
-  const response = await ee24api.get(parseUrl(PREFIX), { params: cleanObject(filter) });
+  const response = await ee24api.get(parseUrl(PREFIX), { params: { order: '-datePublished', ...cleanObject(filter) } });
   const headers = response?.headers;
   const current = parseInt(headers['pagination-page']);
   const maxPage = parseInt(headers['pagination-total-pages']);
