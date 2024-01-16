@@ -46,13 +46,11 @@ export default function Repository() {
             <EE24Filter
               key={key}
               reset={() => {
-                setKey(Date.now());
                 setFilter(prev => ({
                   search: prev?.search
                 }));
-                setTimeout(() => {
-                  fetchEE24Articles(filter);
-                }, 50);
+                fetchEE24Articles({ search: filter.search });
+                setKey(Date.now());
               }}
               filter={filter}
               onSubmit={() => {
