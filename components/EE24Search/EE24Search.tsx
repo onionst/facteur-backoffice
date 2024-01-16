@@ -1,5 +1,5 @@
 import { Popover } from 'antd';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Search, X } from 'react-feather';
 import { Uploader } from '../Uploader/Uploader';
 import s from './EE24Search.module.scss';
@@ -12,6 +12,7 @@ export type EE24SearchProps = {
 
 export default function EE24Search(props: EE24SearchProps) {
   const [filter, setFilter] = useState<string>('');
+  const [portrait, setPortait] = useState('');
   const [uploadedUrl, setUploadedUrl] = useState<string>('');
   const [uploadingImage, setUploadingImage] = useState<boolean>(false);
 
@@ -26,6 +27,41 @@ export default function EE24Search(props: EE24SearchProps) {
       console.error(err);
     }
   };
+  const handleUpdatePortrait = (url: string) => {
+    if (!url) {
+      setPortait('');
+    }
+    let portraitType = 'NONE';
+    FILE_TYPES.images.forEach(ext => {
+      if (url.includes(ext)) {
+        portraitType = 'IMAGE';
+      }
+    });
+    FILE_TYPES.audio.forEach(ext => {
+      if (url.includes(ext)) {
+        portraitType = 'AUDIO';
+      }
+    });
+    FILE_TYPES.videos.forEach(ext => {
+      if (url.includes(ext)) {
+        portraitType = 'VIDEO';
+      }
+    });
+    const portrait = {
+      NONE: '',
+      IMAGE: url,
+      AUDIO: '/assets/portraits/audio.svg',
+      VIDEO: '/assets/portraits/video.svg'
+    }[portraitType];
+
+    console.log(portrait);
+
+    setPortait(portrait || '');
+  };
+
+  useEffect(() => {
+    handleUpdatePortrait(uploadedUrl);
+  }, [uploadedUrl]);
 
   return (
     <form onSubmit={handleSearch} className={s['ds-ee24-search']}>
@@ -39,7 +75,7 @@ export default function EE24Search(props: EE24SearchProps) {
               <X color="#4b5675" size={18} />
             </button>
             <div className={s['ds-ee24-search__popover-portrait']}>
-              <img alt="portrait" src={uploadedUrl} />
+              <img alt="portrait" src={portrait} />
             </div>
             <div className={s['ds-ee24-search__popover-form']}>
               <Button
