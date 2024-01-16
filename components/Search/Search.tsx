@@ -58,8 +58,6 @@ export default function Search(props: SearchProps) {
       VIDEO: '/assets/portraits/video.svg'
     }[portraitType];
 
-    console.log(portrait);
-
     setPortait(portrait || '');
   };
 

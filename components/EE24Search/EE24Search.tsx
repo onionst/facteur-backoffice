@@ -54,8 +54,6 @@ export default function EE24Search(props: EE24SearchProps) {
       VIDEO: '/assets/portraits/video.svg'
     }[portraitType];
 
-    console.log(portrait);
-
     setPortait(portrait || '');
   };
 
