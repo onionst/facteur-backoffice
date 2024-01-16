@@ -10,7 +10,7 @@
 }
 .ds-grid {
   &-20-80 {
-    @include grid(calc(20% - 10px) calc(80% - 10px));
+    @include grid(calc(270px - 10px) auto);
   }
   &-25-75 {
     @include grid(calc(25% - 10px) calc(75% - 10px));
