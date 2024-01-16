@@ -6,6 +6,7 @@ import { Download, Search as SearchIcon } from 'react-feather';
 import Column from '@/bases/Column/Column';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
+import { Sorter } from '@/bases/Sorter/Sorter';
 import EE24Filter, { Filter } from '@/components/EE24Filter/EE24Filter';
 import Grid from '@/components/Grid/Grid';
 import Header from '@/components/Header/Header';
@@ -49,6 +50,7 @@ export default function Repository() {
                 setFilter(prev => ({
                   search: prev?.search
                 }));
+                fetchEE24Articles(filter);
               }}
               filter={filter}
               onSubmit={() => {
@@ -92,7 +94,18 @@ export default function Repository() {
                   'Publisher',
                   'Type',
                   <Row align="RIGHT" key="Date">
-                    Date published
+                    <Sorter
+                      onSort={() => {
+                        setFilter(prev => ({
+                          ...prev,
+                          order: prev.order?.includes('-') ? 'datePublished' : '-datePublished'
+                        }));
+                        fetchEE24Articles(filter);
+                      }}
+                      order={filter.order?.includes('-') ? 'DESC' : 'ASC'}
+                    >
+                      <span>Date published</span>
+                    </Sorter>
                   </Row>
                 ]}
                 data={articles.map(article => [

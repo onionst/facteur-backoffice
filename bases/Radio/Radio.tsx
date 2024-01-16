@@ -10,7 +10,10 @@ export default function Radio(props: RadioProps) {
   return (
     <div className={`c-pointer ${s['ds-radio__container']}`} onClick={props.onClick}>
       <Row align="LEFT">
-        <button className={`${s['ds-radio']} ${props.checked ? s['ds-radio--selected'] : ''} ${props.multiple ? s['ds-radio--sq'] : ''} `}>
+        <button
+          type="button"
+          className={`${s['ds-radio']} ${props.checked ? s['ds-radio--selected'] : ''} ${props.multiple ? s['ds-radio--sq'] : ''} `}
+        >
           {props.checked && <div />}
         </button>
         <label
