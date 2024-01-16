@@ -1,6 +1,7 @@
+import { Popover } from 'antd';
 import { FormEvent, useEffect, useState } from 'react';
 import { Accept } from 'react-dropzone';
-import { Search as SearchIcon } from 'react-feather';
+import { Search as SearchIcon, X } from 'react-feather';
 import { Uploader } from '../Uploader/Uploader';
 import s from './Search.module.scss';
 import Button from '@/bases/Button/Button';
@@ -19,6 +20,7 @@ export type SearchProps = {
 };
 
 export default function Search(props: SearchProps) {
+  const [uploadedUrl, setUploadedUrl] = useState<string>('');
   const [uploadingImage, setUploadingImage] = useState<boolean>(false);
   const [search, setSearch] = useState<string>(props.defaultValue || '');
   const [selector, setSelector] = useState<any>('');
@@ -40,35 +42,62 @@ export default function Search(props: SearchProps) {
 
   return (
     <form onSubmit={handleSearch} className={s['ds-search']}>
-      <div className={s['ds-search__left']}>
-        {/* <span>Filter</span> */}
-        <Input
-          defaultValue={props?.defaultValue}
-          placeholder={props.placeholder}
-          value={search}
-          withIcon={
-            props.withUploader ? (
-              <Uploader
-                accept={props.accept || {}}
-                onChange={url => props.onUpload && props.onUpload(url)}
-                onLoad={() => setUploadingImage(true)}
-                onLoadFinished={() => setUploadingImage(false)}
-              />
-            ) : null
-          }
-          disabled={uploadingImage}
-          onChange={v => setSearch(v.target.value)}
-        />
-        {props.withSelector && (
-          <Select
-            options={props.withSelector}
-            onChange={v => {
-              setSelector(v);
-              props.onSearch(search, v);
-            }}
+      <Popover
+        placement="bottomRight"
+        trigger={[]}
+        open={uploadedUrl != ''}
+        content={
+          <div className={s['ds-ee24-search__popover']} key={uploadedUrl}>
+            <button type="button" className={s['ds-ee24-search__popover-x']} onClick={() => setUploadedUrl('')}>
+              <X color="#4b5675" size={18} />
+            </button>
+            <div className={s['ds-ee24-search__popover-portrait']}>
+              <img alt="portrait" src={uploadedUrl} />
+            </div>
+            <div className={s['ds-ee24-search__popover-form']}>
+              <Button
+                theme="CTA"
+                type="button"
+                onClick={() => {
+                  props.onUpload && props.onUpload(uploadedUrl);
+                }}
+              >
+                Search <SearchIcon />
+              </Button>
+            </div>
+          </div>
+        }
+      >
+        <div className={s['ds-search__left']}>
+          {/* <span>Filter</span> */}
+          <Input
+            defaultValue={props?.defaultValue}
+            placeholder={props.placeholder}
+            value={search}
+            withIcon={
+              props.withUploader ? (
+                <Uploader
+                  accept={props.accept || {}}
+                  onChange={setUploadedUrl}
+                  onLoad={() => setUploadingImage(true)}
+                  onLoadFinished={() => setUploadingImage(false)}
+                />
+              ) : null
+            }
+            disabled={uploadingImage}
+            onChange={v => setSearch(v.target.value)}
           />
-        )}
-      </div>
+          {props.withSelector && (
+            <Select
+              options={props.withSelector}
+              onChange={v => {
+                setSelector(v);
+                props.onSearch(search, v);
+              }}
+            />
+          )}
+        </div>
+      </Popover>
       <div className={s['ds-search__right']}>
         <Row align="RIGHT">
           <Button theme="SECONDARY" type="submit">
