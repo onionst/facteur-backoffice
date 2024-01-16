@@ -35,7 +35,7 @@ export default function Search(props: SearchProps) {
     if (!urlUploaded) {
       setPortait('');
     } else {
-      const url = urlUploaded.toLowerCase();
+      const url = urlUploaded?.toLowerCase();
       let portraitType = 'NONE';
       FILE_TYPES.images.forEach(ext => {
         if (url.includes(ext)) {
