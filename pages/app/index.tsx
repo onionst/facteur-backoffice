@@ -22,6 +22,7 @@ export default function Index() {
 
   useEffect(() => {
     handleRedirect(session.role);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   return (

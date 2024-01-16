@@ -8,13 +8,16 @@ export default function Footer() {
     <footer className={s['ds-footer']}>
       <Row align="SPACE">
         <section className={s['ds-footer__left']}>
-          <Link href={'https://efcsn.com/code-of-standards/#:~:text=Template%20Article%206-,POINT%20OF%20CONTACT,-PRIVACY%20POLICY'}>
+          <Link target="_blank" href={'https://efcsn.com/contact/'}>
             <span>Point of contact</span>
           </Link>
-          <Link href={'https://efcsn.com/privacy-policy'}>
+          <Link target="_blank" href={'https://efcsn.com/privacy-policy'}>
             <span>Privacy policy</span>
           </Link>
         </section>
+        <Link target="_blank" href={'https://newtral.es'}>
+          <Image src="/assets/powered.svg" height={38} width={105} alt={''} />
+        </Link>
         <section className={s['ds-footer__right']}>
           <Image src="/assets/flags/eu.png" height={70} width={105} alt={''} />
           <span>

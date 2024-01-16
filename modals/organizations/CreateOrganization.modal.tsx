@@ -4,13 +4,13 @@ import { X } from 'react-feather';
 import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
-import Select from '@/bases/Select';
+import Select from '@/bases/Select/Select';
+import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { CreateOrganization } from '@/dtos/organizations/createOrganization.dto';
-import Card from '@/components/Card/Card';
 
 export type CreateOrganizationModalProps = { id: string };
 export const CreateOrganizationModal = (props: CreateOrganizationModalProps & ModalProps) => {

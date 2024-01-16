@@ -1,0 +1,19 @@
+.ds-sorter {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-style: none;
+  background-color: transparent;
+  outline: none;
+  gap: 8px;
+  &-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & svg {
+      transform: scale(2);
+    }
+  }
+}

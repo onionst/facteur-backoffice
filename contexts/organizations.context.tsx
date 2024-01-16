@@ -30,6 +30,7 @@ export type OrganizationsContextProps = {
   fetchOrganizationData: (id: string) => Promise<Organization | undefined>;
   updateOrganization: (id: string, payload: UpdateOrganizationDto) => Promise<void>;
   deleteOrganization: (id: string) => Promise<void>;
+  downloadOrganizations: (page: number, organizations: Array<Partial<Organization>>) => Promise<Array<Partial<Organization>>>;
 };
 export const OrganizationsContext = createContext<OrganizationsContextProps>(
   // @ts-ignore
@@ -56,7 +57,7 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
   const fetchOrganizations = async (filter?: FilterOrganizations, pageIndex: number = 0) => {
     try {
       setLoading(true);
-      const [data, _] = await Promise.all([
+      const [data] = await Promise.all([
         FetchOrganizations({
           ...filter,
           skip: pageIndex * ORGANIZATIONS_LIMIT_PER_PAGE,
@@ -102,6 +103,45 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
     const list = await ListOrganizations();
     setOrganizationsList(list);
     return list;
+  };
+
+  const downloadOrganizations = async (
+    page: number = 0,
+    organizations: Array<Partial<Organization>> = []
+  ): Promise<Array<Partial<Organization>>> => {
+    try {
+      const DOWNLOAD_ORGANIZATIONS_LIMIT_PER_PAGE = 50;
+      let currentPage = page;
+      const organizationsToDownload: Array<Partial<Organization>> = organizations;
+
+      const filter = { skip: currentPage * DOWNLOAD_ORGANIZATIONS_LIMIT_PER_PAGE, limit: DOWNLOAD_ORGANIZATIONS_LIMIT_PER_PAGE };
+      const response = await FetchOrganizations(filter);
+      if (response.organizations.length === 0) {
+        return organizationsToDownload;
+      } else if (response.organizations.length < DOWNLOAD_ORGANIZATIONS_LIMIT_PER_PAGE) {
+        return [...organizationsToDownload, ...response.organizations];
+      } else {
+        organizationsToDownload.concat(response.organizations);
+        currentPage += 1;
+        return downloadOrganizations(currentPage, organizationsToDownload);
+      }
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
   };
 
   const createOrganization = async (organization: CreateOrganizationDto) => {
@@ -214,6 +254,7 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
     organizations,
     page,
     loading,
+    downloadOrganizations,
     createOrganization,
     fetchOrganizations,
     fetchOrganizationData,

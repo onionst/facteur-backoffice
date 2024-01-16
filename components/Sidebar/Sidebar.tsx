@@ -1,7 +1,7 @@
 import { Popover, Tooltip } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { CSSProperties } from 'react';
+import { CSSProperties, useEffect } from 'react';
 import { ChevronRight, LogOut, Minus, Plus, User } from 'react-feather';
 import s from './Sidebar.module.scss';
 import IconButton from '@/bases/IconButton/IconButton';
@@ -27,6 +27,13 @@ export default function Sidebar(props: SidebarProps) {
   const { collapsed, setCollapsed } = props;
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (router.asPath.includes('/ee24/search')) {
+      setCollapsed(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
 
   const allowedSections = session.role
     ? SECTIONS.filter(i => i?.access?.includes(session.role)).map(sections => {

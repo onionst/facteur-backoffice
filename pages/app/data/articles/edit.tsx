@@ -77,6 +77,7 @@ export default function Edit() {
     if (router?.query?.id) {
       handleSetup(router?.query?.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   const handleSubmit = async () => {
@@ -141,7 +142,7 @@ export default function Edit() {
       });
       router.push('/app/data/articles');
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setStep(1);
     }
   };

@@ -9,6 +9,7 @@ import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
 import Search from '@/components/Search/Search';
+import { EE24Headline } from '@/components/Table/EE24Table';
 import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { ARTICLES_LIMIT_PER_PAGE, useArticles } from '@/contexts/articles.context';
@@ -19,7 +20,7 @@ export default function Articles() {
   const [filter, setFilter] = useState<any>({});
   const modals = useModal();
   const { session } = useAuth();
-  const { showDeleteArticle } = modals.articles;
+  const { showDeleteArticle, showDownloadArticles } = modals.articles;
   const { articles, fetchArticles, page, ...articlesProps } = useArticles();
   return (
     <>
@@ -66,8 +67,8 @@ export default function Articles() {
               </Row>
             ]}
             data={articles.map(article => [
-              article?.headlineNative,
-              <Link target="_blank" href={article?.url} key={article?.externalId + 'link'}>
+              <EE24Headline key={article?.externalId} image={article?.image} headline={article?.headlineNative} />,
+              <Link target="_blank" href={article?.url} key={article?.externalId + 'link'} className="c-link">
                 {article?.url}
               </Link>,
               dayjs(article?.dateModified).format('DD/MM/YYYY'),
@@ -91,7 +92,7 @@ export default function Articles() {
         </Page>
         <Row align="SPACE">
           <Row align="LEFT">
-            <IconButton>
+            <IconButton type="button" onClick={showDownloadArticles}>
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>

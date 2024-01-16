@@ -1,5 +1,6 @@
 import { api, parseUrl } from './api';
 import { Article } from '@/dtos/articles/article.dto';
+import { cleanObject } from '@/utils/clean';
 
 const PREFIX = '/articles';
 
@@ -19,7 +20,7 @@ export const FetchArticles = async (
     nextPage: number | null;
   };
 }> => {
-  const response = await api.get(parseUrl(PREFIX), { params: query });
+  const response = await api.get(parseUrl(PREFIX), { params: { order: '-datePublished', ...cleanObject(query) } });
   const headers = response?.headers;
   const current = parseInt(headers['pagination-page']);
   const maxPage = parseInt(headers['pagination-total-pages']);

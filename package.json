@@ -65,7 +65,8 @@
     "sass": "^1.69.5",
     "socicon": "3.0.5",
     "store": "^2.0.12",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.6",

@@ -7,13 +7,14 @@ import s from './ArticleDraftForm.module.scss';
 import Button from '@/bases/Button/Button';
 import { DatePicker } from '@/bases/DatePicker/DatePicker';
 import { Input } from '@/bases/Input';
+import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
-import Select from '@/bases/Select';
+import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
-import { Uploader } from '@/components/Uploader/Uploader';
+import { FILE_TYPES } from '@/constants/accept';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { Topic } from '@/constants/topics';
@@ -22,7 +23,6 @@ import { useArticles } from '@/contexts/articles.context';
 export type ArticleDraftFormProps = {};
 export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArticleDraft) {
   const { fetchTranslation } = useArticles();
-  const [uploadingImage, setUploadingImage] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { setForm, form } = props;
   const handleUpdate = (v: any, k: string) => setForm((prev: any) => ({ ...prev, [k]: v.target.value }));
@@ -74,29 +74,19 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
             placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
           />
           <Row align="SPACE">
-            <Input
-              type="url"
-              name="url"
-              value={form.image}
-              onChange={v => handleUpdate(v, 'image')}
-              minLength={10}
-              disabled={uploadingImage}
-              withIcon={
-                <Uploader
-                  onLoadFinished={() => setUploadingImage(false)}
-                  onLoad={() => {
-                    setUploadingImage(true);
-                  }}
-                  accept={{
-                    'image/png': ['.png', '.jpeg', '.jpg']
-                  }}
-                  onChange={url => setForm((prev: any) => ({ ...prev, image: url }))}
-                />
-              }
-              id="url"
-              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+            <InputUploader
+              accept={{
+                'image/png': FILE_TYPES.images
+              }}
               label="Image URL"
-              placeholder="https://example.com/factchecking/article-010101"
+              value={form.image}
+              onUrlChange={(url: string) => {
+                setForm((prev: any) => ({
+                  ...prev,
+                  image: url
+                }));
+              }}
+              placeholder="Upload image"
             />
             <DatePicker
               label="Date published"

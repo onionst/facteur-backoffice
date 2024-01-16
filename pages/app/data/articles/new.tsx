@@ -107,7 +107,7 @@ export default function New() {
       });
       setStep(3);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setStep(1);
     }
   };

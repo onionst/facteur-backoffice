@@ -22,6 +22,7 @@ export type UsersContextProps = {
   resendInvitation: (id: string) => Promise<void>;
   deleteUser: (id: string) => Promise<void>;
   updateUser: (id: string, payload: UpdateUserDto) => Promise<void>;
+  downloadUsers: (page: number, users: Array<Partial<User>>) => Promise<Array<Partial<User>>>;
 };
 
 export const USERS_LIMIT_PER_PAGE = 20;
@@ -165,6 +166,42 @@ export const UsersProvider = (props: UsersProviderProps) => {
     }
   };
 
+  const downloadUsers = async (page: number = 0, users: Array<Partial<User>> = []): Promise<Array<Partial<User>>> => {
+    try {
+      const DOWNLOAD_USERS_LIMIT_PER_PAGE = 50;
+      let currentPage = page;
+      const organizationsToDownload: Array<Partial<User>> = users;
+
+      const filter = { skip: currentPage * DOWNLOAD_USERS_LIMIT_PER_PAGE, limit: DOWNLOAD_USERS_LIMIT_PER_PAGE };
+      const response = await FetchUsers(filter);
+      if (response.users.length === 0) {
+        return organizationsToDownload;
+      } else if (response.users.length < DOWNLOAD_USERS_LIMIT_PER_PAGE) {
+        return [...organizationsToDownload, ...response.users];
+      } else {
+        organizationsToDownload.concat(response.users);
+        currentPage += 1;
+        return downloadUsers(currentPage, organizationsToDownload);
+      }
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      throw new Error('Unauthorized');
+    }
+  };
+
   const deleteUser = async (id: string) => {
     try {
       await DeleteUser(id);
@@ -219,6 +256,7 @@ export const UsersProvider = (props: UsersProviderProps) => {
     fetchUserData,
     resendInvitation,
     updateUser,
+    downloadUsers,
     deleteUser
   };
   return <UsersContext.Provider value={context}>{props.children}</UsersContext.Provider>;

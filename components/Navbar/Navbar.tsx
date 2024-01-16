@@ -1,14 +1,10 @@
-import { Popover } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { Plus } from 'react-feather';
-import { Uploader } from '../Uploader/Uploader';
+import EE24Search from '../EE24Search/EE24Search';
 import s from './Navbar.module.scss';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
-import { Input } from '@/bases/Input';
-import Row from '@/bases/Row/Row';
 import { ROLES } from '@/constants/roles.constants';
 import { useAuth } from '@/contexts/auth.context';
 import useWindowSize from '@/hooks/useWindowWidth';
@@ -20,7 +16,6 @@ export type NavbarProps = {
 
 export default function Navbar(props: NavbarProps) {
   const router = useRouter();
-  const [uploadingImage, setUploadingImage] = useState<boolean>(false);
   const { width } = useWindowSize();
   const { session } = useAuth();
   return (
@@ -36,27 +31,13 @@ export default function Navbar(props: NavbarProps) {
             <Plus color="#252f4a" size={18} />
           </IconButton>
         )}
-        <Popover placement="bottomRight" content={<div></div>}>
-          {!router.asPath.includes('/ee24') && (
-            <Row align="LEFT">
-              <Input disabled={uploadingImage} className={s['ds-navbar__left-input']} placeholder="Search in the EE24 dataset..." />
-              <div className={s['ds-navbar__left-input__clip']}>
-                <Uploader
-                  accept={{
-                    'image/png': ['.png', '.jpeg', '.jpg'],
-                    'audio/mp3': ['.mp3', '.wav', '.ogg'],
-                    'video/mp4': ['.mp4', '.avi', '.mov', '.wav']
-                  }}
-                  onChange={() => {}}
-                  onLoadFinished={() => setUploadingImage(false)}
-                  onLoad={() => {
-                    setUploadingImage(true);
-                  }}
-                />
-              </div>
-            </Row>
-          )}
-        </Popover>
+        {!router.asPath.includes('/ee24') && (
+          <EE24Search
+            onSearch={filter => {
+              router.push(`/app/ee24/search?q=${filter.value}&&c=${filter.type}`);
+            }}
+          />
+        )}
       </section>
       <section className={s['ds-navbar__right']}>
         {[ROLES.ADMIN, ROLES.FACT_CHECKER].includes(session.role) && !router.asPath.includes('/articles') && (

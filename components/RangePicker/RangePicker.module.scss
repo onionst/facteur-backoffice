@@ -1,0 +1,16 @@
+@import '@/styles/app/variables.scss';
+
+.ds-range-picker {
+  height: 3rem !important;
+  border-color: $ds-gray-300 !important;
+  & * {
+    color: $ds-gray-700;
+    font-weight: 500;
+  }
+}
+
+.ds-range-picker * * {
+  &::placeholder {
+    color: $ds-gray-500 !important;
+  }
+}

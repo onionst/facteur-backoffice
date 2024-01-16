@@ -4,10 +4,10 @@ import { X } from 'react-feather';
 import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
+import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { Organization } from '@/dtos/organizations/organization.dto';
-import Card from '@/components/Card/Card';
 
 export type DeleteOrganizationModalProps = {
   id: string;

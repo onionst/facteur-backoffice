@@ -1,0 +1,36 @@
+@mixin grid($columns) {
+  display: grid;
+  width: 100%;
+  grid-template-columns: $columns;
+  gap: 20px;
+  box-sizing: border-box;
+  & * {
+    box-sizing: border-box;
+  }
+}
+.ds-grid {
+  &-20-80 {
+    @include grid(calc(270px - 10px) auto);
+  }
+  &-25-75 {
+    @include grid(calc(25% - 10px) calc(75% - 10px));
+  }
+  &-30-70 {
+    @include grid(calc(30% - 10px) calc(70% - 10px));
+  }
+  &-40-60 {
+    @include grid(calc(40% - 10px) calc(60% - 10px));
+  }
+  &-50-50 {
+    @include grid(calc(50% - 10px) calc(50% - 10px));
+  }
+  &-60-40 {
+    @include grid(calc(60% - 10px) calc(40% - 10px));
+  }
+  &-70-30 {
+    @include grid(calc(70% - 10px) calc(30% - 10px));
+  }
+  &-80-20 {
+    @include grid(calc(80% - 10px) calc(20% - 10px));
+  }
+}

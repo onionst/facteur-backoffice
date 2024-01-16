@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import s from './Select.module.scss';
 
 export type SelectProps = {
   label?: string;
@@ -9,6 +10,7 @@ export type SelectProps = {
   onChange?: (value: string) => void;
 };
 export default function Select({ label, required, options, defaultValue, onChange, disabled }: SelectProps) {
+  const selectRef = useRef(null);
   const [selectedValue, setSelectedValue] = useState<string>(defaultValue || '');
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -26,8 +28,9 @@ export default function Select({ label, required, options, defaultValue, onChang
         </label>
       )}
       <select
+        ref={selectRef}
         disabled={disabled}
-        className="form-select"
+        className={`form-select ${selectedValue ? s['ds-select--default'] : s['ds-select--placeholder']}`}
         aria-label="Select option"
         required={required}
         value={selectedValue}
@@ -35,7 +38,7 @@ export default function Select({ label, required, options, defaultValue, onChang
         onChange={handleChange}
       >
         {options.map(option => (
-          <option key={option.value} selected={option.value === selectedValue} value={option.value}>
+          <option className={s['ds-select-option']} key={option.value} selected={option.value === selectedValue} value={option.value}>
             {option.label}
           </option>
         ))}

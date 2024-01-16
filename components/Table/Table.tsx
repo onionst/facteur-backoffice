@@ -17,6 +17,7 @@ export function Table(props: TableProps) {
           {title}
         </th>
       )),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.columns]
   );
 
