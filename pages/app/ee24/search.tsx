@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { Badge } from 'react-bootstrap';
 import { Download, Search as SearchIcon } from 'react-feather';
 import Column from '@/bases/Column/Column';
 import IconButton from '@/bases/IconButton/IconButton';
@@ -86,12 +87,23 @@ export default function Repository() {
                   window.open(articles[i].url, '_blank');
                 }}
                 loading={ee24Props.loading}
-                columns={['Headline', 'Publisher', 'Type', 'Date published']}
+                columns={[
+                  'Headline',
+                  'Publisher',
+                  'Type',
+                  <Row align="RIGHT" key="Date">
+                    Date published
+                  </Row>
+                ]}
                 data={articles.map(article => [
                   <EE24Headline key={article?.url} image={article?.image} headline={article?.headline} />,
                   article?.publisher,
-                  article?.type,
-                  dayjs(article?.datePublished).format('DD/MM/YYYY')
+                  <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
+                    {article?.type}
+                  </Badge>,
+                  <Row key={article?.url + 'date'} align="RIGHT">
+                    {dayjs(article?.datePublished).format('DD/MM/YYYY')}
+                  </Row>
                 ])}
               />
             </Page>
