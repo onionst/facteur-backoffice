@@ -50,7 +50,9 @@ export default function Repository() {
                 setFilter(prev => ({
                   search: prev?.search
                 }));
-                fetchEE24Articles(filter);
+                setTimeout(() => {
+                  fetchEE24Articles(filter);
+                }, 50);
               }}
               filter={filter}
               onSubmit={() => {
@@ -78,7 +80,10 @@ export default function Repository() {
                 placeholder="Search articles..."
                 onSearch={search => {
                   setFilter(prev => ({ ...prev, search }));
-                  fetchEE24Articles(filter);
+
+                  setTimeout(() => {
+                    fetchEE24Articles(filter);
+                  }, 50);
                 }}
               />
             </Page>
@@ -100,7 +105,9 @@ export default function Repository() {
                           ...prev,
                           order: prev.order?.includes('-') ? 'datePublished' : '-datePublished'
                         }));
-                        fetchEE24Articles(filter);
+                        setTimeout(() => {
+                          fetchEE24Articles(filter);
+                        }, 50);
                       }}
                       order={filter.order?.includes('-') ? 'DESC' : 'ASC'}
                     >
