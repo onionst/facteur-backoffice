@@ -12,6 +12,9 @@
   &:hover {
     background-color: $ds-gray-200;
   }
+  &__container {
+    background-color: $ds-white;
+  }
   border: 1px solid $ds-gray-300;
   & > div {
     height: 16px;

@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import { FormEvent, useEffect, useState } from 'react';
 import { X } from 'react-feather';
 import { ArticleType } from '../Form/SelectArticleType/SelectArticleType';
-import Page from '../Page/Page';
 import RadioGroup from '../RadioGroup/RadioGroup';
 import RangePicker from '../RangePicker/RangePicker';
 import s from './EE24Filter.module.scss';
@@ -59,12 +58,12 @@ export default function EE24Filter(props: EE24FilterProps) {
   }, [filter]);
 
   return (
-    <Page className={s['ds-ee24-filter__container']}>
+    <div className={s['ds-ee24-filter__container']}>
       <div className={s['ds-ee24-filter']}>
         <Row align="SPACE">
           <h4>Filter</h4>
           {Object.values(filter).find(i => i) && (
-            <span className="c-pointer" onClick={() => props.reset()}>
+            <span className={`c-pointer ${s['ds-ee24-filter__bg--white']}`} onClick={() => props.reset()}>
               Clear filter <X size={18} />
             </span>
           )}
@@ -263,6 +262,6 @@ export default function EE24Filter(props: EE24FilterProps) {
           )}
         </form>
       </div>
-    </Page>
+    </div>
   );
 }

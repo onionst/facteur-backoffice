@@ -1,6 +1,6 @@
-import { cleanObject } from '@/utils/clean';
 import { api, parseUrl } from './api';
 import { Article } from '@/dtos/articles/article.dto';
+import { cleanObject } from '@/utils/clean';
 
 const PREFIX = '/articles';
 

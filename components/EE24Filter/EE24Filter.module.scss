@@ -17,15 +17,20 @@
     gap: 20px;
   }
   &__container {
+    padding: 0;
+    width: 100%;
     padding-bottom: 0;
     max-height: fit-content !important;
+  }
+  &__bg--white {
+    background-color: $ds-white;
   }
   &__apply {
     width: 100%;
     position: sticky;
     bottom: 0px;
     padding-bottom: 20px;
-    background: linear-gradient(transparent, $ds-white) !important;
+    background: linear-gradient(transparent, $ds-gray-200) !important;
   }
   &__empty {
     width: 100%;
