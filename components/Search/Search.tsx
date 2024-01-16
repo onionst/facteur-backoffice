@@ -100,7 +100,7 @@ export default function Search(props: SearchProps) {
                   props.onUpload && props.onUpload(uploadedUrl);
                 }}
               >
-                Search <SearchIcon />
+                Search <SearchIcon size={18} />
               </Button>
             </div>
           </div>
@@ -139,8 +139,8 @@ export default function Search(props: SearchProps) {
       <div className={s['ds-search__right']}>
         <Row align="RIGHT">
           <Button theme="SECONDARY" type="submit">
-            <SearchIcon size={14} />
             Search
+            <SearchIcon size={14} />
           </Button>
         </Row>
       </div>

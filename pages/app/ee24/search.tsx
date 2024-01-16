@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Download, Search as SearchIcon } from 'react-feather';
@@ -12,7 +11,7 @@ import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
 import Search from '@/components/Search/Search';
-import { Table } from '@/components/Table/Table';
+import { EE24Headline, EE24Table } from '@/components/Table/EE24Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { FILE_TYPES } from '@/constants/accept';
 import { EE24_ARTICLES_LIMIT_PER_PAGE, useEE24 } from '@/contexts/ee24.context';
@@ -81,16 +80,18 @@ export default function Repository() {
               />
             </Page>
             <Page>
-              <Table
+              <EE24Table
                 firstExtended
+                onRowClick={(i: any) => {
+                  window.open(articles[i].url, '_blank');
+                }}
                 loading={ee24Props.loading}
-                columns={['Headline', 'URL', 'Date modified']}
+                columns={['Headline', 'Publisher', 'Type', 'Date published']}
                 data={articles.map(article => [
-                  article?.headline,
-                  <Link target="_blank" href={article?.url} key={article?.externalId + 'link'}>
-                    {article?.url}
-                  </Link>,
-                  dayjs(article?.dateModified).format('DD/MM/YYYY')
+                  <EE24Headline key={article?.url} image={article?.image} headline={article?.headline} />,
+                  article?.publisher,
+                  article?.type,
+                  dayjs(article?.datePublished).format('DD/MM/YYYY')
                 ])}
               />
             </Page>

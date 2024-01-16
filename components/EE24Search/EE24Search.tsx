@@ -88,7 +88,7 @@ export default function EE24Search(props: EE24SearchProps) {
                   });
                 }}
               >
-                Search <Search />
+                Search <Search size={18} />
               </Button>
             </div>
           </div>
