@@ -6,12 +6,15 @@ import s from './EE24Search.module.scss';
 import Button from '@/bases/Button/Button';
 import Row from '@/bases/Row/Row';
 import { FILE_TYPES } from '@/constants/accept';
+
+export type FileType = 'NONE' | 'TEXT' | 'IMAGE' | 'AUDIO' | 'VIDEO';
 export type EE24SearchProps = {
-  onSearch: (filter: { value: string; type: 'TEXT' | 'URL' }) => void;
+  onSearch: (filter: { value: string; type: 'TEXT' | 'URL'; fileType: FileType }) => void;
 };
 
 export default function EE24Search(props: EE24SearchProps) {
   const [filter, setFilter] = useState<string>('');
+  const [fileType, setFileType] = useState<FileType>('NONE');
   const [portrait, setPortait] = useState('');
   const [uploadedUrl, setUploadedUrl] = useState<string>('');
   const [uploadingImage, setUploadingImage] = useState<boolean>(false);
@@ -21,7 +24,8 @@ export default function EE24Search(props: EE24SearchProps) {
       e.preventDefault();
       props.onSearch({
         type: 'TEXT',
-        value: filter
+        value: filter,
+        fileType: 'TEXT'
       });
     } catch (err) {
       console.error(err);
@@ -30,9 +34,10 @@ export default function EE24Search(props: EE24SearchProps) {
   const handleUpdatePortrait = (urlUploaded: string) => {
     if (!urlUploaded) {
       setPortait('');
+      setFileType('NONE');
     } else {
       const url = urlUploaded?.toLowerCase();
-      let portraitType = 'NONE';
+      let portraitType: FileType = 'NONE';
       FILE_TYPES.images.forEach(ext => {
         if (url.includes(ext)) {
           portraitType = 'IMAGE';
@@ -57,6 +62,7 @@ export default function EE24Search(props: EE24SearchProps) {
       }[portraitType];
 
       setPortait(portrait || '');
+      setFileType(portraitType);
     }
   };
 
@@ -86,7 +92,8 @@ export default function EE24Search(props: EE24SearchProps) {
                 onClick={() => {
                   props.onSearch({
                     type: 'URL',
-                    value: uploadedUrl
+                    value: uploadedUrl,
+                    fileType: fileType
                   });
                 }}
               >

@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { notification } from 'antd';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';

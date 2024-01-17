@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from 'react';
 import { Filter } from '@/components/EE24Filter/EE24Filter';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
-import { FetchEE24Articles } from '@/services/ee24.service';
+import { FetchEE24Articles, FetchEE24ArticlesByImage } from '@/services/ee24.service';
 
 export type EE24ArticlesPage = {
   records: number;
@@ -16,7 +16,8 @@ export type EE24ContextProps = {
   loading: boolean;
   articles: Article[];
   page: EE24ArticlesPage;
-  fetchEE24Articles: (filter: Filter & { search?: string }, pageIndex?: number) => void;
+  fetchEE24ArticlesByImage: (url: string) => Promise<void>;
+  fetchEE24Articles: (filter: Filter & { search?: string }, pageIndex?: number) => Promise<void>;
 };
 export const EE24Context = createContext<EE24ContextProps>(
   // @ts-ignore
@@ -49,6 +50,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
         ...data.page,
         records: data.records
       });
+
       setLoading(false);
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
@@ -70,11 +72,53 @@ export const EE24Provider = (props: EE24ProviderProps) => {
           description: 'Please try again later'
         });
       }
-      throw new Error();
+      setArticles([]);
+      setLoading(false);
     }
   };
 
-  const context = { loading, articles, page, fetchEE24Articles };
+  const fetchEE24ArticlesByImage = async (url: string) => {
+    try {
+      setLoading(true);
+      const [data] = await Promise.all([FetchEE24ArticlesByImage(url)]);
+      setArticles(data.articles);
+      setPage({
+        ...data.page,
+        records: data.records
+      });
+      setLoading(false);
+    } catch (err: any) {
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else if (err?.response?.status === 409) {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'The article url already exists'
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      setArticles([]);
+      setLoading(false);
+    }
+  };
+
+  const context = {
+    loading,
+    articles,
+    page,
+    fetchEE24Articles,
+    fetchEE24ArticlesByImage
+  };
 
   return <EE24Context.Provider value={context}>{props.children}</EE24Context.Provider>;
 };

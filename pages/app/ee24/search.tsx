@@ -22,7 +22,7 @@ import { useModal } from '@/contexts/modal.context';
 export default function Repository() {
   const modals = useModal();
   const router = useRouter();
-  const { articles, page, fetchEE24Articles, ...ee24Props } = useEE24();
+  const { articles, page, fetchEE24Articles, fetchEE24ArticlesByImage, ...ee24Props } = useEE24();
   const { showDownloadEE24Articles } = modals.ee24;
   const [key, setKey] = useState(Date.now());
   const [filter, setFilter] = useState<Filter & { search: string }>({ search: '' });
@@ -73,7 +73,11 @@ export default function Repository() {
                   'video/mp4': FILE_TYPES.videos,
                   'audio/mp3': FILE_TYPES.audio
                 }}
-                onUpload={() => {}}
+                onUpload={(url, type) => {
+                  if (type === 'IMAGE') {
+                    fetchEE24ArticlesByImage(url);
+                  }
+                }}
                 defaultValue={filter.search}
                 placeholder="Search articles..."
                 onSearch={search => {

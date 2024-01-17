@@ -2,6 +2,7 @@ import { Popover } from 'antd';
 import { FormEvent, useEffect, useState } from 'react';
 import { Accept } from 'react-dropzone';
 import { Search as SearchIcon, X } from 'react-feather';
+import { FileType } from '../EE24Search/EE24Search';
 import { Uploader } from '../Uploader/Uploader';
 import s from './Search.module.scss';
 import Button from '@/bases/Button/Button';
@@ -13,7 +14,7 @@ import { FILE_TYPES } from '@/constants/accept';
 export type SearchProps = {
   placeholder: string;
   defaultValue?: string;
-  onUpload?: (url: string) => void;
+  onUpload?: (url: string, fileType: FileType) => void;
   onSearch: (search: string, selector?: string) => void;
   accept?: Accept;
   withUploader?: boolean;
@@ -22,6 +23,7 @@ export type SearchProps = {
 
 export default function Search(props: SearchProps) {
   const [portrait, setPortait] = useState('');
+  const [fileType, setFileType] = useState<FileType>('NONE');
   const [uploadedUrl, setUploadedUrl] = useState<string>('');
   const [uploadingImage, setUploadingImage] = useState<boolean>(false);
   const [search, setSearch] = useState<string>(props.defaultValue || '');
@@ -34,9 +36,10 @@ export default function Search(props: SearchProps) {
   const handleUpdatePortrait = (urlUploaded: string) => {
     if (!urlUploaded) {
       setPortait('');
+      setFileType('NONE');
     } else {
       const url = urlUploaded?.toLowerCase();
-      let portraitType = 'NONE';
+      let portraitType: FileType = 'NONE';
       FILE_TYPES.images.forEach(ext => {
         if (url.includes(ext)) {
           portraitType = 'IMAGE';
@@ -61,6 +64,7 @@ export default function Search(props: SearchProps) {
       }[portraitType];
 
       setPortait(portrait || '');
+      setFileType(portraitType);
     }
   };
 
@@ -99,7 +103,7 @@ export default function Search(props: SearchProps) {
                 theme="CTA"
                 type="button"
                 onClick={() => {
-                  props.onUpload && props.onUpload(uploadedUrl);
+                  props.onUpload && props.onUpload(uploadedUrl, fileType);
                 }}
               >
                 Search <SearchIcon size={18} />

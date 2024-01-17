@@ -105,6 +105,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
         });
       }
       setLoading(false);
+      setArticles([]);
     }
   };
 

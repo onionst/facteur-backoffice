@@ -61,7 +61,7 @@ export default function EE24Filter(props: EE24FilterProps) {
     <div className={s['ds-ee24-filter__container']}>
       <div className={s['ds-ee24-filter']}>
         <Row align="SPACE">
-          <h4>Filter</h4>
+          <h4 style={{ lineHeight: '30px' }}>Filter</h4>
           {Object.values(filter).find(i => i) && (
             <span className={`c-pointer ${s['ds-ee24-filter__bg--white']}`} onClick={() => props.reset()}>
               Clear filter <X size={18} />
