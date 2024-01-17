@@ -1,0 +1,13 @@
+.ds-input-uploader {
+  padding-left: 5rem;
+  &__preview {
+    position: absolute;
+    left: 0.45rem;
+    top: 0.45rem;
+    & > img {
+      height: 2.5rem !important;
+      width: 4rem;
+      object-fit: cover;
+    }
+  }
+}
