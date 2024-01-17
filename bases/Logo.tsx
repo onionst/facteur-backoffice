@@ -12,5 +12,5 @@ export default function Logo(props: LogoProps) {
 
   const width = height * 2;
 
-  return <Image src="/assets/icons/e-logo.svg" height={height} width={width} alt={''} />;
+  return <Image src="/assets/icons/e-logo.svg" height={height} width={width} alt={'EFCSN logo'} />;
 }

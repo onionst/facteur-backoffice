@@ -28,7 +28,7 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
           <p>Your search did not match any article</p>
         </div>
         <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Reset filter
+          Clear filter
         </Button>
       </div>
     ),
@@ -40,7 +40,7 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
           <p>Your audio did not match any article</p>
         </div>
         <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Reset filter
+          Clear filter
         </Button>
       </div>
     ),
@@ -52,7 +52,7 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
           <p>Your video did not match any article</p>
         </div>
         <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Reset filter
+          Clear filter
         </Button>
       </div>
     ),
@@ -64,7 +64,7 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
           <p>Your image did not match any article</p>
         </div>
         <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Reset filter
+          Clear filter
         </Button>
       </div>
     ),
@@ -76,7 +76,7 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
           <p>Your search did not match any article</p>
         </div>
         <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Reset filter
+          Clear filter
         </Button>
       </div>
     )
