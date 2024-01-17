@@ -35,7 +35,9 @@ export default function Repository() {
   useEffect(() => {
     if (router?.query?.c && router?.query?.q && router?.query?.ft && typeof router?.query?.q === 'string') {
       if (router?.query?.c === 'TEXT') {
+        setSearchType('TEXT');
         setFilter({ search: router.query.q });
+        fetchEE24Articles({ search: router.query.q });
       } else {
         if (router?.query?.ft === 'IMAGE') {
           fetchEE24ArticlesByImage(router?.query?.q);
@@ -43,6 +45,11 @@ export default function Repository() {
           setSearchType('IMAGE');
         }
         setFilter({ search: '' });
+      }
+    } else {
+      setSearchType('TEXT');
+      if (articles?.length === 0 && !ee24Props.loading) {
+        fetchEE24Articles({});
       }
     }
   }, [router]);
