@@ -4,6 +4,7 @@ import { Search, X } from 'react-feather';
 import { Uploader } from '../Uploader/Uploader';
 import s from './EE24Search.module.scss';
 import Button from '@/bases/Button/Button';
+import Image from '@/bases/Image/Image';
 import Row from '@/bases/Row/Row';
 import { FILE_TYPES } from '@/constants/accept';
 
@@ -82,8 +83,7 @@ export default function EE24Search(props: EE24SearchProps) {
               <X color="#4b5675" size={18} />
             </button>
             <div className={s['ds-ee24-search__popover-portrait']}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img alt="portrait" src={portrait} />
+              <Image alt="portrait" src={portrait} />
             </div>
             <div className={s['ds-ee24-search__popover-form']}>
               <Button

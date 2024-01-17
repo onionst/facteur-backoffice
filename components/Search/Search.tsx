@@ -6,6 +6,7 @@ import { FileType } from '../EE24Search/EE24Search';
 import { Uploader } from '../Uploader/Uploader';
 import s from './Search.module.scss';
 import Button from '@/bases/Button/Button';
+import Image from '@/bases/Image/Image';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
@@ -95,8 +96,7 @@ export default function Search(props: SearchProps) {
               <X color="#4b5675" size={18} />
             </button>
             <div className={s['ds-ee24-search__popover-portrait']}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img alt="portrait" src={portrait} />
+              <Image alt="portrait" src={portrait} />
             </div>
             <div className={s['ds-ee24-search__popover-form']}>
               <Button

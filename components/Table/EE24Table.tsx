@@ -1,23 +1,93 @@
 import { Empty, Skeleton } from 'antd';
 import { useMemo } from 'react';
+import { FileType } from '../EE24Search/EE24Search';
 import s from './Table.module.scss';
+import Button from '@/bases/Button/Button';
+import Image from '@/bases/Image/Image';
 
 export type EE24TableProps = {
   firstExtended?: boolean;
   columns: any[];
   data: any[][];
   loading?: boolean;
+  notFound?: { type: FileType; value: string } | null;
   onRowClick?: (index: number) => void;
+  onReset: () => void;
 };
 export type EE24HeadlineProps = {
   image?: string;
   headline?: string;
 };
+export function NotFound(props: { type: FileType; value: string; onClick: () => void }) {
+  const render = {
+    NONE: (
+      <div className={s['ds-not-found']}>
+        <Empty description="" />
+        <div className={s['ds-not-found__text']}>
+          <h3>No article found</h3>
+          <p>Your search did not match any article</p>
+        </div>
+        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+          Reset filter
+        </Button>
+      </div>
+    ),
+    AUDIO: (
+      <div className={s['ds-not-found']}>
+        <Image className={s['ds-not-found__image']} src={'/assets/portraits/audio.svg'} alt="not found" />
+        <div className={s['ds-not-found__text']}>
+          <h3>No article found</h3>
+          <p>Your audio did not match any article</p>
+        </div>
+        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+          Reset filter
+        </Button>
+      </div>
+    ),
+    VIDEO: (
+      <div className={s['ds-not-found']}>
+        <Image className={s['ds-not-found__image']} src={'/assets/portraits/video.svg'} alt="not found" />
+        <div className={s['ds-not-found__text']}>
+          <h3>No article found</h3>
+          <p>Your video did not match any article</p>
+        </div>
+        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+          Reset filter
+        </Button>
+      </div>
+    ),
+    IMAGE: (
+      <div className={s['ds-not-found']}>
+        <Image className={s['ds-not-found__image']} src={props.value} alt="not found" />
+        <div className={s['ds-not-found__text']}>
+          <h3>No article found</h3>
+          <p>Your image did not match any article</p>
+        </div>
+        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+          Reset filter
+        </Button>
+      </div>
+    ),
+    TEXT: (
+      <div className={s['ds-not-found']}>
+        <Empty description="" />
+        <div className={s['ds-not-found__text']}>
+          <h3>No article found</h3>
+          <p>Your search did not match any article</p>
+        </div>
+        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+          Reset filter
+        </Button>
+      </div>
+    )
+  }[props.type];
+
+  return render;
+}
 export function EE24Headline(props: EE24HeadlineProps) {
   return (
     <div className={s['ds-headline']}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={props.image || '/assets/portraits/image.svg'} alt={'ee24 image'} />
+      <Image src={props.image || '/assets/portraits/image.svg'} alt={'ee24 image'} />
       <p>{props.headline}</p>
     </div>
   );
@@ -85,7 +155,7 @@ export function EE24Table(props: EE24TableProps) {
         </thead>
         <tbody className={s['ds-table__tbody']}>{Data}</tbody>
       </table>
-      {props.data.length === 0 ? <Empty /> : null}
+      {props.data.length === 0 ? props.notFound ? <NotFound {...props.notFound} onClick={props.onReset} /> : <Empty /> : null}
     </div>
   );
 }

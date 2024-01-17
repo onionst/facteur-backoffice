@@ -1,6 +1,6 @@
 <svg width="529" height="342" viewBox="0 0 529 342" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="529" height="342" fill="#C4CADA"/>
-<path d="M317 104H212C203.716 104 197 110.666 197 118.889V223.111C197 231.334 203.716 238 212 238H317C325.284 238 332 231.334 332 223.111V118.889C332 110.666 325.284 104 317 104Z" stroke="#4B5675" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M238.5 156C244.851 156 250 151.075 250 145C250 138.925 244.851 134 238.5 134C232.149 134 227 138.925 227 145C227 151.075 232.149 156 238.5 156Z" stroke="#4B5675" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M332 193.273L294.5 156L212 238" stroke="#4B5675" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<rect width="529" height="342" fill="#DBDFE9"/>
+<path d="M317 104H212C203.716 104 197 110.666 197 118.889V223.111C197 231.334 203.716 238 212 238H317C325.284 238 332 231.334 332 223.111V118.889C332 110.666 325.284 104 317 104Z" stroke="#99A1B7" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M238.5 156C244.851 156 250 151.075 250 145C250 138.925 244.851 134 238.5 134C232.149 134 227 138.925 227 145C227 151.075 232.149 156 238.5 156Z" stroke="#99A1B7" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M332 193.273L294.5 156L212 238" stroke="#99A1B7" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

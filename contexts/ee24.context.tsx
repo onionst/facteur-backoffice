@@ -1,6 +1,7 @@
 import { notification } from 'antd';
 import { createContext, useContext, useState } from 'react';
 import { Filter } from '@/components/EE24Filter/EE24Filter';
+import { FileType } from '@/components/EE24Search/EE24Search';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
 import { FetchEE24Articles, FetchEE24ArticlesByImage } from '@/services/ee24.service';
@@ -14,6 +15,7 @@ export type EE24ArticlesPage = {
 export const EE24_ARTICLES_LIMIT_PER_PAGE = 20;
 export type EE24ContextProps = {
   loading: boolean;
+  notFound: { type: FileType; value: string } | null;
   articles: Article[];
   page: EE24ArticlesPage;
   fetchEE24ArticlesByImage: (url: string) => Promise<void>;
@@ -29,6 +31,7 @@ export type EE24ProviderProps = {
 export const EE24Provider = (props: EE24ProviderProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [articles, setArticles] = useState<Article[]>([]);
+  const [notFound, setNotFound] = useState<{ type: FileType; value: string } | null>(null);
   const [page, setPage] = useState<EE24ArticlesPage>({
     current: 1,
     prevPage: null,
@@ -50,7 +53,11 @@ export const EE24Provider = (props: EE24ProviderProps) => {
         ...data.page,
         records: data.records
       });
-
+      if (data.articles.length === 0) {
+        setNotFound({ type: 'TEXT', value: '' });
+      } else {
+        setNotFound(null);
+      }
       setLoading(false);
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
@@ -73,6 +80,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
         });
       }
       setArticles([]);
+      setNotFound({ type: 'TEXT', value: '' });
       setLoading(false);
     }
   };
@@ -86,6 +94,11 @@ export const EE24Provider = (props: EE24ProviderProps) => {
         ...data.page,
         records: data.records
       });
+      if (data.articles.length === 0) {
+        setNotFound({ type: 'IMAGE', value: url });
+      } else {
+        setNotFound(null);
+      }
       setLoading(false);
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
@@ -108,12 +121,14 @@ export const EE24Provider = (props: EE24ProviderProps) => {
         });
       }
       setArticles([]);
+      setNotFound({ type: 'IMAGE', value: url });
       setLoading(false);
     }
   };
 
   const context = {
     loading,
+    notFound,
     articles,
     page,
     fetchEE24Articles,

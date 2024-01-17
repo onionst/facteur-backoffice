@@ -94,6 +94,14 @@ export default function Repository() {
             </Page>
             <Page>
               <EE24Table
+                notFound={ee24Props.notFound}
+                onReset={() => {
+                  setFilter(prev => ({
+                    search: prev?.search
+                  }));
+                  fetchEE24Articles({ search: filter.search });
+                  setKey(Date.now());
+                }}
                 firstExtended
                 onRowClick={(i: any) => {
                   window.open(articles[i].url, '_blank');
