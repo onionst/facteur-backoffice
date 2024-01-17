@@ -28,10 +28,13 @@ export default function Repository() {
   const [filter, setFilter] = useState<Filter & { search: string }>({ search: '' });
 
   useEffect(() => {
-    if (router?.query?.c && router.query.q && typeof router.query.q === 'string') {
-      if (router.query.c === 'TEXT') {
+    if (router?.query?.c && router?.query?.q && router?.query?.ft && typeof router?.query?.q === 'string') {
+      if (router?.query?.c === 'TEXT') {
         setFilter({ search: router.query.q });
       } else {
+        if (router?.query?.ft === 'IMAGE') {
+          fetchEE24ArticlesByImage(router?.query?.q);
+        }
         setFilter({ search: '' });
       }
     }
