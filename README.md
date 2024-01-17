@@ -4,13 +4,14 @@ Frontend of EFCSN EE24 Backoffice project.
 
 ## Environment variables
 
-| Name              | Description            | Type     | Required | Default |
-| ----------------- | ---------------------- | -------- | -------- | ------- |
-| PUBLIC_API_URL    | Api url                | `string` | ✅       |         |
-| PUBLIC_ES_API_URL | Elastic Search Api url | `string` | ✅       |         |
-| NODE_ENV          | Node env               | `string` | ✅       |         |
-| GOOGLE_OAUTH_ID   | Google oauth id        | `string` | ✅       |         |
-| APP_URL           | Client url             | `string` | ✅       |         |
+| Name               | Description            | Type     | Required | Default |
+| ------------------ | ---------------------- | -------- | -------- | ------- |
+| PUBLIC_API_URL     | Api url                | `string` | ✅       |         |
+| PUBLIC_ES_API_URL  | Elastic Search Api url | `string` | ✅       |         |
+| NODE_ENV           | Node env               | `string` | ✅       |         |
+| GOOGLE_OAUTH_ID    | Google oauth id        | `string` | ✅       |         |
+| APP_URL            | Client url             | `string` | ✅       |         |
+| PUBLIC_CHATBOT_URL | Chatbot url            | `string` | ✅       |         |
 
 ## Getting Started
 
