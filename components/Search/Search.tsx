@@ -104,6 +104,9 @@ export default function Search(props: SearchProps) {
                 type="button"
                 onClick={() => {
                   props.onUpload && props.onUpload(uploadedUrl, fileType);
+                  setUploadedUrl('');
+                  setPortait('');
+                  setFileType('NONE');
                 }}
               >
                 Search <SearchIcon size={18} />
