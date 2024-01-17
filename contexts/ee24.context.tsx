@@ -4,7 +4,7 @@ import { Filter } from '@/components/EE24Filter/EE24Filter';
 import { FileType } from '@/components/EE24Search/EE24Search';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
-import { FetchEE24Articles, FetchEE24ArticlesByImage } from '@/services/ee24.service';
+import { DownloadEE24Articles, FetchEE24Articles, FetchEE24ArticlesByImage } from '@/services/ee24.service';
 
 export type EE24ArticlesPage = {
   records: number;
@@ -18,6 +18,7 @@ export type EE24ContextProps = {
   notFound: { type: FileType; value: string } | null;
   articles: Article[];
   page: EE24ArticlesPage;
+  downloadEE24Articles: (filter: Filter & { search?: string }) => Promise<Array<Partial<Article>>>;
   fetchEE24ArticlesByImage: (url: string) => Promise<void>;
   fetchEE24Articles: (filter: Filter & { search?: string }, pageIndex?: number) => Promise<void>;
 };
@@ -85,6 +86,39 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     }
   };
 
+  const downloadEE24Articles = async (filter: any): Promise<Array<Partial<Article>>> => {
+    try {
+      console.log('here!');
+      const data = await DownloadEE24Articles({
+        ...filter,
+        export: true
+      });
+      console.log(data);
+      return data;
+    } catch (err: any) {
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else if (err?.response?.status === 409) {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'The article url already exists'
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      return [];
+    }
+  };
+
   const fetchEE24ArticlesByImage = async (url: string) => {
     try {
       setLoading(true);
@@ -132,7 +166,8 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     articles,
     page,
     fetchEE24Articles,
-    fetchEE24ArticlesByImage
+    fetchEE24ArticlesByImage,
+    downloadEE24Articles
   };
 
   return <EE24Context.Provider value={context}>{props.children}</EE24Context.Provider>;

@@ -31,6 +31,11 @@ export const FetchEE24Articles = async (
   };
 };
 
+export const DownloadEE24Articles = async (filter: Filter & { search: string }): Promise<Array<Partial<Article>>> => {
+  const response = await api.get(parseUrl(PREFIX), { params: { order: '-datePublished', ...cleanObject(filter) }, responseType: 'stream' });
+  return JSON.parse(response.data);
+};
+
 export const FetchEE24ArticlesByImage = async (
   url: string
 ): Promise<{
