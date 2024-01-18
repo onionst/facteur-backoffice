@@ -52,6 +52,7 @@ export default function EE24Filter(props: EE24FilterProps) {
   };
   useEffect(() => {
     handleListOrganizations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = (e: FormEvent) => {

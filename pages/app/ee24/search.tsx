@@ -52,6 +52,7 @@ export default function Repository() {
         fetchEE24Articles({});
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   return (
