@@ -195,7 +195,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
           <h4>Claim Details</h4>
           <Divider style={{ margin: '8px 0' }} />
           <Input
-            label="Claim reviewed"
+            label="Claim"
             value={form.claimreviewedNative}
             onChange={v => handleUpdate(v, 'claimreviewedNative')}
             type="text"
