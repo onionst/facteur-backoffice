@@ -9,7 +9,8 @@ const nextConfig = {
     PUBLIC_ES_API_URL: process.env.PUBLIC_ES_API_URL,
     GOOGLE_OAUTH_ID: process.env.GOOGLE_OAUTH_ID,
     APP_URL: process.env.APP_URL,
-    PUBLIC_CHATBOT_URL: process.env.PUBLIC_CHATBOT_URL
+    PUBLIC_CHATBOT_URL: process.env.PUBLIC_CHATBOT_URL,
+    PUBLIC_STATS_URL: process.env.PUBLIC_STATS_URL
   }
 };
 
