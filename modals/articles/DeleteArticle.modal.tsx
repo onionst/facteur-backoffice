@@ -17,6 +17,7 @@ export const DeleteArticleModal = (props: DeleteArticleModalProps & ModalProps) 
   const [loading, setLoading] = useState<boolean>(false);
   const [confirmation, setConfirmation] = useState<string>('');
   const { fetchArticleData, deleteArticle } = useArticles();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [article, setArticle] = useState<Partial<Article>>({});
 
   const handleDeleteUser = async (e: FormEvent) => {

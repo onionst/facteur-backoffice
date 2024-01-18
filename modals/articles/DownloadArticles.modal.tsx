@@ -11,6 +11,7 @@ import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { useArticles } from '@/contexts/articles.context';
+import { convertJsonToBlob } from '@/utils/convertJsonToBlob';
 import { convertJsonToCsv } from '@/utils/convertJsonToCsv';
 
 export type DownloadArticlesModalProps = {
@@ -30,7 +31,7 @@ export const DownloadArticlesModal = (props: DownloadArticlesModalProps & ModalP
       const data = await downloadArticles(props.filter);
 
       let blob: Blob;
-      const filename = `articles-${dayjs().format('DD-MM-YYYY')}.${fileType === 'CSV' ? 'csv' : 'xlsx'}`;
+      const filename = `articles-${dayjs().format('DD-MM-YYYY')}.${fileType === 'CSV' ? 'csv' : fileType === 'XLSX' ? 'xlsx' : 'json'}`;
 
       if (fileType === 'CSV') {
         blob = convertJsonToCsv(data);
@@ -45,11 +46,23 @@ export const DownloadArticlesModal = (props: DownloadArticlesModalProps & ModalP
           link.click();
           document.body.removeChild(link);
         }
-      } else {
+      } else if (fileType === 'XLSX') {
         const wb = utils.book_new();
         const ws = utils.json_to_sheet(data);
         utils.book_append_sheet(wb, ws, 'articles');
         writeFile(wb, filename);
+      } else {
+        blob = convertJsonToBlob(data);
+        const link = document.createElement('a');
+        if (link.download !== undefined) {
+          const url = URL.createObjectURL(blob);
+          link.setAttribute('href', url);
+          link.setAttribute('download', filename);
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
       }
 
       setLoading(false);
