@@ -6,9 +6,9 @@ export enum MediaType {
 }
 
 export enum MediaFormat {
-  Photo = 'photo',
+  Image = 'image',
   Video = 'video',
-  Article = 'article',
+  Text = 'text',
   Audio = 'audio',
   Other = 'other'
 }
