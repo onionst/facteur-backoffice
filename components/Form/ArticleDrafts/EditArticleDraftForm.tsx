@@ -48,7 +48,7 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
       <Page>
         <ModalHeader
           style={{ margin: 0 }}
-          subTitle={'Edit the draft'}
+          subTitle={`Edit the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
           title={`Complete the following form to edit the ${props.type} article`}
         />
         <Card>

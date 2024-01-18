@@ -1,5 +1,5 @@
-import s from './DatePicker.module.scss';
 import { DatePicker as DP, DatePickerProps } from 'antd';
+import s from './DatePicker.module.scss';
 
 export type InputProps = {
   label?: string;
@@ -19,6 +19,7 @@ export function DatePicker(props: DatePickerProps & InputProps) {
           {...props}
           // @ts-ignore
           showToday={false}
+          format={'DD/MM/YYYY'}
           className={`form-control ${s['ds-date-picker']} ${props.className || ''}`}
         />
       </div>

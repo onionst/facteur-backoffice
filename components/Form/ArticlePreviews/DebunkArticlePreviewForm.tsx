@@ -59,7 +59,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                   required
                   value={form.headline}
                   onChange={v => handleUpdate(v, 'headline')}
-                  label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'} (English)`}
+                  label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'} (In english)`}
                   placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
                 />
               </Badge.Ribbon>
@@ -192,7 +192,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                   value: value.split('_').join(' ')
                 }))
               ]}
-              maxTagCount="responsive"
               mode="multiple"
               onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
               placeholder="Article's topics"
@@ -211,14 +210,14 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                   required
                   value={form.claimreviewed}
                   onChange={v => handleUpdate(v, 'claimreviewed')}
-                  label="Claim (English)"
+                  label="Claim (In english)"
                   placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
                 />
               </Badge.Ribbon>
             )}
           </div>
           <Input
-            label="Native Claim"
+            label="Claim"
             value={form.claimreviewedNative}
             onChange={v => handleUpdate(v, 'claimreviewedNative')}
             type="text"
