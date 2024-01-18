@@ -150,7 +150,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
                 label: value.split('_').join(' ')
               }))}
               maxTagCount="responsive"
-              mode="tags"
+              mode="multiple"
               onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
               placeholder="Article's topics"
             />
@@ -180,7 +180,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
                 }))
               ]}
               maxTagCount="responsive"
-              mode="tags"
+              mode="multiple"
               onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
               placeholder="Article's topics"
             />

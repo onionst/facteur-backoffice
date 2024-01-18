@@ -201,7 +201,7 @@ export default function EE24Filter(props: EE24FilterProps) {
               label: v[1].split('_').join(' ')
             }))}
             maxTagCount="responsive"
-            mode="tags"
+            mode="multiple"
             onChange={(topics: any) => {
               setModified(true);
               setFilter(prev => ({

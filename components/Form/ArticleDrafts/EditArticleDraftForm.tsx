@@ -134,7 +134,7 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
                 label: v[1].split('_').join(' ')
               }))}
               maxTagCount="responsive"
-              mode="tags"
+              mode="multiple"
               onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
               placeholder="Article's topics"
             />
@@ -164,7 +164,7 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
                 }))
               ]}
               maxTagCount="responsive"
-              mode="tags"
+              mode="multiple"
               onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
               placeholder="Article's topics"
             />
