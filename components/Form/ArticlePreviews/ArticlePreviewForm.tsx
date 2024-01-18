@@ -42,7 +42,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
         <ModalHeader
           style={{ margin: 0 }}
           subTitle={'Preview the Draft'}
-          title={`Review and preview your ${props.type} article before submission`}
+          title={`Review and preview your ${props.type} ${props.type === ArticleType.Narrative ? 'report' : 'article'} before submission`}
         />
         <Card theme="LIGHT">
           <h4>Overview</h4>
@@ -57,7 +57,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
                   required
                   value={form.headline}
                   onChange={v => handleUpdate(v, 'headline')}
-                  label="Translated Headline"
+                  label={`Translated title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
                   placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
                 />
               </Badge.Ribbon>
@@ -69,7 +69,11 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
             disabled
             value={form.headlineNative}
             onChange={v => handleUpdate(v, 'headlineNative')}
-            label={form.headline != form.headlineNative ? 'Original Headline' : 'Headline'}
+            label={
+              form.headline != form.headlineNative
+                ? `Original title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
+                : `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
+            }
             placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
           />
 
@@ -165,18 +169,20 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               ]}
               onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
-            <Select
+            <Tagger
               label="Country identified in article"
               disabled
-              defaultValue={form?.contentLocation}
+              value={form?.contentLocation}
               options={[
-                { label: 'Country identified in article', value: '' },
                 ...Object.entries(WorldCountriesISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
                 }))
               ]}
+              maxTagCount="responsive"
+              mode="tags"
               onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
+              placeholder="Article's topics"
             />
           </Row>
         </Card>

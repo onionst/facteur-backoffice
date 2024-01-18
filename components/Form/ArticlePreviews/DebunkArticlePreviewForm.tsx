@@ -59,7 +59,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                   required
                   value={form.headline}
                   onChange={v => handleUpdate(v, 'headline')}
-                  label="Translated Headline"
+                  label={`Translated title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
                   placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
                 />
               </Badge.Ribbon>
@@ -71,7 +71,11 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
             disabled
             value={form.headlineNative}
             onChange={v => handleUpdate(v, 'headlineNative')}
-            label={form.headline != form.headlineNative ? 'Original Headline' : 'Headline'}
+            label={
+              form.headline != form.headlineNative
+                ? `Original title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
+                : `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
+            }
             placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
           />
 
@@ -178,18 +182,20 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               ]}
               onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
-            <Select
+            <Tagger
               label="Country identified in article"
               disabled
-              defaultValue={form?.contentLocation}
+              value={form?.contentLocation}
               options={[
-                { label: 'Country identified in article', value: '' },
                 ...Object.entries(WorldCountriesISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
                 }))
               ]}
+              maxTagCount="responsive"
+              mode="tags"
               onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
+              placeholder="Article's topics"
             />
           </Row>
         </Card>

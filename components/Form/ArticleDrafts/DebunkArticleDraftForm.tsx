@@ -174,18 +174,21 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               ]}
               onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
-            <Select
+
+            <Tagger
               label="Country identified in article"
               required
-              defaultValue={form?.contentLocation}
+              value={form?.contentLocation}
               options={[
-                { label: 'Country identified in article', value: '' },
                 ...Object.entries(WorldCountriesISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
                 }))
               ]}
+              maxTagCount="responsive"
+              mode="tags"
               onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
+              placeholder="Article's topics"
             />
           </Row>
         </Card>
