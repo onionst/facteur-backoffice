@@ -66,7 +66,7 @@ export default function Articles() {
             columns={[
               'Headline',
               'URL',
-
+              'Type',
               <Sorter
                 key="Sorter"
                 onSort={() => {
