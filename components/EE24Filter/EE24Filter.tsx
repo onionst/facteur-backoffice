@@ -84,7 +84,7 @@ export default function EE24Filter(props: EE24FilterProps) {
           )}
         </Row>
         <form onSubmit={handleSubmit} className={s['ds-ee24-filter__form']}>
-          <Input label="Date range">
+          <Input label="Date of article publication range">
             <RangePicker
               value={[filter.sinceDate ? dayjs(filter.sinceDate) : null, filter.untilDate ? dayjs(filter.untilDate) : null]}
               onChange={range => {
@@ -105,7 +105,7 @@ export default function EE24Filter(props: EE24FilterProps) {
               }}
             />
           </Input>
-          <Input label="Article type">
+          <Input label="Type of publication">
             <RadioGroup
               multiple
               onChange={(types: any) => {
@@ -156,7 +156,7 @@ export default function EE24Filter(props: EE24FilterProps) {
               ]}
             />
           </Input>
-          <Input label="Review rating">
+          <Input label="Rating">
             <Select
               onChange={(rating: any) => {
                 setModified(true);
@@ -213,7 +213,7 @@ export default function EE24Filter(props: EE24FilterProps) {
           />
 
           <Select
-            label="Publisher"
+            label="Name of the organization"
             onChange={organization => {
               setModified(true);
               setFilter(prev => ({
@@ -233,7 +233,7 @@ export default function EE24Filter(props: EE24FilterProps) {
             ]}
           />
           <Select
-            label="Language"
+            label="Language of publication"
             options={[
               { label: 'Filter by language', value: '' },
               ...Object.entries(LanguageISO).map(([key, value]) => ({
@@ -250,7 +250,7 @@ export default function EE24Filter(props: EE24FilterProps) {
             }}
           />
           <Select
-            label="Country"
+            label="Country of the organization"
             options={[
               { label: 'Filter by country', value: '' },
               ...Object.entries(CountryISO).map(([key, value]) => ({
@@ -266,23 +266,25 @@ export default function EE24Filter(props: EE24FilterProps) {
               }));
             }}
           />
-          <Select
-            label="Political party"
-            options={[
-              { label: 'Filter by political party', value: '' },
-              ...Object.entries(PoliticalParty).map(v => ({
-                value: v[1].split('_').join(' '),
-                label: v[1].split('_').join(' ')
-              }))
-            ]}
-            onChange={(v: any) => {
-              setModified(true);
-              setFilter(prev => ({
-                ...prev,
-                politicalParty: v
-              }));
-            }}
-          />
+          {!(filter?.type && filter?.type?.length > 0 && !filter.type?.includes(ArticleType.Factcheck)) && (
+            <Select
+              label="EU party related to the claim"
+              options={[
+                { label: 'Filter by political party', value: '' },
+                ...Object.entries(PoliticalParty).map(v => ({
+                  value: v[1].split('_').join(' '),
+                  label: v[1].split('_').join(' ')
+                }))
+              ]}
+              onChange={(v: any) => {
+                setModified(true);
+                setFilter(prev => ({
+                  ...prev,
+                  politicalParty: v
+                }));
+              }}
+            />
+          )}
           {modified && !submitted ? (
             <div className={s['ds-ee24-filter__apply']}>
               <Row align="RIGHT">

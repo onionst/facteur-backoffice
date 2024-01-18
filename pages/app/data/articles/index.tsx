@@ -64,9 +64,9 @@ export default function Articles() {
             firstExtended
             loading={articlesProps.loading}
             columns={[
-              'Headline',
-              'URL',
-              'Type',
+              'Title of the article/report',
+              'URL of the article/report',
+              'Type of publication',
               <Sorter
                 key="Sorter"
                 onSort={() => {

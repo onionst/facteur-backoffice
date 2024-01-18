@@ -155,9 +155,9 @@ export default function Repository() {
                 }}
                 loading={ee24Props.loading}
                 columns={[
-                  'Headline',
-                  'Publisher',
-                  'Type',
+                  'Title of the article/report',
+                  'Name of the organization',
+                  'Type of publication',
                   <Row align="RIGHT" key="Date">
                     {searchType === 'TEXT' ? (
                       <Sorter
