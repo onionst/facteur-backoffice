@@ -17,6 +17,8 @@ import { LanguageISO } from '@/constants/language';
 import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
 import { Topic } from '@/constants/topics';
+import { useOrganizations } from '@/contexts/organizations.context';
+import { Organization } from '@/dtos/organizations/organization.dto';
 
 export type Filter = {
   type?: ArticleType[];
@@ -38,14 +40,26 @@ export type EE24FilterProps = {
   filter: Filter & { search: string };
 };
 export default function EE24Filter(props: EE24FilterProps) {
+  const { listOrganizations } = useOrganizations();
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [filter, setFilter] = useState<Partial<Filter>>({});
+  const [modified, setModified] = useState<boolean>(false);
+
+  const [organizations, setOrganizations] = useState<Array<Partial<Organization>>>([]);
+
+  const handleListOrganizations = async () => {
+    setOrganizations(await listOrganizations());
+  };
+  useEffect(() => {
+    handleListOrganizations();
+  }, []);
 
   const handleSubmit = (e: FormEvent) => {
     try {
       e?.preventDefault();
       props.onSubmit();
       setSubmitted(true);
+      setModified(false);
     } catch (err) {
       console.error(err);
     }
@@ -73,6 +87,7 @@ export default function EE24Filter(props: EE24FilterProps) {
             <RangePicker
               value={[filter.sinceDate ? dayjs(filter.sinceDate) : null, filter.untilDate ? dayjs(filter.untilDate) : null]}
               onChange={range => {
+                setModified(true);
                 if (range) {
                   setFilter(prev => ({
                     ...prev,
@@ -93,6 +108,7 @@ export default function EE24Filter(props: EE24FilterProps) {
             <RadioGroup
               multiple
               onChange={(types: any) => {
+                setModified(true);
                 setFilter(prev => ({
                   ...prev,
                   type: types
@@ -121,6 +137,7 @@ export default function EE24Filter(props: EE24FilterProps) {
           <Input label="EU relation">
             <RadioGroup
               onChange={(relation: any) => {
+                setModified(true);
                 setFilter(prev => ({
                   ...prev,
                   euRelation: relation
@@ -141,6 +158,7 @@ export default function EE24Filter(props: EE24FilterProps) {
           <Input label="Review rating">
             <Select
               onChange={(rating: any) => {
+                setModified(true);
                 setFilter(prev => ({
                   ...prev,
                   reviewRating: rating
@@ -184,6 +202,7 @@ export default function EE24Filter(props: EE24FilterProps) {
             maxTagCount="responsive"
             mode="tags"
             onChange={(topics: any) => {
+              setModified(true);
               setFilter(prev => ({
                 ...prev,
                 topics
@@ -191,15 +210,26 @@ export default function EE24Filter(props: EE24FilterProps) {
             }}
             placeholder="Filter by topic"
           />
-          <Input
+
+          <Select
             label="Publisher"
-            onChange={v => {
+            onChange={organization => {
+              setModified(true);
               setFilter(prev => ({
                 ...prev,
-                publisher: v.target.value
+                publisher: organization
               }));
             }}
-            placeholder="Filter by publisher"
+            options={[
+              {
+                value: '',
+                label: 'Filter by publisher'
+              },
+              ...organizations.map(i => ({
+                value: i?.domain || '',
+                label: i?.name || ''
+              }))
+            ]}
           />
           <Select
             label="Language"
@@ -211,6 +241,7 @@ export default function EE24Filter(props: EE24FilterProps) {
               }))
             ]}
             onChange={(v: any) => {
+              setModified(true);
               setFilter(prev => ({
                 ...prev,
                 inLanguage: v
@@ -227,6 +258,7 @@ export default function EE24Filter(props: EE24FilterProps) {
               }))
             ]}
             onChange={(v: any) => {
+              setModified(true);
               setFilter(prev => ({
                 ...prev,
                 countryOfOrigin: v
@@ -243,13 +275,14 @@ export default function EE24Filter(props: EE24FilterProps) {
               }))
             ]}
             onChange={(v: any) => {
+              setModified(true);
               setFilter(prev => ({
                 ...prev,
                 politicalParty: v
               }));
             }}
           />
-          {Object.values(filter).find(i => i) && !submitted ? (
+          {modified && !submitted ? (
             <div className={s['ds-ee24-filter__apply']}>
               <Row align="RIGHT">
                 <Button theme="CTA">

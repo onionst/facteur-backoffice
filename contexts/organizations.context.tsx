@@ -53,19 +53,18 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
 
   useEffect(() => {
     setOrganizations([]);
+    listOrganizations();
   }, []);
 
   const fetchOrganizations = async (filter?: FilterOrganizations, pageIndex: number = 0) => {
     try {
       setLoading(true);
-      const [data] = await Promise.all([
-        FetchOrganizations({
-          ...filter,
-          skip: pageIndex * ORGANIZATIONS_LIMIT_PER_PAGE,
-          limit: ORGANIZATIONS_LIMIT_PER_PAGE
-        }),
-        listOrganizations()
-      ]);
+      const data = await FetchOrganizations({
+        ...filter,
+        skip: pageIndex * ORGANIZATIONS_LIMIT_PER_PAGE,
+        limit: ORGANIZATIONS_LIMIT_PER_PAGE
+      });
+
       setOrganizations(data.organizations);
       setPage({
         ...data.page,

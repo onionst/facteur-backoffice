@@ -42,13 +42,12 @@ export const EE24Provider = (props: EE24ProviderProps) => {
   const fetchEE24Articles = async (filter: any, pageIndex: number = 1) => {
     try {
       setLoading(true);
-      const [data] = await Promise.all([
-        FetchEE24Articles({
-          ...filter,
-          page: pageIndex,
-          limit: EE24_ARTICLES_LIMIT_PER_PAGE
-        })
-      ]);
+      const data = await FetchEE24Articles({
+        ...filter,
+        page: pageIndex,
+        limit: EE24_ARTICLES_LIMIT_PER_PAGE
+      });
+
       setArticles(data.articles);
       setPage({
         ...data.page,

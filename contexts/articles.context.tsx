@@ -76,13 +76,12 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
   const fetchArticles = async (filter?: any, pageIndex: number = 1) => {
     try {
       setLoading(true);
-      const [data] = await Promise.all([
-        FetchArticles({
-          ...filter,
-          page: pageIndex,
-          limit: ARTICLES_LIMIT_PER_PAGE
-        })
-      ]);
+      const data = await FetchArticles({
+        ...filter,
+        page: pageIndex,
+        limit: ARTICLES_LIMIT_PER_PAGE
+      });
+
       setArticles(data.articles);
       setPage({
         ...data.page,
