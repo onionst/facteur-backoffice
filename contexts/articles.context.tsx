@@ -5,6 +5,7 @@ import { Article } from '@/dtos/articles/article.dto';
 import {
   CreateArticle,
   DeleteArticle,
+  DownloadArticles,
   FetchArticleById,
   FetchArticles,
   FetchTranslation,
@@ -28,7 +29,7 @@ export type ArticlesContextProps = {
   updateArticle: (article: any) => Promise<void>;
   deleteArticle: (id: string) => Promise<void>;
   fetchTranslation: (text: string) => Promise<string>;
-  downloadArticles: (page: number, articles: Array<Partial<Article>>, domain: string) => Promise<Array<Partial<Article>>>;
+  downloadArticles: (filter: any) => Promise<Array<Partial<Article>>>;
 };
 export const ArticlesContext = createContext<ArticlesContextProps>(
   // @ts-ignore
@@ -77,6 +78,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     try {
       setLoading(true);
       const data = await FetchArticles({
+        order: '-dateModified',
         ...filter,
         page: pageIndex,
         limit: ARTICLES_LIMIT_PER_PAGE
@@ -193,34 +195,27 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     }
   };
 
-  const downloadArticles = async (
-    page: number = 0,
-    organizations: Array<Partial<Article>> = [],
-    domain: string = ''
-  ): Promise<Array<Partial<Article>>> => {
+  const downloadArticles = async (filter: any): Promise<Array<Partial<Article>>> => {
     try {
-      const DOWNLOAD_ARTICLES_LIMIT_PER_PAGE = 50;
-      let currentPage = page;
-      const organizationsToDownload: Array<Partial<Article>> = organizations;
+      const data = await DownloadArticles({
+        order: '-dateModified',
+        ...filter,
+        export: true
+      });
 
-      const filter = { skip: currentPage * DOWNLOAD_ARTICLES_LIMIT_PER_PAGE, limit: DOWNLOAD_ARTICLES_LIMIT_PER_PAGE, publisher: domain };
-      const response = await FetchArticles(filter);
-      if (response.articles.length === 0) {
-        return organizationsToDownload;
-      } else if (response.articles.length < DOWNLOAD_ARTICLES_LIMIT_PER_PAGE) {
-        return [...organizationsToDownload, ...response.articles];
-      } else {
-        organizationsToDownload.concat(response.articles);
-        currentPage += 1;
-        return downloadArticles(currentPage, organizationsToDownload, domain);
-      }
+      return data;
     } catch (err: any) {
-      console.error(err);
       if (typeof err?.response?.data?.message === 'object') {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
           description: err?.response?.data?.message[0]
+        });
+      } else if (err?.response?.status === 409) {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'The article url already exists'
         });
       } else {
         notification.error({
@@ -229,7 +224,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
           description: 'Please try again later'
         });
       }
-      throw new Error('Unauthorized');
+      return [];
     }
   };
 

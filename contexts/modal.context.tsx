@@ -40,7 +40,7 @@ export const ModalContext = createContext<{
   };
   articles: {
     showDeleteArticle: (id: string) => void;
-    showDownloadArticles: () => void;
+    showDownloadArticles: (filter: any) => void;
   };
   ee24: {
     showDownloadEE24Articles: (filter: any) => void;
@@ -76,6 +76,7 @@ export const ModalProvider = (props: { children: any }) => {
   // <--- articles --->
   const [deleteArticleActive, setDeleteArticleActive] = useState<string>('');
   const [downloadArticlesActive, setDownloadArticlesActive] = useState<string>('');
+  const [downloadArticlesFilter, setDownloadArticlesFilter] = useState<any>({});
   // <!--- articles --->
 
   // <--- ee24 --->
@@ -119,7 +120,10 @@ export const ModalProvider = (props: { children: any }) => {
     },
     articles: {
       showDeleteArticle: (id: string) => setDeleteArticleActive(id),
-      showDownloadArticles: () => setDownloadArticlesActive(Date.now().toString())
+      showDownloadArticles: (filter: any) => {
+        setDownloadArticlesFilter(filter);
+        setDownloadArticlesActive(Date.now().toString());
+      }
     },
     ee24: {
       showDownloadEE24Articles: (filter: any) => {
@@ -225,8 +229,12 @@ export const ModalProvider = (props: { children: any }) => {
           footer={null}
           width={width <= 464 ? width - 40 : 424}
           open={downloadArticlesActive != ''}
+          filter={downloadArticlesFilter}
           id={downloadArticlesActive}
-          onCancel={() => setDownloadArticlesActive('')}
+          onCancel={() => {
+            setDownloadArticlesActive('');
+            setDownloadArticlesFilter({});
+          }}
         />
         <DownloadEE24ArticlesModal
           footer={null}

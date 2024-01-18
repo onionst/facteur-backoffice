@@ -11,16 +11,15 @@ import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { useArticles } from '@/contexts/articles.context';
-import { useAuth } from '@/contexts/auth.context';
 import { convertJsonToCsv } from '@/utils/convertJsonToCsv';
 
 export type DownloadArticlesModalProps = {
   id: string;
+  filter: any;
 };
 export const DownloadArticlesModal = (props: DownloadArticlesModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [fileType, setFileType] = useState<string>('CSV');
-  const { session } = useAuth();
   const { downloadArticles } = useArticles();
 
   const handleDownloadArticles = async (e: FormEvent) => {
@@ -28,19 +27,7 @@ export const DownloadArticlesModal = (props: DownloadArticlesModalProps & ModalP
       e?.preventDefault();
       setLoading(true);
       notification.success({ ...NOTIFICATIONS_CONFIG.success, message: 'Download started', description: 'It may take a few minutes' });
-      const articles = await downloadArticles(0, [], session.organization?.domain || 'undefined');
-
-      const data = articles.map(article => ({
-        type: article?.type || '',
-        headline: article?.headline || '',
-        nativeHeadline: article?.headlineNative || '',
-        url: article?.url || '',
-        image: article?.image || '',
-        euRelation: article?.euRelation || '',
-        claimReviewed: article?.claimreviewed || '',
-        claimReviewedNative: article?.claimreviewedNative || '',
-        rating: article?.reviewRating || ''
-      }));
+      const data = await downloadArticles(props.filter);
 
       let blob: Blob;
       const filename = `articles-${dayjs().format('DD-MM-YYYY')}.${fileType === 'CSV' ? 'csv' : 'xlsx'}`;
@@ -92,6 +79,10 @@ export const DownloadArticlesModal = (props: DownloadArticlesModalProps & ModalP
                   {
                     label: '.XLSX',
                     value: 'XLSX'
+                  },
+                  {
+                    label: '.JSON',
+                    value: 'JSON'
                   }
                 ]}
               />

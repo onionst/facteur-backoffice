@@ -12,6 +12,7 @@ export type ImageProps = {
 
 export default function Image(props: DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> & ImageProps) {
   const [defaultPortrait, setDefaultPortrait] = useState<string>('/assets/portraits/image.svg');
+
   const [src, setSrc] = useState<string>('');
   useEffect(() => {
     const url = props.src;
@@ -49,7 +50,9 @@ export default function Image(props: DetailedHTMLProps<ImgHTMLAttributes<HTMLIma
       {...props}
       className={`${s['ds-image']} ${props.className || ''}`}
       src={src}
-      onError={() => setSrc(defaultPortrait || props.defaultImage || '/assets/portraits/image.svg')}
+      onError={() => {
+        setSrc(defaultPortrait || props.defaultImage || '/assets/portraits/image.svg');
+      }}
     />
   );
 }

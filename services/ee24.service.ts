@@ -39,7 +39,7 @@ export const DownloadEE24Articles = async (filter: Filter & { search: string }) 
     const headers = new Headers({
       Authorization: `Bearer ${Store.get(STORAGE_KEYS.ACCESS_TOKEN)}`
     });
-    const url = SETTINGS.PUBLIC_API_URL + parseUrl(PREFIX);
+    const url = SETTINGS.PUBLIC_ES_API_URL + parseUrl(PREFIX);
     const urlWithParams = new URL(url);
     const params: any = Object.values(filter);
     Object.keys(filter).forEach((key, index) => urlWithParams.searchParams.append(key, params[index]));

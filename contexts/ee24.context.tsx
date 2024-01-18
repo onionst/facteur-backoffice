@@ -88,6 +88,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
   const downloadEE24Articles = async (filter: any): Promise<Array<Partial<Article>>> => {
     try {
       const data = await DownloadEE24Articles({
+        order: '-datePublished',
         ...filter,
         export: true
       });
