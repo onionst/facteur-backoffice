@@ -40,9 +40,9 @@ export default function Repository() {
         fetchEE24Articles({ search: router.query.q });
       } else {
         if (router?.query?.ft === 'IMAGE') {
-          fetchEE24ArticlesByImage(router?.query?.q);
           setPortait(router?.query?.q);
           setSearchType('IMAGE');
+          fetchEE24ArticlesByImage(router?.query?.q);
         }
         setFilter({ search: '' });
       }
