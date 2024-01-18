@@ -13,6 +13,7 @@ Frontend of EFCSN EE24 Backoffice project.
 | APP_URL            | Client url             | `string` | ✅       |         |
 | PUBLIC_CHATBOT_URL | Chatbot url            | `string` | ✅       |         |
 | PUBLIC_STATS_URL   | Stats dashboard url    | `string` | ✅       |         |
+| PUBLIC_TRENDS_URL  | Trends dashboard url   | `string` | ✅       |         |
 
 ## Getting Started
 

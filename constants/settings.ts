@@ -8,5 +8,6 @@ export const SETTINGS = {
   PUBLIC_ES_API_URL: publicRuntimeConfig.PUBLIC_ES_API_URL,
   GOOGLE_OAUTH_ID: publicRuntimeConfig.GOOGLE_OAUTH_ID,
   PUBLIC_CHATBOT_URL: publicRuntimeConfig.PUBLIC_CHATBOT_URL,
-  PUBLIC_STATS_URL: publicRuntimeConfig.PUBLIC_STATS_URL
+  PUBLIC_STATS_URL: publicRuntimeConfig.PUBLIC_STATS_URL,
+  PUBLIC_TRENDS_URL: publicRuntimeConfig.PUBLIC_TRENDS_URL
 };
