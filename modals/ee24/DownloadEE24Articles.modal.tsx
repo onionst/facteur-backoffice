@@ -15,6 +15,7 @@ import { convertJsonToCsv } from '@/utils/convertJsonToCsv';
 
 export type DownloadEE24ArticlesModalProps = {
   id: string;
+  filter: any;
 };
 export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,8 +27,7 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
       e?.preventDefault();
       setLoading(true);
       notification.success({ ...NOTIFICATIONS_CONFIG.success, message: 'Download started', description: 'It may take a few minutes' });
-      const data = await downloadEE24Articles({});
-      console.log({ data });
+      const data = await downloadEE24Articles(props.filter);
 
       let blob: Blob;
       const filename = `articles-${dayjs().format('DD-MM-YYYY')}.${fileType === 'CSV' ? 'csv' : 'xlsx'}`;

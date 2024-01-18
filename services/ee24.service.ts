@@ -1,5 +1,8 @@
+import Store from 'store';
 import { api, ee24api, parseUrl } from './api';
 import { Filter } from '@/components/EE24Filter/EE24Filter';
+import { SETTINGS } from '@/constants/settings';
+import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Article } from '@/dtos/articles/article.dto';
 import { cleanObject } from '@/utils/clean';
 
@@ -31,9 +34,34 @@ export const FetchEE24Articles = async (
   };
 };
 
-export const DownloadEE24Articles = async (filter: Filter & { search: string }): Promise<Array<Partial<Article>>> => {
-  const response = await api.get(parseUrl(PREFIX), { params: { order: '-datePublished', ...cleanObject(filter) }, responseType: 'stream' });
-  return JSON.parse(response.data);
+export const DownloadEE24Articles = async (filter: Filter & { search: string }) => {
+  try {
+    const headers = new Headers({
+      Authorization: `Bearer ${Store.get(STORAGE_KEYS.ACCESS_TOKEN)}`
+    });
+    const url = SETTINGS.PUBLIC_API_URL + parseUrl(PREFIX);
+    const urlWithParams = new URL(url);
+    const params: any = Object.values(filter);
+    Object.keys(filter).forEach((key, index) => urlWithParams.searchParams.append(key, params[index]));
+    const response = await fetch(url, { headers });
+
+    const reader: any = response?.body?.getReader();
+    const chunks = [];
+    let done, value;
+
+    while (!done) {
+      ({ done, value } = await reader.read());
+      if (done) break;
+      chunks.push(value);
+    }
+
+    const concatenatedChunks = new Uint8Array(chunks.reduce((acc, chunk) => acc.concat(Array.from(chunk)), []));
+    const text = new TextDecoder().decode(concatenatedChunks);
+
+    return JSON.parse(text);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
 };
 
 export const FetchEE24ArticlesByImage = async (

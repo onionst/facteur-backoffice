@@ -20,17 +20,25 @@ export type SelectArticleTypeProps = {
 export default function SelectArticleType(props: SelectArticleTypeProps) {
   return (
     <Page>
-      <ModalHeader style={{ margin: 0 }} subTitle="Select article type" title="Choose between Factcheck, Debunk, Narrative or Prebunk" />
+      <ModalHeader
+        style={{ margin: 0 }}
+        subTitle="Select type of publication"
+        title="Choose between Political Fact-check, Debunk, Prebunk or Narrative report"
+      />
       <Row align="SPACE">
         <Column align="SPACE">
-          <ItemSelect onClick={() => props.onSelect(ArticleType.Factcheck)} icon={<Search size={18} color="#FFF" />} label="Factcheck" />
+          <ItemSelect
+            onClick={() => props.onSelect(ArticleType.Factcheck)}
+            icon={<Search size={18} color="#FFF" />}
+            label="Political Fact-check"
+          />
           <ItemSelect onClick={() => props.onSelect(ArticleType.Debunk)} icon={<MessageCircle size={18} color="#FFF" />} label="Debunk" />
         </Column>
         <Column align="SPACE">
           <ItemSelect
             onClick={() => props.onSelect(ArticleType.Narrative)}
             icon={<MoreHorizontal size={18} color="#FFF" />}
-            label="Narrative"
+            label="Narrative report"
           />
           <ItemSelect onClick={() => props.onSelect(ArticleType.Prebunk)} icon={<AlertTriangle size={18} color="#FFF" />} label="Prebunk" />
         </Column>

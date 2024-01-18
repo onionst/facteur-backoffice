@@ -43,7 +43,7 @@ export const ModalContext = createContext<{
     showDownloadArticles: () => void;
   };
   ee24: {
-    showDownloadEE24Articles: () => void;
+    showDownloadEE24Articles: (filter: any) => void;
   };
   // @ts-ignore
 }>({});
@@ -80,6 +80,7 @@ export const ModalProvider = (props: { children: any }) => {
 
   // <--- ee24 --->
   const [downloadEE24ArticlesActive, setDownloadEE24ArticlesActive] = useState<string>('');
+  const [downloadEE24ArticlesFilter, setDownloadEE24ArticlesFilter] = useState<any>({});
   // <!--- ee24 --->
 
   useEffect(() => {
@@ -121,7 +122,10 @@ export const ModalProvider = (props: { children: any }) => {
       showDownloadArticles: () => setDownloadArticlesActive(Date.now().toString())
     },
     ee24: {
-      showDownloadEE24Articles: () => setDownloadEE24ArticlesActive(Date.now().toString())
+      showDownloadEE24Articles: (filter: any) => {
+        setDownloadEE24ArticlesFilter(filter);
+        setDownloadEE24ArticlesActive(Date.now().toString());
+      }
     }
   };
 
@@ -226,10 +230,14 @@ export const ModalProvider = (props: { children: any }) => {
         />
         <DownloadEE24ArticlesModal
           footer={null}
+          filter={downloadEE24ArticlesFilter}
           width={width <= 464 ? width - 40 : 424}
           open={downloadEE24ArticlesActive != ''}
           id={downloadEE24ArticlesActive}
-          onCancel={() => setDownloadEE24ArticlesActive('')}
+          onCancel={() => {
+            setDownloadEE24ArticlesActive('');
+            setDownloadEE24ArticlesFilter({});
+          }}
         />
         {props.children}
       </>

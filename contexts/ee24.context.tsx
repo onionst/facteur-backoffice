@@ -87,12 +87,11 @@ export const EE24Provider = (props: EE24ProviderProps) => {
 
   const downloadEE24Articles = async (filter: any): Promise<Array<Partial<Article>>> => {
     try {
-      console.log('here!');
       const data = await DownloadEE24Articles({
         ...filter,
         export: true
       });
-      console.log(data);
+
       return data;
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
