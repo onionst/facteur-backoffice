@@ -17,6 +17,7 @@ import Page from '@/components/Page/Page';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { Topic } from '@/constants/topics';
+import { WorldCountriesISO } from '@/constants/worldCountries';
 
 export type ArticlePreviewFormProps = {};
 export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArticlePreview) {
@@ -170,7 +171,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               defaultValue={form?.contentLocation}
               options={[
                 { label: 'Country identified in article', value: '' },
-                ...Object.entries(CountryISO).map(([key, value]) => ({
+                ...Object.entries(WorldCountriesISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
                 }))

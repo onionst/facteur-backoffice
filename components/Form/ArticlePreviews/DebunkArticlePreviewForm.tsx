@@ -19,6 +19,7 @@ import { LanguageISO } from '@/constants/language';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
 import { ReviewRating } from '@/constants/ratings';
 import { Topic } from '@/constants/topics';
+import { WorldCountriesISO } from '@/constants/worldCountries';
 
 export type DebunkArticlePreviewFormProps = {};
 export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewFormProps & IArticlePreview) {
@@ -183,7 +184,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               defaultValue={form?.contentLocation}
               options={[
                 { label: 'Country identified in article', value: '' },
-                ...Object.entries(CountryISO).map(([key, value]) => ({
+                ...Object.entries(WorldCountriesISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
                 }))
@@ -394,7 +395,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                     </Row>
                     <Input
                       disabled
-                      label="Appearance archive"
+                      label="Archive URL"
                       pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
                       placeholder="https://example.com/factchecking/article-010101"
                       key={`${appearance.id}_archived`}

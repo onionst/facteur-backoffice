@@ -61,7 +61,7 @@ export const SECTIONS: Section[] = [
       {
         access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
         icon: <BarChart2 size={18} strokeWidth={2.3} color="#4b5675" />,
-        name: 'Stats',
+        name: 'Statistics',
         type: 'ITEM',
         path: '/app/ee24/stats'
       }

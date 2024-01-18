@@ -12,6 +12,7 @@ Frontend of EFCSN EE24 Backoffice project.
 | GOOGLE_OAUTH_ID    | Google oauth id        | `string` | ✅       |         |
 | APP_URL            | Client url             | `string` | ✅       |         |
 | PUBLIC_CHATBOT_URL | Chatbot url            | `string` | ✅       |         |
+| PUBLIC_STATS_URL   | Stats dashboard url    | `string` | ✅       |         |
 
 ## Getting Started
 

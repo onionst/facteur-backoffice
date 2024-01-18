@@ -19,6 +19,7 @@ import { FILE_TYPES } from '@/constants/accept';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { Topic } from '@/constants/topics';
+import { WorldCountriesISO } from '@/constants/worldCountries';
 import { useArticles } from '@/contexts/articles.context';
 
 export type ArticleDraftFormProps = {};
@@ -156,9 +157,10 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
             <Select
               label="Country identified in article"
               defaultValue={form?.contentLocation}
+              required
               options={[
                 { label: 'Country identified in article', value: '' },
-                ...Object.entries(CountryISO).map(([key, value]) => ({
+                ...Object.entries(WorldCountriesISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
                 }))

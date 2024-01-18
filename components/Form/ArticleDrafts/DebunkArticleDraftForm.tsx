@@ -23,6 +23,7 @@ import { MediaFormat, MediaType, Platform } from '@/constants/media';
 import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
 import { Topic } from '@/constants/topics';
+import { WorldCountriesISO } from '@/constants/worldCountries';
 import { useArticles } from '@/contexts/articles.context';
 
 export type DebunkArticleDraftFormProps = {};
@@ -175,10 +176,11 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             />
             <Select
               label="Country identified in article"
+              required
               defaultValue={form?.contentLocation}
               options={[
                 { label: 'Country identified in article', value: '' },
-                ...Object.entries(CountryISO).map(([key, value]) => ({
+                ...Object.entries(WorldCountriesISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
                 }))
@@ -450,7 +452,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                     />
                   </Row>
                   <Input
-                    label="Appearance archive"
+                    label="Archive URL"
                     pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
                     placeholder="https://example.com/factchecking/article-010101"
                     key={`${appearance.id}_archived`}
