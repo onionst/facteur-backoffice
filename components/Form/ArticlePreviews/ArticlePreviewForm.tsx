@@ -71,7 +71,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
             onChange={v => handleUpdate(v, 'headlineNative')}
             label={
               form.headline != form.headlineNative
-                ? `Original title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
+                ? `Native title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
                 : `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
             }
             placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"

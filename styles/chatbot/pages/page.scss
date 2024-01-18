@@ -1,0 +1,17 @@
+.ds-page-background {
+  width: 100%;
+  height: max-content;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  padding: 20px;
+  background-color: $ds-white;
+}
+
+.ds-no-bg {
+  background-color: transparent !important;
+}

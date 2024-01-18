@@ -219,7 +219,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               onChange={v => setForm((prev: any) => ({ ...prev, reviewRating: v }))}
             />
             <DatePicker
-              label="Date of article publication"
+              label="Date of claim publication"
               value={
                 dayjs(form.itemReviewed.datePublished).isValid() ? dayjs(form.itemReviewed.datePublished) : form.itemReviewed.datePublished
               }
@@ -283,7 +283,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               <Input
                 value={form.itemReviewed.author}
                 onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, author: v.target.value } }))}
-                label="Name of person related to the claim"
+                label="Person"
                 placeholder="John Doe"
               />
 

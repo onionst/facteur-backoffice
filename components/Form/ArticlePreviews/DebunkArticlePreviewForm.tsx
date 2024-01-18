@@ -59,7 +59,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                   required
                   value={form.headline}
                   onChange={v => handleUpdate(v, 'headline')}
-                  label={`Translated title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
+                  label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'} (English)`}
                   placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
                 />
               </Badge.Ribbon>
@@ -73,7 +73,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
             onChange={v => handleUpdate(v, 'headlineNative')}
             label={
               form.headline != form.headlineNative
-                ? `Original title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
+                ? `Native title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
                 : `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
             }
             placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
@@ -211,14 +211,14 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                   required
                   value={form.claimreviewed}
                   onChange={v => handleUpdate(v, 'claimreviewed')}
-                  label="Translated Claim reviewed"
+                  label="Claim (English)"
                   placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
                 />
               </Badge.Ribbon>
             )}
           </div>
           <Input
-            label="Original Claim reviewed"
+            label="Native Claim"
             value={form.claimreviewedNative}
             onChange={v => handleUpdate(v, 'claimreviewedNative')}
             type="text"
@@ -240,7 +240,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               onChange={v => setForm((prev: any) => ({ ...prev, reviewRating: v }))}
             />
             <DatePicker
-              label="Date of article publication"
+              label="Date of claim publication"
               disabled
               value={
                 dayjs(form.itemReviewed.datePublished).isValid() ? dayjs(form.itemReviewed.datePublished) : form.itemReviewed.datePublished
@@ -253,7 +253,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               <Input
                 value={form.itemReviewed.author}
                 onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, author: v.target.value } }))}
-                label="Name of person related to the claim"
+                label="Person"
                 disabled
                 placeholder="John Doe"
               />

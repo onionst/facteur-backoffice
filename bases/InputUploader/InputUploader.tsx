@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Paperclip, X } from 'react-feather';
 import Image from '../Image/Image';
@@ -12,11 +12,17 @@ export type InputUploaderProps = {
   onUrlChange: (url: string) => void;
   accept: Accept;
   label?: string;
+  value?: string;
 };
 export default function InputUploader(props: any) {
   const { uploadFile } = useFiles();
   const [uploadedUrl, setUploadedUrl] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  useEffect(() => {
+    if (props?.value) {
+      setUploadedUrl(props?.value);
+    }
+  }, [props]);
   const handleUpload = async (file: File) => {
     try {
       setLoading(true);
@@ -34,7 +40,6 @@ export default function InputUploader(props: any) {
     }
   }, []);
   const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, maxSize: MAX_FILE_SIZE, accept: props.accept });
-
   return (
     <div {...(!uploadedUrl ? getRootProps() : {})} className="w-full" style={{ position: 'relative' }}>
       {!uploadedUrl && (

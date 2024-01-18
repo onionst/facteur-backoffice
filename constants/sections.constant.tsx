@@ -57,11 +57,18 @@ export const SECTIONS: Section[] = [
         name: 'Search',
         type: 'ITEM',
         path: '/app/ee24/search'
-      },
+      }
+    ]
+  },
+  {
+    access: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
+    name: 'Stats',
+    type: 'MENU',
+    sections: [
       {
         access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN],
         icon: <BarChart2 size={18} strokeWidth={2.3} color="#4b5675" />,
-        name: 'Statistics',
+        name: 'Dashboard',
         type: 'ITEM',
         path: '/app/ee24/stats'
       },

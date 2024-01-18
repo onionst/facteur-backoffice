@@ -1,0 +1,10 @@
+.ds-button {
+  background-color: $ds-primary;
+  border-radius: 0.475rem;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: calc(0.775rem + 1px) calc(1.5rem + 1px);
+}
