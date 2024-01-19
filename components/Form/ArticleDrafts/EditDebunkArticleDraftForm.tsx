@@ -128,8 +128,8 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
               options={[
                 { label: 'Language of publication', value: '' },
                 ...Object.entries(LanguageISO).map(([key, value]) => ({
-                  label: key,
-                  value
+                  label: key.split('_').join(' '),
+                  value: value.split('_').join(' ')
                 }))
               ]}
               onChange={v => setForm((prev: any) => ({ ...prev, inLanguage: v }))}
@@ -295,7 +295,15 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                     label: v[1].split('_').join(' ')
                   }))
                 ]}
-                onChange={v => setForm((prev: any) => ({ ...prev, inLanguage: v }))}
+                onChange={v =>
+                  setForm((prev: any) => ({
+                    ...prev,
+                    itemReviewed: {
+                      ...prev.itemReviewed,
+                      politicalParty: v
+                    }
+                  }))
+                }
               />
             </Row>
           )}
