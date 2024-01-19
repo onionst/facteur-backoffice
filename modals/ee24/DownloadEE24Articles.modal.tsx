@@ -28,7 +28,7 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
       e?.preventDefault();
       setLoading(true);
       notification.success({ ...NOTIFICATIONS_CONFIG.success, message: 'Download started', description: 'It may take a few minutes' });
-      console.log(props.filter);
+
       const data = await downloadEE24Articles({ ...props.filter, export: true });
 
       let blob: Blob;
