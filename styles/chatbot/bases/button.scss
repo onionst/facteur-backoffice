@@ -8,3 +8,14 @@
   gap: 4px;
   padding: calc(0.775rem + 1px) calc(1.5rem + 1px);
 }
+
+.ds-buttons-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+
+  & * {
+    height: max-content !important;
+  }
+}

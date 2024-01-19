@@ -1,10 +1,11 @@
-@import "@/styles/app/variables.scss";
+@import '@/styles/app/variables.scss';
 
 .ds-btn {
   &--primary {
     transition: all 200ms !important;
     background-color: $ds-primary;
     color: $ds-white;
+    box-sizing: border-box;
     display: flex;
     gap: 8px;
     justify-content: center;

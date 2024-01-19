@@ -66,7 +66,7 @@ export default function ArticleSearch(props: SearchProps) {
             }
           >
             <div style={{ maxWidth: 'max-content' }}>
-              <Button onClick={() => setShowFilter(true)} type="button" theme="TERTIARY">
+              <Button onClick={() => setShowFilter(prev => !prev)} type="button" theme="TERTIARY">
                 Filter
               </Button>
             </div>

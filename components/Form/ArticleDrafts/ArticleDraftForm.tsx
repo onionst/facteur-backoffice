@@ -55,19 +55,21 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
 
-          <Input
-            label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
-            type="url"
-            name="url"
-            minLength={10}
-            value={form.url}
-            onChange={v => handleUpdate(v, 'url')}
-            id="url"
-            pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-            required
-            withIcon={<div>Fetch data</div>}
-            placeholder="https://example.com/factchecking/article-010101"
-          />
+          <div className="w-full ds-buttons-flex">
+            <Input
+              label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
+              type="url"
+              name="url"
+              minLength={10}
+              value={form.url}
+              onChange={v => handleUpdate(v, 'url')}
+              id="url"
+              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+              required
+              placeholder="https://example.com/factchecking/article-010101"
+            />
+            {/* <Button theme="SECONDARY">lol</Button> */}
+          </div>
 
           <Input
             type="text"
