@@ -100,6 +100,12 @@ export default function Repository() {
                     setSearchType('IMAGE');
                   }
                 }}
+                onChange={search => {
+                  setFilter(prev => ({
+                    ...prev,
+                    search
+                  }));
+                }}
                 defaultValue={filter.search}
                 placeholder="Search articles..."
                 onSearch={search => {

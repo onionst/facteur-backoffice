@@ -18,6 +18,7 @@ export type SearchProps = {
   onUpload?: (url: string, fileType: FileType) => void;
   onSearch: (search: string, selector?: string) => void;
   accept?: Accept;
+  onChange?: (v: string) => void;
   withUploader?: boolean;
   withFilter?: boolean;
   withSelector?: Array<{ label: string; value: string }>;
@@ -133,7 +134,10 @@ export default function Search(props: SearchProps) {
               ) : null
             }
             disabled={uploadingImage}
-            onChange={v => setSearch(v.target.value)}
+            onChange={v => {
+              setSearch(v.target.value);
+              props.onChange && props.onChange(v.target.value);
+            }}
           />
           {props.withSelector && (
             <Select
