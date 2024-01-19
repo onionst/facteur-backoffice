@@ -120,7 +120,7 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
               required
               defaultValue={form?.inLanguage}
               options={[
-                { label: "Article's language", value: '' },
+                { label: 'Language of publication', value: '' },
                 ...Object.entries(LanguageISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
@@ -158,7 +158,6 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
               onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
             <Tagger
-              required
               value={form?.contentLocation}
               options={[
                 ...Object.entries(WorldCountriesISO).map(([key, value]) => ({

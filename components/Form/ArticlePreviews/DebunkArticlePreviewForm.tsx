@@ -133,7 +133,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               disabled
               defaultValue={form?.inLanguage}
               options={[
-                { label: "Article's language", value: '' },
+                { label: 'Language of publication', value: '' },
                 ...Object.entries(LanguageISO).map(([key, value]) => ({
                   label: key,
                   value
