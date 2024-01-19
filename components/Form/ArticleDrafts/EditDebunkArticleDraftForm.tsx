@@ -224,57 +224,6 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
               onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, datePublished: v } }))}
             />
           </Row>
-          {/* <Input label="Associated claim reviews url" required={form.associatedClaimReview.length > 0}>
-            {form.associatedClaimReview.map((claimReview: any) => (
-              <Input
-                key={claimReview.id}
-                style={{
-                  marginBottom: 8
-                }}
-                required
-                placeholder="https://example.com/factchecking/article-020202"
-                value={claimReview?.url}
-                onChange={v => {
-                  setForm((prev: any) => ({
-                    ...prev,
-                    associatedClaimReview: prev.associatedClaimReview.map((claim: any) => {
-                      if (claim.id != claimReview.id) {
-                        return claim;
-                      }
-                      return {
-                        ...claim,
-                        url: v.target.value
-                      };
-                    })
-                  }));
-                }}
-                onIconClick={() =>
-                  setForm((prev: any) => ({
-                    ...prev,
-                    associatedClaimReview: prev.associatedClaimReview.filter((claim: any) => claim.id != claimReview.id)
-                  }))
-                }
-                withIcon={<X color="#4b5675" size={20} />}
-              />
-            ))}
-            <span
-              className="c-pointer mt-1"
-              onClick={() =>
-                setForm((prev: any) => ({
-                  ...prev,
-                  associatedClaimReview: [
-                    ...prev.associatedClaimReview,
-                    {
-                      id: Date.now(),
-                      url: ''
-                    }
-                  ]
-                }))
-              }
-            >
-              <Plus size={14} /> Add associated claim review url
-            </span>
-          </Input> */}
 
           {props.type === ArticleType.Factcheck && (
             <Row align="SPACE">

@@ -68,7 +68,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
             minLength={10}
             disabled
             value={form.headlineNative}
-            onChange={v => handleUpdate(v, 'headlineNative')}
             label={
               form.headline != form.headlineNative
                 ? `Native title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
@@ -84,7 +83,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
             disabled
             minLength={10}
             value={form.url}
-            onChange={v => handleUpdate(v, 'url')}
             id="url"
             pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
             placeholder="https://example.com/factchecking/article-010101"
@@ -96,7 +94,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               name="url"
               disabled
               value={form.image}
-              onChange={v => handleUpdate(v, 'image')}
               minLength={10}
               id="url"
               pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
@@ -107,7 +104,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               label="Date of article publication"
               value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               disabled
-              onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
           </Row>
         </Card>
@@ -123,7 +119,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               value={form.keywords}
               mode="tags"
               suffixIcon={null}
-              onChange={v => setForm((prev: any) => ({ ...prev, keywords: v }))}
               placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
             <Select
@@ -137,7 +132,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
                   value: value.split('_').join(' ')
                 }))
               ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, inLanguage: v }))}
             />
           </Row>
           <Row align="SPACE">
@@ -151,7 +145,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               }))}
               maxTagCount="responsive"
               mode="multiple"
-              onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
               placeholder="Article's topics"
             />
           </Row>
@@ -167,7 +160,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
                   value: value.split('_').join(' ')
                 }))
               ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
             <Tagger
               disabled
@@ -180,7 +172,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               ]}
               maxTagCount="responsive"
               mode="multiple"
-              onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
               label="Country/Countries identified in article"
               placeholder="Country/Countries identified in article"
             />

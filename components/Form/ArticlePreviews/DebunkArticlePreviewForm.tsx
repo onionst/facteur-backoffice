@@ -70,7 +70,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
             minLength={10}
             disabled
             value={form.headlineNative}
-            onChange={v => handleUpdate(v, 'headlineNative')}
             label={
               form.headline != form.headlineNative
                 ? `Native title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
@@ -86,7 +85,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
             disabled
             minLength={10}
             value={form.url}
-            onChange={v => handleUpdate(v, 'url')}
             id="url"
             pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
             placeholder="https://example.com/factchecking/article-010101"
@@ -98,7 +96,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               name="url"
               disabled
               value={form.image}
-              onChange={v => handleUpdate(v, 'image')}
               minLength={10}
               id="url"
               pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
@@ -109,7 +106,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               label="Date of article publication"
               value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               disabled
-              onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
           </Row>
         </Card>
@@ -125,7 +121,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               suffixIcon={null}
               value={form.keywords}
               mode="tags"
-              onChange={v => setForm((prev: any) => ({ ...prev, keywords: v }))}
               placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
             <Select
@@ -139,7 +134,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                   value: value.split('_').join(' ')
                 }))
               ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, inLanguage: v }))}
             />
           </Row>
           <Row align="SPACE">
@@ -153,7 +147,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               }))}
               maxTagCount="responsive"
               mode="multiple"
-              onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
               placeholder="Article's topics"
             />
             <Select
@@ -165,7 +158,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                 { label: 'Direct', value: 'Direct' },
                 { label: 'Indirect', value: 'Indirect' }
               ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, euRelation: v }))}
             />
           </Row>
           <Row align="SPACE">
@@ -180,7 +172,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                   value: value.split('_').join(' ')
                 }))
               ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
             <Tagger
               disabled
@@ -192,7 +183,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                 }))
               ]}
               mode="multiple"
-              onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
               label="Country/Countries identified in article"
               placeholder="Country/Countries identified in article"
             />
@@ -219,7 +209,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
           <Input
             label="Claim"
             value={form.claimreviewedNative}
-            onChange={v => handleUpdate(v, 'claimreviewedNative')}
             type="text"
             minLength={10}
             disabled
@@ -236,7 +225,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                   label: v[1].split('_').join(' ')
                 }))
               ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, reviewRating: v }))}
             />
             <DatePicker
               label="Date of claim publication"
@@ -244,26 +232,16 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               value={
                 dayjs(form.itemReviewed.datePublished).isValid() ? dayjs(form.itemReviewed.datePublished) : form.itemReviewed.datePublished
               }
-              onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, datePublished: v } }))}
             />
           </Row>
           {props.type === ArticleType.Factcheck && (
             <Row align="SPACE">
-              <Input
-                value={form.itemReviewed.author}
-                onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, author: v.target.value } }))}
-                label="Person"
-                disabled
-                placeholder="John Doe"
-              />
+              <Input value={form.itemReviewed.author} label="Person" disabled placeholder="John Doe" />
               <Input
                 value={form.itemReviewed.politicalParty}
-                onChange={v =>
-                  setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, politicalParty: v.target.value } }))
-                }
                 disabled
                 label="EU party related to the claim"
-                placeholder="Organization name"
+                placeholder="EU party related to the claim"
               />
             </Row>
           )}
@@ -285,23 +263,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                       placeholder="https://example.com/factchecking/article-010101"
                       key={`${appearance.id}_URL`}
                       value={appearance?.url}
-                      onChange={v =>
-                        setForm((prev: any) => ({
-                          ...prev,
-                          itemReviewed: {
-                            ...prev.itemReviewed,
-                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                              if (_appearance.id != appearance.id) {
-                                return _appearance;
-                              }
-                              return {
-                                ..._appearance,
-                                url: v.target.value
-                              };
-                            })
-                          }
-                        }))
-                      }
                     />
 
                     <Row align="SPACE">
@@ -316,23 +277,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                             label: value.split('_').join(' ')
                           }))
                         ]}
-                        onChange={v =>
-                          setForm((prev: any) => ({
-                            ...prev,
-                            itemReviewed: {
-                              ...prev.itemReviewed,
-                              appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                                if (_appearance.id != appearance.id) {
-                                  return _appearance;
-                                }
-                                return {
-                                  ..._appearance,
-                                  platform: v
-                                };
-                              })
-                            }
-                          }))
-                        }
                       />
                       <Select
                         disabled
@@ -345,23 +289,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                             label: value.split('_').join(' ')
                           }))
                         ]}
-                        onChange={v =>
-                          setForm((prev: any) => ({
-                            ...prev,
-                            itemReviewed: {
-                              ...prev.itemReviewed,
-                              appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                                if (_appearance.id != appearance.id) {
-                                  return _appearance;
-                                }
-                                return {
-                                  ..._appearance,
-                                  mediaFormat: v
-                                };
-                              })
-                            }
-                          }))
-                        }
                       />
                     </Row>
 
@@ -379,23 +306,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                             label: value.split('_').join(' ')
                           }))
                         ]}
-                        onChange={v =>
-                          setForm((prev: any) => ({
-                            ...prev,
-                            itemReviewed: {
-                              ...prev.itemReviewed,
-                              appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                                if (_appearance.id != appearance.id) {
-                                  return _appearance;
-                                }
-                                return {
-                                  ..._appearance,
-                                  associatedMediaType: v
-                                };
-                              })
-                            }
-                          }))
-                        }
                       />
                     </Row>
                     <Input
@@ -405,23 +315,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                       placeholder="https://example.com/factchecking/article-010101"
                       key={`${appearance.id}_archived`}
                       value={appearance?.archivedAt}
-                      onChange={v =>
-                        setForm((prev: any) => ({
-                          ...prev,
-                          itemReviewed: {
-                            ...prev.itemReviewed,
-                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                              if (_appearance.id != appearance.id) {
-                                return _appearance;
-                              }
-                              return {
-                                ..._appearance,
-                                archivedAt: v.target.value
-                              };
-                            })
-                          }
-                        }))
-                      }
                     />
                   </Card>
                 </div>
