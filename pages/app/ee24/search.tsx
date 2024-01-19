@@ -197,7 +197,7 @@ export default function Repository() {
         <Row align="SPACE">
           <Row align="LEFT">
             {page.records > 0 && (
-              <IconButton type="button" onClick={showDownloadEE24Articles}>
+              <IconButton type="button" onClick={() => showDownloadEE24Articles(filter)}>
                 <Download color="#252f4a" size={16} />
               </IconButton>
             )}

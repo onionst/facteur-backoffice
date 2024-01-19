@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { CheckCircle } from 'react-feather';
 import ChatItem from './chat-item';
 import Column from '@/bases/Column/Column';
@@ -21,12 +21,20 @@ export default function ChatMessages({
   onQuestion: (text: string) => void;
 }) {
   const messagesEndRef = useRef(null);
-  const scrollableChatContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    // @ts-ignore
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   return (
     <Column align="CENTER">
       <div>
-        <div className="flex flex-col gap-6" ref={scrollableChatContainerRef}>
+        <div className="w-ful flex flex-col gap-6">
           <div className="ds-message--left">
             <div className="ds-message--left-avatar">
               <CheckCircle size={18} color="#FFF" />

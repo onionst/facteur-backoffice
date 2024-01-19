@@ -7,19 +7,26 @@ import { Input } from '../../bases/Input';
 import Button from '@/bases/Button/Button';
 import Logo from '@/bases/Logo';
 import { useAuth } from '@/contexts/auth.context';
+import { useModal } from '@/contexts/modal.context';
 import { Credentials } from '@/dtos/credentials.dto';
 
 export default function SignIn(): JSX.Element {
   const router = useRouter();
+  const modals = useModal();
   const { signInWithEmailAndPassword, signInWithTFAToken, doOpenGoogleLogin } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<Credentials>({
     email: '',
     password: ''
   });
+  const { showTFAEmailSent } = modals.auth;
 
   useEffect(() => {
     try {
+      if (router?.query?.tfa === 'pending') {
+        showTFAEmailSent();
+      }
+
       if (router?.query?.t) {
         const token = router?.query?.t;
         if (token && typeof token === 'string') {
@@ -30,7 +37,7 @@ export default function SignIn(): JSX.Element {
       console.error(err);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query]);
+  }, [router]);
 
   const handleSignInWithCredentials = async (e: FormEvent) => {
     try {

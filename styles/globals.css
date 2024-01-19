@@ -256,6 +256,22 @@ body {
   width: 100%;
 }
 
+.h-min {
+  height: max-content;
+  min-height: calc(100vh - 275px);
+}
+
+.space-between {
+  height: max-content;
+  min-height: calc(100vh - 275px);
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .ant-select-focused .ant-select-selector,
 .ant-select-selector:focus,
 .ant-select-selector:active,

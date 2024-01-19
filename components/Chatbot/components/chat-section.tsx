@@ -13,8 +13,8 @@ export default function ChatSection() {
 
   return (
     <Page>
-      <div className="w-full ds-messages-width">
-        <div className="w-full ds-messages-width__container">
+      <div className="w-full h-min ds-messages-width">
+        <div className="w-full space-between ds-messages-width__container">
           <ChatMessages
             messages={messages}
             isLoading={isLoading}
@@ -26,7 +26,7 @@ export default function ChatSection() {
               reload();
             }}
           />
-          <div className="ds-rel">
+          <div className="ds-rel w-full">
             <ChatInput
               input={input}
               handleSubmit={handleSubmit}
@@ -36,7 +36,6 @@ export default function ChatSection() {
               multiModal={MODEL === 'gpt-4-vision-preview'}
             />
           </div>
-          <div className="ds-rel-dummy" />
         </div>
       </div>
     </Page>

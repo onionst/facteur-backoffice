@@ -53,7 +53,6 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
 
   useEffect(() => {
     setOrganizations([]);
-    listOrganizations();
   }, []);
 
   const fetchOrganizations = async (filter?: FilterOrganizations, pageIndex: number = 0) => {

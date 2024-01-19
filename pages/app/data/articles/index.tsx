@@ -19,10 +19,10 @@ import { useAuth } from '@/contexts/auth.context';
 import { useModal } from '@/contexts/modal.context';
 
 export default function Articles() {
+  const { session } = useAuth();
   const [filter, setFilter] = useState<any>({ order: 'dateModified' });
   const modals = useModal();
 
-  const { session } = useAuth();
   const { showDeleteArticle, showDownloadArticles } = modals.articles;
   const { articles, fetchArticles, page, ...articlesProps } = useArticles();
   return (
@@ -72,6 +72,7 @@ export default function Articles() {
                 onSort={() => {
                   setFilter((prev: any) => ({
                     ...prev,
+                    publisher: session.organization?.domain,
                     order: prev?.order?.includes('-') ? 'dateModified' : '-dateModified'
                   }));
                   setTimeout(() => {
@@ -115,7 +116,7 @@ export default function Articles() {
         </Page>
         <Row align="SPACE">
           <Row align="LEFT">
-            <IconButton type="button" onClick={showDownloadArticles}>
+            <IconButton type="button" onClick={() => showDownloadArticles(filter)}>
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>
