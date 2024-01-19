@@ -183,7 +183,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
             <Tagger
-              label="Country identified in article"
               disabled
               value={form?.contentLocation}
               options={[
@@ -194,7 +193,8 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               ]}
               mode="multiple"
               onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
-              placeholder="Article's topics"
+              label="Country/Countries identified in article"
+              placeholder="Country/Countries identified in article"
             />
           </Row>
         </Card>

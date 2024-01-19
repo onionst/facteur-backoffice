@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { LoadingOutlined } from '@ant-design/icons';
 import { Popover, Spin } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
@@ -16,6 +17,7 @@ export type InputUploaderProps = {
 };
 export default function InputUploader(props: any) {
   const { uploadFile } = useFiles();
+  const [showPreview, setShowPreview] = useState<boolean>(false);
   const [uploadedUrl, setUploadedUrl] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -45,12 +47,25 @@ export default function InputUploader(props: any) {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, maxSize: MAX_FILE_SIZE, accept: props.accept });
   return (
-    <Popover
-      trigger={uploadedUrl ? ['click'] : []}
-      placement="bottomLeft"
-      content={<Image alt="preview popup" src={uploadedUrl} style={{ height: 130, width: '100%' }} />}
+    <div
+      {...(!uploadedUrl ? getRootProps() : {})}
+      onMouseOver={() => setShowPreview(true)}
+      onMouseLeave={() => setShowPreview(false)}
+      className="w-full"
+      style={{ position: 'relative' }}
     >
-      <div {...(!uploadedUrl ? getRootProps() : {})} className="w-full" style={{ position: 'relative' }}>
+      <Popover
+        open={uploadedUrl && showPreview ? true : false}
+        placement="bottomLeft"
+        content={
+          <img
+            key={uploadedUrl}
+            alt="preview popup"
+            src={uploadedUrl}
+            style={{ height: 130, width: '100%', borderRadius: '0.475rem', objectFit: 'cover' }}
+          />
+        }
+      >
         {!uploadedUrl && (
           <div style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 10 }}>
             <input {...getInputProps()} />
@@ -104,7 +119,7 @@ export default function InputUploader(props: any) {
             )}
           </span>
         </div>
-      </div>
-    </Popover>
+      </Popover>
+    </div>
   );
 }

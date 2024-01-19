@@ -1,5 +1,6 @@
 import { notification } from 'antd';
 import { createContext, useContext, useState } from 'react';
+import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
 import {
@@ -8,6 +9,7 @@ import {
   DownloadArticles,
   FetchArticleById,
   FetchArticles,
+  FetchMetadata,
   FetchTranslation,
   UpdateArticle
 } from '@/services/articles.service';
@@ -24,6 +26,7 @@ export type ArticlesContextProps = {
   loading: boolean;
   fetchArticleData: (id: string) => Promise<Article | undefined>;
   fetchArticleById: (id: string) => Promise<Article | undefined>;
+  fetchMetadata: (type: ArticleType, url: string) => Promise<any>;
   fetchArticles: (filter?: any, pageIndex?: any) => Promise<void>;
   createArticle: (article: any) => Promise<void>;
   updateArticle: (article: any) => Promise<void>;
@@ -107,6 +110,27 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
       }
       setLoading(false);
       setArticles([]);
+    }
+  };
+
+  const fetchMetadata = async (type: ArticleType, url: string): Promise<any> => {
+    try {
+      return await FetchMetadata(type, url);
+    } catch (err: any) {
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      return {};
     }
   };
 
@@ -265,7 +289,8 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     updateArticle,
     deleteArticle,
     fetchTranslation,
-    downloadArticles
+    downloadArticles,
+    fetchMetadata
   };
   return <ArticlesContext.Provider value={context}>{props.children}</ArticlesContext.Provider>;
 };

@@ -54,6 +54,7 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
         <Card>
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
+
           <Input
             label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
             type="url"
@@ -64,8 +65,10 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
             id="url"
             pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
             required
+            withIcon={<div>Fetch data</div>}
             placeholder="https://example.com/factchecking/article-010101"
           />
+
           <Input
             type="text"
             minLength={10}
@@ -155,7 +158,6 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
               onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
             <Tagger
-              label="Country identified in article"
               required
               value={form?.contentLocation}
               options={[
@@ -167,7 +169,8 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
               maxTagCount="responsive"
               mode="multiple"
               onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
-              placeholder="Article's topics"
+              label="Country/Countries identified in article"
+              placeholder="Country/Countries identified in article"
             />
           </Row>
         </Card>

@@ -176,7 +176,6 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             />
 
             <Tagger
-              label="Country identified in article"
               required
               value={form?.contentLocation}
               options={[
@@ -188,7 +187,8 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               maxTagCount="responsive"
               mode="multiple"
               onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
-              placeholder="Article's topics"
+              label="Country/Countries identified in article"
+              placeholder="Country/Countries identified in article"
             />
           </Row>
         </Card>

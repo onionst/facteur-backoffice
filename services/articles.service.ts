@@ -1,5 +1,6 @@
 import Store from 'store';
 import { api, parseUrl } from './api';
+import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import { SETTINGS } from '@/constants/settings';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Article } from '@/dtos/articles/article.dto';
@@ -85,4 +86,9 @@ export const UpdateArticle = async (id: string, article?: Partial<Article>) => {
 
 export const DeleteArticle = async (id: string): Promise<void> => {
   await api.delete(parseUrl(PREFIX, id));
+};
+
+export const FetchMetadata = async (type: ArticleType, url: string) => {
+  const response = await api.post(parseUrl(PREFIX, '/url/metadata'), { type, url });
+  return response.data;
 };
