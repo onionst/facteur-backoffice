@@ -10,7 +10,7 @@ import { Sorter } from '@/bases/Sorter/Sorter';
 import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
-import Search from '@/components/Search/Search';
+import ArticleSearch from '@/components/Search/ArticlesSearch';
 import { EE24Headline } from '@/components/Table/EE24Table';
 import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
@@ -34,28 +34,19 @@ export default function Articles() {
       </Header>
       <Wrapper>
         <Page>
-          <Search
+          <ArticleSearch
+            withFilter
             placeholder="Search articles..."
             onSearch={search => {
-              if (search) {
-                setFilter((prev: any) => ({
-                  order: prev.order,
-                  publisher: session.organization?.domain,
-                  search
-                }));
-                fetchArticles({
-                  publisher: session.organization?.domain,
-                  search
-                });
-              } else {
-                setFilter((prev: any) => ({
-                  order: prev.order,
-                  publisher: session.organization?.domain
-                }));
-                fetchArticles({
-                  publisher: session.organization?.domain
-                });
-              }
+              setFilter((prev: any) => ({
+                order: prev.order,
+                publisher: session.organization?.domain,
+                ...search
+              }));
+              fetchArticles({
+                publisher: session.organization?.domain,
+                ...search
+              });
             }}
           />
         </Page>

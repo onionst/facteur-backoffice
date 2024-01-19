@@ -42,3 +42,10 @@
     height: 0px;
   }
 }
+
+.ds-articles-filter {
+  gap: 20px;
+  &__container {
+    max-width: 243px !important;
+  }
+}

@@ -19,6 +19,7 @@ export type SearchProps = {
   onSearch: (search: string, selector?: string) => void;
   accept?: Accept;
   withUploader?: boolean;
+  withFilter?: boolean;
   withSelector?: Array<{ label: string; value: string }>;
 };
 
