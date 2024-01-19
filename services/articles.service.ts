@@ -90,5 +90,5 @@ export const DeleteArticle = async (id: string): Promise<void> => {
 
 export const FetchMetadata = async (type: ArticleType, url: string) => {
   const response = await api.post(parseUrl(PREFIX, '/url/metadata'), { type, url });
-  return response.data;
+  return response?.data;
 };

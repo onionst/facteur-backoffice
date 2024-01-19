@@ -21,13 +21,17 @@ import { LanguageISO } from '@/constants/language';
 import { Topic } from '@/constants/topics';
 import { WorldCountriesISO } from '@/constants/worldCountries';
 import { useArticles } from '@/contexts/articles.context';
+import { validateUrl } from '@/utils/validateUrl';
 
 export type ArticleDraftFormProps = {};
 export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticleDraft) {
-  const { fetchTranslation } = useArticles();
+  const { fetchTranslation, fetchMetadata } = useArticles();
   const [loading, setLoading] = useState<boolean>(false);
+  const [fetchingUrlMetadata, setFetchingUrlMetadata] = useState<boolean>(false);
+  const [urlFetcheable, setUrlFetcheable] = useState<boolean>(false);
   const { setForm, form } = props;
   const handleUpdate = (v: any, k: string) => setForm((prev: any) => ({ ...prev, [k]: v.target.value }));
+
   const handleSubmit = async (e: FormEvent) => {
     try {
       e?.preventDefault();
@@ -43,6 +47,26 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
       setLoading(false);
     }
   };
+
+  const handleFetchUrlMetadata = async () => {
+    try {
+      setFetchingUrlMetadata(true);
+      const { metadata } = await fetchMetadata(props.type, form.url);
+      const keywords = metadata?.keywords?.length > 0 ? metadata?.keywords?.filter((i: any) => i?.length > 3) : [];
+      setForm((prev: any) => ({
+        ...prev,
+        description: metadata?.summary || '',
+        headlineNative: metadata?.title || prev?.headlineNative,
+        image: metadata?.image || prev?.image,
+        datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished,
+        keywords: keywords?.length > 0 ? keywords : prev?.keywords
+      }));
+      setFetchingUrlMetadata(false);
+    } catch (err) {
+      setFetchingUrlMetadata(false);
+    }
+  };
+
   return (
     <form className={s['ds-article-draft-form']} onSubmit={handleSubmit}>
       <Page>
@@ -62,13 +86,18 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
               name="url"
               minLength={10}
               value={form.url}
-              onChange={v => handleUpdate(v, 'url')}
+              onChange={v => {
+                handleUpdate(v, 'url');
+                setUrlFetcheable(validateUrl(v.target.value));
+              }}
               id="url"
               pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
               required
               placeholder="https://example.com/factchecking/article-010101"
             />
-            {/* <Button theme="SECONDARY">lol</Button> */}
+            <Button type="button" onClick={handleFetchUrlMetadata} loading={fetchingUrlMetadata} disabled={!urlFetcheable} theme="TERTIARY">
+              Fetch data
+            </Button>
           </div>
 
           <Input
@@ -98,7 +127,7 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
 
             <DatePicker
               label={`Date of ${props.type === ArticleType.Narrative ? 'report' : 'article'} publication`}
-              defaultValue={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
+              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
           </Row>

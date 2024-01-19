@@ -25,12 +25,15 @@ import { ReviewRating } from '@/constants/ratings';
 import { Topic } from '@/constants/topics';
 import { WorldCountriesISO } from '@/constants/worldCountries';
 import { useArticles } from '@/contexts/articles.context';
+import { validateUrl } from '@/utils/validateUrl';
 
 export type DebunkArticleDraftFormProps = {};
 export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProps & IArticleDraft) {
   const [loading, setLoading] = useState<boolean>(false);
-  const { fetchTranslation } = useArticles();
+  const { fetchTranslation, fetchMetadata } = useArticles();
   const { setForm, form } = props;
+  const [fetchingUrlMetadata, setFetchingUrlMetadata] = useState<boolean>(false);
+  const [urlFetcheable, setUrlFetcheable] = useState<boolean>(false);
   const handleUpdate = (v: any, k: string) => setForm((prev: any) => ({ ...prev, [k]: v.target.value }));
 
   const handleSubmit = async (e: FormEvent) => {
@@ -53,6 +56,25 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
     }
   };
 
+  const handleFetchUrlMetadata = async () => {
+    try {
+      setFetchingUrlMetadata(true);
+      const { metadata } = await fetchMetadata(props.type, form.url);
+      const keywords = metadata?.keywords?.length > 0 ? metadata?.keywords?.filter((i: any) => i?.length > 3) : [];
+      setForm((prev: any) => ({
+        ...prev,
+        description: metadata?.summary || '',
+        headlineNative: metadata?.title || prev?.headlineNative,
+        image: metadata?.image || prev?.image,
+        datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished,
+        keywords: keywords?.length > 0 ? keywords : prev?.keywords
+      }));
+      setFetchingUrlMetadata(false);
+    } catch (err) {
+      setFetchingUrlMetadata(false);
+    }
+  };
+
   return (
     <form className={s['ds-article-draft-form']} onSubmit={handleSubmit}>
       <Page>
@@ -64,18 +86,26 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
         <Card>
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
-          <Input
-            label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
-            type="url"
-            name="url"
-            minLength={10}
-            value={form.url}
-            onChange={v => handleUpdate(v, 'url')}
-            id="url"
-            pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-            required
-            placeholder="https://example.com/factchecking/article-010101"
-          />
+          <div className="w-full ds-buttons-flex">
+            <Input
+              label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
+              type="url"
+              name="url"
+              minLength={10}
+              value={form.url}
+              onChange={v => {
+                handleUpdate(v, 'url');
+                setUrlFetcheable(validateUrl(v.target.value));
+              }}
+              id="url"
+              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+              required
+              placeholder="https://example.com/factchecking/article-010101"
+            />
+            <Button type="button" onClick={handleFetchUrlMetadata} loading={fetchingUrlMetadata} disabled={!urlFetcheable} theme="TERTIARY">
+              Fetch data
+            </Button>
+          </div>
           <Input
             type="text"
             minLength={10}
@@ -225,57 +255,6 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, datePublished: v } }))}
             />
           </Row>
-          {/* <Input label="Associated claim reviews url" required={form.associatedClaimReview.length > 0}>
-            {form.associatedClaimReview.map((claimReview: any) => (
-              <Input
-                key={claimReview.id}
-                style={{
-                  marginBottom: 8
-                }}
-                required
-                placeholder="https://example.com/factchecking/article-020202"
-                value={claimReview?.url}
-                onChange={v => {
-                  setForm((prev: any) => ({
-                    ...prev,
-                    associatedClaimReview: prev.associatedClaimReview.map((claim: any) => {
-                      if (claim.id != claimReview.id) {
-                        return claim;
-                      }
-                      return {
-                        ...claim,
-                        url: v.target.value
-                      };
-                    })
-                  }));
-                }}
-                onIconClick={() =>
-                  setForm((prev: any) => ({
-                    ...prev,
-                    associatedClaimReview: prev.associatedClaimReview.filter((claim: any) => claim.id != claimReview.id)
-                  }))
-                }
-                withIcon={<X color="#4b5675" size={20} />}
-              />
-            ))}
-            <span
-              className="c-pointer mt-1"
-              onClick={() =>
-                setForm((prev: any) => ({
-                  ...prev,
-                  associatedClaimReview: [
-                    ...prev.associatedClaimReview,
-                    {
-                      id: Date.now(),
-                      url: ''
-                    }
-                  ]
-                }))
-              }
-            >
-              <Plus size={14} /> Add associated claim review url
-            </span>
-          </Input> */}
 
           {props.type === ArticleType.Factcheck && (
             <Row align="SPACE">

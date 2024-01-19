@@ -10,12 +10,21 @@
 }
 
 .ds-buttons-flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: auto 115px;
+  justify-items: center;
+
   gap: 16px;
+  align-items: flex-end;
 
   & * {
     height: max-content !important;
+  }
+  & input {
+    height: 3.4rem !important;
+  }
+  & button {
+    width: 115px !important;
+    height: 3.4rem !important;
   }
 }
