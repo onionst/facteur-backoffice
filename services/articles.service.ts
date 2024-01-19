@@ -19,10 +19,8 @@ export const DownloadArticles = async (filter: any) => {
       Authorization: `Bearer ${Store.get(STORAGE_KEYS.ACCESS_TOKEN)}`
     });
     const url = SETTINGS.PUBLIC_API_URL + parseUrl(PREFIX);
-    const urlWithParams = new URL(url);
-    const params: any = Object.values(filter);
-    Object.keys(filter).forEach((key, index) => urlWithParams.searchParams.append(key, params[index]));
-    const response = await fetch(url, { headers });
+    // @ts-ignore
+    const response = await fetch(url + '?' + new URLSearchParams(cleanObject(filter)), { headers });
 
     const reader: any = response?.body?.getReader();
     const chunks = [];

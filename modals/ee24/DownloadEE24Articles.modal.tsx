@@ -28,7 +28,8 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
       e?.preventDefault();
       setLoading(true);
       notification.success({ ...NOTIFICATIONS_CONFIG.success, message: 'Download started', description: 'It may take a few minutes' });
-      const data = await downloadEE24Articles(props.filter);
+      console.log(props.filter);
+      const data = await downloadEE24Articles({ ...props.filter, export: true });
 
       let blob: Blob;
       const filename = `articles-${dayjs().format('DD-MM-YYYY')}.${fileType === 'CSV' ? 'csv' : fileType === 'XLSX' ? 'xlsx' : 'json'}`;
