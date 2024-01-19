@@ -13,6 +13,7 @@ import { Credentials } from '@/dtos/credentials.dto';
 export default function SignIn(): JSX.Element {
   const router = useRouter();
   const modals = useModal();
+
   const { signInWithEmailAndPassword, signInWithTFAToken, doOpenGoogleLogin } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<Credentials>({
@@ -27,7 +28,8 @@ export default function SignIn(): JSX.Element {
         showTFAEmailSent();
       }
 
-      if (router?.query?.t) {
+      if (router?.query?.t && !loading) {
+        setLoading(true);
         const token = router?.query?.t;
         if (token && typeof token === 'string') {
           signInWithTFAToken(token);
@@ -35,9 +37,10 @@ export default function SignIn(): JSX.Element {
       }
     } catch (err) {
       console.error(err);
+      setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  }, [router, loading]);
 
   const handleSignInWithCredentials = async (e: FormEvent) => {
     try {
