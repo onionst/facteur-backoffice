@@ -223,13 +223,14 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
 
           {form.itemReviewed.appearances.length > 0 ? (
             <Input requiredHide label="Claim appearances details" required={form.itemReviewed.appearances.length > 0}>
-              {form.itemReviewed.appearances.map((appearance: any) => (
+              {form.itemReviewed.appearances.map((appearance: any, appearanceIndex: number) => (
                 <div key={appearance.id}>
                   <Card
                     key={appearance.id}
                     style={{
                       marginBottom: 8
                     }}
+                    title={`Claim appearance #${appearanceIndex + 1}`}
                   >
                     <Input
                       label="URL"
