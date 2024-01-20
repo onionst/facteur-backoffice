@@ -93,7 +93,8 @@ export default function Organizations() {
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>
-              Showing {organizations.length * (page.current - 1) + organizations.length} of {page.records} organizations
+              Showing {(page.current >= 2 ? 20 : organizations.length) * (page.current - 1) + organizations.length} of {page.records}{' '}
+              organizations
             </span>
           </Row>
           <Row align="RIGHT">
