@@ -173,7 +173,7 @@ export default function Users() {
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>
-              Showing {users.length} of {page.records} users
+              Showing {(page.current >= 1 ? 20 : users.length) * page.current + users.length} of {page.records} users
             </span>
           </Row>
           <Row align="RIGHT">

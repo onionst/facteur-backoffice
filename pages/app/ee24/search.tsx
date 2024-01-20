@@ -208,7 +208,7 @@ export default function Repository() {
               </IconButton>
             )}
             <span>
-              Showing {articles.length} of {page.records} articles
+              Showing {(page.current >= 1 ? 20 : articles.length) * page.current + articles.length} of {page.records} articles
             </span>
           </Row>
           <Row align="RIGHT">

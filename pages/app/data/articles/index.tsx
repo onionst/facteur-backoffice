@@ -27,7 +27,7 @@ export default function Articles() {
   const { articles, fetchArticles, page, ...articlesProps } = useArticles();
   return (
     <>
-      <Header icon={<File />} title="Articles">
+      <Header icon={<File />} title="Your articles">
         <Link href="/app/data/articles/new">
           <Button theme="CTA">Create article</Button>
         </Link>
@@ -113,7 +113,7 @@ export default function Articles() {
               </IconButton>
             )}
             <span>
-              Showing {articles.length} of {page.records} articles
+              Showing {(page.current >= 1 ? 20 : articles.length) * page.current + articles.length} of {page.records} articles
             </span>
           </Row>
           <Row align="RIGHT">
