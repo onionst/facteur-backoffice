@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
 import { Box, Download, Edit, RefreshCcw, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
@@ -19,6 +19,13 @@ export default function Organizations() {
   const { organizations, fetchOrganizations, page, ...organizationsProps } = useOrganizations();
   const { showCreateOrganization, showEditOrganization, showDeleteOrganization, showRestoreOrganization, showDownloadOrganizations } =
     modals.organizations;
+
+  useEffect(() => {
+    return () => {
+      fetchOrganizations({});
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

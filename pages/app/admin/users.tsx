@@ -47,6 +47,13 @@ export default function Users() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
+  useEffect(() => {
+    return () => {
+      fetchUsers({});
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Header icon={<UsersIcon />} title="Users">
