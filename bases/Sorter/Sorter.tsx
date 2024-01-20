@@ -14,7 +14,7 @@ export function Sorter(props: SorterProps) {
     <button className={s['ds-sorter']} onClick={props.onSort}>
       {props.children}
       <div className={s['ds-sorter-box']}>
-        {props.order === 'DESC' ? <ChevronUp size={16} color="#252f4a" /> : <ChevronDown size={16} color="#252f4a" />}
+        {props.order === 'ASC' ? <ChevronUp size={16} color="#252f4a" /> : <ChevronDown size={16} color="#252f4a" />}
       </div>
     </button>
   );

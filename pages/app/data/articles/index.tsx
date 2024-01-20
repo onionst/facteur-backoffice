@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
 import { Download, Edit, File, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
@@ -20,11 +20,19 @@ import { useModal } from '@/contexts/modal.context';
 
 export default function Articles() {
   const { session } = useAuth();
-  const [filter, setFilter] = useState<any>({ order: 'dateModified' });
+  const [filter, setFilter] = useState<any>({ order: '-dateModified' });
   const modals = useModal();
 
   const { showDeleteArticle, showDownloadArticles } = modals.articles;
   const { articles, fetchArticles, page, ...articlesProps } = useArticles();
+
+  useEffect(() => {
+    return () => {
+      fetchArticles({ order: '-dateModified' });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Header icon={<File />} title="Your articles">
@@ -61,13 +69,14 @@ export default function Articles() {
               <Sorter
                 key="Sorter"
                 onSort={() => {
+                  const order = filter.order?.includes('-') ? 'dateModified' : '-dateModified';
                   setFilter((prev: any) => ({
                     ...prev,
                     publisher: session.organization?.domain,
-                    order: prev?.order?.includes('-') ? 'dateModified' : '-dateModified'
+                    order
                   }));
                   setTimeout(() => {
-                    fetchArticles(filter);
+                    fetchArticles({ ...filter, order });
                   }, 50);
                 }}
                 order={filter.order?.includes('-') ? 'DESC' : 'ASC'}

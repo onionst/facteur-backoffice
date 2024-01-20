@@ -146,10 +146,13 @@ export const AuthProvider = (props: AuthProviderProps) => {
         if ([ROLES.SUPER_ADMIN, ROLES.ADMIN].includes(data?.role)) {
           users.fetchUsers({});
         }
-        ee24.fetchEE24Articles({});
+        ee24.fetchEE24Articles({
+          order: '-datePublished'
+        });
         organizations.listOrganizations();
         if ([ROLES.ADMIN, ROLES.FACT_CHECKER].includes(data?.role)) {
           articles.fetchArticles({
+            order: '-dateModified',
             publisher: data?.organization?.domain
           });
         }
