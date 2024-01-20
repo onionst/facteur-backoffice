@@ -1,0 +1,10 @@
+@import '@/styles/app/variables.scss';
+
+.ds-pagination {
+  border-radius: 0.475rem;
+
+  &--active {
+    background-color: $ds-primary;
+    color: $ds-white;
+  }
+}

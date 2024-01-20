@@ -1,3 +1,5 @@
+import s from './Pagination.module.scss';
+
 export type PaginationProps = {
   currentPage: number;
   prevPage: () => void;
@@ -48,6 +50,9 @@ export default function Pagination(props: PaginationProps) {
   const isPrevDisabled = currentPage === 1;
   const isNextDisabled = currentPage === totalPages;
 
+  if (totalRecordsCount === 0) {
+    return <div />;
+  }
   return (
     <ul className="pagination">
       <li className={`page-item previous ${isPrevDisabled ? 'disabled' : ''}`}>
@@ -56,7 +61,7 @@ export default function Pagination(props: PaginationProps) {
         </a>
       </li>
       {getPageNumbers().map(number => (
-        <li key={number} className={`page-item ${number === currentPage ? 'active' : ''}`}>
+        <li key={number} className={`page-item ${s['ds-pagination']} ${number === currentPage ? s['ds-pagination--active'] : ''}`}>
           <a href="#" className="page-link" onClick={() => number !== currentPage && skip(number)}>
             {number}
           </a>
