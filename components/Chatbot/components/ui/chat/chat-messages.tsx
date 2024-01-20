@@ -28,8 +28,10 @@ export default function ChatMessages({
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
+  }, [messages?.length]);
 
   return (
     <Column align="CENTER">
