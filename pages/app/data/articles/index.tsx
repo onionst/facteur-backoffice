@@ -107,9 +107,11 @@ export default function Articles() {
         </Page>
         <Row align="SPACE">
           <Row align="LEFT">
-            <IconButton type="button" onClick={() => showDownloadArticles(filter)}>
-              <Download color="#252f4a" size={16} />
-            </IconButton>
+            {page.records > 0 && (
+              <IconButton type="button" onClick={() => showDownloadArticles(filter)}>
+                <Download color="#252f4a" size={16} />
+              </IconButton>
+            )}
             <span>
               Showing {articles.length} of {page.records} articles
             </span>

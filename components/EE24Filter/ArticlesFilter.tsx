@@ -76,8 +76,8 @@ export default function ArticlesFilter(props: EE24FilterProps) {
                 if (range) {
                   setFilter(prev => ({
                     ...prev,
-                    sinceDate: range[0]?.toDate(),
-                    untilDate: range[1]?.toDate()
+                    sinceDate: range[0]?.startOf('day')?.toDate(),
+                    untilDate: range[1]?.endOf('day')?.toDate()
                   }));
                 } else {
                   setFilter((prev: any) => ({
