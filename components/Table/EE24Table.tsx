@@ -24,7 +24,7 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
       <div className={s['ds-not-found']}>
         <Empty description="" />
         <div className={s['ds-not-found__text']}>
-          <h3>No article found</h3>
+          <h3>No articles found</h3>
           <p>Your search did not match any article</p>
         </div>
         <Button theme="TERTIARY" type="button" onClick={props.onClick}>
@@ -36,7 +36,7 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
       <div className={s['ds-not-found']}>
         <Image className={s['ds-not-found__image']} src={'/assets/portraits/audio.svg'} alt="not found" />
         <div className={s['ds-not-found__text']}>
-          <h3>No article found</h3>
+          <h3>No articles found</h3>
           <p>Your audio did not match any article</p>
         </div>
         <Button theme="TERTIARY" type="button" onClick={props.onClick}>
@@ -48,7 +48,7 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
       <div className={s['ds-not-found']}>
         <Image className={s['ds-not-found__image']} src={'/assets/portraits/video.svg'} alt="not found" />
         <div className={s['ds-not-found__text']}>
-          <h3>No article found</h3>
+          <h3>No articles found</h3>
           <p>Your video did not match any article</p>
         </div>
         <Button theme="TERTIARY" type="button" onClick={props.onClick}>
@@ -60,7 +60,7 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
       <div className={s['ds-not-found']}>
         <Image className={s['ds-not-found__image']} src={props.value} alt="not found" />
         <div className={s['ds-not-found__text']}>
-          <h3>No article found</h3>
+          <h3>No articles found</h3>
           <p>Your image did not match any article</p>
         </div>
         <Button theme="TERTIARY" type="button" onClick={props.onClick}>
@@ -72,7 +72,7 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
       <div className={s['ds-not-found']}>
         <Empty description="" />
         <div className={s['ds-not-found__text']}>
-          <h3>No article found</h3>
+          <h3>No articles found</h3>
           <p>Your search did not match any article</p>
         </div>
         <Button theme="TERTIARY" type="button" onClick={props.onClick}>
