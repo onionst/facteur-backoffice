@@ -1,10 +1,12 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useState } from 'react';
+import { Badge } from 'react-bootstrap';
 import { Download, Edit, File, X } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
+import { Sorter } from '@/bases/Sorter/Sorter';
 import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
@@ -17,8 +19,9 @@ import { useAuth } from '@/contexts/auth.context';
 import { useModal } from '@/contexts/modal.context';
 
 export default function Articles() {
-  const [filter, setFilter] = useState<any>({});
+  const [filter, setFilter] = useState<any>({ order: 'dateModified' });
   const modals = useModal();
+
   const { session } = useAuth();
   const { showDeleteArticle, showDownloadArticles } = modals.articles;
   const { articles, fetchArticles, page, ...articlesProps } = useArticles();
@@ -35,18 +38,20 @@ export default function Articles() {
             placeholder="Search articles..."
             onSearch={search => {
               if (search) {
-                setFilter({
+                setFilter((prev: any) => ({
+                  order: prev.order,
                   publisher: session.organization?.domain,
                   search
-                });
+                }));
                 fetchArticles({
                   publisher: session.organization?.domain,
                   search
                 });
               } else {
-                setFilter({
+                setFilter((prev: any) => ({
+                  order: prev.order,
                   publisher: session.organization?.domain
-                });
+                }));
                 fetchArticles({
                   publisher: session.organization?.domain
                 });
@@ -61,16 +66,34 @@ export default function Articles() {
             columns={[
               'Headline',
               'URL',
-              'Date modified',
+              'Type',
+              <Sorter
+                key="Sorter"
+                onSort={() => {
+                  setFilter((prev: any) => ({
+                    ...prev,
+                    order: prev?.order?.includes('-') ? 'dateModified' : '-dateModified'
+                  }));
+                  setTimeout(() => {
+                    fetchArticles(filter);
+                  }, 50);
+                }}
+                order={filter.order?.includes('-') ? 'DESC' : 'ASC'}
+              >
+                <span>Date modified</span>
+              </Sorter>,
               <Row align="RIGHT" key={'column_actions'}>
                 Actions
               </Row>
             ]}
             data={articles.map(article => [
               <EE24Headline key={article?.externalId} image={article?.image} headline={article?.headlineNative} />,
-              <Link target="_blank" href={article?.url} key={article?.externalId + 'link'} className="c-link">
+              <Link target="_blank" href={article?.url || ''} key={article?.externalId + 'link'} className="c-link">
                 {article?.url}
               </Link>,
+              <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
+                {article?.type}
+              </Badge>,
               dayjs(article?.dateModified).format('DD/MM/YYYY'),
               <Row align="RIGHT" key={article?.externalId + 'actions'}>
                 <Link href={`/app/data/articles/edit?id=${article?.externalId}`}>

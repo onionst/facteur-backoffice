@@ -2,6 +2,7 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Badge, Divider } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
+import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticlePreview } from './articlePreview.interface';
 import s from './ArticlePreviewForm.module.scss';
 import Button from '@/bases/Button/Button';
@@ -72,7 +73,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
           />
 
           <Input
-            label="URL"
+            label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
             type="url"
             name="url"
             disabled
@@ -98,7 +99,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               placeholder="https://example.com/factchecking/article-010101"
             />
             <DatePicker
-              label="Date published"
+              label="Date of article publication"
               value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               disabled
               onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
@@ -121,7 +122,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
             <Select
-              label="Language"
+              label="Language of publication"
               disabled
               defaultValue={form?.inLanguage}
               options={[
@@ -148,21 +149,10 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
               placeholder="Article's topics"
             />
-            <Select
-              label="EU Relation"
-              disabled
-              defaultValue={form?.euRelation}
-              options={[
-                { label: 'EU Relation', value: '' },
-                { label: 'Direct', value: 'Direct' },
-                { label: 'Indirect', value: 'Indirect' }
-              ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, euRelation: v }))}
-            />
           </Row>
           <Row align="SPACE">
             <Select
-              label="Country of Origin"
+              label="Country of the organization"
               disabled
               defaultValue={form?.countryOfOrigin}
               options={[
@@ -175,11 +165,11 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
             <Select
-              label="Content location"
+              label="Country identified in article"
               disabled
               defaultValue={form?.contentLocation}
               options={[
-                { label: 'Content location', value: '' },
+                { label: 'Country identified in article', value: '' },
                 ...Object.entries(CountryISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')

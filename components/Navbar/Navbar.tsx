@@ -34,7 +34,7 @@ export default function Navbar(props: NavbarProps) {
         {!router.asPath.includes('/ee24') && (
           <EE24Search
             onSearch={filter => {
-              router.push(`/app/ee24/search?q=${filter.value}&&c=${filter.type}`);
+              router.push(`/app/ee24/search?q=${filter.value}&&c=${filter.type}&&ft=${filter.fileType}`);
             }}
           />
         )}

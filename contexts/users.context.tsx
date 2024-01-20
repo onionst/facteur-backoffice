@@ -52,13 +52,12 @@ export const UsersProvider = (props: UsersProviderProps) => {
   const fetchUsers = async (filter?: any, pageIndex: number = 1) => {
     try {
       setLoading(true);
-      const [data] = await Promise.all([
-        FetchUsers({
-          ...filter,
-          page: pageIndex,
-          limit: USERS_LIMIT_PER_PAGE
-        })
-      ]);
+      const data = await FetchUsers({
+        ...filter,
+        page: pageIndex,
+        limit: USERS_LIMIT_PER_PAGE
+      });
+
       setUsers(data.users);
       setPage({
         ...data.page,

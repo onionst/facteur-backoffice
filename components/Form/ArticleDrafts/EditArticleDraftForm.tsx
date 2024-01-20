@@ -2,6 +2,7 @@ import { ArrowRightOutlined } from '@ant-design/icons';
 import { Divider } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
+import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
 import Button from '@/bases/Button/Button';
@@ -53,7 +54,7 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
           <Input
-            label="URL"
+            label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
             type="url"
             name="url"
             minLength={10}
@@ -70,7 +71,7 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
             required
             value={form.headlineNative}
             onChange={v => handleUpdate(v, 'headlineNative')}
-            label="Headline"
+            label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
             placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
           />
           <Row align="SPACE">
@@ -89,7 +90,7 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
               placeholder="Upload image"
             />
             <DatePicker
-              label="Date published"
+              label="Date of article publication"
               value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
@@ -110,7 +111,7 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
               placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
             <Select
-              label="Language"
+              label="Language of publication"
               required
               defaultValue={form?.inLanguage}
               options={[
@@ -136,21 +137,10 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
               onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
               placeholder="Article's topics"
             />
-            <Select
-              label="EU Relation"
-              required
-              defaultValue={form?.euRelation}
-              options={[
-                { label: 'EU Relation', value: '' },
-                { label: 'Direct', value: 'Direct' },
-                { label: 'Indirect', value: 'Indirect' }
-              ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, euRelation: v }))}
-            />
           </Row>
           <Row align="SPACE">
             <Select
-              label="Country of Origin"
+              label="Country of the organization"
               required
               defaultValue={form?.countryOfOrigin}
               options={[
@@ -163,10 +153,10 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
               onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
             <Select
-              label="Content location"
+              label="Country identified in article"
               defaultValue={form?.contentLocation}
               options={[
-                { label: 'Content location', value: '' },
+                { label: 'Country identified in article', value: '' },
                 ...Object.entries(CountryISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')

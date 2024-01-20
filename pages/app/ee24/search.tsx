@@ -2,12 +2,15 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Download, Search as SearchIcon } from 'react-feather';
+import { Download, Search as SearchIcon, X } from 'react-feather';
 import Column from '@/bases/Column/Column';
 import IconButton from '@/bases/IconButton/IconButton';
+import Image from '@/bases/Image/Image';
 import Row from '@/bases/Row/Row';
 import { Sorter } from '@/bases/Sorter/Sorter';
+import Card from '@/components/Card/Card';
 import EE24Filter, { Filter } from '@/components/EE24Filter/EE24Filter';
+import { FileType } from '@/components/EE24Search/EE24Search';
 import Grid from '@/components/Grid/Grid';
 import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
@@ -22,19 +25,34 @@ import { useModal } from '@/contexts/modal.context';
 export default function Repository() {
   const modals = useModal();
   const router = useRouter();
-  const { articles, page, fetchEE24Articles, ...ee24Props } = useEE24();
+  const [portrait, setPortait] = useState<string>('');
+  const [searchType, setSearchType] = useState<FileType>('TEXT');
+  const { articles, page, fetchEE24Articles, fetchEE24ArticlesByImage, ...ee24Props } = useEE24();
   const { showDownloadEE24Articles } = modals.ee24;
   const [key, setKey] = useState(Date.now());
   const [filter, setFilter] = useState<Filter & { search: string }>({ search: '' });
 
   useEffect(() => {
-    if (router?.query?.c && router.query.q && typeof router.query.q === 'string') {
-      if (router.query.c === 'TEXT') {
+    if (router?.query?.c && router?.query?.q && router?.query?.ft && typeof router?.query?.q === 'string') {
+      if (router?.query?.c === 'TEXT') {
+        setSearchType('TEXT');
         setFilter({ search: router.query.q });
+        fetchEE24Articles({ search: router.query.q });
       } else {
+        if (router?.query?.ft === 'IMAGE') {
+          fetchEE24ArticlesByImage(router?.query?.q);
+          setPortait(router?.query?.q);
+          setSearchType('IMAGE');
+        }
         setFilter({ search: '' });
       }
+    } else {
+      setSearchType('TEXT');
+      if (articles?.length === 0 && !ee24Props.loading) {
+        fetchEE24Articles({});
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   return (
@@ -50,11 +68,13 @@ export default function Repository() {
                   search: prev?.search
                 }));
                 fetchEE24Articles({ search: filter.search });
+                setSearchType('TEXT');
                 setKey(Date.now());
               }}
               filter={filter}
               onSubmit={() => {
                 fetchEE24Articles(filter);
+                setSearchType('TEXT');
               }}
               onChange={(data: Filter) => {
                 setFilter(prev => ({
@@ -73,7 +93,13 @@ export default function Repository() {
                   'video/mp4': FILE_TYPES.videos,
                   'audio/mp3': FILE_TYPES.audio
                 }}
-                onUpload={() => {}}
+                onUpload={(url, type) => {
+                  if (type === 'IMAGE') {
+                    fetchEE24ArticlesByImage(url);
+                    setPortait(url);
+                    setSearchType('IMAGE');
+                  }
+                }}
                 defaultValue={filter.search}
                 placeholder="Search articles..."
                 onSearch={search => {
@@ -81,12 +107,48 @@ export default function Repository() {
 
                   setTimeout(() => {
                     fetchEE24Articles(filter);
+                    setSearchType('TEXT');
                   }, 50);
                 }}
               />
             </Page>
+
             <Page>
+              {searchType === 'IMAGE' && (
+                <Card style={{ padding: '14px 20px' }}>
+                  <Row align="SPACE">
+                    <Row align="LEFT">
+                      <span>Searching by the following image</span>
+                      <Image alt="Search" src={portrait} style={{ height: 42, maxWidth: 100 }} />
+                    </Row>
+                    <Row align="RIGHT">
+                      <span
+                        className="c-pointer"
+                        onClick={() => {
+                          setFilter(prev => ({
+                            search: prev?.search
+                          }));
+                          fetchEE24Articles({ search: filter.search });
+                          setSearchType('TEXT');
+                          setKey(Date.now());
+                        }}
+                      >
+                        Clear filter <X size={18} />
+                      </span>
+                    </Row>
+                  </Row>
+                </Card>
+              )}
               <EE24Table
+                notFound={ee24Props.notFound}
+                onReset={() => {
+                  setFilter(prev => ({
+                    search: prev?.search
+                  }));
+                  fetchEE24Articles({ search: filter.search });
+                  setSearchType('TEXT');
+                  setKey(Date.now());
+                }}
                 firstExtended
                 onRowClick={(i: any) => {
                   window.open(articles[i].url, '_blank');
@@ -97,20 +159,25 @@ export default function Repository() {
                   'Publisher',
                   'Type',
                   <Row align="RIGHT" key="Date">
-                    <Sorter
-                      onSort={() => {
-                        setFilter(prev => ({
-                          ...prev,
-                          order: prev.order?.includes('-') ? 'datePublished' : '-datePublished'
-                        }));
-                        setTimeout(() => {
-                          fetchEE24Articles(filter);
-                        }, 50);
-                      }}
-                      order={filter.order?.includes('-') ? 'DESC' : 'ASC'}
-                    >
-                      <span>Date published</span>
-                    </Sorter>
+                    {searchType === 'TEXT' ? (
+                      <Sorter
+                        onSort={() => {
+                          setFilter(prev => ({
+                            ...prev,
+                            order: prev.order?.includes('-') ? 'datePublished' : '-datePublished'
+                          }));
+                          setTimeout(() => {
+                            fetchEE24Articles(filter);
+                            setSearchType('TEXT');
+                          }, 50);
+                        }}
+                        order={filter.order?.includes('-') ? 'DESC' : 'ASC'}
+                      >
+                        <span>Date published</span>
+                      </Sorter>
+                    ) : (
+                      'Date published'
+                    )}
                   </Row>
                 ]}
                 data={articles.map(article => [
@@ -129,9 +196,11 @@ export default function Repository() {
         </Grid>
         <Row align="SPACE">
           <Row align="LEFT">
-            <IconButton type="button" onClick={showDownloadEE24Articles}>
-              <Download color="#252f4a" size={16} />
-            </IconButton>
+            {page.records > 0 && (
+              <IconButton type="button" onClick={showDownloadEE24Articles}>
+                <Download color="#252f4a" size={16} />
+              </IconButton>
+            )}
             <span>
               Showing {articles.length} of {page.records} articles
             </span>
@@ -143,11 +212,16 @@ export default function Repository() {
               totalRecordsCount={page.records}
               prevPage={() => {
                 fetchEE24Articles(filter, page.current);
+                setSearchType('TEXT');
               }}
               nextPage={() => {
                 fetchEE24Articles(filter, page.current + 1 + 1);
+                setSearchType('TEXT');
               }}
-              skip={skip => fetchEE24Articles(filter, skip)}
+              skip={skip => {
+                fetchEE24Articles(filter, skip);
+                setSearchType('TEXT');
+              }}
             />
           </Row>
         </Row>

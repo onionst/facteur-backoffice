@@ -1,11 +1,9 @@
-import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { SETTINGS } from '@/constants/settings';
 import { useAuth } from '@/contexts/auth.context';
 
-const { publicRuntimeConfig } = getConfig();
-
-export const REDIRECT_URI = `${publicRuntimeConfig.APP_URL}/auth/oauth-redirect`;
+export const REDIRECT_URI = `${SETTINGS.APP_URL}/auth/oauth-redirect`;
 
 const OAuth = () => {
   const { googleAccessToken, session } = useAuth();

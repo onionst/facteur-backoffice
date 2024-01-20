@@ -64,7 +64,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
           <Input
-            label="URL"
+            label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
             type="url"
             name="url"
             minLength={10}
@@ -81,7 +81,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
             required
             value={form.headlineNative}
             onChange={v => handleUpdate(v, 'headlineNative')}
-            label="Headline"
+            label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
             placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
           />
           <Row align="SPACE">
@@ -100,7 +100,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
               placeholder="Upload image"
             />
             <DatePicker
-              label="Date published"
+              label="Date of article publication"
               value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
@@ -121,7 +121,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
               placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
             <Select
-              label="Language"
+              label="Language of publication"
               required
               defaultValue={form?.inLanguage}
               options={[
@@ -161,7 +161,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
           </Row>
           <Row align="SPACE">
             <Select
-              label="Country of Origin"
+              label="Country of the organization"
               required
               defaultValue={form?.countryOfOrigin}
               options={[
@@ -174,10 +174,10 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
               onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
             <Select
-              label="Content location"
+              label="Country identified in article"
               defaultValue={form?.contentLocation}
               options={[
-                { label: 'Content location', value: '' },
+                { label: 'Country identified in article', value: '' },
                 ...Object.entries(CountryISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
@@ -214,7 +214,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
               onChange={v => setForm((prev: any) => ({ ...prev, reviewRating: v }))}
             />
             <DatePicker
-              label="Date published"
+              label="Date of article publication"
               value={
                 dayjs(form.itemReviewed.datePublished).isValid() ? dayjs(form.itemReviewed.datePublished) : form.itemReviewed.datePublished
               }
@@ -278,12 +278,12 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
               <Input
                 value={form.itemReviewed.author}
                 onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, author: v.target.value } }))}
-                label="Author"
+                label="Name of person related to the claim"
                 placeholder="John Doe"
               />
 
               <Select
-                label="Political party"
+                label="EU party related to the claim"
                 defaultValue={form?.itemReviewed?.politicalParty}
                 options={[
                   { label: 'Political party', value: '' },
@@ -361,7 +361,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                       }
                     />
                     <Select
-                      label="Media format"
+                      label="Format"
                       defaultValue={appearance?.mediaFormat}
                       options={[
                         { label: 'Select media format', value: '' },
@@ -398,7 +398,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                         'video/mp4': FILE_TYPES.videos,
                         'application/*': FILE_TYPES.files
                       }}
-                      label="Associated media"
+                      label="Associated multimedia"
                       value={appearance?.associatedMedia}
                       onUrlChange={(url: string) => {
                         setForm((prev: any) => ({
@@ -421,7 +421,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                     />
 
                     <Select
-                      label="Associated media format"
+                      label="Associated multimedia format"
                       defaultValue={appearance?.associatedMediaType}
                       options={[
                         { label: 'Select associated media format', value: '' },
@@ -450,7 +450,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                     />
                   </Row>
                   <Input
-                    label="Archived url"
+                    label="Appearance archive"
                     pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
                     placeholder="https://example.com/factchecking/article-010101"
                     key={`${appearance.id}_archived`}

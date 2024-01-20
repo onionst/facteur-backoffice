@@ -2,7 +2,7 @@ import { Popover, Tooltip } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { CSSProperties, useEffect } from 'react';
-import { ChevronRight, LogOut, Minus, Plus, User } from 'react-feather';
+import { ChevronRight, ChevronsRight, LogOut, MessageCircle, Minus, Plus, User } from 'react-feather';
 import s from './Sidebar.module.scss';
 import IconButton from '@/bases/IconButton/IconButton';
 import Logo from '@/bases/Logo';
@@ -82,32 +82,49 @@ export default function Sidebar(props: SidebarProps) {
             })}
           </section>
         </div>
-        <Popover
-          trigger={['click']}
-          content={
-            <div style={{ width: collapsed ? 200 : 210 }} className={s['ds-sidebar__popup']}>
-              <li className={s['ds-sidebar--collapsed__sections-item']} onClick={showAccount}>
-                <div>
-                  <User size={18} strokeWidth={2.3} color="#071437" />
-                  <span>{session.role === ROLES.ADMIN || session.role === ROLES.RESEARCHER ? 'Account & API Keys' : 'Account'}</span>
-                </div>
-              </li>
-
-              <li className={s['ds-sidebar--collapsed__sections-item']} onClick={() => signOut()}>
-                <div>
-                  <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />
-                  <span style={{ color: '#fa4c41' }}>Sign out</span>
-                </div>
-              </li>
-            </div>
-          }
-        >
-          <section className={s['ds-sidebar__user']}>
-            <div>
-              <User color="#252f4a" size={18} />
+        <div className="w-full">
+          <section className={s['ds-sidebar__sections']}>
+            <div className={s['ds-sidebar__sections-group']}>
+              <ul>
+                <Link href={'/app/chatbot'} onClick={() => props.mobile && props.onClose && props.onClose()}>
+                  <Tooltip placement="right" title="Chatbot">
+                    <li className={`${s['ds-sidebar--collapsed__sections-item']}`} style={{ backgroundColor: '#00986d' }}>
+                      <div>
+                        <MessageCircle size={18} strokeWidth={2.3} color="#FFF" />
+                      </div>
+                    </li>
+                  </Tooltip>
+                </Link>
+              </ul>
             </div>
           </section>
-        </Popover>
+          <Popover
+            trigger={['click']}
+            content={
+              <div style={{ width: collapsed ? 200 : 210 }} className={s['ds-sidebar__popup']}>
+                <li className={s['ds-sidebar--collapsed__sections-item']} onClick={showAccount}>
+                  <div>
+                    <User size={18} strokeWidth={2.3} color="#071437" />
+                    <span>{session.role === ROLES.ADMIN || session.role === ROLES.RESEARCHER ? 'Account & API Keys' : 'Account'}</span>
+                  </div>
+                </li>
+
+                <li className={s['ds-sidebar--collapsed__sections-item']} onClick={() => signOut()}>
+                  <div>
+                    <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />
+                    <span style={{ color: '#fa4c41' }}>Sign out</span>
+                  </div>
+                </li>
+              </div>
+            }
+          >
+            <section className={s['ds-sidebar__user']}>
+              <div>
+                <User color="#252f4a" size={18} />
+              </div>
+            </section>
+          </Popover>
+        </div>
       </aside>
     );
   }
@@ -152,52 +169,69 @@ export default function Sidebar(props: SidebarProps) {
           })}
         </section>
       </div>
-      <Popover
-        placement="top"
-        arrow={false}
-        trigger={['click']}
-        content={
-          <div style={{ width: collapsed ? 200 : 210 }} className={s['ds-sidebar__popup']}>
-            <li
-              className={s['ds-sidebar--collapsed__sections-item']}
-              onClick={() => {
-                showAccount();
-                props.mobile && props.onClose && props.onClose();
-              }}
-            >
-              <div>
-                <User size={18} strokeWidth={2.3} color="#071437" />
-                <span>{session.role === ROLES.ADMIN || session.role === ROLES.RESEARCHER ? 'Account & API Keys' : 'Account'}</span>
-              </div>
-            </li>
-
-            <li
-              className={s['ds-sidebar--collapsed__sections-item']}
-              onClick={() => {
-                signOut();
-                props.mobile && props.onClose && props.onClose();
-              }}
-            >
-              <div>
-                <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />
-                <span style={{ color: '#fa4c41' }}>Sign out</span>
-              </div>
-            </li>
+      <div className="w-full">
+        <section className={s['ds-sidebar__sections']}>
+          <div className={s['ds-sidebar__sections-group']}>
+            <ul>
+              <Link href={'/app/chatbot'} onClick={() => props.mobile && props.onClose && props.onClose()}>
+                <li className={`${s['ds-sidebar__sections-item']}`} style={{ backgroundColor: '#00986d' }}>
+                  <div>
+                    <MessageCircle size={18} strokeWidth={2.3} color="#FFF" />
+                    <span style={{ color: '#FFF' }}>Chatbot</span>
+                  </div>
+                  <ChevronsRight size={16} color="#FFF" />
+                </li>
+              </Link>
+            </ul>
           </div>
-        }
-      >
-        <section className={s['ds-sidebar__user']}>
-          <div>
-            <User color="#252f4a" size={18} />
-          </div>
-          <section>
-            <h6>
-              {session?.name} {session?.surname}
-            </h6>
-            <span>{session?.email}</span>
-          </section>
         </section>
-      </Popover>
+        <Popover
+          placement="top"
+          arrow={false}
+          trigger={['click']}
+          content={
+            <div style={{ width: collapsed ? 200 : 210 }} className={s['ds-sidebar__popup']}>
+              <li
+                className={s['ds-sidebar--collapsed__sections-item']}
+                onClick={() => {
+                  showAccount();
+                  props.mobile && props.onClose && props.onClose();
+                }}
+              >
+                <div>
+                  <User size={18} strokeWidth={2.3} color="#071437" />
+                  <span>{session.role === ROLES.ADMIN || session.role === ROLES.RESEARCHER ? 'Account & API Keys' : 'Account'}</span>
+                </div>
+              </li>
+
+              <li
+                className={s['ds-sidebar--collapsed__sections-item']}
+                onClick={() => {
+                  signOut();
+                  props.mobile && props.onClose && props.onClose();
+                }}
+              >
+                <div>
+                  <LogOut size={18} strokeWidth={2.3} color="#fa4c41" />
+                  <span style={{ color: '#fa4c41' }}>Sign out</span>
+                </div>
+              </li>
+            </div>
+          }
+        >
+          <section className={s['ds-sidebar__user']}>
+            <div>
+              <User color="#252f4a" size={18} />
+            </div>
+            <section>
+              <h6>
+                {session?.name} {session?.surname}
+              </h6>
+              <span>{session?.email}</span>
+            </section>
+          </section>
+        </Popover>
+      </div>
     </aside>
   );
 }

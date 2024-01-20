@@ -40,10 +40,10 @@ export const ModalContext = createContext<{
   };
   articles: {
     showDeleteArticle: (id: string) => void;
-    showDownloadArticles: () => void;
+    showDownloadArticles: (filter: any) => void;
   };
   ee24: {
-    showDownloadEE24Articles: () => void;
+    showDownloadEE24Articles: (filter: any) => void;
   };
   // @ts-ignore
 }>({});
@@ -76,10 +76,12 @@ export const ModalProvider = (props: { children: any }) => {
   // <--- articles --->
   const [deleteArticleActive, setDeleteArticleActive] = useState<string>('');
   const [downloadArticlesActive, setDownloadArticlesActive] = useState<string>('');
+  const [downloadArticlesFilter, setDownloadArticlesFilter] = useState<any>({});
   // <!--- articles --->
 
   // <--- ee24 --->
   const [downloadEE24ArticlesActive, setDownloadEE24ArticlesActive] = useState<string>('');
+  const [downloadEE24ArticlesFilter, setDownloadEE24ArticlesFilter] = useState<any>({});
   // <!--- ee24 --->
 
   useEffect(() => {
@@ -118,10 +120,16 @@ export const ModalProvider = (props: { children: any }) => {
     },
     articles: {
       showDeleteArticle: (id: string) => setDeleteArticleActive(id),
-      showDownloadArticles: () => setDownloadArticlesActive(Date.now().toString())
+      showDownloadArticles: (filter: any) => {
+        setDownloadArticlesFilter(filter);
+        setDownloadArticlesActive(Date.now().toString());
+      }
     },
     ee24: {
-      showDownloadEE24Articles: () => setDownloadEE24ArticlesActive(Date.now().toString())
+      showDownloadEE24Articles: (filter: any) => {
+        setDownloadEE24ArticlesFilter(filter);
+        setDownloadEE24ArticlesActive(Date.now().toString());
+      }
     }
   };
 
@@ -221,15 +229,23 @@ export const ModalProvider = (props: { children: any }) => {
           footer={null}
           width={width <= 464 ? width - 40 : 424}
           open={downloadArticlesActive != ''}
+          filter={downloadArticlesFilter}
           id={downloadArticlesActive}
-          onCancel={() => setDownloadArticlesActive('')}
+          onCancel={() => {
+            setDownloadArticlesActive('');
+            setDownloadArticlesFilter({});
+          }}
         />
         <DownloadEE24ArticlesModal
           footer={null}
+          filter={downloadEE24ArticlesFilter}
           width={width <= 464 ? width - 40 : 424}
           open={downloadEE24ArticlesActive != ''}
           id={downloadEE24ArticlesActive}
-          onCancel={() => setDownloadEE24ArticlesActive('')}
+          onCancel={() => {
+            setDownloadEE24ArticlesActive('');
+            setDownloadEE24ArticlesFilter({});
+          }}
         />
         {props.children}
       </>

@@ -1,24 +1,22 @@
 import axios from 'axios';
-import getConfig from 'next/config';
 import { ApiError } from 'next/dist/server/api-utils';
 import Store from 'store';
 import { GetGoogleRefreshToken, GetSessionData } from './auth.service';
 import { HttpStatus } from './http-status.enum';
+import { SETTINGS } from '@/constants/settings';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
 
-const { publicRuntimeConfig } = getConfig();
-
 export const api = axios.create({
-  baseURL: publicRuntimeConfig.PUBLIC_API_URL
+  baseURL: SETTINGS.PUBLIC_API_URL
 });
 
 export const ee24api = axios.create({
-  baseURL: publicRuntimeConfig.PUBLIC_ES_API_URL
+  baseURL: SETTINGS.PUBLIC_ES_API_URL
 });
 
 export const customApi = axios.create({
-  baseURL: publicRuntimeConfig.PUBLIC_API_URL
+  baseURL: SETTINGS.PUBLIC_API_URL
 });
 
 api.interceptors.request.use(

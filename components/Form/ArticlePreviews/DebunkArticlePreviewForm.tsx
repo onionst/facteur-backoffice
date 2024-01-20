@@ -75,7 +75,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
           />
 
           <Input
-            label="URL"
+            label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
             type="url"
             name="url"
             disabled
@@ -101,7 +101,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               placeholder="https://example.com/factchecking/article-010101"
             />
             <DatePicker
-              label="Date published"
+              label="Date of article publication"
               value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               disabled
               onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
@@ -124,7 +124,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
             <Select
-              label="Language"
+              label="Language of publication"
               disabled
               defaultValue={form?.inLanguage}
               options={[
@@ -165,7 +165,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
           </Row>
           <Row align="SPACE">
             <Select
-              label="Country of Origin"
+              label="Country of the organization"
               disabled
               defaultValue={form?.countryOfOrigin}
               options={[
@@ -178,11 +178,11 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
             <Select
-              label="Content location"
+              label="Country identified in article"
               disabled
               defaultValue={form?.contentLocation}
               options={[
-                { label: 'Content location', value: '' },
+                { label: 'Country identified in article', value: '' },
                 ...Object.entries(CountryISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
@@ -233,7 +233,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               onChange={v => setForm((prev: any) => ({ ...prev, reviewRating: v }))}
             />
             <DatePicker
-              label="Date published"
+              label="Date of article publication"
               disabled
               value={
                 dayjs(form.itemReviewed.datePublished).isValid() ? dayjs(form.itemReviewed.datePublished) : form.itemReviewed.datePublished
@@ -246,7 +246,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               <Input
                 value={form.itemReviewed.author}
                 onChange={v => setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, author: v.target.value } }))}
-                label="Author"
+                label="Name of person related to the claim"
                 disabled
                 placeholder="John Doe"
               />
@@ -256,7 +256,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                   setForm((prev: any) => ({ ...prev, itemReviewed: { ...prev.itemReviewed, politicalParty: v.target.value } }))
                 }
                 disabled
-                label="Political party"
+                label="EU party related to the claim"
                 placeholder="Organization name"
               />
             </Row>
@@ -330,7 +330,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                       />
                       <Select
                         disabled
-                        label="Media format"
+                        label="Format"
                         defaultValue={appearance?.mediaFormat}
                         options={[
                           { label: 'Select media format', value: '' },
@@ -360,11 +360,11 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                     </Row>
 
                     <Row align="SPACE">
-                      <Input label="Associated media" value={appearance?.associatedMedia} disabled placeholder="Upload file" />
+                      <Input label="Associated multimedia" value={appearance?.associatedMedia} disabled placeholder="Upload file" />
 
                       <Select
                         disabled
-                        label="Associated media format"
+                        label="Associated multimedia format"
                         defaultValue={appearance?.associatedMediaType}
                         options={[
                           { label: 'Select associated media format', value: '' },
@@ -394,7 +394,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                     </Row>
                     <Input
                       disabled
-                      label="Archived url"
+                      label="Appearance archive"
                       pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
                       placeholder="https://example.com/factchecking/article-010101"
                       key={`${appearance.id}_archived`}

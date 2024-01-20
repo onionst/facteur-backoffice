@@ -92,6 +92,13 @@ body {
   overflow: hidden;
 }
 
+@media screen and (max-width: 768px) {
+  .ant-drawer-content-wrapper {
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+}
+
 .ant-select-selection-placeholder {
   padding-left: 0.6rem !important;
 }

@@ -1,6 +1,6 @@
-import getConfig from 'next/config';
 import Store from 'store';
 import { api, customApi, parseUrl } from './api';
+import { SETTINGS } from '@/constants/settings';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Access } from '@/dtos/access.dto';
 import { Credentials } from '@/dtos/credentials.dto';
@@ -9,13 +9,11 @@ import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
 
 const PREFIX = '/auth';
 
-const { publicRuntimeConfig } = getConfig();
-
-const REDIRECT_URI = `${publicRuntimeConfig.APP_URL}/auth/oauth-redirect`;
+const REDIRECT_URI = `${SETTINGS.APP_URL}/auth/oauth-redirect`;
 
 export const doOpenGoogleLogin =
   'https://accounts.google.com/o/oauth2/v2/auth' +
-  `?client_id=${publicRuntimeConfig.GOOGLE_OAUTH_ID}` +
+  `?client_id=${SETTINGS.GOOGLE_OAUTH_ID}` +
   '&scope=profile%20email' +
   '&response_type=code' +
   '&access_type=offline' +

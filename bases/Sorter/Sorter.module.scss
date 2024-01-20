@@ -1,3 +1,5 @@
+@import '@/styles/app/variables.scss';
+
 .ds-sorter {
   display: flex;
   justify-content: flex-start;
@@ -5,15 +7,19 @@
   border-style: none;
   background-color: transparent;
   outline: none;
-  gap: 8px;
+  gap: 4px;
+  & > span {
+    color: $ds-gray-900;
+    font-weight: 600;
+    text-align: right;
+  }
   &-box {
     display: flex;
+    padding: 2px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    & svg {
-      transform: scale(2);
-    }
+    background-color: $ds-gray-200;
+    border-radius: 0.475rem;
   }
 }

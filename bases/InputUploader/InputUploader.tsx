@@ -3,6 +3,8 @@ import { Spin } from 'antd';
 import { useCallback, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Paperclip, X } from 'react-feather';
+import Image from '../Image/Image';
+import s from './InputUploader.module.scss';
 import { MAX_FILE_SIZE } from '@/constants/accept';
 import { useFiles } from '@/contexts/files.context';
 
@@ -46,17 +48,24 @@ export default function InputUploader(props: any) {
         </label>
       )}
       <div className="w-full" style={{ position: 'relative' }}>
+        {uploadedUrl && (
+          <span className={s['ds-input-uploader__preview']}>
+            <Image alt="Preview" src={uploadedUrl} />
+          </span>
+        )}
         <input
           {...props}
           style={{ paddingRight: '3.5rem' }}
           disabled={loading}
-          className={`form-control ${props.type === 'password' ? 'form-control__input' : ''} ${props.className || ''}`}
+          className={`form-control ${uploadedUrl ? s['ds-input-uploader'] : ''} ${props.type === 'password' ? 'form-control__input' : ''} ${
+            props.className || ''
+          }`}
         />
 
         <span
           style={{
             position: 'absolute',
-            right: 16,
+            right: 14,
             top: 42,
             cursor: 'pointer',
             transform: 'translateY(-31px)'
