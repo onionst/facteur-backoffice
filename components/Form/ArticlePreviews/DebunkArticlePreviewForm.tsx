@@ -75,7 +75,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                 ? `Native title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
                 : `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
             }
-            placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
           />
 
           <Input
@@ -87,7 +86,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
             value={form.url}
             id="url"
             pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-            placeholder="https://example.com/factchecking/article-010101"
           />
 
           <Row align="SPACE">
@@ -100,7 +98,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               id="url"
               pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
               label="Image URL"
-              placeholder="https://example.com/factchecking/article-010101"
             />
             <DatePicker
               label="Date of article publication"
@@ -114,15 +111,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
           <Divider style={{ margin: '8px 0' }} />
 
           <Row align="SPACE">
-            <Tagger
-              label="Keywords"
-              maxTagCount="responsive"
-              disabled
-              suffixIcon={null}
-              value={form.keywords}
-              mode="tags"
-              placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
-            />
+            <Tagger label="Keywords" maxTagCount="responsive" disabled suffixIcon={null} value={form.keywords} mode="tags" />
             <Select
               label="Language of publication"
               disabled
@@ -147,7 +136,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               }))}
               maxTagCount="responsive"
               mode="multiple"
-              placeholder="Article's topics"
             />
             <Select
               label="EU Relation"
@@ -184,7 +172,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               ]}
               mode="multiple"
               label="Country/Countries identified in article"
-              placeholder="Country/Countries identified in article"
             />
           </Row>
         </Card>
@@ -206,14 +193,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               </Badge.Ribbon>
             )}
           </div>
-          <Input
-            label="Claim"
-            value={form.claimreviewedNative}
-            type="text"
-            minLength={10}
-            disabled
-            placeholder="Quoted hours are falling in Spain"
-          />
+          <Input label="Claim" value={form.claimreviewedNative} type="text" minLength={10} disabled />
           <Row align="SPACE">
             <Select
               label="Rating"
@@ -236,13 +216,8 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
           </Row>
           {props.type === ArticleType.Factcheck && (
             <Row align="SPACE">
-              <Input value={form.itemReviewed.author} label="Person" disabled placeholder="John Doe" />
-              <Input
-                value={form.itemReviewed.politicalParty}
-                disabled
-                label="EU party related to the claim"
-                placeholder="EU party related to the claim"
-              />
+              <Input value={form.itemReviewed.author} label="Person" disabled />
+              <Input value={form.itemReviewed.politicalParty} disabled label="EU party related to the claim" />
             </Row>
           )}
 
@@ -260,7 +235,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                       label="URL"
                       disabled
                       pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-                      placeholder="https://example.com/factchecking/article-010101"
                       key={`${appearance.id}_URL`}
                       value={appearance?.url}
                     />
@@ -293,7 +267,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                     </Row>
 
                     <Row align="SPACE">
-                      <Input label="Associated multimedia" value={appearance?.associatedMedia} disabled placeholder="Upload file" />
+                      <Input label="Associated multimedia" value={appearance?.associatedMedia} disabled />
 
                       <Select
                         disabled
@@ -312,7 +286,6 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                       disabled
                       label="Archive URL"
                       pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-                      placeholder="https://example.com/factchecking/article-010101"
                       key={`${appearance.id}_archived`}
                       value={appearance?.archivedAt}
                     />
