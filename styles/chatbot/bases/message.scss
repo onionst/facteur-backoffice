@@ -47,6 +47,9 @@
       padding: 2px 8px;
       border-radius: 0.475rem;
       border-bottom-left-radius: 0;
+      & a {
+        color: $ds-primary !important;
+      }
     }
 
     &-avatar {
@@ -82,6 +85,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 8px;
+
       //   border: 1px solid $ds-gray-400;
       //   background-color: $ds-gray-200;
       &-item {
@@ -106,10 +110,6 @@
       }
     }
   }
-}
-
-a {
-  color: $ds-primary !important;
 }
 
 .ds-messages-width {
