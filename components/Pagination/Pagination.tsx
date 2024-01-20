@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from 'react-feather';
 import s from './Pagination.module.scss';
 
 export type PaginationProps = {
@@ -57,7 +58,7 @@ export default function Pagination(props: PaginationProps) {
     <ul className="pagination">
       <li className={`page-item previous ${isPrevDisabled ? 'disabled' : ''}`}>
         <a href="#" className="page-link" onClick={() => !isPrevDisabled && prevPage()}>
-          <i className="previous"></i>
+          <ChevronLeft size={16} color="#252f4a" />
         </a>
       </li>
       {getPageNumbers().map(number => (
@@ -69,7 +70,7 @@ export default function Pagination(props: PaginationProps) {
       ))}
       <li className={`page-item next ${isNextDisabled ? 'disabled' : ''}`}>
         <a href="#" className="page-link" onClick={() => !isNextDisabled && nextPage()}>
-          <i className="next"></i>
+          <ChevronRight size={16} color="#252f4a" />
         </a>
       </li>
     </ul>
