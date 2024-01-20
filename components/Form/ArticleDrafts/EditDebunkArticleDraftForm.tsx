@@ -415,9 +415,9 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                       defaultValue={appearance?.associatedMediaType}
                       options={[
                         { label: 'Select associated media format', value: '' },
-                        ...Object.entries(MediaType).map(([key, value]) => ({
-                          value: key.split('_').join(' '),
-                          label: value.split('_').join(' ')
+                        ...Object.entries(MediaType).map(value => ({
+                          value: value[1].split('_').join(' '),
+                          label: value[1].split('_').join(' ')
                         }))
                       ]}
                       onChange={v =>
