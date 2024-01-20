@@ -288,7 +288,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             </Row>
           )}
 
-          <Input label="Appearances" required={form.itemReviewed.appearances.length > 0}>
+          <Input requiredHide label="Claim appearances details" required={form.itemReviewed.appearances.length > 0}>
             {form.itemReviewed.appearances.map((appearance: any) => (
               <div key={appearance.id}>
                 <Card
