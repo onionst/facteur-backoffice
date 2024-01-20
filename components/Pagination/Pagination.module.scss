@@ -4,7 +4,8 @@
   border-radius: 0.475rem;
 
   &--active {
-    background-color: $ds-primary;
-    color: $ds-white;
+    box-sizing: border-box;
+    border: 1px solid $ds-primary;
+    color: $ds-primary;
   }
 }
