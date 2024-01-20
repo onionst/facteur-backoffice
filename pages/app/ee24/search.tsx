@@ -62,10 +62,6 @@ export default function Repository() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.log(filter);
-  }, [filter]);
-
   return (
     <>
       <Header icon={<SearchIcon />} title="EE24 Repository" />
