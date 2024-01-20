@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Download, Edit, Mail, RefreshCcw, Trash, Users as UsersIcon, X } from 'react-feather';
+import { Download, Edit, Mail, RefreshCcw, Trash, Users as UsersIcon } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -134,7 +134,7 @@ export default function Users() {
                             showDeleteUser(user?.id);
                           }}
                         >
-                          <X color="#252f4a" size={18} />
+                          <Trash color="#252f4a" size={18} />
                         </IconButton>
                       )}
                     </>

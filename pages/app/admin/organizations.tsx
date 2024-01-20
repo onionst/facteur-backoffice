@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Box, Download, Edit, RefreshCcw, X } from 'react-feather';
+import { Box, Download, Edit, RefreshCcw, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -75,7 +75,7 @@ export default function Organizations() {
                       <Edit color="#252f4a" size={18} />
                     </IconButton>
                     <IconButton onClick={() => showDeleteOrganization(organization?.id)}>
-                      <X color="#252f4a" size={18} />
+                      <Trash color="#252f4a" size={18} />
                     </IconButton>
                   </>
                 ) : (

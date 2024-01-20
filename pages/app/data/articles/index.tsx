@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Download, Edit, File, X } from 'react-feather';
+import { Download, Edit, File, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -99,7 +99,7 @@ export default function Articles() {
                     showDeleteArticle(article?.externalId);
                   }}
                 >
-                  <X color="#252f4a" size={18} />
+                  <Trash color="#252f4a" size={18} />
                 </IconButton>
               </Row>
             ])}
