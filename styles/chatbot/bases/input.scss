@@ -1,0 +1,23 @@
+.ds-input {
+  transition: all 200ms;
+  border: 1px solid $ds-gray-300;
+  padding: 0.775rem 1rem;
+
+  &::placeholder {
+    color: $ds-gray-500;
+  }
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: $ds-gray-700;
+  background-color: $ds-white;
+  background-clip: padding-box;
+  border-radius: 0.475rem;
+  outline: none;
+  &:hover {
+    border-color: $ds-gray-400;
+  }
+  &:focus {
+    border-color: $ds-gray-400;
+  }
+}

@@ -17,6 +17,7 @@ import Page from '@/components/Page/Page';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { Topic } from '@/constants/topics';
+import { WorldCountriesISO } from '@/constants/worldCountries';
 
 export type ArticlePreviewFormProps = {};
 export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArticlePreview) {
@@ -41,7 +42,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
         <ModalHeader
           style={{ margin: 0 }}
           subTitle={'Preview the Draft'}
-          title={`Review and preview your ${props.type} article before submission`}
+          title={`Review and preview your ${props.type} ${props.type === ArticleType.Narrative ? 'report' : 'article'} before submission`}
         />
         <Card theme="LIGHT">
           <h4>Overview</h4>
@@ -56,7 +57,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
                   required
                   value={form.headline}
                   onChange={v => handleUpdate(v, 'headline')}
-                  label="Translated Headline"
+                  label={`Translated title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
                   placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
                 />
               </Badge.Ribbon>
@@ -67,8 +68,11 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
             minLength={10}
             disabled
             value={form.headlineNative}
-            onChange={v => handleUpdate(v, 'headlineNative')}
-            label={form.headline != form.headlineNative ? 'Original Headline' : 'Headline'}
+            label={
+              form.headline != form.headlineNative
+                ? `Native title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
+                : `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
+            }
             placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
           />
 
@@ -79,7 +83,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
             disabled
             minLength={10}
             value={form.url}
-            onChange={v => handleUpdate(v, 'url')}
             id="url"
             pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
             placeholder="https://example.com/factchecking/article-010101"
@@ -91,7 +94,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               name="url"
               disabled
               value={form.image}
-              onChange={v => handleUpdate(v, 'image')}
               minLength={10}
               id="url"
               pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
@@ -102,7 +104,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               label="Date of article publication"
               value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
               disabled
-              onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
           </Row>
         </Card>
@@ -118,7 +119,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               value={form.keywords}
               mode="tags"
               suffixIcon={null}
-              onChange={v => setForm((prev: any) => ({ ...prev, keywords: v }))}
               placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
             <Select
@@ -126,13 +126,12 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               disabled
               defaultValue={form?.inLanguage}
               options={[
-                { label: "Article's language", value: '' },
+                { label: 'Language of publication', value: '' },
                 ...Object.entries(LanguageISO).map(([key, value]) => ({
-                  label: key,
-                  value
+                  label: key.split('_').join(' '),
+                  value: value.split('_').join(' ')
                 }))
               ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, inLanguage: v }))}
             />
           </Row>
           <Row align="SPACE">
@@ -145,8 +144,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
                 label: value.split('_').join(' ')
               }))}
               maxTagCount="responsive"
-              mode="tags"
-              onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
+              mode="multiple"
               placeholder="Article's topics"
             />
           </Row>
@@ -162,20 +160,20 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
                   value: value.split('_').join(' ')
                 }))
               ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, countryOfOrigin: v }))}
             />
-            <Select
-              label="Country identified in article"
+            <Tagger
               disabled
-              defaultValue={form?.contentLocation}
+              value={form?.contentLocation}
               options={[
-                { label: 'Country identified in article', value: '' },
-                ...Object.entries(CountryISO).map(([key, value]) => ({
+                ...Object.entries(WorldCountriesISO).map(([key, value]) => ({
                   label: key.split('_').join(' '),
                   value: value.split('_').join(' ')
                 }))
               ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, contentLocation: v }))}
+              maxTagCount="responsive"
+              mode="multiple"
+              label="Country/Countries identified in article"
+              placeholder="Country/Countries identified in article"
             />
           </Row>
         </Card>

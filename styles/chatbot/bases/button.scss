@@ -1,0 +1,30 @@
+.ds-button {
+  background-color: $ds-primary;
+  border-radius: 0.475rem;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: calc(0.775rem + 1px) calc(1.5rem + 1px);
+}
+
+.ds-buttons-flex {
+  display: grid;
+  grid-template-columns: auto 115px;
+  justify-items: center;
+
+  gap: 16px;
+  align-items: flex-end;
+
+  & * {
+    height: max-content !important;
+  }
+  & input {
+    height: 3.4rem !important;
+  }
+  & button {
+    width: 115px !important;
+    height: 3.4rem !important;
+  }
+}

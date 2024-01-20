@@ -4,7 +4,6 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-
   &__left {
     display: flex;
     justify-content: flex-start;
@@ -85,5 +84,14 @@
     & > button {
       width: 100% !important;
     }
+  }
+}
+
+.ds-search-articles {
+  & button {
+    height: 40px !important;
+  }
+  & input {
+    height: 40px !important;
   }
 }

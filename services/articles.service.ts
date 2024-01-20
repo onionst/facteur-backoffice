@@ -1,5 +1,6 @@
 import Store from 'store';
 import { api, parseUrl } from './api';
+import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import { SETTINGS } from '@/constants/settings';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Article } from '@/dtos/articles/article.dto';
@@ -18,10 +19,8 @@ export const DownloadArticles = async (filter: any) => {
       Authorization: `Bearer ${Store.get(STORAGE_KEYS.ACCESS_TOKEN)}`
     });
     const url = SETTINGS.PUBLIC_API_URL + parseUrl(PREFIX);
-    const urlWithParams = new URL(url);
-    const params: any = Object.values(filter);
-    Object.keys(filter).forEach((key, index) => urlWithParams.searchParams.append(key, params[index]));
-    const response = await fetch(url, { headers });
+    // @ts-ignore
+    const response = await fetch(url + '?' + new URLSearchParams(cleanObject(filter)), { headers });
 
     const reader: any = response?.body?.getReader();
     const chunks = [];
@@ -85,4 +84,9 @@ export const UpdateArticle = async (id: string, article?: Partial<Article>) => {
 
 export const DeleteArticle = async (id: string): Promise<void> => {
   await api.delete(parseUrl(PREFIX, id));
+};
+
+export const FetchMetadata = async (type: ArticleType, url: string) => {
+  const response = await api.post(parseUrl(PREFIX, '/url/metadata'), { type, url });
+  return response?.data;
 };

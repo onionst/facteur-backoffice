@@ -122,13 +122,17 @@ export const ModalProvider = (props: { children: any }) => {
       showDeleteArticle: (id: string) => setDeleteArticleActive(id),
       showDownloadArticles: (filter: any) => {
         setDownloadArticlesFilter(filter);
-        setDownloadArticlesActive(Date.now().toString());
+        setTimeout(() => {
+          setDownloadArticlesActive(Date.now().toString());
+        }, 100);
       }
     },
     ee24: {
       showDownloadEE24Articles: (filter: any) => {
         setDownloadEE24ArticlesFilter(filter);
-        setDownloadEE24ArticlesActive(Date.now().toString());
+        setTimeout(() => {
+          setDownloadEE24ArticlesActive(Date.now().toString());
+        }, 100);
       }
     }
   };

@@ -36,7 +36,7 @@ export default function Edit() {
     topics: [],
     euRelation: '',
     countryOfOrigin: session.organization?.country || '',
-    contentLocation: '',
+    contentLocation: [],
     claimreviewed: '',
     claimreviewedNative: '',
     reviewRating: '',

@@ -40,9 +40,9 @@ export default function Repository() {
         fetchEE24Articles({ search: router.query.q });
       } else {
         if (router?.query?.ft === 'IMAGE') {
-          fetchEE24ArticlesByImage(router?.query?.q);
           setPortait(router?.query?.q);
           setSearchType('IMAGE');
+          fetchEE24ArticlesByImage(router?.query?.q);
         }
         setFilter({ search: '' });
       }
@@ -100,6 +100,12 @@ export default function Repository() {
                     setSearchType('IMAGE');
                   }
                 }}
+                onChange={search => {
+                  setFilter(prev => ({
+                    ...prev,
+                    search
+                  }));
+                }}
                 defaultValue={filter.search}
                 placeholder="Search articles..."
                 onSearch={search => {
@@ -155,9 +161,9 @@ export default function Repository() {
                 }}
                 loading={ee24Props.loading}
                 columns={[
-                  'Headline',
-                  'Publisher',
-                  'Type',
+                  'Title of the article/report',
+                  'Name of the organization',
+                  'Type of publication',
                   <Row align="RIGHT" key="Date">
                     {searchType === 'TEXT' ? (
                       <Sorter
@@ -197,7 +203,7 @@ export default function Repository() {
         <Row align="SPACE">
           <Row align="LEFT">
             {page.records > 0 && (
-              <IconButton type="button" onClick={showDownloadEE24Articles}>
+              <IconButton type="button" onClick={() => showDownloadEE24Articles(filter)}>
                 <Download color="#252f4a" size={16} />
               </IconButton>
             )}

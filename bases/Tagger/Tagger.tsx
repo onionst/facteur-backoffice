@@ -11,7 +11,13 @@ export default function Tagger(props: SelectProps & TaggerProps) {
         </label>
       )}
       <div className="w-full" style={{ position: 'relative' }}>
-        <Select {...props} notFoundContent={null} tokenSeparators={[',']} className={s['ds-tagger__input']}></Select>
+        <Select
+          {...props}
+          optionFilterProp="label"
+          notFoundContent={null}
+          tokenSeparators={[',']}
+          className={s['ds-tagger__input']}
+        ></Select>
       </div>
     </div>
   );

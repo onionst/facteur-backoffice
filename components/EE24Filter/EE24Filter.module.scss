@@ -14,13 +14,17 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    position: relative;
+    height: 100%;
     gap: 20px;
   }
   &__container {
     padding: 0;
     width: 100%;
     padding-bottom: 0;
-    max-height: fit-content !important;
+    position: relative;
+    height: 100%;
+    // max-height: fit-content !important;
   }
   &__bg--white {
     background-color: $ds-white;
@@ -28,12 +32,20 @@
   &__apply {
     width: 100%;
     position: sticky;
-    bottom: 0px;
+    bottom: 0px !important;
+    top: 200px !important;
     padding-bottom: 20px;
     background: linear-gradient(transparent, $ds-gray-200) !important;
   }
   &__empty {
     width: 100%;
     height: 0px;
+  }
+}
+
+.ds-articles-filter {
+  gap: 20px;
+  &__container {
+    max-width: 243px !important;
   }
 }

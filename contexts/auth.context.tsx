@@ -147,6 +147,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
           users.fetchUsers({});
         }
         ee24.fetchEE24Articles({});
+        organizations.listOrganizations();
         if ([ROLES.ADMIN, ROLES.FACT_CHECKER].includes(data?.role)) {
           articles.fetchArticles({
             publisher: data?.organization?.domain

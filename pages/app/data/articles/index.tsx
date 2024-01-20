@@ -10,7 +10,7 @@ import { Sorter } from '@/bases/Sorter/Sorter';
 import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
-import Search from '@/components/Search/Search';
+import ArticleSearch from '@/components/Search/ArticlesSearch';
 import { EE24Headline } from '@/components/Table/EE24Table';
 import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
@@ -19,10 +19,10 @@ import { useAuth } from '@/contexts/auth.context';
 import { useModal } from '@/contexts/modal.context';
 
 export default function Articles() {
+  const { session } = useAuth();
   const [filter, setFilter] = useState<any>({ order: 'dateModified' });
   const modals = useModal();
 
-  const { session } = useAuth();
   const { showDeleteArticle, showDownloadArticles } = modals.articles;
   const { articles, fetchArticles, page, ...articlesProps } = useArticles();
   return (
@@ -34,28 +34,19 @@ export default function Articles() {
       </Header>
       <Wrapper>
         <Page>
-          <Search
+          <ArticleSearch
+            withFilter
             placeholder="Search articles..."
             onSearch={search => {
-              if (search) {
-                setFilter((prev: any) => ({
-                  order: prev.order,
-                  publisher: session.organization?.domain,
-                  search
-                }));
-                fetchArticles({
-                  publisher: session.organization?.domain,
-                  search
-                });
-              } else {
-                setFilter((prev: any) => ({
-                  order: prev.order,
-                  publisher: session.organization?.domain
-                }));
-                fetchArticles({
-                  publisher: session.organization?.domain
-                });
-              }
+              setFilter((prev: any) => ({
+                order: prev.order,
+                publisher: session.organization?.domain,
+                ...search
+              }));
+              fetchArticles({
+                publisher: session.organization?.domain,
+                ...search
+              });
             }}
           />
         </Page>
@@ -64,14 +55,15 @@ export default function Articles() {
             firstExtended
             loading={articlesProps.loading}
             columns={[
-              'Headline',
-              'URL',
-              'Type',
+              'Title of the article/report',
+              'URL of the article/report',
+              'Type of publication',
               <Sorter
                 key="Sorter"
                 onSort={() => {
                   setFilter((prev: any) => ({
                     ...prev,
+                    publisher: session.organization?.domain,
                     order: prev?.order?.includes('-') ? 'dateModified' : '-dateModified'
                   }));
                   setTimeout(() => {
@@ -115,7 +107,7 @@ export default function Articles() {
         </Page>
         <Row align="SPACE">
           <Row align="LEFT">
-            <IconButton type="button" onClick={showDownloadArticles}>
+            <IconButton type="button" onClick={() => showDownloadArticles(filter)}>
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>
