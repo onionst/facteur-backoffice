@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import axios from 'axios';
 import { ApiError } from 'next/dist/server/api-utils';
 import Store from 'store';
@@ -51,6 +52,14 @@ api.interceptors.request.use(
       }
       // forbidden (permission related issues)
       case HttpStatus.FORBIDDEN: {
+        notification.info({
+          message: 'Session Expired',
+          description: 'Please re-enter your credentials to continue where you left off'
+        });
+        await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
+        if (typeof window != 'undefined') {
+          window.location.replace('/auth/sign-in');
+        }
         return Promise.reject(new ApiError(HttpStatus.FORBIDDEN, message));
       }
       // bad request

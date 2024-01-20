@@ -1,7 +1,6 @@
 import Store from 'store';
 import { api, parseUrl } from './api';
 import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
-import { SETTINGS } from '@/constants/settings';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Article } from '@/dtos/articles/article.dto';
 import { cleanObject } from '@/utils/clean';
@@ -18,9 +17,11 @@ export const DownloadArticles = async (filter: any) => {
     const headers = new Headers({
       Authorization: `Bearer ${Store.get(STORAGE_KEYS.ACCESS_TOKEN)}`
     });
-    const url = SETTINGS.PUBLIC_API_URL + parseUrl(PREFIX);
-    // @ts-ignore
-    const response = await fetch(url + '?' + new URLSearchParams(cleanObject(filter)), { headers });
+    const url = api.getUri({
+      url: parseUrl(PREFIX),
+      params: cleanObject(filter)
+    });
+    const response = await fetch(url, { headers });
 
     const reader: any = response?.body?.getReader();
     const chunks = [];
