@@ -104,8 +104,7 @@ export function EE24Headline(props: EE24HeadlineProps) {
         open={props.image && showPreview ? true : false}
         placement="bottomLeft"
         content={
-          <img
-            key={props.image}
+          <Image
             alt="preview popup"
             src={props.image}
             style={{ height: 130, maxHeight: 130, minHeight: 130, width: '100%', borderRadius: '0.475rem', objectFit: 'cover' }}

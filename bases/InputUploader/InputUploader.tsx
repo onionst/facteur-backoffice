@@ -58,7 +58,7 @@ export default function InputUploader(props: any) {
         open={uploadedUrl && showPreview ? true : false}
         placement="bottomLeft"
         content={
-          <img
+          <Image
             key={uploadedUrl}
             alt="preview popup"
             src={uploadedUrl}
@@ -79,7 +79,7 @@ export default function InputUploader(props: any) {
         <div className="w-full" style={{ position: 'relative' }}>
           {uploadedUrl && (
             <span className={s['ds-input-uploader__preview']}>
-              <Image alt="Preview" src={uploadedUrl} />
+              <Image key={uploadedUrl} alt="Preview" src={uploadedUrl} />
             </span>
           )}
           <input

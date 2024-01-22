@@ -7,15 +7,16 @@ import { FILE_TYPES } from '@/constants/accept';
 export type ImageProps = {
   defaultImage?: string;
   alt: string;
-  src: string;
+  src?: string;
 };
 
 export default function Image(props: DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> & ImageProps) {
+  const [error, setError] = useState<boolean>(false);
   const [defaultPortrait, setDefaultPortrait] = useState<string>('/assets/portraits/image.svg');
 
   const [src, setSrc] = useState<string>('');
   useEffect(() => {
-    const url = props.src;
+    const url = props.src || '';
     let portraitType: FileType = 'NONE';
     FILE_TYPES.images.forEach(ext => {
       if (url.includes(ext)) {
@@ -40,19 +41,30 @@ export default function Image(props: DetailedHTMLProps<ImgHTMLAttributes<HTMLIma
       VIDEO: '/assets/portraits/video.svg'
     }[portraitType];
     setDefaultPortrait(portrait);
-    setSrc(props.src || portrait || props.defaultImage || '/assets/portraits/image.svg');
+    if (error) {
+      setSrc(portrait);
+    } else {
+      // @ts-ignore
+      if (portraitType != 'IMAGE') {
+        setSrc(portrait);
+      } else {
+        setSrc(props.src || portrait || props.defaultImage || '/assets/portraits/image.svg');
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.src]);
+  }, [props.src, error]);
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       {...props}
-      className={`${s['ds-image']} ${props.className || ''}`}
-      src={src}
-      onError={() => {
-        setSrc(defaultPortrait || props.defaultImage || '/assets/portraits/image.svg');
+      onError={e => {
+        if (e.type === 'error') {
+          setError(true);
+        }
       }}
+      className={`${s['ds-image']} ${props.className || ''}`}
+      src={src || defaultPortrait}
     />
   );
 }

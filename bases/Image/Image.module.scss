@@ -1,4 +1,6 @@
+@import '@/styles/app/variables.scss';
 .ds-image {
   object-fit: contain;
   border-radius: 0.475rem !important;
+  background-color: $ds-gray-200;
 }
