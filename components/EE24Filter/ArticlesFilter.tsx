@@ -1,6 +1,6 @@
 import { ArrowRightOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 import { X } from 'react-feather';
 import { ArticleType } from '../Form/SelectArticleType/SelectArticleType';
 import RadioGroup from '../RadioGroup/RadioGroup';
@@ -34,12 +34,12 @@ export type EE24FilterProps = {
   onSubmit: () => void;
   reset: () => void;
   filter: Filter;
+  setFilter: Dispatch<any>;
 };
 export default function ArticlesFilter(props: EE24FilterProps) {
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const [filter, setFilter] = useState<Partial<Filter>>({});
   const [modified, setModified] = useState<boolean>(false);
-
+  const { filter, setFilter } = props;
   const handleSubmit = () => {
     try {
       props.onSubmit();
@@ -74,7 +74,7 @@ export default function ArticlesFilter(props: EE24FilterProps) {
               onChange={range => {
                 setModified(true);
                 if (range) {
-                  setFilter(prev => ({
+                  setFilter((prev: any) => ({
                     ...prev,
                     sinceDate: range[0]?.startOf('day')?.toDate(),
                     untilDate: range[1]?.endOf('day')?.toDate()
@@ -91,10 +91,11 @@ export default function ArticlesFilter(props: EE24FilterProps) {
           </Input>
           <Input label="Type of publication">
             <RadioGroup
-              multiple
+              // @ts-ignore
+              selected={filter?.type || ''}
               onChange={(types: any) => {
                 setModified(true);
-                setFilter(prev => ({
+                setFilter((prev: any) => ({
                   ...prev,
                   type: types
                 }));

@@ -24,6 +24,7 @@ export default function ArticleSearch(props: SearchProps) {
   const [filter, setFilter] = useState<any>({});
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [submittedFilter, setSubmittedFilter] = useState<any>({});
+  const [articlesFilter, setArticlesFilter] = useState<any>({});
   const [key, setKey] = useState(Date.now());
 
   useEffect(() => {
@@ -48,7 +49,8 @@ export default function ArticleSearch(props: SearchProps) {
             content={
               <ArticlesFilter
                 key={key}
-                filter={filter}
+                filter={articlesFilter}
+                setFilter={setArticlesFilter}
                 reset={() => {
                   setFilter({});
                   props.onSearch({});
@@ -90,13 +92,54 @@ export default function ArticleSearch(props: SearchProps) {
       {((submittedFilter?.sinceDate && submittedFilter?.untilDate) || (submittedFilter?.type && submittedFilter?.type?.length > 0)) && (
         <div className="w-full mt-5">
           {submittedFilter?.sinceDate && submittedFilter?.untilDate && (
-            <Tag>{`From ${dayjs(submittedFilter?.sinceDate).format('DD/MM/YYYY')} to ${dayjs(submittedFilter?.untilDate).format(
+            <Tag
+              closable
+              onClose={() => {
+                setFilter((prev: any) => {
+                  delete prev.sinceDate;
+                  delete prev.untilDate;
+                  return prev;
+                });
+                setArticlesFilter((prev: any) => {
+                  delete prev.sinceDate;
+                  delete prev.untilDate;
+                  return prev;
+                });
+                setSubmittedFilter((prev: any) => {
+                  delete prev.sinceDate;
+                  delete prev.untilDate;
+                  return prev;
+                });
+                handleSearch();
+              }}
+            >{`From ${dayjs(submittedFilter?.sinceDate).format('DD/MM/YYYY')} to ${dayjs(submittedFilter?.untilDate).format(
               'DD/MM/YYYY'
             )}`}</Tag>
           )}
-          {submittedFilter?.type &&
-            submittedFilter?.type?.length > 0 &&
-            submittedFilter?.type?.map((type: any) => <Tag key={type}>{type}</Tag>)}
+          {submittedFilter?.type && (
+            <Tag
+              closable
+              onClose={() => {
+                setFilter((prev: any) => {
+                  delete prev.type;
+
+                  return prev;
+                });
+                setArticlesFilter((prev: any) => {
+                  delete prev.type;
+                  return prev;
+                });
+                setSubmittedFilter((prev: any) => {
+                  delete prev.type;
+                  return prev;
+                });
+                handleSearch();
+              }}
+              key={submittedFilter.type}
+            >
+              {submittedFilter.type}
+            </Tag>
+          )}
         </div>
       )}
     </div>
