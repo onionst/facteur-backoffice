@@ -8,6 +8,7 @@ import s from './ArticlePreviewForm.module.scss';
 import Button from '@/bases/Button/Button';
 import { DatePicker } from '@/bases/DatePicker/DatePicker';
 import { Input } from '@/bases/Input';
+import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
@@ -89,7 +90,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
           />
 
           <Row align="SPACE">
-            <Input
+            <InputUploader
               type="url"
               name="url"
               disabled
@@ -268,7 +269,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                     </Row>
 
                     <Row align="SPACE">
-                      <Input label="Associated multimedia" value={appearance?.associatedMedia} disabled />
+                      <InputUploader label="Associated multimedia" value={appearance?.associatedMedia} disabled />
 
                       <Select
                         disabled

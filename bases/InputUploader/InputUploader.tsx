@@ -14,6 +14,7 @@ export type InputUploaderProps = {
   accept: Accept;
   label?: string;
   value?: string;
+  disabled?: boolean;
 };
 export default function InputUploader(props: any) {
   const { uploadFile } = useFiles();
@@ -48,7 +49,7 @@ export default function InputUploader(props: any) {
   const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, maxSize: MAX_FILE_SIZE, accept: props.accept });
   return (
     <div
-      {...(!uploadedUrl ? getRootProps() : {})}
+      {...(!uploadedUrl && !props.disabled ? getRootProps() : {})}
       onMouseOver={() => setShowPreview(true)}
       onMouseLeave={() => setShowPreview(false)}
       className="w-full"
@@ -84,8 +85,8 @@ export default function InputUploader(props: any) {
           )}
           <input
             {...props}
-            style={{ paddingRight: '3.5rem' }}
-            disabled={loading}
+            style={{ paddingRight: props?.disabled ? '8px' : '3.5rem' }}
+            disabled={loading || props.disabled}
             className={`form-control ${uploadedUrl ? s['ds-input-uploader'] : ''} ${
               props.type === 'password' ? 'form-control__input' : ''
             } ${props.className || ''}`}
@@ -101,7 +102,7 @@ export default function InputUploader(props: any) {
             }}
           >
             {!loading ? (
-              uploadedUrl ? (
+              props?.disabled ? null : uploadedUrl ? (
                 <X
                   style={{ cursor: 'pointer', zIndex: 11 }}
                   onClick={() => {
