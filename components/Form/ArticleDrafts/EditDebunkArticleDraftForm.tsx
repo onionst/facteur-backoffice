@@ -40,15 +40,32 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
     try {
       e?.preventDefault();
       setLoading(true);
-      const [headline, claimreviewed] = await Promise.all([
-        fetchTranslation(form.headlineNative),
-        fetchTranslation(form.claimreviewedNative)
-      ]);
-      setForm((prev: any) => ({
-        ...prev,
-        headline,
-        claimreviewed
-      }));
+      const headlineChanged = props.ogForm.headlineNative != form.headlineNative;
+      const claimreviewedChanged = props.ogForm.claimreviewedNative != form.claimreviewedNative;
+      if (claimreviewedChanged && headlineChanged) {
+        const [headline, claimreviewed] = await Promise.all([
+          fetchTranslation(form.headlineNative),
+          fetchTranslation(form.claimreviewedNative)
+        ]);
+        setForm((prev: any) => ({
+          ...prev,
+          headline,
+          claimreviewed
+        }));
+      } else if (headlineChanged) {
+        const [headline] = await Promise.all([fetchTranslation(form.headlineNative)]);
+        setForm((prev: any) => ({
+          ...prev,
+          headline
+        }));
+      } else if (claimreviewedChanged) {
+        const [claimreviewed] = await Promise.all([fetchTranslation(form.claimreviewedNative)]);
+        setForm((prev: any) => ({
+          ...prev,
+          claimreviewed
+        }));
+      }
+
       setLoading(false);
       props.onContinue(form);
     } catch (err) {

@@ -8,12 +8,15 @@ import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { useArticles } from '@/contexts/articles.context';
 import { Article } from '@/dtos/articles/article.dto';
+import { useRouter } from 'next/router';
 
 export type DeleteArticleModalProps = {
   id: string;
+  redirect?: string;
 };
 export const DELETE_ARTICLE_CONFIRMATION = 'delete';
 export const DeleteArticleModal = (props: DeleteArticleModalProps & ModalProps) => {
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [confirmation, setConfirmation] = useState<string>('');
   const { fetchArticleData, deleteArticle } = useArticles();
@@ -23,12 +26,16 @@ export const DeleteArticleModal = (props: DeleteArticleModalProps & ModalProps) 
   const handleDeleteUser = async (e: FormEvent) => {
     try {
       e?.preventDefault();
+
       setLoading(true);
       if (confirmation?.toLowerCase() != DELETE_ARTICLE_CONFIRMATION) {
         setLoading(false);
         return;
       }
       await deleteArticle(props.id);
+      if (props.redirect) {
+        router.push(props.redirect);
+      }
       setLoading(false);
       // @ts-ignore
       props.onCancel();

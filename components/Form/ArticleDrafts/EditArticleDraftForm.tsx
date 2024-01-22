@@ -35,11 +35,13 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
     try {
       e?.preventDefault();
       setLoading(true);
-      const [headline] = await Promise.all([fetchTranslation(form.headlineNative)]);
-      setForm((prev: any) => ({
-        ...prev,
-        headline
-      }));
+      if (props.ogForm.headlineNative != form.headlineNative) {
+        const [headline] = await Promise.all([fetchTranslation(form.headlineNative)]);
+        setForm((prev: any) => ({
+          ...prev,
+          headline
+        }));
+      }
       setLoading(false);
       props.onContinue(form);
     } catch (err) {

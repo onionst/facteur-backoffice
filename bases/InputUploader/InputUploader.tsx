@@ -62,7 +62,7 @@ export default function InputUploader(props: any) {
             key={uploadedUrl}
             alt="preview popup"
             src={uploadedUrl}
-            style={{ height: 130, width: '100%', borderRadius: '0.475rem', objectFit: 'cover' }}
+            style={{ height: 130, maxHeight: 130, minHeight: 130, width: '100%', borderRadius: '0.475rem', objectFit: 'cover' }}
           />
         }
       >

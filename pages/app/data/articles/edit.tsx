@@ -1,7 +1,8 @@
 import { Skeleton } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { File } from 'react-feather';
+import { File, Trash } from 'react-feather';
+import Button from '@/bases/Button/Button';
 import Row from '@/bases/Row/Row';
 import EditArticleDraftForm from '@/components/Form/ArticleDrafts/EditArticleDraftForm';
 import EditDebunkArticleDraftForm from '@/components/Form/ArticleDrafts/EditDebunkArticleDraftForm';
@@ -13,16 +14,45 @@ import Stepper from '@/components/Stepper/Stepper';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
+import { useModal } from '@/contexts/modal.context';
 import useWindowSize from '@/hooks/useWindowWidth';
 
 export default function Edit() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const { session } = useAuth();
+  const modals = useModal();
+  const { showDeleteArticle } = modals.articles;
   const { updateArticle, fetchArticles, fetchArticleData, fetchArticleById } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
+  const [articleId, setArticleId] = useState<string>('');
+  const [ogForm, setOgForm] = useState({
+    externalId: '',
+    type: '',
+    url: '',
+    headline: '',
+    headlineNative: '',
+    datePublished: null,
+    image: '',
+    keywords: [],
+    inLanguage: session.organization?.language || '',
+    topics: [],
+    euRelation: '',
+    countryOfOrigin: session.organization?.country || '',
+    contentLocation: [],
+    claimreviewed: '',
+    claimreviewedNative: '',
+    reviewRating: '',
+    itemReviewed: {
+      datePublished: null,
+      author: '',
+      politicalParty: '',
+      appearances: []
+    },
+    associatedClaimReview: []
+  });
   const [form, setForm] = useState({
     externalId: '',
     type: '',
@@ -57,13 +87,19 @@ export default function Edit() {
       if (!article) {
         const articleFound: any = await fetchArticleById(id);
         if (!articleFound) {
-          router.push('/app/data/articles');
+          if (router?.query?.f === 'search') {
+            router.push('/app/ee24/search');
+          } else {
+            router.push('/app/data/articles');
+          }
         } else {
           setForm(prev => ({ ...prev, ...articleFound }));
+          setOgForm(prev => ({ ...prev, ...articleFound }));
           setArticleType(articleFound?.type);
           setLoading(false);
         }
       } else {
+        setOgForm(prev => ({ ...prev, ...article }));
         setForm(prev => ({ ...prev, ...article }));
         setArticleType(article?.type);
         setLoading(false);
@@ -75,6 +111,8 @@ export default function Edit() {
 
   useEffect(() => {
     if (router?.query?.id) {
+      // @ts-ignore
+      setArticleId(router?.query?.id);
       handleSetup(router?.query?.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -140,7 +178,11 @@ export default function Edit() {
       fetchArticles({
         publisher: session.organization?.domain
       });
-      router.push('/app/data/articles');
+      if (router?.query?.f === 'search') {
+        router.push('/app/ee24/search');
+      } else {
+        router.push('/app/data/articles');
+      }
     } catch (err) {
       console.error(err);
       setStep(1);
@@ -172,7 +214,14 @@ export default function Edit() {
         backable
         icon={<File />}
         title="Edit article"
-      ></Header>
+      >
+        <Button
+          theme="ATTENTION"
+          onClick={() => showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/ee24/search' : '/app/data/articles')}
+        >
+          Delete <Trash size={18} />
+        </Button>
+      </Header>
       <Wrapper>
         <Row align="SPACE" style={{ alignItems: 'flex-start' }}>
           <div style={{ width: '25%' }}>
@@ -192,6 +241,7 @@ export default function Edit() {
                 <EditDebunkArticleDraftForm
                   onBack={() => setStep(0)}
                   form={form}
+                  ogForm={ogForm}
                   setForm={setForm}
                   type={articleType}
                   onContinue={() => setStep(1)}
@@ -200,6 +250,7 @@ export default function Edit() {
                 <EditArticleDraftForm
                   onBack={() => setStep(0)}
                   form={form}
+                  ogForm={ogForm}
                   setForm={setForm}
                   type={articleType}
                   onContinue={() => setStep(1)}
