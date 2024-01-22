@@ -18,7 +18,7 @@ export type EE24HeadlineProps = {
   image?: string;
   headline?: string;
 };
-export function NotFound(props: { type: FileType; value: string; onClick: () => void }) {
+export function NotFound(props: { withoutButton?: boolean; type: FileType; value: string; onClick: () => void }) {
   const render = {
     NONE: (
       <div className={s['ds-not-found']}>
@@ -27,9 +27,11 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
           <h3>No articles found</h3>
           <p>Your search did not match any article</p>
         </div>
-        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Clear filter
-        </Button>
+        {!props.withoutButton && (
+          <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+            Clear filter
+          </Button>
+        )}
       </div>
     ),
     AUDIO: (
@@ -39,9 +41,11 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
           <h3>No articles found</h3>
           <p>Your audio did not match any article</p>
         </div>
-        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Clear filter
-        </Button>
+        {!props.withoutButton && (
+          <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+            Clear filter
+          </Button>
+        )}
       </div>
     ),
     VIDEO: (
@@ -51,9 +55,11 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
           <h3>No articles found</h3>
           <p>Your video did not match any article</p>
         </div>
-        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Clear filter
-        </Button>
+        {!props.withoutButton && (
+          <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+            Clear filter
+          </Button>
+        )}
       </div>
     ),
     IMAGE: (
@@ -63,9 +69,11 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
           <h3>No articles found</h3>
           <p>Your image did not match any article</p>
         </div>
-        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Clear filter
-        </Button>
+        {!props.withoutButton && (
+          <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+            Clear filter
+          </Button>
+        )}
       </div>
     ),
     TEXT: (
@@ -75,9 +83,11 @@ export function NotFound(props: { type: FileType; value: string; onClick: () => 
           <h3>No articles found</h3>
           <p>Your search did not match any article</p>
         </div>
-        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Clear filter
-        </Button>
+        {!props.withoutButton && (
+          <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+            Clear filter
+          </Button>
+        )}
       </div>
     )
   }[props.type];

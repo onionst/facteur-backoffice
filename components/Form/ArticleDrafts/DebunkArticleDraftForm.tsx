@@ -65,7 +65,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
         ...prev,
         description: metadata?.summary || '',
         headlineNative: metadata?.title || prev?.headlineNative,
-        image: metadata?.image || prev?.image,
+        image: metadata?.image || metadata?.meta_image || prev?.image,
         datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished,
         keywords: keywords?.length > 0 ? keywords : prev?.keywords
       }));
@@ -417,9 +417,9 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                       defaultValue={appearance?.associatedMediaType}
                       options={[
                         { label: 'Select associated media format', value: '' },
-                        ...Object.entries(MediaType).map(value => ({
-                          value: value[1].split('_').join(' '),
-                          label: value[0].split('_').join(' ')
+                        ...Object.entries(MediaType).map(([key, value]) => ({
+                          label: key.split('_').join(' '),
+                          value: value.split('_').join(' ')
                         }))
                       ]}
                       onChange={v =>

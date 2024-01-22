@@ -52,7 +52,7 @@ export default function ArticleSearch(props: SearchProps) {
                 filter={filter}
                 reset={() => {
                   setFilter({});
-                  handleSearch();
+                  props.onSearch({});
                   setSubmittedFilter({});
                   setKey(Date.now());
                   setShowFilter(false);

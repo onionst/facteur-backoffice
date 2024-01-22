@@ -7,6 +7,7 @@ export type TableProps = {
   columns: any[];
   data: any[][];
   loading?: boolean;
+  notFound?: any;
 };
 
 export function Table(props: TableProps) {
@@ -70,7 +71,7 @@ export function Table(props: TableProps) {
         </thead>
         <tbody>{Data}</tbody>
       </table>
-      {props.data.length === 0 ? <Empty /> : null}
+      {props.data.length === 0 ? props.notFound ? props.notFound : <Empty /> : null}
     </div>
   );
 }

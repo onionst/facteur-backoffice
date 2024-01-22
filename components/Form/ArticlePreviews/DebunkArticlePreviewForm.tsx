@@ -131,8 +131,8 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
               label="Topics"
               value={form.topics}
               options={Object.entries(Topic).map(([key, value]) => ({
-                value: key.split('_').join(' '),
-                label: value.split('_').join(' ')
+                label: key.split('_').join(' '),
+                value: value.split('_').join(' ')
               }))}
               maxTagCount="responsive"
               mode="multiple"
@@ -248,8 +248,8 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                         options={[
                           { label: 'Select platform where appearance was found', value: '' },
                           ...Object.entries(Platform).map(([key, value]) => ({
-                            value: key.split('_').join(' '),
-                            label: value.split('_').join(' ')
+                            label: key.split('_').join(' '),
+                            value: value.split('_').join(' ')
                           }))
                         ]}
                       />
@@ -260,8 +260,8 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                         options={[
                           { label: 'Select media format', value: '' },
                           ...Object.entries(MediaFormat).map(([key, value]) => ({
-                            value: key.split('_').join(' '),
-                            label: value.split('_').join(' ')
+                            label: key.split('_').join(' '),
+                            value: value.split('_').join(' ')
                           }))
                         ]}
                       />
@@ -276,9 +276,9 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                         defaultValue={appearance?.associatedMediaType}
                         options={[
                           { label: 'Select associated media format', value: '' },
-                          ...Object.entries(MediaType).map(value => ({
-                            value: value[1].split('_').join(' '),
-                            label: value[1].split('_').join(' ')
+                          ...Object.entries(MediaType).map(([key, value]) => ({
+                            label: key.split('_').join(' '),
+                            value: value.split('_').join(' ')
                           }))
                         ]}
                       />

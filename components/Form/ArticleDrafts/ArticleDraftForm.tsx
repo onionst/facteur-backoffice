@@ -57,7 +57,7 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
         ...prev,
         description: metadata?.summary || '',
         headlineNative: metadata?.title || prev?.headlineNative,
-        image: metadata?.image || prev?.image,
+        image: metadata?.image || metadata?.meta_image || prev?.image,
         datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished,
         keywords: keywords?.length > 0 ? keywords : prev?.keywords
       }));

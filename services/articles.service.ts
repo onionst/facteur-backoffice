@@ -75,7 +75,7 @@ export const FetchArticleById = async (id: string): Promise<Article> => {
 
 export const FetchTranslation = async (text: string): Promise<string> => {
   const response = await api.post(parseUrl(PREFIX, 'translate'), { text });
-  return response.data;
+  return response?.data;
 };
 
 export const UpdateArticle = async (id: string, article?: Partial<Article>) => {

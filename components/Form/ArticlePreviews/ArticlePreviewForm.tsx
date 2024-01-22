@@ -129,8 +129,8 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               label="Topics"
               value={form.topics}
               options={Object.entries(Topic).map(([key, value]) => ({
-                value: key.split('_').join(' '),
-                label: value.split('_').join(' ')
+                label: key.split('_').join(' '),
+                value: value.split('_').join(' ')
               }))}
               maxTagCount="responsive"
               mode="multiple"

@@ -11,7 +11,7 @@ import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
 import ArticleSearch from '@/components/Search/ArticlesSearch';
-import { EE24Headline } from '@/components/Table/EE24Table';
+import { EE24Headline, NotFound } from '@/components/Table/EE24Table';
 import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { ARTICLES_LIMIT_PER_PAGE, useArticles } from '@/contexts/articles.context';
@@ -88,6 +88,7 @@ export default function Articles() {
                 Actions
               </Row>
             ]}
+            notFound={<NotFound withoutButton value="" onClick={() => setFilter({})} type="TEXT" />}
             data={articles.map(article => [
               <EE24Headline key={article?.externalId} image={article?.image} headline={article?.headlineNative} />,
               <Link target="_blank" href={article?.url || ''} key={article?.externalId + 'link'} className="c-link">
