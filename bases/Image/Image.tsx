@@ -11,7 +11,6 @@ export type ImageProps = {
 };
 
 export default function Image(props: DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> & ImageProps) {
-  const [error, setError] = useState<boolean>(false);
   const [defaultPortrait, setDefaultPortrait] = useState<string>('/assets/portraits/image.svg');
 
   const [src, setSrc] = useState<string>('');
@@ -41,30 +40,26 @@ export default function Image(props: DetailedHTMLProps<ImgHTMLAttributes<HTMLIma
       VIDEO: '/assets/portraits/video.svg'
     }[portraitType];
     setDefaultPortrait(portrait);
-    if (error) {
+
+    // @ts-ignore
+    if (portraitType != 'IMAGE') {
       setSrc(portrait);
     } else {
-      // @ts-ignore
-      if (portraitType != 'IMAGE') {
-        setSrc(portrait);
-      } else {
-        setSrc(props.src || portrait || props.defaultImage || '/assets/portraits/image.svg');
-      }
+      setSrc(props.src || portrait || props.defaultImage || '/assets/portraits/image.svg');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.src, error]);
+  }, [props.src]);
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       {...props}
-      onError={e => {
-        if (e.type === 'error') {
-          setError(true);
-        }
-      }}
       className={`${s['ds-image']} ${props.className || ''}`}
       src={src || defaultPortrait}
+      onError={({ currentTarget }) => {
+        currentTarget.onerror = null;
+        currentTarget.src = '/assets/portraits/image.svg';
+      }}
     />
   );
 }
