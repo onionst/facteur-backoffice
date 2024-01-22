@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { File } from 'react-feather';
 import Row from '@/bases/Row/Row';
 import ArticleViewForm from '@/components/Form/ArticleViews/ArticleViewForm';
-import DebunkArticleViewForm from '@/components/Form/ArticleViews/DebunkArticlePreviewForm';
+import DebunkArticleViewForm from '@/components/Form/ArticleViews/DebunkArticleViewForm';
 import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
 import Wrapper from '@/components/Wrapper/Wrapper';

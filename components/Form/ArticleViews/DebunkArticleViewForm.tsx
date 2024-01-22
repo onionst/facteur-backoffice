@@ -1,9 +1,10 @@
-import { Divider } from 'antd';
+import { Divider, Tag } from 'antd';
 import dayjs from 'dayjs';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleView } from './articleView.interface';
 import s from './ArticleViewForm.module.scss';
 import { DatePicker } from '@/bases/DatePicker/DatePicker';
+import Image from '@/bases/Image/Image';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
@@ -13,7 +14,6 @@ import Page from '@/components/Page/Page';
 import { LanguageISO } from '@/constants/language';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
 import { ReviewRating } from '@/constants/ratings';
-import { Topic } from '@/constants/topics';
 import { WorldCountriesISO } from '@/constants/worldCountries';
 
 export type DebunkArticleViewFormProps = {};
@@ -23,6 +23,11 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
   return (
     <form className={s['ds-article-preview-form']}>
       <Page>
+        <Image
+          alt="ee24"
+          style={{ width: '100%', height: 160, minHeight: 160, maxHeight: 160, minWidth: '100%', maxWidth: '100%', objectFit: 'cover' }}
+          src={form.image}
+        />
         <Card theme="LIGHT">
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
@@ -31,6 +36,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
             {form.headline != form.headlineNative && (
               <Input
                 type="text"
+                disabled
                 minLength={10}
                 value={form.headline}
                 label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'} (In english)`}
@@ -40,6 +46,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
           </div>
           <Input
             type="text"
+            disabled
             minLength={10}
             value={form.headlineNative}
             label={
@@ -53,35 +60,26 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
             label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
             type="url"
             name="url"
+            disabled
             minLength={10}
             value={form.url}
             id="url"
             pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
           />
 
-          <Row align="SPACE">
-            <Input
-              type="url"
-              name="url"
-              value={form.image}
-              minLength={10}
-              id="url"
-              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-              label="Image URL"
-            />
-            <DatePicker
-              label="Date of article publication"
-              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
-            />
-          </Row>
+          <DatePicker
+            label="Date of article publication"
+            disabled
+            value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
+          />
         </Card>
         <Card theme="LIGHT">
           <h4>Article Details</h4>
           <Divider style={{ margin: '8px 0' }} />
 
           <Row align="SPACE">
-            <Tagger label="Keywords" maxTagCount="responsive" suffixIcon={null} value={form.keywords} mode="tags" />
             <Select
+              disabled
               label="Language of publication"
               defaultValue={form?.inLanguage}
               options={[
@@ -93,22 +91,16 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                   }))
               ]}
             />
-          </Row>
-          <Row align="SPACE">
-            <Tagger
-              label="Topics"
-              value={form.topics}
-              options={Object.entries(Topic).map(([key, value]) => ({
-                label: key.split('_').join(' '),
-                value: value.split('_').join(' ')
-              }))}
-              maxTagCount="responsive"
-              mode="multiple"
+            <Select
+              disabled
+              label="EU Relation"
+              defaultValue={form?.euRelation}
+              options={[{ label: form?.euRelation, value: form?.euRelation }]}
             />
-            <Select label="EU Relation" defaultValue={form?.euRelation} options={[{ label: form?.euRelation, value: form?.euRelation }]} />
           </Row>
           <Row align="SPACE">
             <Select
+              disabled
               label="Country of the organization"
               defaultValue={form?.countryOfOrigin}
               options={[
@@ -130,10 +122,34 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                     value: value.split('_').join(' ')
                   }))
               ]}
+              disabled
               mode="multiple"
               label="Country/Countries identified in article"
             />
           </Row>
+
+          {form?.topics?.length > 0 ? (
+            <Input label="Topics">
+              <div className="ds-debunk-view__tags">
+                {form.topics.map((i: any, index: number) => (
+                  <Tag style={{ marginBottom: 4 }} key={index}>
+                    {i}
+                  </Tag>
+                ))}
+              </div>
+            </Input>
+          ) : null}
+          {form?.keywords?.length > 0 ? (
+            <Input label="Keywords">
+              <div className="ds-debunk-view__tags">
+                {form.keywords.map((i: any, index: number) => (
+                  <Tag style={{ marginBottom: 4 }} key={index}>
+                    {i}
+                  </Tag>
+                ))}
+              </div>
+            </Input>
+          ) : null}
         </Card>
         <Card theme="LIGHT">
           <h4>Claim Details</h4>
@@ -141,6 +157,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
           <div className="w-full">
             {form.claimreviewed != form.claimreviewedNative && (
               <Input
+                disabled
                 type="text"
                 minLength={10}
                 value={form.claimreviewed}
@@ -149,9 +166,10 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
               />
             )}
           </div>
-          <Input label="Claim" value={form.claimreviewedNative} type="text" minLength={10} />
+          <Input disabled label="Claim" value={form.claimreviewedNative} type="text" minLength={10} />
           <Row align="SPACE">
             <Select
+              disabled
               label="Rating"
               defaultValue={form?.reviewRating}
               options={[
@@ -164,6 +182,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
               ]}
             />
             <DatePicker
+              disabled
               label="Date of claim publication"
               value={
                 dayjs(form.itemReviewed.datePublished).isValid() ? dayjs(form.itemReviewed.datePublished) : form.itemReviewed.datePublished
@@ -172,8 +191,8 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
           </Row>
           {props.type === ArticleType.Factcheck && (
             <Row align="SPACE">
-              <Input value={form.itemReviewed.author} label="Person" />
-              <Input value={form.itemReviewed.politicalParty} label="EU party related to the claim" />
+              <Input disabled value={form.itemReviewed.author} label="Person" />
+              <Input disabled value={form.itemReviewed.politicalParty} label="EU party related to the claim" />
             </Row>
           )}
 
@@ -189,6 +208,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                     title={`Claim appearance #${appearanceIndex + 1}`}
                   >
                     <Input
+                      disabled
                       label="URL"
                       pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
                       key={`${appearance.id}_URL`}
@@ -197,6 +217,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
 
                     <Row align="SPACE">
                       <Select
+                        disabled
                         label="Platform"
                         defaultValue={appearance?.platform}
                         options={[
@@ -209,6 +230,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                         ]}
                       />
                       <Select
+                        disabled
                         label="Format"
                         defaultValue={appearance?.mediaFormat}
                         options={[
@@ -224,9 +246,10 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                     </Row>
 
                     <Row align="SPACE">
-                      <Input label="Associated multimedia" value={appearance?.associatedMedia} />
+                      <Input disabled label="Associated multimedia" value={appearance?.associatedMedia} />
 
                       <Select
+                        disabled
                         label="Associated multimedia format"
                         defaultValue={appearance?.associatedMediaType}
                         options={[
@@ -241,6 +264,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                       />
                     </Row>
                     <Input
+                      disabled
                       label="Archive URL"
                       pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
                       key={`${appearance.id}_archived`}

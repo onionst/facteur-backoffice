@@ -1,18 +1,17 @@
-import { Divider } from 'antd';
+import { Divider, Tag } from 'antd';
 import dayjs from 'dayjs';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleView } from './articleView.interface';
 import s from './ArticleViewForm.module.scss';
 import { DatePicker } from '@/bases/DatePicker/DatePicker';
+import Image from '@/bases/Image/Image';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
 import Card from '@/components/Card/Card';
 import Page from '@/components/Page/Page';
-import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
-import { Topic } from '@/constants/topics';
 import { WorldCountriesISO } from '@/constants/worldCountries';
 
 export type ArticleViewFormProps = {};
@@ -21,22 +20,30 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
   return (
     <form className={s['ds-article-preview-form']}>
       <Page>
+        <Image
+          alt="ee24"
+          style={{ width: '100%', height: 160, minHeight: 160, maxHeight: 160, minWidth: '100%', maxWidth: '100%', objectFit: 'cover' }}
+          src={form.image}
+        />
         <Card theme="LIGHT">
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
 
           <div className="w-full">
-            <Input
-              type="text"
-              minLength={10}
-              required
-              value={form.headline}
-              label={`Translated title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
-              placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
-            />
+            {form.headline != form.headlineNative && (
+              <Input
+                type="text"
+                disabled
+                minLength={10}
+                value={form.headline}
+                label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'} (In english)`}
+                placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
+              />
+            )}
           </div>
           <Input
             type="text"
+            disabled
             minLength={10}
             value={form.headlineNative}
             label={
@@ -50,83 +57,96 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
             label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
             type="url"
             name="url"
+            disabled
             minLength={10}
             value={form.url}
             id="url"
             pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
           />
 
-          <Row align="SPACE">
-            <Input
-              type="url"
-              name="url"
-              value={form.image}
-              minLength={10}
-              id="url"
-              pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-              label="Image URL"
-            />
-            <DatePicker
-              label="Date of article publication"
-              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
-            />
-          </Row>
+          <DatePicker
+            label="Date of article publication"
+            disabled
+            value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
+          />
         </Card>
         <Card theme="LIGHT">
           <h4>Article Details</h4>
           <Divider style={{ margin: '8px 0' }} />
 
           <Row align="SPACE">
-            <Tagger label="Keywords" maxTagCount="responsive" value={form.keywords} mode="tags" suffixIcon={null} />
             <Select
+              disabled
               label="Language of publication"
               defaultValue={form?.inLanguage}
               options={[
-                { label: 'Language of publication', value: '' },
-                ...Object.entries(LanguageISO).map(([key, value]) => ({
-                  label: key.split('_').join(' '),
-                  value: value.split('_').join(' ')
-                }))
+                ...Object.entries(LanguageISO)
+                  .filter(([, value]) => form?.inLanguage === value)
+                  .map(([key, value]) => ({
+                    label: key.split('_').join(' '),
+                    value: value.split('_').join(' ')
+                  }))
               ]}
             />
-          </Row>
-          <Row align="SPACE">
-            <Tagger
-              label="Topics"
-              value={form.topics}
-              options={Object.entries(Topic).map(([key, value]) => ({
-                label: key.split('_').join(' '),
-                value: value.split('_').join(' ')
-              }))}
-              maxTagCount="responsive"
-              mode="multiple"
+            <Select
+              disabled
+              label="EU Relation"
+              defaultValue={form?.euRelation}
+              options={[{ label: form?.euRelation, value: form?.euRelation }]}
             />
           </Row>
           <Row align="SPACE">
             <Select
+              disabled
               label="Country of the organization"
               defaultValue={form?.countryOfOrigin}
               options={[
-                { label: 'Country of Origin', value: '' },
-                ...Object.entries(CountryISO).map(([key, value]) => ({
-                  label: key.split('_').join(' '),
-                  value: value.split('_').join(' ')
-                }))
+                ...Object.entries(WorldCountriesISO)
+                  .filter(([, value]) => form?.countryOfOrigin === value)
+                  .map(([key, value]) => ({
+                    label: key.split('_').join(' '),
+                    value: value.split('_').join(' ')
+                  }))
               ]}
             />
             <Tagger
               value={form?.contentLocation}
               options={[
-                ...Object.entries(WorldCountriesISO).map(([key, value]) => ({
-                  label: key.split('_').join(' '),
-                  value: value.split('_').join(' ')
-                }))
+                ...Object.entries(WorldCountriesISO)
+                  .filter(([, value]) => form?.contentLocation.includes(value))
+                  .map(([key, value]) => ({
+                    label: key.split('_').join(' '),
+                    value: value.split('_').join(' ')
+                  }))
               ]}
-              maxTagCount="responsive"
+              disabled
               mode="multiple"
               label="Country/Countries identified in article"
             />
           </Row>
+
+          {form?.topics?.length > 0 ? (
+            <Input label="Topics">
+              <div className="ds-debunk-view__tags">
+                {form.topics.map((i: any, index: number) => (
+                  <Tag style={{ marginBottom: 4 }} key={index}>
+                    {i}
+                  </Tag>
+                ))}
+              </div>
+            </Input>
+          ) : null}
+          {form?.keywords?.length > 0 ? (
+            <Input label="Keywords">
+              <div className="ds-debunk-view__tags">
+                {form.keywords.map((i: any, index: number) => (
+                  <Tag style={{ marginBottom: 4 }} key={index}>
+                    {i}
+                  </Tag>
+                ))}
+              </div>
+            </Input>
+          ) : null}
         </Card>
       </Page>
     </form>
