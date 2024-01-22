@@ -40,7 +40,7 @@ export const SECTIONS: Section[] = [
       {
         access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
         icon: <File size={18} strokeWidth={2.3} color="#4b5675" />,
-        name: 'Articles',
+        name: 'Your articles',
         type: 'ITEM',
         path: '/app/data/articles'
       }

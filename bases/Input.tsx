@@ -4,6 +4,7 @@ import { Eye, EyeOff } from 'react-feather';
 export type InputProps = {
   label?: string;
   withIcon?: any;
+  requiredHide?: boolean;
   onIconClick?: () => void;
 };
 
@@ -13,7 +14,7 @@ export function Input(props: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
     <div className="w-full">
       {props.label && (
         <label className="form-label" style={{ marginBottom: 2 }}>
-          {props.label} {props.required ? <span>*</span> : ''}
+          {props.label} {props.required && !props.requiredHide ? <span>*</span> : ''}
         </label>
       )}
       <div className="w-full" style={{ position: 'relative' }}>

@@ -1,3 +1,6 @@
+import { ChevronLeft, ChevronRight } from 'react-feather';
+import s from './Pagination.module.scss';
+
 export type PaginationProps = {
   currentPage: number;
   prevPage: () => void;
@@ -48,15 +51,18 @@ export default function Pagination(props: PaginationProps) {
   const isPrevDisabled = currentPage === 1;
   const isNextDisabled = currentPage === totalPages;
 
+  if (totalRecordsCount === 0) {
+    return <div />;
+  }
   return (
     <ul className="pagination">
       <li className={`page-item previous ${isPrevDisabled ? 'disabled' : ''}`}>
         <a href="#" className="page-link" onClick={() => !isPrevDisabled && prevPage()}>
-          <i className="previous"></i>
+          <ChevronLeft size={16} color="#252f4a" />
         </a>
       </li>
       {getPageNumbers().map(number => (
-        <li key={number} className={`page-item ${number === currentPage ? 'active' : ''}`}>
+        <li key={number} className={`page-item ${s['ds-pagination']} ${number === currentPage ? s['ds-pagination--active'] : ''}`}>
           <a href="#" className="page-link" onClick={() => number !== currentPage && skip(number)}>
             {number}
           </a>
@@ -64,7 +70,7 @@ export default function Pagination(props: PaginationProps) {
       ))}
       <li className={`page-item next ${isNextDisabled ? 'disabled' : ''}`}>
         <a href="#" className="page-link" onClick={() => !isNextDisabled && nextPage()}>
-          <i className="next"></i>
+          <ChevronRight size={16} color="#252f4a" />
         </a>
       </li>
     </ul>

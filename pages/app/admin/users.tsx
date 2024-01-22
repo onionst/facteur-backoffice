@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Download, Edit, Mail, RefreshCcw, Trash, Users as UsersIcon, X } from 'react-feather';
+import { Download, Edit, Mail, RefreshCcw, Trash, Users as UsersIcon } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -15,6 +15,7 @@ import { useAuth } from '@/contexts/auth.context';
 import { useModal } from '@/contexts/modal.context';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { USERS_LIMIT_PER_PAGE, useUsers } from '@/contexts/users.context';
+import { safeReturn } from '@/utils/safeReturn';
 
 export default function Users() {
   const modals = useModal();
@@ -46,6 +47,13 @@ export default function Users() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
+
+  useEffect(() => {
+    return () => {
+      safeReturn(() => fetchUsers({}));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -134,7 +142,7 @@ export default function Users() {
                             showDeleteUser(user?.id);
                           }}
                         >
-                          <X color="#252f4a" size={18} />
+                          <Trash color="#252f4a" size={18} />
                         </IconButton>
                       )}
                     </>
@@ -173,7 +181,7 @@ export default function Users() {
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>
-              Showing {users.length} of {page.records} users
+              Showing {(page.current >= 1 ? 20 : users.length) * page.current + users.length} of {page.records} users
             </span>
           </Row>
           <Row align="RIGHT">

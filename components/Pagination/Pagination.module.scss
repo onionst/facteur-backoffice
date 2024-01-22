@@ -1,0 +1,11 @@
+@import '@/styles/app/variables.scss';
+
+.ds-pagination {
+  border-radius: 0.475rem;
+
+  &--active {
+    box-sizing: border-box;
+    border: 1px solid $ds-primary;
+    color: $ds-primary;
+  }
+}

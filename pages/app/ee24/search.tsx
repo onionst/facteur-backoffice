@@ -21,6 +21,7 @@ import Wrapper from '@/components/Wrapper/Wrapper';
 import { FILE_TYPES } from '@/constants/accept';
 import { EE24_ARTICLES_LIMIT_PER_PAGE, useEE24 } from '@/contexts/ee24.context';
 import { useModal } from '@/contexts/modal.context';
+import { safeReturn } from '@/utils/safeReturn';
 
 export default function Repository() {
   const modals = useModal();
@@ -30,21 +31,21 @@ export default function Repository() {
   const { articles, page, fetchEE24Articles, fetchEE24ArticlesByImage, ...ee24Props } = useEE24();
   const { showDownloadEE24Articles } = modals.ee24;
   const [key, setKey] = useState(Date.now());
-  const [filter, setFilter] = useState<Filter & { search: string }>({ search: '' });
+  const [filter, setFilter] = useState<Filter & { search: string }>({ order: '-datePublished', search: '' });
 
   useEffect(() => {
     if (router?.query?.c && router?.query?.q && router?.query?.ft && typeof router?.query?.q === 'string') {
       if (router?.query?.c === 'TEXT') {
         setSearchType('TEXT');
-        setFilter({ search: router.query.q });
-        fetchEE24Articles({ search: router.query.q });
+        setFilter({ order: '-datePublished', search: router.query.q });
+        fetchEE24Articles({ order: '-datePublished', search: router.query.q });
       } else {
         if (router?.query?.ft === 'IMAGE') {
           setPortait(router?.query?.q);
           setSearchType('IMAGE');
           fetchEE24ArticlesByImage(router?.query?.q);
         }
-        setFilter({ search: '' });
+        setFilter({ order: '-datePublished', search: '' });
       }
     } else {
       setSearchType('TEXT');
@@ -53,7 +54,14 @@ export default function Repository() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  }, [router.query]);
+
+  useEffect(() => {
+    return () => {
+      safeReturn(() => fetchEE24Articles({ order: '-datePublished' }));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -65,6 +73,7 @@ export default function Repository() {
               key={key}
               reset={() => {
                 setFilter(prev => ({
+                  order: '-datePublished',
                   search: prev?.search
                 }));
                 fetchEE24Articles({ search: filter.search });
@@ -79,6 +88,7 @@ export default function Repository() {
               onChange={(data: Filter) => {
                 setFilter(prev => ({
                   ...data,
+                  order: prev.order,
                   search: prev.search
                 }));
               }}
@@ -132,6 +142,7 @@ export default function Repository() {
                         className="c-pointer"
                         onClick={() => {
                           setFilter(prev => ({
+                            order: '-datePublished',
                             search: prev?.search
                           }));
                           fetchEE24Articles({ search: filter.search });
@@ -149,6 +160,7 @@ export default function Repository() {
                 notFound={ee24Props.notFound}
                 onReset={() => {
                   setFilter(prev => ({
+                    order: '-datePublished',
                     search: prev?.search
                   }));
                   fetchEE24Articles({ search: filter.search });
@@ -168,12 +180,13 @@ export default function Repository() {
                     {searchType === 'TEXT' ? (
                       <Sorter
                         onSort={() => {
+                          const order = filter.order ? (filter.order?.includes('-') ? 'datePublished' : '-datePublished') : 'datePublished';
                           setFilter(prev => ({
                             ...prev,
-                            order: prev.order?.includes('-') ? 'datePublished' : '-datePublished'
+                            order
                           }));
                           setTimeout(() => {
-                            fetchEE24Articles(filter);
+                            fetchEE24Articles({ ...filter, order });
                             setSearchType('TEXT');
                           }, 50);
                         }}
@@ -208,7 +221,7 @@ export default function Repository() {
               </IconButton>
             )}
             <span>
-              Showing {articles.length} of {page.records} articles
+              Showing {(page.current >= 1 ? 20 : articles.length) * page.current + articles.length} of {page.records} articles
             </span>
           </Row>
           <Row align="RIGHT">

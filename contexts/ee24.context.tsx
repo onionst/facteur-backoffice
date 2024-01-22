@@ -43,6 +43,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     try {
       setLoading(true);
       const data = await FetchEE24Articles({
+        order: '-datePublished',
         ...filter,
         page: pageIndex,
         limit: EE24_ARTICLES_LIMIT_PER_PAGE

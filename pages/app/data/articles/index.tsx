@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Download, Edit, File, X } from 'react-feather';
+import { Download, Edit, File, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -11,23 +11,32 @@ import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
 import ArticleSearch from '@/components/Search/ArticlesSearch';
-import { EE24Headline } from '@/components/Table/EE24Table';
+import { EE24Headline, NotFound } from '@/components/Table/EE24Table';
 import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { ARTICLES_LIMIT_PER_PAGE, useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
 import { useModal } from '@/contexts/modal.context';
+import { safeReturn } from '@/utils/safeReturn';
 
 export default function Articles() {
   const { session } = useAuth();
-  const [filter, setFilter] = useState<any>({ order: 'dateModified' });
+  const [filter, setFilter] = useState<any>({ order: '-dateModified' });
   const modals = useModal();
 
   const { showDeleteArticle, showDownloadArticles } = modals.articles;
   const { articles, fetchArticles, page, ...articlesProps } = useArticles();
+
+  useEffect(() => {
+    return () => {
+      safeReturn(() => fetchArticles({ order: '-dateModified' }));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
-      <Header icon={<File />} title="Articles">
+      <Header icon={<File />} title="Your articles">
         <Link href="/app/data/articles/new">
           <Button theme="CTA">Create article</Button>
         </Link>
@@ -61,13 +70,14 @@ export default function Articles() {
               <Sorter
                 key="Sorter"
                 onSort={() => {
+                  const order = filter.order?.includes('-') ? 'dateModified' : '-dateModified';
                   setFilter((prev: any) => ({
                     ...prev,
                     publisher: session.organization?.domain,
-                    order: prev?.order?.includes('-') ? 'dateModified' : '-dateModified'
+                    order
                   }));
                   setTimeout(() => {
-                    fetchArticles(filter);
+                    fetchArticles({ ...filter, order });
                   }, 50);
                 }}
                 order={filter.order?.includes('-') ? 'DESC' : 'ASC'}
@@ -78,6 +88,7 @@ export default function Articles() {
                 Actions
               </Row>
             ]}
+            notFound={<NotFound withoutButton value="" onClick={() => setFilter({})} type="TEXT" />}
             data={articles.map(article => [
               <EE24Headline key={article?.externalId} image={article?.image} headline={article?.headlineNative} />,
               <Link target="_blank" href={article?.url || ''} key={article?.externalId + 'link'} className="c-link">
@@ -99,7 +110,7 @@ export default function Articles() {
                     showDeleteArticle(article?.externalId);
                   }}
                 >
-                  <X color="#252f4a" size={18} />
+                  <Trash color="#252f4a" size={18} />
                 </IconButton>
               </Row>
             ])}
@@ -107,11 +118,13 @@ export default function Articles() {
         </Page>
         <Row align="SPACE">
           <Row align="LEFT">
-            <IconButton type="button" onClick={() => showDownloadArticles(filter)}>
-              <Download color="#252f4a" size={16} />
-            </IconButton>
+            {page.records > 0 && (
+              <IconButton type="button" onClick={() => showDownloadArticles(filter)}>
+                <Download color="#252f4a" size={16} />
+              </IconButton>
+            )}
             <span>
-              Showing {articles.length} of {page.records} articles
+              Showing {(page.current >= 1 ? 20 : articles.length) * page.current + articles.length} of {page.records} articles
             </span>
           </Row>
           <Row align="RIGHT">

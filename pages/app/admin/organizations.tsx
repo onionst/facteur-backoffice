@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Box, Download, Edit, RefreshCcw, X } from 'react-feather';
+import { Box, Download, Edit, RefreshCcw, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -12,6 +12,7 @@ import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { useModal } from '@/contexts/modal.context';
 import { ORGANIZATIONS_LIMIT_PER_PAGE, useOrganizations } from '@/contexts/organizations.context';
+import { safeReturn } from '@/utils/safeReturn';
 
 export default function Organizations() {
   const modals = useModal();
@@ -19,6 +20,13 @@ export default function Organizations() {
   const { organizations, fetchOrganizations, page, ...organizationsProps } = useOrganizations();
   const { showCreateOrganization, showEditOrganization, showDeleteOrganization, showRestoreOrganization, showDownloadOrganizations } =
     modals.organizations;
+
+  useEffect(() => {
+    return () => {
+      safeReturn(() => fetchOrganizations({}));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -75,7 +83,7 @@ export default function Organizations() {
                       <Edit color="#252f4a" size={18} />
                     </IconButton>
                     <IconButton onClick={() => showDeleteOrganization(organization?.id)}>
-                      <X color="#252f4a" size={18} />
+                      <Trash color="#252f4a" size={18} />
                     </IconButton>
                   </>
                 ) : (
@@ -93,7 +101,8 @@ export default function Organizations() {
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>
-              Showing {organizations.length} of {page.records} organizations
+              Showing {(page.current >= 2 ? 20 : organizations.length) * (page.current - 1) + organizations.length} of {page.records}{' '}
+              organizations
             </span>
           </Row>
           <Row align="RIGHT">

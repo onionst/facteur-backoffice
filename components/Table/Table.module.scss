@@ -56,8 +56,12 @@
   gap: 8px;
   & > img {
     height: 48px;
+    min-height: 48px;
+    max-height: 48px;
     object-fit: cover;
     width: 68px;
+    min-width: 68px;
+    max-width: 68px;
     border-radius: 0.475rem;
   }
   & > p {

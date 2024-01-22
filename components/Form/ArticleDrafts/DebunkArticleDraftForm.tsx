@@ -65,7 +65,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
         ...prev,
         description: metadata?.summary || '',
         headlineNative: metadata?.title || prev?.headlineNative,
-        image: metadata?.image || prev?.image,
+        image: metadata?.image || metadata?.meta_image || prev?.image,
         datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished,
         keywords: keywords?.length > 0 ? keywords : prev?.keywords
       }));
@@ -288,14 +288,15 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
             </Row>
           )}
 
-          <Input label="Appearances" required={form.itemReviewed.appearances.length > 0}>
-            {form.itemReviewed.appearances.map((appearance: any) => (
+          <Input requiredHide label="Claim appearances details" required={form.itemReviewed.appearances.length > 0}>
+            {form.itemReviewed.appearances.map((appearance: any, appearanceIndex: number) => (
               <div key={appearance.id}>
                 <Card
                   key={appearance.id}
                   style={{
                     marginBottom: 8
                   }}
+                  title={`Claim appearance #${appearanceIndex + 1}`}
                 >
                   <Input
                     label="URL"
@@ -329,8 +330,8 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                       options={[
                         { label: 'Select platform where appearance was found', value: '' },
                         ...Object.entries(Platform).map(([key, value]) => ({
-                          value: key.split('_').join(' '),
-                          label: value.split('_').join(' ')
+                          label: key.split('_').join(' '),
+                          value: value.split('_').join(' ')
                         }))
                       ]}
                       onChange={v =>
@@ -357,8 +358,8 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                       options={[
                         { label: 'Select media format', value: '' },
                         ...Object.entries(MediaFormat).map(([key, value]) => ({
-                          value: key.split('_').join(' '),
-                          label: value.split('_').join(' ')
+                          label: key.split('_').join(' '),
+                          value: value.split('_').join(' ')
                         }))
                       ]}
                       onChange={v =>
@@ -417,8 +418,8 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                       options={[
                         { label: 'Select associated media format', value: '' },
                         ...Object.entries(MediaType).map(([key, value]) => ({
-                          value: key.split('_').join(' '),
-                          label: value.split('_').join(' ')
+                          label: key.split('_').join(' '),
+                          value: value.split('_').join(' ')
                         }))
                       ]}
                       onChange={v =>
@@ -477,7 +478,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                         }))
                       }
                     >
-                      <X size={14} /> Remove appearance
+                      <X size={14} /> Remove claim appearance
                     </span>
                   </Row>
                 </Card>
@@ -507,7 +508,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                 }));
               }}
             >
-              <Plus size={14} /> Add appearance
+              <Plus size={14} /> Add claim appearance
             </span>
           </Input>
         </Card>

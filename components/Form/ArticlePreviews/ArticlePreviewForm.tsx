@@ -73,7 +73,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
                 ? `Native title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
                 : `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
             }
-            placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
           />
 
           <Input
@@ -85,7 +84,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
             value={form.url}
             id="url"
             pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-            placeholder="https://example.com/factchecking/article-010101"
           />
 
           <Row align="SPACE">
@@ -98,7 +96,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               id="url"
               pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
               label="Image URL"
-              placeholder="https://example.com/factchecking/article-010101"
             />
             <DatePicker
               label="Date of article publication"
@@ -112,15 +109,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
           <Divider style={{ margin: '8px 0' }} />
 
           <Row align="SPACE">
-            <Tagger
-              label="Keywords"
-              maxTagCount="responsive"
-              disabled
-              value={form.keywords}
-              mode="tags"
-              suffixIcon={null}
-              placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
-            />
+            <Tagger label="Keywords" maxTagCount="responsive" disabled value={form.keywords} mode="tags" suffixIcon={null} />
             <Select
               label="Language of publication"
               disabled
@@ -140,12 +129,11 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               label="Topics"
               value={form.topics}
               options={Object.entries(Topic).map(([key, value]) => ({
-                value: key.split('_').join(' '),
-                label: value.split('_').join(' ')
+                label: key.split('_').join(' '),
+                value: value.split('_').join(' ')
               }))}
               maxTagCount="responsive"
               mode="multiple"
-              placeholder="Article's topics"
             />
           </Row>
           <Row align="SPACE">
@@ -173,7 +161,6 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               maxTagCount="responsive"
               mode="multiple"
               label="Country/Countries identified in article"
-              placeholder="Country/Countries identified in article"
             />
           </Row>
         </Card>

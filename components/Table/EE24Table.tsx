@@ -18,66 +18,76 @@ export type EE24HeadlineProps = {
   image?: string;
   headline?: string;
 };
-export function NotFound(props: { type: FileType; value: string; onClick: () => void }) {
+export function NotFound(props: { withoutButton?: boolean; type: FileType; value: string; onClick: () => void }) {
   const render = {
     NONE: (
       <div className={s['ds-not-found']}>
         <Empty description="" />
         <div className={s['ds-not-found__text']}>
-          <h3>No article found</h3>
+          <h3>No articles found</h3>
           <p>Your search did not match any article</p>
         </div>
-        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Clear filter
-        </Button>
+        {!props.withoutButton && (
+          <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+            Clear filter
+          </Button>
+        )}
       </div>
     ),
     AUDIO: (
       <div className={s['ds-not-found']}>
         <Image className={s['ds-not-found__image']} src={'/assets/portraits/audio.svg'} alt="not found" />
         <div className={s['ds-not-found__text']}>
-          <h3>No article found</h3>
+          <h3>No articles found</h3>
           <p>Your audio did not match any article</p>
         </div>
-        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Clear filter
-        </Button>
+        {!props.withoutButton && (
+          <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+            Clear filter
+          </Button>
+        )}
       </div>
     ),
     VIDEO: (
       <div className={s['ds-not-found']}>
         <Image className={s['ds-not-found__image']} src={'/assets/portraits/video.svg'} alt="not found" />
         <div className={s['ds-not-found__text']}>
-          <h3>No article found</h3>
+          <h3>No articles found</h3>
           <p>Your video did not match any article</p>
         </div>
-        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Clear filter
-        </Button>
+        {!props.withoutButton && (
+          <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+            Clear filter
+          </Button>
+        )}
       </div>
     ),
     IMAGE: (
       <div className={s['ds-not-found']}>
         <Image className={s['ds-not-found__image']} src={props.value} alt="not found" />
         <div className={s['ds-not-found__text']}>
-          <h3>No article found</h3>
+          <h3>No articles found</h3>
           <p>Your image did not match any article</p>
         </div>
-        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Clear filter
-        </Button>
+        {!props.withoutButton && (
+          <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+            Clear filter
+          </Button>
+        )}
       </div>
     ),
     TEXT: (
       <div className={s['ds-not-found']}>
         <Empty description="" />
         <div className={s['ds-not-found__text']}>
-          <h3>No article found</h3>
+          <h3>No articles found</h3>
           <p>Your search did not match any article</p>
         </div>
-        <Button theme="TERTIARY" type="button" onClick={props.onClick}>
-          Clear filter
-        </Button>
+        {!props.withoutButton && (
+          <Button theme="TERTIARY" type="button" onClick={props.onClick}>
+            Clear filter
+          </Button>
+        )}
       </div>
     )
   }[props.type];
