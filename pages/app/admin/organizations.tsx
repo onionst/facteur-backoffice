@@ -12,6 +12,7 @@ import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { useModal } from '@/contexts/modal.context';
 import { ORGANIZATIONS_LIMIT_PER_PAGE, useOrganizations } from '@/contexts/organizations.context';
+import { safeReturn } from '@/utils/safeReturn';
 
 export default function Organizations() {
   const modals = useModal();
@@ -22,7 +23,7 @@ export default function Organizations() {
 
   useEffect(() => {
     return () => {
-      fetchOrganizations({});
+      safeReturn(() => fetchOrganizations({}));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

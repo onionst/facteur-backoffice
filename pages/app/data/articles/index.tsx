@@ -17,6 +17,7 @@ import Wrapper from '@/components/Wrapper/Wrapper';
 import { ARTICLES_LIMIT_PER_PAGE, useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
 import { useModal } from '@/contexts/modal.context';
+import { safeReturn } from '@/utils/safeReturn';
 
 export default function Articles() {
   const { session } = useAuth();
@@ -28,7 +29,7 @@ export default function Articles() {
 
   useEffect(() => {
     return () => {
-      fetchArticles({ order: '-dateModified' });
+      safeReturn(() => fetchArticles({ order: '-dateModified' }));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

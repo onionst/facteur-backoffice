@@ -21,6 +21,7 @@ import Wrapper from '@/components/Wrapper/Wrapper';
 import { FILE_TYPES } from '@/constants/accept';
 import { EE24_ARTICLES_LIMIT_PER_PAGE, useEE24 } from '@/contexts/ee24.context';
 import { useModal } from '@/contexts/modal.context';
+import { safeReturn } from '@/utils/safeReturn';
 
 export default function Repository() {
   const modals = useModal();
@@ -57,7 +58,7 @@ export default function Repository() {
 
   useEffect(() => {
     return () => {
-      fetchEE24Articles({ order: '-datePublished' });
+      safeReturn(() => fetchEE24Articles({ order: '-datePublished' }));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -15,6 +15,7 @@ import { useAuth } from '@/contexts/auth.context';
 import { useModal } from '@/contexts/modal.context';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { USERS_LIMIT_PER_PAGE, useUsers } from '@/contexts/users.context';
+import { safeReturn } from '@/utils/safeReturn';
 
 export default function Users() {
   const modals = useModal();
@@ -49,7 +50,7 @@ export default function Users() {
 
   useEffect(() => {
     return () => {
-      fetchUsers({});
+      safeReturn(() => fetchUsers({}));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
