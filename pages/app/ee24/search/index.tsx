@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Download, Edit, Eye, MoreHorizontal, Search as SearchIcon, X } from 'react-feather';
+import { Download, Edit, MoreHorizontal, Search as SearchIcon, X } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import Column from '@/bases/Column/Column';
 import IconButton from '@/bases/IconButton/IconButton';
@@ -216,22 +216,13 @@ export default function Repository() {
                   </Row>,
                   <Row align="RIGHT" key={article?.externalId + 'actions'}>
                     {session.role === ROLES.RESEARCHER ||
-                    (session.role != ROLES.SUPER_ADMIN && session.organization?.domain != article.publisher) ? (
-                      <IconButton
-                        onClick={e => {
-                          e.stopPropagation();
-                          router.push(`/app/ee24/search/view?id=${article?.externalId}&&f=search`);
-                        }}
-                      >
-                        <Eye size={18} color="#252f4a" />
-                      </IconButton>
-                    ) : (
+                    (session.role != ROLES.SUPER_ADMIN && session.organization?.domain != article.publisher) ? null : (
                       <Popover
                         trigger="click"
                         placement="bottomRight"
                         content={
                           <div className="w-full">
-                            <Button
+                            {/* <Button
                               type="button"
                               onClick={e => {
                                 e.stopPropagation();
@@ -241,7 +232,7 @@ export default function Repository() {
                               theme="TERTIARY"
                             >
                               View <Eye size={18} />
-                            </Button>
+                            </Button> */}
                             <Button
                               onClick={e => {
                                 e.stopPropagation();

@@ -1,4 +1,4 @@
-import { Badge, Divider } from 'antd';
+import { Divider } from 'antd';
 import dayjs from 'dayjs';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleView } from './articleView.interface';
@@ -26,21 +26,18 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
           <Divider style={{ margin: '8px 0' }} />
 
           <div className="w-full">
-            <Badge.Ribbon text="Translated with AI">
-              <Input
-                type="text"
-                minLength={10}
-                required
-                value={form.headline}
-                label={`Translated title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
-                placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
-              />
-            </Badge.Ribbon>
+            <Input
+              type="text"
+              minLength={10}
+              required
+              value={form.headline}
+              label={`Translated title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
+              placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
+            />
           </div>
           <Input
             type="text"
             minLength={10}
-            disabled
             value={form.headlineNative}
             label={
               form.headline != form.headlineNative
@@ -53,7 +50,6 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
             label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
             type="url"
             name="url"
-            disabled
             minLength={10}
             value={form.url}
             id="url"
@@ -64,7 +60,6 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
             <Input
               type="url"
               name="url"
-              disabled
               value={form.image}
               minLength={10}
               id="url"
@@ -74,7 +69,6 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
             <DatePicker
               label="Date of article publication"
               value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
-              disabled
             />
           </Row>
         </Card>
@@ -83,10 +77,9 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
           <Divider style={{ margin: '8px 0' }} />
 
           <Row align="SPACE">
-            <Tagger label="Keywords" maxTagCount="responsive" disabled value={form.keywords} mode="tags" suffixIcon={null} />
+            <Tagger label="Keywords" maxTagCount="responsive" value={form.keywords} mode="tags" suffixIcon={null} />
             <Select
               label="Language of publication"
-              disabled
               defaultValue={form?.inLanguage}
               options={[
                 { label: 'Language of publication', value: '' },
@@ -99,7 +92,6 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
           </Row>
           <Row align="SPACE">
             <Tagger
-              disabled
               label="Topics"
               value={form.topics}
               options={Object.entries(Topic).map(([key, value]) => ({
@@ -123,7 +115,6 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
               ]}
             />
             <Tagger
-              disabled
               value={form?.contentLocation}
               options={[
                 ...Object.entries(WorldCountriesISO).map(([key, value]) => ({

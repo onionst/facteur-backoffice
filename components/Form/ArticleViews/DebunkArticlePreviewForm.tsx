@@ -1,4 +1,4 @@
-import { Badge, Divider } from 'antd';
+import { Divider } from 'antd';
 import dayjs from 'dayjs';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleView } from './articleView.interface';
@@ -29,15 +29,13 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
 
           <div className="w-full">
             {form.headline != form.headlineNative && (
-              <Badge.Ribbon text="Translated with AI">
-                <Input
-                  type="text"
-                  minLength={10}
-                  value={form.headline}
-                  label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'} (In english)`}
-                  placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
-                />
-              </Badge.Ribbon>
+              <Input
+                type="text"
+                minLength={10}
+                value={form.headline}
+                label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'} (In english)`}
+                placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
+              />
             )}
           </div>
           <Input
@@ -142,15 +140,13 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
           <Divider style={{ margin: '8px 0' }} />
           <div className="w-full">
             {form.claimreviewed != form.claimreviewedNative && (
-              <Badge.Ribbon text="Translated with AI">
-                <Input
-                  type="text"
-                  minLength={10}
-                  value={form.claimreviewed}
-                  label="Claim (In english)"
-                  placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
-                />
-              </Badge.Ribbon>
+              <Input
+                type="text"
+                minLength={10}
+                value={form.claimreviewed}
+                label="Claim (In english)"
+                placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
+              />
             )}
           </div>
           <Input label="Claim" value={form.claimreviewedNative} type="text" minLength={10} />
