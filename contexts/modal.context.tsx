@@ -146,9 +146,8 @@ export const ModalProvider = (props: { children: any }) => {
       <>
         <TFAEmailSentModal footer={null} width={350} open={emailSentActive} onCancel={() => setEmailSentActive(false)} />
         <AccountModal
-          drawerStyle={{ padding: 20 }}
           placement="right"
-          styles={{ header: { display: 'none' } }}
+          styles={{ header: { display: 'none' }, content: { padding: 20 } }}
           footer={null}
           width={width <= 440 ? width - 40 : 400}
           open={accountActive}

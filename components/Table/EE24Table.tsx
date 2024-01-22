@@ -127,8 +127,8 @@ export function EE24Headline(props: EE24HeadlineProps) {
 export function EE24Table(props: EE24TableProps) {
   const Columns = useMemo(
     () =>
-      props.columns.map(title => (
-        <th key={title} className={props.firstExtended ? s['ds-table-column--extended'] : ''}>
+      props.columns.map((title, index) => (
+        <th key={index} className={props.firstExtended ? s['ds-table-column--extended'] : ''}>
           {title}
         </th>
       )),
@@ -138,8 +138,8 @@ export function EE24Table(props: EE24TableProps) {
 
   const Loading = useMemo(
     () =>
-      props.columns.map(title => (
-        <td key={title}>
+      props.columns.map((_, index) => (
+        <td key={index}>
           <Skeleton active />
           <Skeleton active />
           <Skeleton active />

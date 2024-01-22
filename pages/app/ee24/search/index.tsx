@@ -217,7 +217,12 @@ export default function Repository() {
                   <Row align="RIGHT" key={article?.externalId + 'actions'}>
                     {session.role === ROLES.RESEARCHER ||
                     (session.role != ROLES.SUPER_ADMIN && session.organization?.domain != article.publisher) ? (
-                      <IconButton onClick={e => e.stopPropagation()}>
+                      <IconButton
+                        onClick={e => {
+                          e.stopPropagation();
+                          router.push(`/app/ee24/search/view?id=${article?.externalId}&&f=search`);
+                        }}
+                      >
                         <Eye size={18} color="#252f4a" />
                       </IconButton>
                     ) : (
@@ -230,6 +235,7 @@ export default function Repository() {
                               type="button"
                               onClick={e => {
                                 e.stopPropagation();
+                                router.push(`/app/ee24/search/view?id=${article?.externalId}&&f=search`);
                               }}
                               style={{ width: '100%', marginBottom: 4 }}
                               theme="TERTIARY"

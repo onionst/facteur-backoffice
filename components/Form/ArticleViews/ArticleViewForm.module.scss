@@ -1,0 +1,16 @@
+@import '@/styles/app/variables.scss';
+.ds-article-preview-form {
+  width: 100%;
+
+  &__fab {
+    position: sticky;
+    bottom: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 24px 20px 20px 20px;
+    background: linear-gradient(transparent, $ds-gray-200) !important;
+    border-radius: 0.475rem 0 0 0.475rem;
+  }
+}

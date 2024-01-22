@@ -16,7 +16,6 @@ export type SearchProps = {
   onUpload?: (url: string, fileType: FileType) => void;
   onSearch: (filter: Filter, selector?: string) => void;
   accept?: Accept;
-
   withFilter?: boolean;
   withSelector?: Array<{ label: string; value: string }>;
 };

@@ -1,4 +1,5 @@
 import { Modal, ModalProps } from 'antd';
+import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
 import { X } from 'react-feather';
 import s from '../Modals.module.scss';
@@ -8,7 +9,6 @@ import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { useArticles } from '@/contexts/articles.context';
 import { Article } from '@/dtos/articles/article.dto';
-import { useRouter } from 'next/router';
 
 export type DeleteArticleModalProps = {
   id: string;
