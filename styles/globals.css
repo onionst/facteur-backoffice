@@ -232,6 +232,14 @@ body {
   padding: 20px !important;
 }
 
+.ant-picker-focused {
+  border-color: #c4cada !important;
+}
+
+.ant-picker-focused:hover * {
+  border-color: #c4cada !important;
+}
+
 /* .ant-notification-notice-message {
   margin-bottom: 0 !important;
   height: 28;
