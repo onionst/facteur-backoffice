@@ -28,8 +28,7 @@ export default function SignIn(): JSX.Element {
         showTFAEmailSent();
       }
 
-      if (router?.query?.t && !loading) {
-        setLoading(true);
+      if (router?.query?.t) {
         const token = router?.query?.t;
         if (token && typeof token === 'string') {
           signInWithTFAToken(token);
@@ -40,7 +39,7 @@ export default function SignIn(): JSX.Element {
       setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, loading]);
+  }, [router]);
 
   const handleSignInWithCredentials = async (e: FormEvent) => {
     try {
