@@ -260,7 +260,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
       setArticles((prev: any) => prev.filter((article: any) => article.externalId != id));
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
-        message: 'User deleted'
+        message: 'Article deleted'
       });
     } catch (err: any) {
       console.error(err);

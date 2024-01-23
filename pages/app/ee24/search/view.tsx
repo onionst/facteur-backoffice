@@ -1,7 +1,8 @@
 import { Skeleton } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { File } from 'react-feather';
+import { Edit, File } from 'react-feather';
+import Button from '@/bases/Button/Button';
 import Row from '@/bases/Row/Row';
 import ArticleViewForm from '@/components/Form/ArticleViews/ArticleViewForm';
 import DebunkArticleViewForm from '@/components/Form/ArticleViews/DebunkArticleViewForm';
@@ -108,7 +109,11 @@ export default function View() {
         backable
         icon={<File />}
         title="Article"
-      ></Header>
+      >
+        <Button theme="SECONDARY">
+          Edit <Edit />
+        </Button>
+      </Header>
       <Wrapper>
         <Row align="SPACE" style={{ alignItems: 'flex-start' }}>
           {width >= 768 && <div style={{ width: '25%' }}></div>}
