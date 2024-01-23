@@ -1,7 +1,7 @@
 import { Skeleton } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Edit, File } from 'react-feather';
+import { Edit, File, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import Row from '@/bases/Row/Row';
 import ArticleViewForm from '@/components/Form/ArticleViews/ArticleViewForm';
@@ -9,24 +9,30 @@ import DebunkArticleViewForm from '@/components/Form/ArticleViews/DebunkArticleV
 import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
 import Wrapper from '@/components/Wrapper/Wrapper';
+import { ROLES } from '@/constants/roles.constants';
 import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
+import { useModal } from '@/contexts/modal.context';
 import useWindowSize from '@/hooks/useWindowWidth';
 
 export default function View() {
   const router = useRouter();
+  const modals = useModal();
   const [loading, setLoading] = useState<boolean>(true);
   const { session } = useAuth();
+  const [articleId, setArticleId] = useState<string>('');
   const { fetchArticleData, fetchArticleById } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
+  const { showDeleteArticle } = modals.articles;
 
   const [form, setForm] = useState({
     externalId: '',
     type: '',
     url: '',
     headline: '',
+    publisher: '',
     headlineNative: '',
     datePublished: null,
     image: '',
@@ -80,6 +86,8 @@ export default function View() {
   useEffect(() => {
     if (router?.query?.id) {
       handleSetup(router?.query?.id);
+      // @ts-ignore
+      setArticleId(router?.query?.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
@@ -110,9 +118,26 @@ export default function View() {
         icon={<File />}
         title="Article"
       >
-        <Button theme="SECONDARY">
-          Edit <Edit />
-        </Button>
+        {(session.role === ROLES.SUPER_ADMIN || session.organization?.domain === form?.publisher) && (
+          <Row align="RIGHT">
+            <Button
+              theme="TERTIARY"
+              onClick={() => {
+                router.push(`/app/data/articles/edit?id=${articleId}&&f=search`);
+              }}
+            >
+              Edit <Edit color="#252f4a" size={16} />
+            </Button>
+            <Button
+              theme="ATTENTION"
+              onClick={() => {
+                showDeleteArticle(articleId, '/app/ee24/search');
+              }}
+            >
+              Delete <Trash color="#fff" size={16} />
+            </Button>
+          </Row>
+        )}
       </Header>
       <Wrapper>
         <Row align="SPACE" style={{ alignItems: 'flex-start' }}>
