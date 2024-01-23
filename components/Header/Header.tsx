@@ -26,7 +26,7 @@ export default function Header(props: HeaderProps) {
               <ArrowLeft color="#252f4a" size={18} />
             </IconButton>
           ) : (
-            props.icon
+            <div className={s['ds-header__icon']}>{props.icon}</div>
           )}
           {props.title}
         </h1>
