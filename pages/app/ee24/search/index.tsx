@@ -1,8 +1,10 @@
+import { Popover } from 'antd';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Download, Search as SearchIcon, X } from 'react-feather';
+import { Download, Edit, Eye, MoreHorizontal, Search as SearchIcon, X } from 'react-feather';
+import Button from '@/bases/Button/Button';
 import Column from '@/bases/Column/Column';
 import IconButton from '@/bases/IconButton/IconButton';
 import Image from '@/bases/Image/Image';
@@ -19,6 +21,8 @@ import Search from '@/components/Search/Search';
 import { EE24Headline, EE24Table } from '@/components/Table/EE24Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { FILE_TYPES } from '@/constants/accept';
+import { ROLES } from '@/constants/roles.constants';
+import { useAuth } from '@/contexts/auth.context';
 import { EE24_ARTICLES_LIMIT_PER_PAGE, useEE24 } from '@/contexts/ee24.context';
 import { useModal } from '@/contexts/modal.context';
 import { safeReturn } from '@/utils/safeReturn';
@@ -26,6 +30,7 @@ import { safeReturn } from '@/utils/safeReturn';
 export default function Repository() {
   const modals = useModal();
   const router = useRouter();
+  const { session } = useAuth();
   const [portrait, setPortait] = useState<string>('');
   const [searchType, setSearchType] = useState<FileType>('TEXT');
   const { articles, page, fetchEE24Articles, fetchEE24ArticlesByImage, ...ee24Props } = useEE24();
@@ -197,7 +202,8 @@ export default function Repository() {
                     ) : (
                       'Date published'
                     )}
-                  </Row>
+                  </Row>,
+                  <div key="empty" />
                 ]}
                 data={articles.map(article => [
                   <EE24Headline key={article?.url} image={article?.image} headline={article?.headline} />,
@@ -207,6 +213,54 @@ export default function Repository() {
                   </Badge>,
                   <Row key={article?.url + 'date'} align="RIGHT">
                     {dayjs(article?.datePublished).format('DD/MM/YYYY')}
+                  </Row>,
+                  <Row align="RIGHT" key={article?.externalId + 'actions'}>
+                    {session.role === ROLES.RESEARCHER ||
+                    (session.role != ROLES.SUPER_ADMIN && session.organization?.domain != article.publisher) ? (
+                      <IconButton
+                        onClick={e => {
+                          e.stopPropagation();
+                          router.push(`/app/ee24/search/view?id=${article?.externalId}&&f=search`);
+                        }}
+                      >
+                        <Eye size={18} color="#252f4a" />
+                      </IconButton>
+                    ) : (
+                      <Popover
+                        trigger="click"
+                        placement="bottomRight"
+                        content={
+                          <div className="w-full">
+                            <Button
+                              type="button"
+                              onClick={e => {
+                                e.stopPropagation();
+                                router.push(`/app/ee24/search/view?id=${article?.externalId}&&f=search`);
+                              }}
+                              style={{ width: '100%', marginBottom: 4 }}
+                              theme="TERTIARY"
+                            >
+                              View <Eye size={18} />
+                            </Button>
+                            <Button
+                              onClick={e => {
+                                e.stopPropagation();
+                                router.push(`/app/data/articles/edit?id=${article?.externalId}&&f=search`);
+                              }}
+                              type="button"
+                              style={{ width: '100%' }}
+                              theme="TERTIARY"
+                            >
+                              Edit <Edit size={18} />
+                            </Button>
+                          </div>
+                        }
+                      >
+                        <IconButton onClick={e => e.stopPropagation()}>
+                          <MoreHorizontal size={18} color="#252f4a" />
+                        </IconButton>
+                      </Popover>
+                    )}
                   </Row>
                 ])}
               />

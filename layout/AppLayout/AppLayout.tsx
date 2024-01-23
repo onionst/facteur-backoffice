@@ -21,8 +21,7 @@ export default function AppLayout(props: LayoutProps) {
         <Drawer
           width={270}
           footer={null}
-          drawerStyle={{ padding: 0 }}
-          styles={{ header: { display: 'none' } }}
+          styles={{ header: { display: 'none' }, content: { padding: 0 } }}
           placement="left"
           open={showDrawer}
           onClose={() => setShowDrawer(false)}

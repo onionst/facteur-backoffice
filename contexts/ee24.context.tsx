@@ -5,6 +5,7 @@ import { FileType } from '@/components/EE24Search/EE24Search';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
 import { DownloadEE24Articles, FetchEE24Articles, FetchEE24ArticlesByImage } from '@/services/ee24.service';
+import { plainArticle } from '@/utils/plainArticle';
 
 export type EE24ArticlesPage = {
   records: number;
@@ -94,7 +95,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
         export: true
       });
 
-      return data;
+      return data.map((raw: any) => plainArticle(raw));
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
         notification.error({

@@ -13,6 +13,7 @@ import {
   FetchTranslation,
   UpdateArticle
 } from '@/services/articles.service';
+import { plainArticle } from '@/utils/plainArticle';
 
 export type ArticlesPage = {
   records: number;
@@ -200,7 +201,6 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
   const fetchTranslation = async (text: string): Promise<string> => {
     try {
       const response = await FetchTranslation(text);
-      console.log(response);
       return response;
     } catch (err: any) {
       console.error(err);
@@ -229,7 +229,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
         export: true
       });
 
-      return data;
+      return data.map((raw: any) => plainArticle(raw));
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
         notification.error({

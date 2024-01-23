@@ -8,13 +8,15 @@ export type TableProps = {
   data: any[][];
   loading?: boolean;
   notFound?: any;
+  onRowClick?: (i: number) => void;
+  clickable?: boolean;
 };
 
 export function Table(props: TableProps) {
   const Columns = useMemo(
     () =>
-      props.columns.map(title => (
-        <th key={title} className={props.firstExtended ? s['ds-table-column--extended'] : ''}>
+      props.columns.map((title, index) => (
+        <th key={index} className={props.firstExtended ? s['ds-table-column--extended'] : ''}>
           {title}
         </th>
       )),
@@ -24,8 +26,8 @@ export function Table(props: TableProps) {
 
   const Loading = useMemo(
     () =>
-      props.columns.map(title => (
-        <td key={title}>
+      props.columns.map((_, index) => (
+        <td key={index}>
           <Skeleton active />
           <Skeleton active />
           <Skeleton active />
@@ -37,7 +39,11 @@ export function Table(props: TableProps) {
   const Data = useMemo(
     () =>
       props.data.map((data, index) => (
-        <tr key={index}>
+        <tr
+          style={{ cursor: props.clickable ? 'pointer' : 'default' }}
+          key={index}
+          onClick={() => props.onRowClick && props.onRowClick(index)}
+        >
           {data.map((column, _index) => (
             <td className={s['ds-table-row__item']} key={`${index}${_index}`}>
               {column}
@@ -45,6 +51,7 @@ export function Table(props: TableProps) {
           ))}
         </tr>
       )),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.data]
   );
 

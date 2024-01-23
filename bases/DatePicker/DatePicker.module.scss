@@ -11,4 +11,7 @@
     outline: none !important;
     box-shadow: none !important;
   }
+  &:hover {
+    border-color: $ds-gray-300;
+  }
 }

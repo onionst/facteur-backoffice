@@ -35,11 +35,13 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
     try {
       e?.preventDefault();
       setLoading(true);
-      const [headline] = await Promise.all([fetchTranslation(form.headlineNative)]);
-      setForm((prev: any) => ({
-        ...prev,
-        headline
-      }));
+      if (props.ogForm.headlineNative != form.headlineNative) {
+        const [headline] = await Promise.all([fetchTranslation(form.headlineNative)]);
+        setForm((prev: any) => ({
+          ...prev,
+          headline
+        }));
+      }
       setLoading(false);
       props.onContinue(form);
     } catch (err) {
@@ -51,14 +53,13 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
     try {
       setFetchingUrlMetadata(true);
       const { metadata } = await fetchMetadata(props.type, form.url);
-      const keywords = metadata?.keywords?.length > 0 ? metadata?.keywords?.filter((i: any) => i?.length > 3) : [];
+
       setForm((prev: any) => ({
         ...prev,
         description: metadata?.summary || '',
         headlineNative: metadata?.title || prev?.headlineNative,
         image: metadata?.image || metadata?.meta_image || prev?.image,
-        datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished,
-        keywords: keywords?.length > 0 ? keywords : prev?.keywords
+        datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished
       }));
       setFetchingUrlMetadata(false);
     } catch (err) {

@@ -52,14 +52,13 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
     try {
       setFetchingUrlMetadata(true);
       const { metadata } = await fetchMetadata(props.type, form.url);
-      const keywords = metadata?.keywords?.length > 0 ? metadata?.keywords?.filter((i: any) => i?.length > 3) : [];
+
       setForm((prev: any) => ({
         ...prev,
         description: metadata?.summary || '',
         headlineNative: metadata?.title || prev?.headlineNative,
         image: metadata?.image || metadata?.meta_image || prev?.image,
-        datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished,
-        keywords: keywords?.length > 0 ? keywords : prev?.keywords
+        datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished
       }));
       setFetchingUrlMetadata(false);
     } catch (err) {

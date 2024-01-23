@@ -1,5 +1,6 @@
-import { Empty, Skeleton } from 'antd';
-import { useMemo } from 'react';
+/* eslint-disable @next/next/no-img-element */
+import { Empty, Popover, Skeleton } from 'antd';
+import { useMemo, useState } from 'react';
 import { FileType } from '../EE24Search/EE24Search';
 import s from './Table.module.scss';
 import Button from '@/bases/Button/Button';
@@ -95,9 +96,28 @@ export function NotFound(props: { withoutButton?: boolean; type: FileType; value
   return render;
 }
 export function EE24Headline(props: EE24HeadlineProps) {
+  const [showPreview, setShowPreview] = useState<boolean>(false);
+
   return (
     <div className={s['ds-headline']}>
-      <Image src={props.image || '/assets/portraits/image.svg'} alt={'ee24 image'} />
+      <Popover
+        open={props.image && showPreview ? true : false}
+        placement="bottomLeft"
+        content={
+          <Image
+            alt="preview popup"
+            src={props.image}
+            style={{ height: 130, maxHeight: 130, minHeight: 130, width: '100%', borderRadius: '0.475rem', objectFit: 'cover' }}
+          />
+        }
+      >
+        <Image
+          onMouseOver={() => setShowPreview(true)}
+          onMouseLeave={() => setShowPreview(false)}
+          src={props.image || '/assets/portraits/image.svg'}
+          alt={'ee24 image'}
+        />
+      </Popover>
       <p>{props.headline}</p>
     </div>
   );
@@ -106,8 +126,8 @@ export function EE24Headline(props: EE24HeadlineProps) {
 export function EE24Table(props: EE24TableProps) {
   const Columns = useMemo(
     () =>
-      props.columns.map(title => (
-        <th key={title} className={props.firstExtended ? s['ds-table-column--extended'] : ''}>
+      props.columns.map((title, index) => (
+        <th key={index} className={props.firstExtended ? s['ds-table-column--extended'] : ''}>
           {title}
         </th>
       )),
@@ -117,8 +137,8 @@ export function EE24Table(props: EE24TableProps) {
 
   const Loading = useMemo(
     () =>
-      props.columns.map(title => (
-        <td key={title}>
+      props.columns.map((_, index) => (
+        <td key={index}>
           <Skeleton active />
           <Skeleton active />
           <Skeleton active />

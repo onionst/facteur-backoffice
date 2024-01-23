@@ -1,4 +1,5 @@
 import { Modal, ModalProps } from 'antd';
+import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
 import { X } from 'react-feather';
 import s from '../Modals.module.scss';
@@ -11,9 +12,11 @@ import { Article } from '@/dtos/articles/article.dto';
 
 export type DeleteArticleModalProps = {
   id: string;
+  redirect?: string;
 };
 export const DELETE_ARTICLE_CONFIRMATION = 'delete';
 export const DeleteArticleModal = (props: DeleteArticleModalProps & ModalProps) => {
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [confirmation, setConfirmation] = useState<string>('');
   const { fetchArticleData, deleteArticle } = useArticles();
@@ -23,12 +26,16 @@ export const DeleteArticleModal = (props: DeleteArticleModalProps & ModalProps) 
   const handleDeleteUser = async (e: FormEvent) => {
     try {
       e?.preventDefault();
+
       setLoading(true);
       if (confirmation?.toLowerCase() != DELETE_ARTICLE_CONFIRMATION) {
         setLoading(false);
         return;
       }
       await deleteArticle(props.id);
+      if (props.redirect) {
+        router.push(props.redirect);
+      }
       setLoading(false);
       // @ts-ignore
       props.onCancel();

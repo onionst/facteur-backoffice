@@ -9,6 +9,7 @@ export type RadioGroupProps = {
   }>;
   multiple?: boolean;
   onChange: (value: string | string[]) => void;
+  selected?: string;
 };
 export default function RadioGroup(props: RadioGroupProps) {
   const [selected, setSelected] = useState<string | string[]>('');
@@ -18,6 +19,12 @@ export default function RadioGroup(props: RadioGroupProps) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
+
+  useEffect(() => {
+    if (typeof props.selected === 'string') {
+      setSelected(props.selected);
+    }
+  }, [props?.selected]);
 
   return (
     <div className={s['ds-radio-group']}>

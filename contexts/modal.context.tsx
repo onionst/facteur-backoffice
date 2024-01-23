@@ -39,7 +39,7 @@ export const ModalContext = createContext<{
     showDownloadUsers: () => void;
   };
   articles: {
-    showDeleteArticle: (id: string) => void;
+    showDeleteArticle: (id: string, redirect?: string) => void;
     showDownloadArticles: (filter: any) => void;
   };
   ee24: {
@@ -75,6 +75,7 @@ export const ModalProvider = (props: { children: any }) => {
 
   // <--- articles --->
   const [deleteArticleActive, setDeleteArticleActive] = useState<string>('');
+  const [deleteArticleRedirect, setDeleteArticleRedirect] = useState<string>('');
   const [downloadArticlesActive, setDownloadArticlesActive] = useState<string>('');
   const [downloadArticlesFilter, setDownloadArticlesFilter] = useState<any>({});
   // <!--- articles --->
@@ -119,7 +120,10 @@ export const ModalProvider = (props: { children: any }) => {
       showRestoreUser: (id: string) => setRestoreUserActive(id)
     },
     articles: {
-      showDeleteArticle: (id: string) => setDeleteArticleActive(id),
+      showDeleteArticle: (id: string, redirect?: string) => {
+        setDeleteArticleActive(id);
+        setDeleteArticleRedirect(redirect || '');
+      },
       showDownloadArticles: (filter: any) => {
         setDownloadArticlesFilter(filter);
         setTimeout(() => {
@@ -142,9 +146,8 @@ export const ModalProvider = (props: { children: any }) => {
       <>
         <TFAEmailSentModal footer={null} width={350} open={emailSentActive} onCancel={() => setEmailSentActive(false)} />
         <AccountModal
-          drawerStyle={{ padding: 20 }}
           placement="right"
-          styles={{ header: { display: 'none' } }}
+          styles={{ header: { display: 'none' }, content: { padding: 20 } }}
           footer={null}
           width={width <= 440 ? width - 40 : 400}
           open={accountActive}
@@ -225,7 +228,11 @@ export const ModalProvider = (props: { children: any }) => {
         <DeleteArticleModal
           footer={null}
           width={width <= 464 ? width - 40 : 424}
-          onCancel={() => setDeleteArticleActive('')}
+          redirect={deleteArticleRedirect}
+          onCancel={() => {
+            setDeleteArticleActive('');
+            setDeleteArticleRedirect('');
+          }}
           id={deleteArticleActive}
           open={deleteArticleActive != ''}
         />

@@ -2,7 +2,7 @@ import { ArrowRightOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { Input } from '../../bases/Input';
 import Button from '@/bases/Button/Button';
 import Logo from '@/bases/Logo';
@@ -13,6 +13,7 @@ import { Credentials } from '@/dtos/credentials.dto';
 export default function SignIn(): JSX.Element {
   const router = useRouter();
   const modals = useModal();
+  const initialLoad = useRef(true);
 
   const { signInWithEmailAndPassword, signInWithTFAToken, doOpenGoogleLogin } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
@@ -23,6 +24,10 @@ export default function SignIn(): JSX.Element {
   const { showTFAEmailSent } = modals.auth;
 
   useEffect(() => {
+    if (initialLoad.current) {
+      initialLoad.current = false;
+      // Your initial logic here
+    }
     try {
       if (router?.query?.tfa === 'pending') {
         showTFAEmailSent();

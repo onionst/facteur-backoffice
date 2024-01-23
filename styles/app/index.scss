@@ -97,3 +97,15 @@
 }
 
 @import '@/styles/chatbot/globals.scss';
+
+.ds-debunk-view {
+  &__tags {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 700px;
+  }
+}

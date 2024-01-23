@@ -62,10 +62,10 @@ export default function Articles() {
         <Page>
           <Table
             firstExtended
+            clickable
             loading={articlesProps.loading}
             columns={[
               'Title of the article/report',
-              'URL of the article/report',
               'Type of publication',
               <Sorter
                 key="Sorter"
@@ -88,25 +88,26 @@ export default function Articles() {
                 Actions
               </Row>
             ]}
+            onRowClick={(i: any) => {
+              window.open(articles[i].url, '_blank');
+            }}
             notFound={<NotFound withoutButton value="" onClick={() => setFilter({})} type="TEXT" />}
             data={articles.map(article => [
               <EE24Headline key={article?.externalId} image={article?.image} headline={article?.headlineNative} />,
-              <Link target="_blank" href={article?.url || ''} key={article?.externalId + 'link'} className="c-link">
-                {article?.url}
-              </Link>,
               <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
                 {article?.type}
               </Badge>,
               dayjs(article?.dateModified).format('DD/MM/YYYY'),
               <Row align="RIGHT" key={article?.externalId + 'actions'}>
-                <Link href={`/app/data/articles/edit?id=${article?.externalId}`}>
-                  <IconButton>
+                <Link onClick={e => e.stopPropagation()} href={`/app/data/articles/edit?id=${article?.externalId}`}>
+                  <IconButton onClick={e => e.stopPropagation()}>
                     <Edit color="#252f4a" size={18} />
                   </IconButton>
                 </Link>
 
                 <IconButton
-                  onClick={() => {
+                  onClick={e => {
+                    e.stopPropagation();
                     showDeleteArticle(article?.externalId);
                   }}
                 >

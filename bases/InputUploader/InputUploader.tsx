@@ -14,6 +14,7 @@ export type InputUploaderProps = {
   accept: Accept;
   label?: string;
   value?: string;
+  disabled?: boolean;
 };
 export default function InputUploader(props: any) {
   const { uploadFile } = useFiles();
@@ -48,7 +49,7 @@ export default function InputUploader(props: any) {
   const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, maxSize: MAX_FILE_SIZE, accept: props.accept });
   return (
     <div
-      {...(!uploadedUrl ? getRootProps() : {})}
+      {...(!uploadedUrl && !props.disabled ? getRootProps() : {})}
       onMouseOver={() => setShowPreview(true)}
       onMouseLeave={() => setShowPreview(false)}
       className="w-full"
@@ -58,11 +59,11 @@ export default function InputUploader(props: any) {
         open={uploadedUrl && showPreview ? true : false}
         placement="bottomLeft"
         content={
-          <img
+          <Image
             key={uploadedUrl}
             alt="preview popup"
             src={uploadedUrl}
-            style={{ height: 130, width: '100%', borderRadius: '0.475rem', objectFit: 'cover' }}
+            style={{ height: 130, maxHeight: 130, minHeight: 130, width: '100%', borderRadius: '0.475rem', objectFit: 'cover' }}
           />
         }
       >
@@ -79,13 +80,13 @@ export default function InputUploader(props: any) {
         <div className="w-full" style={{ position: 'relative' }}>
           {uploadedUrl && (
             <span className={s['ds-input-uploader__preview']}>
-              <Image alt="Preview" src={uploadedUrl} />
+              <Image key={uploadedUrl} alt="Preview" src={uploadedUrl} />
             </span>
           )}
           <input
             {...props}
-            style={{ paddingRight: '3.5rem' }}
-            disabled={loading}
+            style={{ paddingRight: props?.disabled ? '8px' : '3.5rem' }}
+            disabled={loading || props.disabled}
             className={`form-control ${uploadedUrl ? s['ds-input-uploader'] : ''} ${
               props.type === 'password' ? 'form-control__input' : ''
             } ${props.className || ''}`}
@@ -101,7 +102,7 @@ export default function InputUploader(props: any) {
             }}
           >
             {!loading ? (
-              uploadedUrl ? (
+              props?.disabled ? null : uploadedUrl ? (
                 <X
                   style={{ cursor: 'pointer', zIndex: 11 }}
                   onClick={() => {
