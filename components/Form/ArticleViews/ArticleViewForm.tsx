@@ -46,11 +46,7 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
             disabled
             minLength={10}
             value={form.headlineNative}
-            label={
-              form.headline != form.headlineNative
-                ? `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
-                : `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
-            }
+            label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
           />
 
           <Input
