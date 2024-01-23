@@ -25,6 +25,7 @@ import { ROLES } from '@/constants/roles.constants';
 import { useAuth } from '@/contexts/auth.context';
 import { EE24_ARTICLES_LIMIT_PER_PAGE, useEE24 } from '@/contexts/ee24.context';
 import { useModal } from '@/contexts/modal.context';
+import { plainShowing } from '@/utils/plainShowing';
 import { safeReturn } from '@/utils/safeReturn';
 
 export default function Repository() {
@@ -274,9 +275,7 @@ export default function Repository() {
                 <Download color="#252f4a" size={16} />
               </IconButton>
             )}
-            <span>
-              Showing {(page.current >= 1 ? 20 : articles.length) * page.current + articles.length} of {page.records} articles
-            </span>
+            <span>{plainShowing(page.current, articles.length, page.records, 'articles')}</span>
           </Row>
           <Row align="RIGHT">
             <Pagination

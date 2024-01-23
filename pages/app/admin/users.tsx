@@ -15,6 +15,7 @@ import { useAuth } from '@/contexts/auth.context';
 import { useModal } from '@/contexts/modal.context';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { USERS_LIMIT_PER_PAGE, useUsers } from '@/contexts/users.context';
+import { plainShowing } from '@/utils/plainShowing';
 import { safeReturn } from '@/utils/safeReturn';
 
 export default function Users() {
@@ -180,9 +181,7 @@ export default function Users() {
             <IconButton type="button" onClick={showDownloadUsers}>
               <Download color="#252f4a" size={16} />
             </IconButton>
-            <span>
-              Showing {(page.current >= 1 ? 20 : users.length) * page.current + users.length} of {page.records} users
-            </span>
+            <span>{plainShowing(page.current, users.length, page.records, 'users')}</span>
           </Row>
           <Row align="RIGHT">
             <Pagination
