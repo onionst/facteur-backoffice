@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import axios from 'axios';
 import { ApiError } from 'next/dist/server/api-utils';
 import Store from 'store';
@@ -7,6 +6,7 @@ import { HttpStatus } from './http-status.enum';
 import { SETTINGS } from '@/constants/settings';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
+import { handleForbidden } from '@/utils/handleForbidden';
 
 export const api = axios.create({
   baseURL: SETTINGS.PUBLIC_API_URL
@@ -47,19 +47,15 @@ api.interceptors.request.use(
           if ('AUTHORIZED' === newStatus) {
             return;
           }
+        } else {
+          handleForbidden(error);
         }
         return Promise.reject(new ApiError(HttpStatus.UNAUTHORIZED, message));
       }
       // forbidden (permission related issues)
       case HttpStatus.FORBIDDEN: {
-        notification.info({
-          message: 'Session Expired',
-          description: 'Please re-enter your credentials to continue where you left off'
-        });
-        await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
-        if (typeof window != 'undefined') {
-          window.location.replace('/auth/sign-in');
-        }
+        handleForbidden(error);
+
         return Promise.reject(new ApiError(HttpStatus.FORBIDDEN, message));
       }
       // bad request
@@ -83,6 +79,19 @@ api.interceptors.request.use(
         return Promise.reject(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, 'Something went wrong fetching data'));
       }
     }
+  }
+);
+
+api.interceptors.response.use(
+  response => {
+    // Any status code within the range of 2xx will cause this function to trigger
+    return response;
+  },
+  error => {
+    if (error.response && error.response.status === 403) {
+      handleForbidden(error);
+    }
+    return Promise.reject(error);
   }
 );
 
