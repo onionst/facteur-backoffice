@@ -1,4 +1,5 @@
 import { ArrowRightOutlined } from '@ant-design/icons';
+import { notification } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -31,6 +32,13 @@ export default function SignIn(): JSX.Element {
     try {
       if (router?.query?.tfa === 'pending') {
         showTFAEmailSent();
+      }
+
+      if (router?.query?.expired) {
+        notification?.info({
+          message: 'Session Expired',
+          description: 'Please re-enter your credentials to continue where you left off'
+        });
       }
 
       if (router?.query?.t && !loading) {

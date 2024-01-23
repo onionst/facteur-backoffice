@@ -161,11 +161,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
       }
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.error(err);
-      notification.info({
-        message: 'Session Expired',
-        description: 'Please re-enter your credentials to continue where you left off'
-      });
+
       await signOut();
       setLoading(false);
     }
@@ -432,7 +428,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         organizationId: ''
       });
       await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
-      router.push('/auth/sign-in');
+      router.push('/auth/sign-in?expired=true');
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
