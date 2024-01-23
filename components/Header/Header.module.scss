@@ -22,6 +22,20 @@
     justify-content: flex-start;
     align-items: center;
   }
+
+  &__icon {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.475rem;
+    background-color: $ds-gray-200;
+    & * {
+      color: $ds-gray-900;
+      height: 20px;
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {

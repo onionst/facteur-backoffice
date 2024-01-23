@@ -71,11 +71,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
             minLength={10}
             disabled
             value={form.headlineNative}
-            label={
-              form.headline != form.headlineNative
-                ? `Native title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
-                : `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
-            }
+            label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
           />
 
           <Input

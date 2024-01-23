@@ -63,7 +63,10 @@ export const DownloadEE24Articles = async (filter: Filter & { search: string }) 
     console.error('Error fetching data:', error);
   }
 };
-
+export const FetchEE24ArticleById = async (id: string): Promise<Article> => {
+  const response = await ee24api.get(parseUrl(PREFIX, `/id/${id}`));
+  return response.data;
+};
 export const FetchEE24ArticlesByImage = async (
   url: string
 ): Promise<{

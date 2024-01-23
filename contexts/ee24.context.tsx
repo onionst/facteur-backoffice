@@ -4,7 +4,7 @@ import { Filter } from '@/components/EE24Filter/EE24Filter';
 import { FileType } from '@/components/EE24Search/EE24Search';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
-import { DownloadEE24Articles, FetchEE24Articles, FetchEE24ArticlesByImage } from '@/services/ee24.service';
+import { DownloadEE24Articles, FetchEE24ArticleById, FetchEE24Articles, FetchEE24ArticlesByImage } from '@/services/ee24.service';
 import { plainArticle } from '@/utils/plainArticle';
 
 export type EE24ArticlesPage = {
@@ -18,6 +18,8 @@ export type EE24ContextProps = {
   loading: boolean;
   notFound: { type: FileType; value: string } | null;
   articles: Article[];
+  fetchArticleData: (id: string) => Promise<Article | undefined>;
+  fetchArticleById: (id: string) => Promise<Article | undefined>;
   page: EE24ArticlesPage;
   downloadEE24Articles: (filter: Filter & { search?: string }) => Promise<Array<Partial<Article>>>;
   fetchEE24ArticlesByImage: (url: string) => Promise<void>;
@@ -84,6 +86,32 @@ export const EE24Provider = (props: EE24ProviderProps) => {
       setArticles([]);
       setNotFound({ type: 'TEXT', value: '' });
       setLoading(false);
+    }
+  };
+
+  const fetchArticleData = async (id: string): Promise<Article | undefined> => {
+    return articles.find(article => article.externalId === id);
+  };
+
+  const fetchArticleById = async (id: string): Promise<Article | undefined> => {
+    try {
+      return await FetchEE24ArticleById(id);
+    } catch (err: any) {
+      console.error(err);
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      return undefined;
     }
   };
 
@@ -168,7 +196,9 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     page,
     fetchEE24Articles,
     fetchEE24ArticlesByImage,
-    downloadEE24Articles
+    downloadEE24Articles,
+    fetchArticleById,
+    fetchArticleData
   };
 
   return <EE24Context.Provider value={context}>{props.children}</EE24Context.Provider>;

@@ -7,7 +7,7 @@ import { SETTINGS } from '@/constants/settings';
 export default function Stats() {
   return (
     <>
-      <Header icon={<BarChart2 />} title="Statistics" />
+      <Header icon={<BarChart2 />} title="Dashboard" />
       <Wrapper>
         <Frame src={SETTINGS.PUBLIC_STATS_URL} />
       </Wrapper>

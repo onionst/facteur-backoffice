@@ -58,7 +58,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
                   required
                   value={form.headline}
                   onChange={v => handleUpdate(v, 'headline')}
-                  label={`Translated title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
+                  label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'} (In English)`}
                   placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
                 />
               </Badge.Ribbon>
@@ -69,11 +69,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
             minLength={10}
             disabled
             value={form.headlineNative}
-            label={
-              form.headline != form.headlineNative
-                ? `Native title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
-                : `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
-            }
+            label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
           />
 
           <Input
