@@ -39,6 +39,7 @@ export default function SignIn(): JSX.Element {
           message: 'Session Expired',
           description: 'Please re-enter your credentials to continue where you left off'
         });
+        router.push('/auth/sign-in');
       }
 
       if (router?.query?.t && !loading) {
