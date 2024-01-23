@@ -8,15 +8,15 @@ import DebunkArticleViewForm from '@/components/Form/ArticleViews/DebunkArticleV
 import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
 import Wrapper from '@/components/Wrapper/Wrapper';
-import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
+import { useEE24 } from '@/contexts/ee24.context';
 import useWindowSize from '@/hooks/useWindowWidth';
 
 export default function View() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const { session } = useAuth();
-  const { fetchArticleData, fetchArticleById } = useArticles();
+  const { fetchArticleData, fetchArticleById } = useEE24();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();

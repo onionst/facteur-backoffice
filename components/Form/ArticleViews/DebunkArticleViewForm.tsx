@@ -51,7 +51,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
             value={form.headlineNative}
             label={
               form.headline != form.headlineNative
-                ? `Native title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
+                ? `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
                 : `Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`
             }
           />
