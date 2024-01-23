@@ -56,7 +56,7 @@ export default function Pagination(props: PaginationProps) {
   }
   return (
     <ul className="pagination">
-      <li className={`page-item previous ${isPrevDisabled ? 'disabled' : ''}`}>
+      <li style={{ opacity: isPrevDisabled ? 0 : 1 }} className={`page-item previous ${isPrevDisabled ? 'disabled' : ''}`}>
         <a href="#" className="page-link" onClick={() => !isPrevDisabled && prevPage()}>
           <ChevronLeft size={16} color="#252f4a" />
         </a>
@@ -68,7 +68,7 @@ export default function Pagination(props: PaginationProps) {
           </a>
         </li>
       ))}
-      <li className={`page-item next ${isNextDisabled ? 'disabled' : ''}`}>
+      <li style={{ opacity: isNextDisabled ? 0 : 1 }} className={`page-item next ${isNextDisabled ? 'disabled' : ''}`}>
         <a href="#" className="page-link" onClick={() => !isNextDisabled && nextPage()}>
           <ChevronRight size={16} color="#252f4a" />
         </a>
