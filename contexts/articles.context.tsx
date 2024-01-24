@@ -149,7 +149,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
           message: 'Error',
           description: err?.response?.data?.message[0]
         });
-      } else if (err?.response?.status === 409) {
+      } else if (err?.response?.status === 409 || err?.statusCode === 409) {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
@@ -181,7 +181,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
           message: 'Error',
           description: err?.response?.data?.message[0]
         });
-      } else if (err?.response?.status === 409) {
+      } else if (err?.response?.status === 409 || err?.statusCode === 409) {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
@@ -237,7 +237,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
           message: 'Error',
           description: err?.response?.data?.message[0]
         });
-      } else if (err?.response?.status === 409) {
+      } else if (err?.response?.status === 409 || err?.statusCode === 409) {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
