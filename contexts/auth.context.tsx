@@ -139,6 +139,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
           setLoading(true);
         }
         const { data } = await GetSessionData();
+        if (data?.refreshToken) {
+          Store.set(STORAGE_KEYS.REFRESH_TOKEN, data?.refreshToken);
+        }
         setSession(data);
         if (data?.role === ROLES.SUPER_ADMIN) {
           organizations.fetchOrganizations({});
