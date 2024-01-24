@@ -1,12 +1,12 @@
-import { notification } from 'antd';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { ApiError } from 'next/dist/server/api-utils';
 import Store from 'store';
-import { GetGoogleRefreshToken, GetSessionData } from './auth.service';
+import { GetGoogleRefreshToken } from './auth.service';
 import { HttpStatus } from './http-status.enum';
 import { SETTINGS } from '@/constants/settings';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
+import { handleForbidden } from '@/utils/handleForbidden';
 
 export const api = axios.create({
   baseURL: SETTINGS.PUBLIC_API_URL
@@ -20,17 +20,36 @@ export const customApi = axios.create({
   baseURL: SETTINGS.PUBLIC_API_URL
 });
 
-api.interceptors.request.use(
-  config => {
-    const accessToken = Store.get(STORAGE_KEYS.ACCESS_TOKEN, null);
+api.interceptors.request.use(config => {
+  const accessToken = Store.get(STORAGE_KEYS.ACCESS_TOKEN, null);
 
-    if (accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
-    } else {
-      config.headers['Authorization'] = '';
+  if (accessToken) {
+    config.headers['Authorization'] = `Bearer ${accessToken}`;
+  } else {
+    config.headers['Authorization'] = '';
+  }
+
+  return config;
+});
+
+const handleRefreshToken = async (error: AxiosError, message: string) => {
+  const googleRefreshToken = Store.get(STORAGE_KEYS.GOOGLE_REFRESH_TOKEN, null);
+
+  if (googleRefreshToken) {
+    const newStatus = await GetGoogleRefreshToken({ refreshToken: googleRefreshToken } as GoogleRefreshToken);
+    if ('AUTHORIZED' === newStatus) {
+      // @ts-ignore
+      return Promise.resolve(api(error?.config));
     }
+  } else {
+    handleForbidden(error);
+  }
+  return Promise.reject(new ApiError(HttpStatus.FORBIDDEN, message));
+};
 
-    return config;
+api.interceptors.response.use(
+  response => {
+    return response;
   },
   async error => {
     const data = (error.response?.data as any) || {};
@@ -39,28 +58,9 @@ api.interceptors.request.use(
     // we can handle global errors here
     switch (status) {
       // authentication (token related issues)
-      case HttpStatus.UNAUTHORIZED: {
-        const { data: sessionData } = await GetSessionData();
-        const { refreshToken } = sessionData;
-        if (refreshToken) {
-          const newStatus = await GetGoogleRefreshToken({ refreshToken } as GoogleRefreshToken);
-          if ('AUTHORIZED' === newStatus) {
-            return;
-          }
-        }
-        return Promise.reject(new ApiError(HttpStatus.UNAUTHORIZED, message));
-      }
-      // forbidden (permission related issues)
+      case HttpStatus.UNAUTHORIZED:
       case HttpStatus.FORBIDDEN: {
-        notification.info({
-          message: 'Session Expired',
-          description: 'Please re-enter your credentials to continue where you left off'
-        });
-        await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
-        if (typeof window != 'undefined') {
-          window.location.replace('/auth/sign-in');
-        }
-        return Promise.reject(new ApiError(HttpStatus.FORBIDDEN, message));
+        return await handleRefreshToken(error, message);
       }
       // bad request
       case HttpStatus.BAD_REQUEST: {

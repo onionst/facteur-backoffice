@@ -68,11 +68,13 @@ export default function Pagination(props: PaginationProps) {
           </a>
         </li>
       ))}
-      <li style={{ opacity: isNextDisabled ? 0 : 1 }} className={`page-item next ${isNextDisabled ? 'disabled' : ''}`}>
-        <a href="#" className="page-link" onClick={() => !isNextDisabled && nextPage()}>
-          <ChevronRight size={16} color="#252f4a" />
-        </a>
-      </li>
+      {!isNextDisabled && (
+        <li className={`page-item next ${isNextDisabled ? 'disabled' : ''}`}>
+          <a href="#" className="page-link" onClick={() => !isNextDisabled && nextPage()}>
+            <ChevronRight size={16} color="#252f4a" />
+          </a>
+        </li>
+      )}
     </ul>
   );
 }
