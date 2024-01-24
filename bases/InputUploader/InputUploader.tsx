@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { LoadingOutlined } from '@ant-design/icons';
 import { Popover, Spin } from 'antd';
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Paperclip, X } from 'react-feather';
@@ -79,9 +80,11 @@ export default function InputUploader(props: any) {
         )}
         <div className="w-full" style={{ position: 'relative' }}>
           {uploadedUrl && (
-            <span className={s['ds-input-uploader__preview']}>
-              <Image key={uploadedUrl} alt="Preview" src={uploadedUrl} />
-            </span>
+            <Link href={uploadedUrl} target="_blank">
+              <span className={s['ds-input-uploader__preview']}>
+                <Image key={uploadedUrl} alt="Preview" src={uploadedUrl} />
+              </span>
+            </Link>
           )}
           <input
             {...props}

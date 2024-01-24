@@ -15,6 +15,7 @@ import { useAuth } from '@/contexts/auth.context';
 import { useModal } from '@/contexts/modal.context';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { USERS_LIMIT_PER_PAGE, useUsers } from '@/contexts/users.context';
+import { parseRole } from '@/modals/users/InviteUsers.modal';
 import { plainShowing } from '@/utils/plainShowing';
 import { safeReturn } from '@/utils/safeReturn';
 
@@ -104,6 +105,7 @@ export default function Users() {
               ...(session.role === ROLES.SUPER_ADMIN ? ['Organization', 'Email'] : ['Email']),
               'Name',
               'Surname',
+              'Role',
               'State',
               <Row align="RIGHT" key={'column_actions'}>
                 Actions
@@ -117,6 +119,11 @@ export default function Users() {
                 : [user?.email]),
               user?.name || '-',
               user?.surname || '-',
+              <div key={user?.id + 'role'}>
+                <Badge key={user?.id + 'role'} bg="secondary">
+                  {parseRole(user?.role)}
+                </Badge>
+              </div>,
               <div key={user?.id + 'state'}>
                 <Badge
                   className={user?.name ? 'ds-badge-success' : ''}

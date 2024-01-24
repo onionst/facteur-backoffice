@@ -165,7 +165,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     } catch (err) {
       // eslint-disable-next-line no-console
 
-      await signOut();
+      await signOut(true);
       setLoading(false);
     }
   };
@@ -421,7 +421,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
-  const signOut = async () => {
+  const signOut = async (expired?: boolean) => {
     try {
       setSession({
         email: '',
@@ -431,7 +431,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
         organizationId: ''
       });
       await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
-      router.push('/auth/sign-in?expired=true');
+      if (expired) {
+        router.push('/auth/sign-in?expired=true');
+      } else {
+        router.push('/auth/sign-in');
+      }
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
