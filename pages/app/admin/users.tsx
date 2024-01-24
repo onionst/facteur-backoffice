@@ -5,6 +5,7 @@ import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
 import Header from '@/components/Header/Header';
+import NotFound from '@/components/NotFound/NotFound';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
 import Search from '@/components/Search/Search';
@@ -100,6 +101,7 @@ export default function Users() {
         </Page>
         <Page>
           <Table
+            notFound={<NotFound title="No users found" description="Your search did not match any user" />}
             loading={usersProps.loading}
             columns={[
               ...(session.role === ROLES.SUPER_ADMIN ? ['Organization', 'Email'] : ['Email']),

@@ -19,7 +19,7 @@ export type EE24HeadlineProps = {
   image?: string;
   headline?: string;
 };
-export function NotFound(props: { withoutButton?: boolean; type: FileType; value: string; onClick: () => void }) {
+export function NotFound(props: { withoutButton?: boolean; type: FileType; value?: string; onClick: () => void }) {
   const render = {
     NONE: (
       <div className={s['ds-not-found']}>
