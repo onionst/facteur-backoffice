@@ -140,7 +140,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         }
         const { data } = await GetSessionData();
         if (data?.refreshToken) {
-          Store.set(STORAGE_KEYS.REFRESH_TOKEN, data?.refreshToken);
+          Store.set(STORAGE_KEYS.GOOGLE_REFRESH_TOKEN, data?.refreshToken);
         }
         setSession(data);
         if (data?.role === ROLES.SUPER_ADMIN) {

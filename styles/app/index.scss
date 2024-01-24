@@ -20,6 +20,12 @@
 // variables
 @import './variables.scss';
 
+.ant-tag {
+  border-color: $ds-gray-300;
+  background-color: $ds-gray-200;
+  color: $ds-gray-700;
+}
+
 // imports
 @import './auth/signIn.scss';
 @import './pages/users.scss';

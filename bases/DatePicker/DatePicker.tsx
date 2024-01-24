@@ -20,7 +20,7 @@ export function DatePicker(props: DatePickerProps & InputProps) {
           // @ts-ignore
           showToday={false}
           format={'DD/MM/YYYY'}
-          className={`form-control ${s['ds-date-picker']} ${props.className || ''}`}
+          className={`form-control ${props.disabled ? s['ds-date-picker--disabled'] : s['ds-date-picker']} ${props.className || ''}`}
         />
       </div>
     </div>
