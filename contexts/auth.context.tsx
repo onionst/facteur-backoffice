@@ -12,7 +12,7 @@ import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { ROLES } from '@/constants/roles.constants';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Credentials } from '@/dtos/credentials.dto';
-import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
+import { RefreshToken } from '@/dtos/google-refresh-token.dto';
 import { Session } from '@/dtos/session.dto';
 import { Join as JoinDto } from '@/dtos/users/Join.dto';
 import {
@@ -42,7 +42,7 @@ export type AuthContextProps = {
   acceptInvitation: (join: JoinDto, token: string) => Promise<void>;
   refreshApiCredentials: (id?: string, type?: string) => Promise<string>;
   googleAccessToken: (code: string) => Promise<void>;
-  googleRefreshToken: (googleRefreshToken: GoogleRefreshToken) => Promise<string>;
+  googleRefreshToken: (googleRefreshToken: RefreshToken) => Promise<string>;
   setupTFA: () => Promise<void>;
   signOut: () => Promise<void>;
 };
@@ -139,9 +139,6 @@ export const AuthProvider = (props: AuthProviderProps) => {
           setLoading(true);
         }
         const { data } = await GetSessionData();
-        if (data?.refreshToken) {
-          Store.set(STORAGE_KEYS.GOOGLE_REFRESH_TOKEN, data?.refreshToken);
-        }
         setSession(data);
         if (data?.role === ROLES.SUPER_ADMIN) {
           organizations.fetchOrganizations({});
@@ -357,7 +354,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
-  const googleRefreshToken = async (refreshToken: GoogleRefreshToken) => {
+  const googleRefreshToken = async (refreshToken: RefreshToken) => {
     try {
       const status = await GetGoogleRefreshToken(refreshToken);
       await getSessionData('/app');
@@ -431,6 +428,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
         organizationId: ''
       });
       await Store.remove(STORAGE_KEYS.ACCESS_TOKEN);
+      await Store.remove(STORAGE_KEYS.EFCSN_REFRESH_TOKEN);
+      await Store.remove(STORAGE_KEYS.GOOGLE_REFRESH_TOKEN);
       if (expired) {
         router.push('/auth/sign-in?expired=true');
       } else {

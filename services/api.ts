@@ -1,11 +1,11 @@
 import axios, { AxiosError } from 'axios';
 import { ApiError } from 'next/dist/server/api-utils';
 import Store from 'store';
-import { GetGoogleRefreshToken } from './auth.service';
+import { GetGoogleRefreshToken, GetSessionRefreshToken } from './auth.service';
 import { HttpStatus } from './http-status.enum';
 import { SETTINGS } from '@/constants/settings';
 import { STORAGE_KEYS } from '@/constants/store.constant';
-import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
+import { RefreshToken } from '@/dtos/google-refresh-token.dto';
 import { handleForbidden } from '@/utils/handleForbidden';
 
 export const api = axios.create({
@@ -34,9 +34,16 @@ api.interceptors.request.use(config => {
 
 const handleRefreshToken = async (error: AxiosError, message: string) => {
   const googleRefreshToken = Store.get(STORAGE_KEYS.GOOGLE_REFRESH_TOKEN, null);
-
+  const efcsnRefreshToken = Store.get(STORAGE_KEYS.EFCSN_REFRESH_TOKEN, null);
+  console.log({ googleRefreshToken, efcsnRefreshToken });
   if (googleRefreshToken) {
-    const newStatus = await GetGoogleRefreshToken({ refreshToken: googleRefreshToken } as GoogleRefreshToken);
+    const newStatus = await GetGoogleRefreshToken({ refreshToken: googleRefreshToken } as RefreshToken);
+    if ('AUTHORIZED' === newStatus) {
+      // @ts-ignore
+      return Promise.resolve(api(error?.config));
+    }
+  } else if (efcsnRefreshToken) {
+    const newStatus = await GetSessionRefreshToken({ refreshToken: efcsnRefreshToken } as RefreshToken);
     if ('AUTHORIZED' === newStatus) {
       // @ts-ignore
       return Promise.resolve(api(error?.config));
