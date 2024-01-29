@@ -118,7 +118,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
-  const getSessionData = async (path: string) => {
+  const getSessionData = async (path: string, wait?: boolean) => {
     try {
       const accessToken = Store.get(STORAGE_KEYS.ACCESS_TOKEN, null);
       if (path.includes('app') && !accessToken) {
@@ -157,7 +157,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
           });
         }
 
-        setLoading(false);
+        if (!wait) {
+          setLoading(false);
+        }
       }
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -204,13 +206,14 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const signInWithTFAToken = async (token: string) => {
     try {
       await SignInWithTFAToken(token);
-      await getSessionData('/app');
+      await getSessionData('/app', true);
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
         message: 'Welcome Back!',
         description: "You've successfully signed in"
       });
       router.push('/app');
+      setLoading(false);
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
         notification.error({

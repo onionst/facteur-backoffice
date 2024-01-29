@@ -1,8 +1,8 @@
-@import "@/styles/app/variables.scss";
+@import '@/styles/app/variables.scss';
 
 .ds-footer {
   background-color: $ds-gray-100;
-  padding: 20px;
+  padding: 40px 20px;
 
   &__left {
     display: flex;
