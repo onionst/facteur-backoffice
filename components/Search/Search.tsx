@@ -10,6 +10,7 @@ import Image from '@/bases/Image/Image';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
+import Video from '@/bases/Video/Video';
 import { FILE_TYPES } from '@/constants/accept';
 
 export type SearchProps = {
@@ -63,7 +64,7 @@ export default function Search(props: SearchProps) {
         NONE: '',
         IMAGE: url,
         AUDIO: '/assets/portraits/audio.svg',
-        VIDEO: '/assets/portraits/video.svg'
+        VIDEO: url
       }[portraitType];
 
       setPortait(portrait || '');
@@ -98,7 +99,10 @@ export default function Search(props: SearchProps) {
               <X color="#4b5675" size={18} />
             </button>
             <div className={s['ds-ee24-search__popover-portrait']}>
-              <Image alt="portrait" src={portrait} />
+              {fileType === 'IMAGE' && <Image key={portrait + 'image'} alt="portrait" src={portrait} />}
+              {fileType === 'VIDEO' && <Video key={portrait + 'video'} src={portrait} />}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {fileType === 'AUDIO' && <img key={portrait + 'audio'} alt="audio" src="/assets/portraits/audio.svg" />}
             </div>
             <div className={s['ds-ee24-search__popover-form']}>
               <Button

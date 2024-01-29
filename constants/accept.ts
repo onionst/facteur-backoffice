@@ -1,7 +1,7 @@
 export const FILE_TYPES = {
   images: ['.png', '.jpeg', '.jpg', '.webp', '.heic', '.heif'],
-  videos: ['.avi', '.mp4', '.mpeg', '.ogv', '.webm', '.3gp', '.3g2', '.mov', '.qt'],
-  audio: ['.aac', '.oga', '.wav', '.weba', '.mp3', '.flac', '.opus', '.3gp', '.3g2'],
+  videos: ['.avi', '.mp4', '.mpeg', '.m4v', '.ogv', '.webm', '.3gp', '.3g2', '.mov', '.qt'],
+  audio: ['.aac', '.oga', '.m4a', '.wav', '.weba', '.mp3', '.flac', '.opus', '.3gp', '.3g2'],
   files: ['.pdf']
 };
 

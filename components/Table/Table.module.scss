@@ -92,6 +92,24 @@
     opacity: 0.6;
     margin-bottom: 16px;
   }
+  &__video {
+    max-width: 400px;
+    max-height: 200px;
+    filter: grayscale(1);
+    opacity: 0.6;
+    margin-bottom: 16px;
+    position: absolute;
+    border-radius: 0.475rem;
+    overflow: hidden;
+    &-container {
+      width: 400px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+  }
   &__text {
     display: flex;
     flex-direction: column;

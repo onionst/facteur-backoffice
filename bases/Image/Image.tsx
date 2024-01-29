@@ -8,6 +8,7 @@ export type ImageProps = {
   defaultImage?: string;
   alt: string;
   src?: string;
+  noDefault?: boolean;
 };
 
 export default function Image(props: DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> & ImageProps) {
@@ -57,8 +58,10 @@ export default function Image(props: DetailedHTMLProps<ImgHTMLAttributes<HTMLIma
       className={`${s['ds-image']} ${props.className || ''}`}
       src={src || defaultPortrait}
       onError={({ currentTarget }) => {
-        currentTarget.onerror = null;
-        currentTarget.src = '/assets/portraits/image.svg';
+        if (!props.noDefault) {
+          currentTarget.onerror = null;
+          currentTarget.src = '/assets/portraits/image.svg';
+        }
       }}
     />
   );
