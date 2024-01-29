@@ -50,16 +50,8 @@ export default function SignIn(): JSX.Element {
 
   useEffect(() => {
     handleQueryChange();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);
-
-  // useEffect(() => {
-  //   if (initialLoad.current) {
-  //     initialLoad.current = false;
-  //   } else {
-  //     handleQueryChange();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [router]);
 
   const handleSignInWithCredentials = async (e: FormEvent) => {
     try {
