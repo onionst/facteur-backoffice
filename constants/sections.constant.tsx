@@ -1,4 +1,4 @@
-import { BarChart2, Box, File, Search, TrendingUp, Users } from 'react-feather';
+import { BarChart2, Box, File, Italic, Search, TrendingUp, Users } from 'react-feather';
 import { ROLES } from './roles.constants';
 
 export class Section {
@@ -70,14 +70,21 @@ export const SECTIONS: Section[] = [
         icon: <BarChart2 size={18} strokeWidth={2.3} color="#4b5675" />,
         name: 'Dashboard',
         type: 'ITEM',
-        path: '/app/ee24/stats'
+        path: '/app/ee24/dashboard'
       },
       {
-        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER, ROLES.SUPER_ADMIN],
-        icon: <TrendingUp size={18} strokeWidth={2.3} color="#4b5675" />,
-        name: 'Trends',
+        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN],
+        icon: <Italic size={18} strokeWidth={2.3} color="#4b5675" />,
+        name: 'Narratives',
         type: 'ITEM',
-        path: '/app/ee24/trends'
+        path: '/app/ee24/narratives'
+      },
+      {
+        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN],
+        icon: <TrendingUp size={18} strokeWidth={2.3} color="#4b5675" />,
+        name: 'Trendings',
+        type: 'ITEM',
+        path: '/app/ee24/trendings'
       }
     ]
   }
