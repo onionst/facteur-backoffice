@@ -16,7 +16,7 @@ export default function Footer() {
           </Link>
         </section>
         <Link target="_blank" href={'https://newtral.es'}>
-          <Image src="/assets/powered.svg" height={38} width={105} alt={''} />
+          <Image src="/assets/powered.svg" height={42} width={115} alt={''} />
         </Link>
       </Row>
     </footer>

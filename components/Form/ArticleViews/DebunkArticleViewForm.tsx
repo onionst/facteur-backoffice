@@ -4,11 +4,12 @@ import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleView } from './articleView.interface';
 import s from './ArticleViewForm.module.scss';
 import { DatePicker } from '@/bases/DatePicker/DatePicker';
-import Image from '@/bases/Image/Image';
 import { Input } from '@/bases/Input';
+import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
+import Banner from '@/components/Banner/Banner';
 import Card from '@/components/Card/Card';
 import Page from '@/components/Page/Page';
 import { LanguageISO } from '@/constants/language';
@@ -23,11 +24,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
   return (
     <form className={s['ds-article-preview-form']}>
       <Page>
-        <Image
-          alt="ee24"
-          style={{ width: '100%', height: 160, minHeight: 160, maxHeight: 160, minWidth: '100%', maxWidth: '100%', objectFit: 'cover' }}
-          src={form.image}
-        />
+        <Banner src={form.image} />
         <Card theme="LIGHT">
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
@@ -242,7 +239,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                     </Row>
 
                     <Row align="SPACE">
-                      <Input disabled label="Associated multimedia" value={appearance?.associatedMedia} />
+                      <InputUploader disabled label="Associated multimedia" value={appearance?.associatedMedia} />
 
                       <Select
                         disabled

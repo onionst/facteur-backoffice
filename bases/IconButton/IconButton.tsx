@@ -1,7 +1,7 @@
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react';
 import s from './IconButton.module.scss';
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
 
 export type IconButtonProps = { children: ReactNode; loading?: boolean };
 
