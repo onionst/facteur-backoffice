@@ -4,7 +4,14 @@ import { Filter } from '@/components/EE24Filter/EE24Filter';
 import { FileType } from '@/components/EE24Search/EE24Search';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
-import { DownloadEE24Articles, FetchEE24ArticleById, FetchEE24Articles, FetchEE24ArticlesByImage } from '@/services/ee24.service';
+import {
+  DownloadEE24Articles,
+  FetchEE24ArticleById,
+  FetchEE24Articles,
+  FetchEE24ArticlesByAudio,
+  FetchEE24ArticlesByImage,
+  FetchEE24ArticlesByVideo
+} from '@/services/ee24.service';
 import { plainArticle } from '@/utils/plainArticle';
 
 export type EE24ArticlesPage = {
@@ -133,12 +140,6 @@ export const EE24Provider = (props: EE24ProviderProps) => {
           message: 'Error',
           description: err?.response?.data?.message[0]
         });
-      } else if (err?.response?.status === 409) {
-        notification.error({
-          ...NOTIFICATIONS_CONFIG.error,
-          message: 'Error',
-          description: 'The article url already exists'
-        });
       } else {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
@@ -153,7 +154,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
   const fetchEE24ArticlesByImage = async (url: string) => {
     try {
       setLoading(true);
-      const [data] = await Promise.all([FetchEE24ArticlesByImage(url)]);
+      const data = await FetchEE24ArticlesByImage(url);
       setArticles(data.articles);
       setPage({
         ...data.page,
@@ -172,12 +173,6 @@ export const EE24Provider = (props: EE24ProviderProps) => {
           message: 'Error',
           description: err?.response?.data?.message[0]
         });
-      } else if (err?.response?.status === 409) {
-        notification.error({
-          ...NOTIFICATIONS_CONFIG.error,
-          message: 'Error',
-          description: 'The article url already exists'
-        });
       } else {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
@@ -194,7 +189,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
   const fetchEE24ArticlesByVideo = async (url: string) => {
     try {
       setLoading(true);
-      const [data] = await Promise.all([FetchEE24ArticlesByImage(url)]);
+      const data = await FetchEE24ArticlesByVideo(url);
       setArticles(data.articles);
       setPage({
         ...data.page,
@@ -213,12 +208,6 @@ export const EE24Provider = (props: EE24ProviderProps) => {
           message: 'Error',
           description: err?.response?.data?.message[0]
         });
-      } else if (err?.response?.status === 409) {
-        notification.error({
-          ...NOTIFICATIONS_CONFIG.error,
-          message: 'Error',
-          description: 'The article url already exists'
-        });
       } else {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
@@ -235,7 +224,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
   const fetchEE24ArticlesByAudio = async (url: string) => {
     try {
       setLoading(true);
-      const [data] = await Promise.all([FetchEE24ArticlesByImage(url)]);
+      const data = await FetchEE24ArticlesByAudio(url);
       setArticles(data.articles);
       setPage({
         ...data.page,
@@ -253,12 +242,6 @@ export const EE24Provider = (props: EE24ProviderProps) => {
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
           description: err?.response?.data?.message[0]
-        });
-      } else if (err?.response?.status === 409) {
-        notification.error({
-          ...NOTIFICATIONS_CONFIG.error,
-          message: 'Error',
-          description: 'The article url already exists'
         });
       } else {
         notification.error({
