@@ -59,13 +59,21 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
   const handleFetchUrlMetadata = async () => {
     try {
       setFetchingUrlMetadata(true);
-      const { metadata } = await fetchMetadata(props.type, form.url);
+      const { metadata, claimReview } = await fetchMetadata(props.type, form.url);
+
       setForm((prev: any) => ({
         ...prev,
         description: metadata?.summary || '',
         headlineNative: metadata?.title || prev?.headlineNative,
         image: metadata?.image || metadata?.meta_image || prev?.image,
-        datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished
+        datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished,
+        claimreviewedNative: claimReview?.claimReviewed,
+        itemReviewed: {
+          datePublished: claimReview?.itemReviewed?.datePublished,
+          author: claimReview?.itemReviewed?.author?.name,
+          politicalParty: prev?.itemReviewed?.politicalParty,
+          appearances: prev?.itemReviewed?.appearances
+        }
       }));
       setFetchingUrlMetadata(false);
     } catch (err) {
