@@ -1,3 +1,3 @@
-export class GoogleRefreshToken {
+export class RefreshToken {
   refreshToken: string;
 }

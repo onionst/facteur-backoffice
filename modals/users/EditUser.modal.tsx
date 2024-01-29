@@ -112,7 +112,8 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
         <Tabs>
           <Tabs.TabPane key={0} tab="Information">
             <Card>
-              {session.role === ROLES.SUPER_ADMIN && (
+              {/* @ts-ignore */}
+              {session.role === ROLES.SUPER_ADMIN && [ROLES.ADMIN, ROLES.FACT_CHECKER].includes(user?.role) && (
                 <Select
                   defaultValue={user?.organizationId}
                   label="Organization"

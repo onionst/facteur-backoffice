@@ -5,7 +5,7 @@ import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Access } from '@/dtos/access.dto';
 import { Credentials } from '@/dtos/credentials.dto';
 import { GoogleAccessToken } from '@/dtos/google-access-token.dto';
-import { GoogleRefreshToken } from '@/dtos/google-refresh-token.dto';
+import { RefreshToken } from '@/dtos/google-refresh-token.dto';
 
 const PREFIX = '/auth';
 
@@ -25,6 +25,7 @@ export const SignInWithEmailAndPassword = async (credentials: Credentials): Prom
   const access: Access = response.data;
   if (access.status === 'AUTHORIZED') {
     Store.set(STORAGE_KEYS.ACCESS_TOKEN, access.token);
+    Store.set(STORAGE_KEYS.EFCSN_REFRESH_TOKEN, access?.refreshToken);
   }
   return access.status;
 };
@@ -42,6 +43,7 @@ export const SignInWithTFAToken = async (TFAToken: string): Promise<'AUTHORIZED'
   const access: Access = response.data;
   if (access.status === 'AUTHORIZED') {
     Store.set(STORAGE_KEYS.ACCESS_TOKEN, access.token);
+    Store.set(STORAGE_KEYS.EFCSN_REFRESH_TOKEN, access?.refreshToken);
   }
   return 'AUTHORIZED';
 };
@@ -86,15 +88,27 @@ export const GetGoogleAccessToken = async (code: string): Promise<'AUTHORIZED' |
   const access: Access = response.data;
   if (access.status === 'AUTHORIZED') {
     Store.set(STORAGE_KEYS.ACCESS_TOKEN, access.token);
+    Store.set(STORAGE_KEYS.GOOGLE_REFRESH_TOKEN, access?.refreshToken);
   }
   return access.status;
 };
 
-export const GetGoogleRefreshToken = async (googleRefreshToken: GoogleRefreshToken): Promise<'AUTHORIZED' | '2FA'> => {
+export const GetGoogleRefreshToken = async (googleRefreshToken: RefreshToken): Promise<'AUTHORIZED' | '2FA'> => {
   const response = await api.post(parseUrl(PREFIX, '/google-refresh-token'), googleRefreshToken);
   const access: Access = response.data;
   if (access.status === 'AUTHORIZED') {
     Store.set(STORAGE_KEYS.ACCESS_TOKEN, access.token);
+    Store.set(STORAGE_KEYS.GOOGLE_REFRESH_TOKEN, access?.refreshToken);
+  }
+  return access.status;
+};
+
+export const GetSessionRefreshToken = async (refreshToken: RefreshToken): Promise<'AUTHORIZED' | '2FA'> => {
+  const response = await api.post(parseUrl(PREFIX, '/refresh-session'), refreshToken);
+  const access: Access = response.data;
+  if (access.status === 'AUTHORIZED') {
+    Store.set(STORAGE_KEYS.ACCESS_TOKEN, access.token);
+    Store.set(STORAGE_KEYS.EFCSN_REFRESH_TOKEN, access?.refreshToken);
   }
   return access.status;
 };
