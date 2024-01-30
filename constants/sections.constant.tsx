@@ -1,4 +1,4 @@
-import { BarChart2, Box, File, Italic, Search, TrendingUp, Users } from 'react-feather';
+import { BarChart2, Box, File, Italic, Search, Users } from 'react-feather';
 import { ROLES } from './roles.constants';
 
 export class Section {
