@@ -87,7 +87,7 @@ export default function EE24Search(props: EE24SearchProps) {
               {fileType === 'IMAGE' && <Image key={portrait + 'image'} alt="portrait" src={portrait} />}
               {fileType === 'VIDEO' && <Video key={portrait + 'video'} src={portrait} />}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              {fileType === 'AUDIO' && <img key={portrait + 'audio'} alt="audio" src="/assets/portraits/audio.svg" />}
+              {fileType === 'AUDIO' && <img key={portrait + 'audio'} alt="audio" src={portrait} />}
             </div>
             <div className={s['ds-ee24-search__popover-form']}>
               <Button

@@ -66,8 +66,6 @@ export const CreateOrganizationModal = (props: CreateOrganizationModalProps & Mo
             required
             label="Name"
             placeholder="Organization's name"
-            // pattern="^[^\.]+$"
-            // title="Name should not include dots"
             value={form.name}
             onChange={v => setForm(prev => ({ ...prev, name: v.target.value }))}
           />
