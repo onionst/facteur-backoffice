@@ -57,6 +57,13 @@ export const SECTIONS: Section[] = [
         name: 'Search',
         type: 'ITEM',
         path: '/app/ee24/search'
+      },
+      {
+        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN, ROLES.RESEARCHER],
+        icon: <TrendingUp size={18} strokeWidth={2.3} color="#4b5675" />,
+        name: 'Global Trends',
+        type: 'ITEM',
+        path: '/app/ee24/trendings'
       }
     ]
   },
@@ -66,25 +73,18 @@ export const SECTIONS: Section[] = [
     type: 'MENU',
     sections: [
       {
-        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN],
+        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN, ROLES.RESEARCHER],
         icon: <BarChart2 size={18} strokeWidth={2.3} color="#4b5675" />,
         name: 'Dashboard',
         type: 'ITEM',
-        path: '/app/ee24/dashboard'
+        path: '/app/stats/dashboard'
       },
       {
-        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN],
+        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN, ROLES.RESEARCHER],
         icon: <Italic size={18} strokeWidth={2.3} color="#4b5675" />,
         name: 'Narratives',
         type: 'ITEM',
-        path: '/app/ee24/narratives'
-      },
-      {
-        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN],
-        icon: <TrendingUp size={18} strokeWidth={2.3} color="#4b5675" />,
-        name: 'Trendings',
-        type: 'ITEM',
-        path: '/app/ee24/trendings'
+        path: '/app/stats/narratives'
       }
     ]
   }

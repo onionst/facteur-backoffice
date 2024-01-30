@@ -11,7 +11,7 @@ export default function Trends() {
 
   return (
     <>
-      <Header icon={<TrendingUp />} title="Trendings">
+      <Header icon={<TrendingUp />} title="Global disinformation trends on last 7 days">
         Last update: {dayjs().startOf('day').format('DD/MM/YYYY HH:mm')}
       </Header>
       <Wrapper>

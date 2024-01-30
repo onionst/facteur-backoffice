@@ -92,7 +92,7 @@ export const FetchEE24ArticlesByImage = async (
   };
 };
 
-export const FetchEE24ArticlesByVideo = async (
+export const FetchEE24ArticlesByVideoOrAudio = async (
   url: string
 ): Promise<{
   articles: Article[];
@@ -103,32 +103,7 @@ export const FetchEE24ArticlesByVideo = async (
     nextPage: number | null;
   };
 }> => {
-  const response = await api.get(parseUrl(PREFIX, `/find/video/${url.replaceAll(':', '%3A').replaceAll('/', '%2F')}`));
-  const current = 1;
-  const maxPage = 1;
-  return {
-    articles: response?.data,
-    records: parseInt(response.data.length),
-    page: {
-      current: current - 1,
-      prevPage: current > 1 ? current - 1 : null,
-      nextPage: current < maxPage ? current + 1 : null
-    }
-  };
-};
-
-export const FetchEE24ArticlesByAudio = async (
-  url: string
-): Promise<{
-  articles: Article[];
-  records: number;
-  page: {
-    current: number;
-    prevPage: number | null;
-    nextPage: number | null;
-  };
-}> => {
-  const response = await api.get(parseUrl(PREFIX, `/find/audio/${url.replaceAll(':', '%3A').replaceAll('/', '%2F')}`));
+  const response = await api.get(parseUrl(PREFIX, `/find/media/${url.replaceAll(':', '%3A').replaceAll('/', '%2F')}`));
   const current = 1;
   const maxPage = 1;
   return {

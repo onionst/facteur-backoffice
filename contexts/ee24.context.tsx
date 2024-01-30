@@ -8,9 +8,8 @@ import {
   DownloadEE24Articles,
   FetchEE24ArticleById,
   FetchEE24Articles,
-  FetchEE24ArticlesByAudio,
   FetchEE24ArticlesByImage,
-  FetchEE24ArticlesByVideo
+  FetchEE24ArticlesByVideoOrAudio
 } from '@/services/ee24.service';
 import { plainArticle } from '@/utils/plainArticle';
 
@@ -189,7 +188,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
   const fetchEE24ArticlesByVideo = async (url: string) => {
     try {
       setLoading(true);
-      const data = await FetchEE24ArticlesByVideo(url);
+      const data = await FetchEE24ArticlesByVideoOrAudio(url);
       setArticles(data.articles);
       setPage({
         ...data.page,
@@ -224,7 +223,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
   const fetchEE24ArticlesByAudio = async (url: string) => {
     try {
       setLoading(true);
-      const data = await FetchEE24ArticlesByAudio(url);
+      const data = await FetchEE24ArticlesByVideoOrAudio(url);
       setArticles(data.articles);
       setPage({
         ...data.page,

@@ -1,9 +1,11 @@
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
 import { Box, Download, Edit, RefreshCcw, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
+import { Sorter } from '@/bases/Sorter/Sorter';
 import Header from '@/components/Header/Header';
 import NotFound from '@/components/NotFound/NotFound';
 import Page from '@/components/Page/Page';
@@ -17,14 +19,22 @@ import { safeReturn } from '@/utils/safeReturn';
 
 export default function Organizations() {
   const modals = useModal();
-  const [filter, setFilter] = useState<any>({});
+  const [filter, setFilter] = useState<any>({
+    order: 'DESC',
+    orderBy: 'creationDate'
+  });
   const { organizations, fetchOrganizations, page, ...organizationsProps } = useOrganizations();
   const { showCreateOrganization, showEditOrganization, showDeleteOrganization, showRestoreOrganization, showDownloadOrganizations } =
     modals.organizations;
 
   useEffect(() => {
     return () => {
-      safeReturn(() => fetchOrganizations({}));
+      safeReturn(() =>
+        fetchOrganizations({
+          order: 'DESC',
+          orderBy: 'creationDate'
+        })
+      );
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -41,12 +51,11 @@ export default function Organizations() {
           <Search
             placeholder="Search organizations..."
             onSearch={search => {
-              setFilter({
+              setFilter((prev: any) => ({
+                ...prev,
                 search
-              });
-              fetchOrganizations({
-                search
-              });
+              }));
+              fetchOrganizations({ ...filter, search });
             }}
           />
         </Page>
@@ -55,9 +64,38 @@ export default function Organizations() {
             notFound={<NotFound title="No organizations found" description="Your search did not match any organization" />}
             loading={organizationsProps.loading}
             columns={[
-              'Name',
+              <Sorter
+                key="Sorter"
+                onSort={() => {
+                  const order = filter.order === 'DESC' ? 'ASC' : 'DESC';
+                  setFilter((prev: any) => ({
+                    ...prev,
+                    order,
+                    orderBy: 'name'
+                  }));
+                  fetchOrganizations({ ...filter, order, orderBy: 'name' });
+                }}
+                order={filter.orderBy === 'name' ? filter.order : 'NONE'}
+              >
+                <span>Name</span>
+              </Sorter>,
               'Domain',
               'State',
+              <Sorter
+                key="Sorter"
+                onSort={() => {
+                  const order = filter.order === 'DESC' ? 'ASC' : 'DESC';
+                  setFilter((prev: any) => ({
+                    ...prev,
+                    order,
+                    orderBy: 'creationDate'
+                  }));
+                  fetchOrganizations({ ...filter, order, orderBy: 'creationDate' });
+                }}
+                order={filter.orderBy === 'creationDate' ? filter.order : 'NONE'}
+              >
+                <span>Date created</span>
+              </Sorter>,
               <Row align="RIGHT" key={'column_actions'}>
                 Actions
               </Row>
@@ -78,6 +116,7 @@ export default function Organizations() {
                   {organization?.active ? 'Active' : 'Deleted'}
                 </Badge>
               </div>,
+              dayjs(organization?.createdAt).format('DD/MM/YYYY'),
               <Row align="RIGHT" key={organization?.id + 'actions'}>
                 {organization?.active ? (
                   <>

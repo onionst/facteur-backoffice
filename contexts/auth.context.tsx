@@ -143,7 +143,10 @@ export const AuthProvider = (props: AuthProviderProps) => {
         const { data } = await GetSessionData();
         setSession(data);
         if (data?.role === ROLES.SUPER_ADMIN) {
-          organizations.fetchOrganizations({});
+          organizations.fetchOrganizations({
+            order: 'DESC',
+            orderBy: 'creationDate'
+          });
         }
         if ([ROLES.SUPER_ADMIN, ROLES.ADMIN].includes(data?.role)) {
           users.fetchUsers({});
