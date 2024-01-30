@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Badge } from 'react-bootstrap';
 import { Box, Download, Edit, RefreshCcw, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
@@ -19,22 +19,20 @@ import { safeReturn } from '@/utils/safeReturn';
 
 export default function Organizations() {
   const modals = useModal();
-  const [filter, setFilter] = useState<any>({
-    order: 'DESC',
-    orderBy: 'creationDate'
-  });
-  const { organizations, fetchOrganizations, page, ...organizationsProps } = useOrganizations();
+
+  const { filter, setFilter, organizations, fetchOrganizations, page, ...organizationsProps } = useOrganizations();
   const { showCreateOrganization, showEditOrganization, showDeleteOrganization, showRestoreOrganization, showDownloadOrganizations } =
     modals.organizations;
 
   useEffect(() => {
     return () => {
-      safeReturn(() =>
+      safeReturn(() => {
+        setFilter({ order: 'DESC', orderBy: 'creationDate' });
         fetchOrganizations({
           order: 'DESC',
           orderBy: 'creationDate'
-        })
-      );
+        });
+      });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

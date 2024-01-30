@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 import { notification } from 'antd';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { Dispatch, createContext, useContext, useEffect, useState } from 'react';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { CreateOrganization as CreateOrganizationDto } from '@/dtos/organizations/createOrganization.dto';
 import { FilterOrganizations } from '@/dtos/organizations/filterOrganizations.dto';
@@ -22,6 +22,8 @@ export type OrganizationPage = {
   nextPage: number | null;
 };
 export type OrganizationsContextProps = {
+  filter: any;
+  setFilter: Dispatch<any>;
   organizations: Organization[];
   page: OrganizationPage;
   loading: boolean;
@@ -41,6 +43,10 @@ export const OrganizationsContext = createContext<OrganizationsContextProps>(
 export const ORGANIZATIONS_LIMIT_PER_PAGE = 20;
 
 export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
+  const [filter, setFilter] = useState<any>({
+    order: 'DESC',
+    orderBy: 'creationDate'
+  });
   const [organizationsList, setOrganizationsList] = useState<Array<Partial<Organization>>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
@@ -146,7 +152,7 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
   const createOrganization = async (organization: CreateOrganizationDto) => {
     try {
       const data = await CreateOrganization(organization);
-      setOrganizations(prev => [...prev, data]);
+      await fetchOrganizations(filter);
       setOrganizationsList(prev => [...prev, { id: data?.id, name: data?.name, domain: data?.domain }]);
       setPage(prev => ({
         ...prev,
@@ -253,6 +259,8 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
     organizations,
     page,
     loading,
+    filter,
+    setFilter,
     downloadOrganizations,
     createOrganization,
     fetchOrganizations,
