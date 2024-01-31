@@ -22,21 +22,21 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
   const { form } = props;
 
   return (
-    <form className={s['ds-article-preview-form']}>
+    <form className={`${s['ds-article-preview-form']} w-full`}>
       <Page>
-        <Banner src={form.image} />
+        <Banner src={form?.image} />
         <Card theme="LIGHT">
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
 
           <div className="w-full">
-            {form.headline != form.headlineNative && (
+            {form?.headline != form?.headlineNative && (
               <Input
                 type="text"
                 disabled
                 minLength={10}
-                value={form.headline}
-                label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'} (In english)`}
+                value={form?.headline}
+                label={`Title of the ${props?.type === ArticleType.Narrative ? 'report' : 'article'} (In english)`}
                 placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
               />
             )}
@@ -45,7 +45,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
             type="text"
             disabled
             minLength={10}
-            value={form.headlineNative}
+            value={form?.headlineNative}
             label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
           />
 
@@ -55,7 +55,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
             name="url"
             disabled
             minLength={10}
-            value={form.url}
+            value={form?.url}
             id="url"
             pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
           />
@@ -63,7 +63,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
           <DatePicker
             label="Date of article publication"
             disabled
-            value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
+            value={dayjs(form?.datePublished).isValid() ? dayjs(form?.datePublished) : form?.datePublished}
           />
         </Card>
         <Card theme="LIGHT">
@@ -124,7 +124,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
           {form?.topics?.length > 0 ? (
             <Input label="Topics">
               <div className="ds-debunk-view__tags">
-                {form.topics.map((i: any, index: number) => (
+                {form?.topics.map((i: any, index: number) => (
                   <Tag style={{ marginBottom: 4 }} key={index}>
                     {i}
                   </Tag>
@@ -135,7 +135,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
           {form?.keywords?.length > 0 ? (
             <Input label="Keywords">
               <div className="ds-debunk-view__tags">
-                {form.keywords.map((i: any, index: number) => (
+                {form?.keywords.map((i: any, index: number) => (
                   <Tag style={{ marginBottom: 4 }} key={index}>
                     {i}
                   </Tag>
@@ -148,18 +148,18 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
           <h4>Claim Details</h4>
           <Divider style={{ margin: '8px 0' }} />
           <div className="w-full">
-            {form.claimreviewed != form.claimreviewedNative && (
+            {form?.claimreviewed != form?.claimreviewedNative && (
               <Input
                 disabled
                 type="text"
                 minLength={10}
-                value={form.claimreviewed}
+                value={form?.claimreviewed}
                 label="Claim (In english)"
                 placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
               />
             )}
           </div>
-          <Input disabled label="Claim" value={form.claimreviewedNative} type="text" minLength={10} />
+          <Input disabled label="Claim" value={form?.claimreviewedNative} type="text" minLength={10} />
           <Row align="SPACE">
             <Select
               disabled
@@ -178,19 +178,21 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
               disabled
               label="Date of claim publication"
               value={
-                dayjs(form.itemReviewed.datePublished).isValid() ? dayjs(form.itemReviewed.datePublished) : form.itemReviewed.datePublished
+                dayjs(form?.itemReviewed.datePublished).isValid()
+                  ? dayjs(form?.itemReviewed.datePublished)
+                  : form?.itemReviewed.datePublished
               }
             />
           </Row>
           {props.type === ArticleType.Factcheck && (
             <Row align="SPACE">
-              <Input disabled value={form.itemReviewed.author} label="Person" />
-              <Input disabled value={form.itemReviewed.politicalParty} label="EU party related to the claim" />
+              <Input disabled value={form?.itemReviewed.author} label="Person" />
+              <Input disabled value={form?.itemReviewed.politicalParty} label="EU party related to the claim" />
             </Row>
           )}
           {form?.itemReviewed?.appearances?.length > 0 ? (
             <Input label="Claim appearances details">
-              {form.itemReviewed.appearances.map((appearance: any, appearanceIndex: number) => (
+              {form?.itemReviewed.appearances.map((appearance: any, appearanceIndex: number) => (
                 <div key={appearance.id}>
                   <Card
                     key={appearance.id}

@@ -310,11 +310,11 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
             </Row>
           )}
 
-          <Input requiredHide label="Claim appearances details" required={form.itemReviewed.appearances.length > 0}>
-            {form.itemReviewed.appearances.map((appearance: any, appearanceIndex: number) => (
-              <div key={appearance.id}>
+          <Input requiredHide label="Claim appearances details" required={form?.itemReviewed?.appearances?.length > 0}>
+            {form?.itemReviewed?.appearances?.map((appearance: any, appearanceIndex: number) => (
+              <div key={appearance?.id}>
                 <Card
-                  key={appearance.id}
+                  key={appearance?.id}
                   style={{
                     marginBottom: 8
                   }}
@@ -324,7 +324,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                     label="URL"
                     pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
                     placeholder="https://example.com/factchecking/article-010101"
-                    key={`${appearance.id}_URL`}
+                    key={`${appearance?.id}_URL`}
                     value={appearance?.url}
                     onChange={v =>
                       setForm((prev: any) => ({
@@ -467,7 +467,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                     label="Archive URL"
                     pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
                     placeholder="https://example.com/factchecking/article-010101"
-                    key={`${appearance.id}_archived`}
+                    key={`${appearance?.id}_archived`}
                     value={appearance?.archivedAt}
                     onChange={v =>
                       setForm((prev: any) => ({
@@ -515,7 +515,7 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
                   itemReviewed: {
                     ...prev.itemReviewed,
                     appearances: [
-                      ...prev.itemReviewed.appearances,
+                      ...(prev?.itemReviewed?.appearances || []),
                       {
                         id,
                         url: '',
