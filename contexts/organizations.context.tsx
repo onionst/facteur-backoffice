@@ -102,10 +102,26 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
 
   const listOrganizations = async (): Promise<Array<Partial<Organization>>> => {
     if (organizationsList.length > 0) {
-      return organizationsList;
+      return organizationsList.sort(function (a: any, b: any) {
+        if (a?.name < b?.name) {
+          return -1;
+        }
+        if (a?.name > b?.name) {
+          return 1;
+        }
+        return 0;
+      });
     }
 
-    const list = await ListOrganizations();
+    const list = (await ListOrganizations()).sort(function (a: any, b: any) {
+      if (a?.name < b?.name) {
+        return -1;
+      }
+      if (a?.name > b?.name) {
+        return 1;
+      }
+      return 0;
+    });
     setOrganizationsList(list);
     return list;
   };

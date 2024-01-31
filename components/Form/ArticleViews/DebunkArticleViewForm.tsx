@@ -189,7 +189,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
             </Row>
           )}
 
-          {form.itemReviewed.appearances.length > 0 ? (
+          {form?.itemReviewed?.appearances?.length > 0 ? (
             <Input label="Claim appearances details">
               {form.itemReviewed.appearances.map((appearance: any, appearanceIndex: number) => (
                 <div key={appearance.id}>
