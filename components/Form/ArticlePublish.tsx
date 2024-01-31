@@ -13,7 +13,7 @@ export default function ArticlePublished() {
         <Button theme="SECONDARY" onClick={() => router.push('/app/data/articles')}>
           Go back
         </Button>
-        <Button theme="CTA" onClick={() => router.push('/app/data/articles/new')}>
+        <Button theme="CTA" onClick={() => router.reload()}>
           Create another article
         </Button>
       </Row>
