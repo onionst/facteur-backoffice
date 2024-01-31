@@ -80,14 +80,7 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
                   }))
               ]}
             />
-            <Select
-              disabled
-              label="EU Relation"
-              defaultValue={form?.euRelation}
-              options={[{ label: form?.euRelation, value: form?.euRelation }]}
-            />
-          </Row>
-          <Row align="SPACE">
+
             <Select
               disabled
               label="Country of the organization"
@@ -101,21 +94,22 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
                   }))
               ]}
             />
-            <Tagger
-              value={form?.contentLocation}
-              options={[
-                ...Object.entries(WorldCountriesISO)
-                  .filter(([, value]) => form?.contentLocation.includes(value))
-                  .map(([key, value]) => ({
-                    label: key.split('_').join(' '),
-                    value: value.split('_').join(' ')
-                  }))
-              ]}
-              disabled
-              mode="multiple"
-              label="Country/Countries identified in article"
-            />
           </Row>
+
+          <Tagger
+            value={form?.contentLocation}
+            options={[
+              ...Object.entries(WorldCountriesISO)
+                .filter(([, value]) => form?.contentLocation.includes(value))
+                .map(([key, value]) => ({
+                  label: key.split('_').join(' '),
+                  value: value.split('_').join(' ')
+                }))
+            ]}
+            disabled
+            mode="multiple"
+            label="Country/Countries identified in article"
+          />
 
           {form?.topics?.length > 0 ? (
             <Input label="Topics">
