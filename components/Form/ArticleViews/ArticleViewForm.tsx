@@ -4,11 +4,11 @@ import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleView } from './articleView.interface';
 import s from './ArticleViewForm.module.scss';
 import { DatePicker } from '@/bases/DatePicker/DatePicker';
-import Image from '@/bases/Image/Image';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
+import Banner from '@/components/Banner/Banner';
 import Card from '@/components/Card/Card';
 import Page from '@/components/Page/Page';
 import { LanguageISO } from '@/constants/language';
@@ -18,24 +18,20 @@ export type ArticleViewFormProps = {};
 export default function ArticleViewForm(props: ArticleViewFormProps & IArticleView) {
   const { form } = props;
   return (
-    <form className={s['ds-article-preview-form']}>
+    <form className={`${s['ds-article-preview-form']} w-full`}>
       <Page>
-        <Image
-          alt="ee24"
-          style={{ width: '100%', height: 160, minHeight: 160, maxHeight: 160, minWidth: '100%', maxWidth: '100%', objectFit: 'cover' }}
-          src={form.image}
-        />
+        <Banner src={form?.image} />
         <Card theme="LIGHT">
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
 
           <div className="w-full">
-            {form.headline != form.headlineNative && (
+            {form?.headline != form?.headlineNative && (
               <Input
                 type="text"
                 disabled
                 minLength={10}
-                value={form.headline}
+                value={form?.headline}
                 label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'} (In english)`}
                 placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
               />
@@ -45,7 +41,7 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
             type="text"
             disabled
             minLength={10}
-            value={form.headlineNative}
+            value={form?.headlineNative}
             label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
           />
 
@@ -55,7 +51,7 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
             name="url"
             disabled
             minLength={10}
-            value={form.url}
+            value={form?.url}
             id="url"
             pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
           />
@@ -63,7 +59,7 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
           <DatePicker
             label="Date of article publication"
             disabled
-            value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
+            value={dayjs(form?.datePublished).isValid() ? dayjs(form?.datePublished) : form?.datePublished}
           />
         </Card>
         <Card theme="LIGHT">
@@ -124,7 +120,7 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
           {form?.topics?.length > 0 ? (
             <Input label="Topics">
               <div className="ds-debunk-view__tags">
-                {form.topics.map((i: any, index: number) => (
+                {form?.topics.map((i: any, index: number) => (
                   <Tag style={{ marginBottom: 4 }} key={index}>
                     {i}
                   </Tag>
@@ -135,7 +131,7 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
           {form?.keywords?.length > 0 ? (
             <Input label="Keywords">
               <div className="ds-debunk-view__tags">
-                {form.keywords.map((i: any, index: number) => (
+                {form?.keywords.map((i: any, index: number) => (
                   <Tag style={{ marginBottom: 4 }} key={index}>
                     {i}
                   </Tag>

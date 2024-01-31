@@ -16,15 +16,8 @@ export default function Footer() {
           </Link>
         </section>
         <Link target="_blank" href={'https://newtral.es'}>
-          <Image src="/assets/powered.svg" height={38} width={105} alt={''} />
+          <Image src="/assets/powered.svg" height={42} width={115} alt={''} />
         </Link>
-        <section className={s['ds-footer__right']}>
-          <Image src="/assets/flags/eu.png" height={70} width={105} alt={''} />
-          <span>
-            EFCSN is supported by the European Union under the 2020 work programme on the financing of Pilot Projects and Preparatory
-            Actions in the field of “Communications Networks, Content and Technology”
-          </span>
-        </section>
       </Row>
     </footer>
   );

@@ -4,7 +4,7 @@ import { Popover, Spin } from 'antd';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
-import { Paperclip, X } from 'react-feather';
+import { Maximize2, Paperclip, X } from 'react-feather';
 import Image from '../Image/Image';
 import s from './InputUploader.module.scss';
 import { MAX_FILE_SIZE } from '@/constants/accept';
@@ -88,7 +88,7 @@ export default function InputUploader(props: any) {
           )}
           <input
             {...props}
-            style={{ paddingRight: props?.disabled ? '8px' : '3.5rem' }}
+            style={{ paddingRight: props?.disabled ? '3rem' : uploadedUrl ? '5rem' : '3rem' }}
             disabled={loading || props.disabled}
             className={`form-control ${uploadedUrl ? s['ds-input-uploader'] : ''} ${
               props.type === 'password' ? 'form-control__input' : ''
@@ -105,16 +105,39 @@ export default function InputUploader(props: any) {
             }}
           >
             {!loading ? (
-              props?.disabled ? null : uploadedUrl ? (
-                <X
-                  style={{ cursor: 'pointer', zIndex: 11 }}
+              props?.disabled ? (
+                <Maximize2
                   onClick={() => {
-                    setUploadedUrl('');
-                    props.onUrlChange('');
+                    if (typeof window != 'undefined') {
+                      window.open(uploadedUrl, '_blank');
+                    }
                   }}
+                  style={{ cursor: 'pointer', zIndex: 11 }}
                   color="#252f4a"
-                  size={18}
+                  size={16}
                 />
+              ) : uploadedUrl ? (
+                <div className={s['ds-input-uploader__buttons']}>
+                  <Maximize2
+                    onClick={() => {
+                      if (typeof window != 'undefined') {
+                        window.open(uploadedUrl, '_blank');
+                      }
+                    }}
+                    style={{ cursor: 'pointer', zIndex: 11 }}
+                    color="#252f4a"
+                    size={16}
+                  />
+                  <X
+                    style={{ cursor: 'pointer', zIndex: 11 }}
+                    onClick={() => {
+                      setUploadedUrl('');
+                      props.onUrlChange('');
+                    }}
+                    color="#252f4a"
+                    size={18}
+                  />
+                </div>
               ) : (
                 <Paperclip color="#252f4a" size={18} />
               )

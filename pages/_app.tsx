@@ -10,6 +10,7 @@ import { EE24Provider } from '@/contexts/ee24.context';
 import { FilesProvider } from '@/contexts/files.context';
 import { ModalProvider } from '@/contexts/modal.context';
 import { OrganizationsProvider } from '@/contexts/organizations.context';
+import { TrendingsProvider } from '@/contexts/trendings.context';
 import { UsersProvider } from '@/contexts/users.context';
 import AppLayout from '@/layout/AppLayout/AppLayout';
 
@@ -51,23 +52,25 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <ConfigProvider theme={theme}>
       <EE24Provider>
         <FilesProvider>
-          <ArticlesProvider>
-            <OrganizationsProvider>
-              <UsersProvider>
-                <AuthProvider>
-                  <ModalProvider>
-                    {router.asPath.includes('/app') ? (
-                      <AppLayout>
+          <TrendingsProvider>
+            <ArticlesProvider>
+              <OrganizationsProvider>
+                <UsersProvider>
+                  <AuthProvider>
+                    <ModalProvider>
+                      {router.asPath.includes('/app') ? (
+                        <AppLayout>
+                          <Component {...pageProps} />
+                        </AppLayout>
+                      ) : (
                         <Component {...pageProps} />
-                      </AppLayout>
-                    ) : (
-                      <Component {...pageProps} />
-                    )}
-                  </ModalProvider>
-                </AuthProvider>
-              </UsersProvider>
-            </OrganizationsProvider>
-          </ArticlesProvider>
+                      )}
+                    </ModalProvider>
+                  </AuthProvider>
+                </UsersProvider>
+              </OrganizationsProvider>
+            </ArticlesProvider>
+          </TrendingsProvider>
         </FilesProvider>
       </EE24Provider>
     </ConfigProvider>

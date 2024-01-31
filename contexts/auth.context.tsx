@@ -6,6 +6,7 @@ import Store from 'store';
 import { useArticles } from './articles.context';
 import { useEE24 } from './ee24.context';
 import { useOrganizations } from './organizations.context';
+import { useTrendings } from './trendings.context';
 import { useUsers } from './users.context';
 import Logo from '@/bases/Logo';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
@@ -58,6 +59,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const organizations = useOrganizations();
   const users = useUsers();
   const articles = useArticles();
+  const trendings = useTrendings();
   const router = useRouter();
   const ee24 = useEE24();
 
@@ -118,7 +120,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   };
 
-  const getSessionData = async (path: string) => {
+  const getSessionData = async (path: string, wait?: boolean) => {
     try {
       const accessToken = Store.get(STORAGE_KEYS.ACCESS_TOKEN, null);
       if (path.includes('app') && !accessToken) {
@@ -141,7 +143,10 @@ export const AuthProvider = (props: AuthProviderProps) => {
         const { data } = await GetSessionData();
         setSession(data);
         if (data?.role === ROLES.SUPER_ADMIN) {
-          organizations.fetchOrganizations({});
+          organizations.fetchOrganizations({
+            order: 'DESC',
+            orderBy: 'creationDate'
+          });
         }
         if ([ROLES.SUPER_ADMIN, ROLES.ADMIN].includes(data?.role)) {
           users.fetchUsers({});
@@ -149,6 +154,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         ee24.fetchEE24Articles({
           order: '-datePublished'
         });
+        trendings.fetchTrendings();
         organizations.listOrganizations();
         if ([ROLES.ADMIN, ROLES.FACT_CHECKER].includes(data?.role)) {
           articles.fetchArticles({
@@ -157,7 +163,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
           });
         }
 
-        setLoading(false);
+        if (!wait) {
+          setLoading(false);
+        }
       }
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -204,13 +212,14 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const signInWithTFAToken = async (token: string) => {
     try {
       await SignInWithTFAToken(token);
-      await getSessionData('/app');
+      await getSessionData('/app', true);
       notification.success({
         ...NOTIFICATIONS_CONFIG.success,
         message: 'Welcome Back!',
         description: "You've successfully signed in"
       });
       router.push('/app');
+      setLoading(false);
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
         notification.error({

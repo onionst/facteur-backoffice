@@ -35,7 +35,7 @@ api.interceptors.request.use(config => {
 const handleRefreshToken = async (error: AxiosError, message: string) => {
   const googleRefreshToken = Store.get(STORAGE_KEYS.GOOGLE_REFRESH_TOKEN, null);
   const efcsnRefreshToken = Store.get(STORAGE_KEYS.EFCSN_REFRESH_TOKEN, null);
-  console.log({ googleRefreshToken, efcsnRefreshToken });
+
   if (googleRefreshToken) {
     const newStatus = await GetGoogleRefreshToken({ refreshToken: googleRefreshToken } as RefreshToken);
     if ('AUTHORIZED' === newStatus) {
