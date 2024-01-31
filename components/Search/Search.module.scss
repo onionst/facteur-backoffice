@@ -54,9 +54,19 @@
       background-repeat: no-repeat;
       border: none;
     }
+
+    & > video {
+      width: 100%;
+      height: 100px;
+      outline: none;
+      object-fit: cover;
+      z-index: 1;
+      border: none;
+    }
   }
   &-x {
     border-style: none;
+    z-index: 10;
     background-color: $ds-gray-100;
     border-radius: 0.475rem;
     position: absolute;

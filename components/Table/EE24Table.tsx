@@ -5,6 +5,7 @@ import { FileType } from '../EE24Search/EE24Search';
 import s from './Table.module.scss';
 import Button from '@/bases/Button/Button';
 import Image from '@/bases/Image/Image';
+import Video from '@/bases/Video/Video';
 
 export type EE24TableProps = {
   firstExtended?: boolean;
@@ -37,7 +38,7 @@ export function NotFound(props: { withoutButton?: boolean; type: FileType; value
     ),
     AUDIO: (
       <div className={s['ds-not-found']}>
-        <Image className={s['ds-not-found__image']} src={'/assets/portraits/audio.svg'} alt="not found" />
+        <img className={s['ds-not-found__image']} src={'/assets/portraits/audio.svg'} alt="not found" />
         <div className={s['ds-not-found__text']}>
           <h3>No articles found</h3>
           <p>Your audio did not match any article</p>
@@ -51,7 +52,9 @@ export function NotFound(props: { withoutButton?: boolean; type: FileType; value
     ),
     VIDEO: (
       <div className={s['ds-not-found']}>
-        <Image className={s['ds-not-found__image']} src={'/assets/portraits/video.svg'} alt="not found" />
+        <div className={s['ds-not-found__video-container']}>
+          <Video className={s['ds-not-found__video']} src={props.value} muted loop autoPlay />
+        </div>
         <div className={s['ds-not-found__text']}>
           <h3>No articles found</h3>
           <p>Your video did not match any article</p>

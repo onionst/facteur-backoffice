@@ -10,6 +10,7 @@ import IconButton from '@/bases/IconButton/IconButton';
 import Image from '@/bases/Image/Image';
 import Row from '@/bases/Row/Row';
 import { Sorter } from '@/bases/Sorter/Sorter';
+import Video from '@/bases/Video/Video';
 import Card from '@/components/Card/Card';
 import EE24Filter, { Filter } from '@/components/EE24Filter/EE24Filter';
 import { FileType } from '@/components/EE24Search/EE24Search';
@@ -34,7 +35,8 @@ export default function Repository() {
   const { session } = useAuth();
   const [portrait, setPortait] = useState<string>('');
   const [searchType, setSearchType] = useState<FileType>('TEXT');
-  const { articles, page, fetchEE24Articles, fetchEE24ArticlesByImage, ...ee24Props } = useEE24();
+  const { articles, page, fetchEE24Articles, fetchEE24ArticlesByImage, fetchEE24ArticlesByVideo, fetchEE24ArticlesByAudio, ...ee24Props } =
+    useEE24();
   const { showDownloadEE24Articles } = modals.ee24;
   const [key, setKey] = useState(Date.now());
   const [filter, setFilter] = useState<Filter & { search: string }>({ order: '-datePublished', search: '' });
@@ -50,6 +52,14 @@ export default function Repository() {
           setPortait(router?.query?.q);
           setSearchType('IMAGE');
           fetchEE24ArticlesByImage(router?.query?.q);
+        } else if (router?.query?.ft === 'VIDEO') {
+          setPortait(router?.query?.q);
+          setSearchType('VIDEO');
+          fetchEE24ArticlesByVideo(router?.query?.q);
+        } else if (router?.query?.ft === 'AUDIO') {
+          setPortait(router?.query?.q);
+          setSearchType('AUDIO');
+          fetchEE24ArticlesByAudio(router?.query?.q);
         }
         setFilter({ order: '-datePublished', search: '' });
       }
@@ -110,11 +120,24 @@ export default function Repository() {
                   'audio/mp3': FILE_TYPES.audio
                 }}
                 onUpload={(url, type) => {
-                  if (type === 'IMAGE') {
-                    fetchEE24ArticlesByImage(url);
-                    setPortait(url);
-                    setSearchType('IMAGE');
+                  switch (type) {
+                    case 'IMAGE':
+                      fetchEE24ArticlesByImage(url);
+                      setPortait(url);
+
+                      break;
+                    case 'VIDEO':
+                      fetchEE24ArticlesByVideo(url);
+                      setPortait(url);
+
+                      break;
+                    case 'AUDIO':
+                      fetchEE24ArticlesByAudio(url);
+                      setPortait(url);
+
+                      break;
                   }
+                  setSearchType(type);
                 }}
                 onChange={search => {
                   setFilter(prev => ({
@@ -141,7 +164,59 @@ export default function Repository() {
                   <Row align="SPACE">
                     <Row align="LEFT">
                       <span>Searching by the following image</span>
-                      <Image alt="Search" src={portrait} style={{ height: 42, maxWidth: 100 }} />
+                      <Image alt="Search" src={portrait} style={{ height: 42, maxHeight: 42, maxWidth: 100 }} />
+                    </Row>
+                    <Row align="RIGHT">
+                      <span
+                        className="c-pointer"
+                        onClick={() => {
+                          setFilter(prev => ({
+                            order: '-datePublished',
+                            search: prev?.search
+                          }));
+                          fetchEE24Articles({ search: filter.search });
+                          setSearchType('TEXT');
+                          setKey(Date.now());
+                        }}
+                      >
+                        Clear filter <X size={18} />
+                      </span>
+                    </Row>
+                  </Row>
+                </Card>
+              )}
+              {searchType === 'VIDEO' && (
+                <Card style={{ padding: '14px 20px' }}>
+                  <Row align="SPACE">
+                    <Row align="LEFT">
+                      <span>Searching by the following video</span>
+                      <Video src={portrait} style={{ height: 42, maxHeight: 42, maxWidth: 100 }} />
+                    </Row>
+                    <Row align="RIGHT">
+                      <span
+                        className="c-pointer"
+                        onClick={() => {
+                          setFilter(prev => ({
+                            order: '-datePublished',
+                            search: prev?.search
+                          }));
+                          fetchEE24Articles({ search: filter.search });
+                          setSearchType('TEXT');
+                          setKey(Date.now());
+                        }}
+                      >
+                        Clear filter <X size={18} />
+                      </span>
+                    </Row>
+                  </Row>
+                </Card>
+              )}
+              {searchType === 'AUDIO' && (
+                <Card style={{ padding: '14px 20px' }}>
+                  <Row align="SPACE">
+                    <Row align="LEFT">
+                      <span>Searching by the following audio</span>
+                      <audio controls src={portrait} />
                     </Row>
                     <Row align="RIGHT">
                       <span

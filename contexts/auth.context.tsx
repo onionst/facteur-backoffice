@@ -6,6 +6,7 @@ import Store from 'store';
 import { useArticles } from './articles.context';
 import { useEE24 } from './ee24.context';
 import { useOrganizations } from './organizations.context';
+import { useTrendings } from './trendings.context';
 import { useUsers } from './users.context';
 import Logo from '@/bases/Logo';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
@@ -58,6 +59,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const organizations = useOrganizations();
   const users = useUsers();
   const articles = useArticles();
+  const trendings = useTrendings();
   const router = useRouter();
   const ee24 = useEE24();
 
@@ -141,7 +143,10 @@ export const AuthProvider = (props: AuthProviderProps) => {
         const { data } = await GetSessionData();
         setSession(data);
         if (data?.role === ROLES.SUPER_ADMIN) {
-          organizations.fetchOrganizations({});
+          organizations.fetchOrganizations({
+            order: 'DESC',
+            orderBy: 'creationDate'
+          });
         }
         if ([ROLES.SUPER_ADMIN, ROLES.ADMIN].includes(data?.role)) {
           users.fetchUsers({});
@@ -149,6 +154,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         ee24.fetchEE24Articles({
           order: '-datePublished'
         });
+        trendings.fetchTrendings();
         organizations.listOrganizations();
         if ([ROLES.ADMIN, ROLES.FACT_CHECKER].includes(data?.role)) {
           articles.fetchArticles({

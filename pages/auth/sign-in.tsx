@@ -37,7 +37,7 @@ export default function SignIn(): JSX.Element {
       }
       if (router?.query?.t) {
         const token = router?.query?.t;
-        alert(token);
+
         if (token && typeof token === 'string') {
           signInWithTFAToken(token);
           router.push('/auth/sign-in');

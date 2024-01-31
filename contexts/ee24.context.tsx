@@ -4,7 +4,13 @@ import { Filter } from '@/components/EE24Filter/EE24Filter';
 import { FileType } from '@/components/EE24Search/EE24Search';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
-import { DownloadEE24Articles, FetchEE24ArticleById, FetchEE24Articles, FetchEE24ArticlesByImage } from '@/services/ee24.service';
+import {
+  DownloadEE24Articles,
+  FetchEE24ArticleById,
+  FetchEE24Articles,
+  FetchEE24ArticlesByImage,
+  FetchEE24ArticlesByVideoOrAudio
+} from '@/services/ee24.service';
 import { plainArticle } from '@/utils/plainArticle';
 
 export type EE24ArticlesPage = {
@@ -23,6 +29,8 @@ export type EE24ContextProps = {
   page: EE24ArticlesPage;
   downloadEE24Articles: (filter: Filter & { search?: string }) => Promise<Array<Partial<Article>>>;
   fetchEE24ArticlesByImage: (url: string) => Promise<void>;
+  fetchEE24ArticlesByVideo: (url: string) => Promise<void>;
+  fetchEE24ArticlesByAudio: (url: string) => Promise<void>;
   fetchEE24Articles: (filter: Filter & { search?: string }, pageIndex?: number) => Promise<void>;
 };
 export const EE24Context = createContext<EE24ContextProps>(
@@ -131,12 +139,6 @@ export const EE24Provider = (props: EE24ProviderProps) => {
           message: 'Error',
           description: err?.response?.data?.message[0]
         });
-      } else if (err?.response?.status === 409) {
-        notification.error({
-          ...NOTIFICATIONS_CONFIG.error,
-          message: 'Error',
-          description: 'The article url already exists'
-        });
       } else {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
@@ -151,7 +153,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
   const fetchEE24ArticlesByImage = async (url: string) => {
     try {
       setLoading(true);
-      const [data] = await Promise.all([FetchEE24ArticlesByImage(url)]);
+      const data = await FetchEE24ArticlesByImage(url);
       setArticles(data.articles);
       setPage({
         ...data.page,
@@ -170,12 +172,6 @@ export const EE24Provider = (props: EE24ProviderProps) => {
           message: 'Error',
           description: err?.response?.data?.message[0]
         });
-      } else if (err?.response?.status === 409) {
-        notification.error({
-          ...NOTIFICATIONS_CONFIG.error,
-          message: 'Error',
-          description: 'The article url already exists'
-        });
       } else {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
@@ -189,6 +185,76 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     }
   };
 
+  const fetchEE24ArticlesByVideo = async (url: string) => {
+    try {
+      setLoading(true);
+      const data = await FetchEE24ArticlesByVideoOrAudio(url);
+      setArticles(data.articles);
+      setPage({
+        ...data.page,
+        records: data.records
+      });
+      if (data.articles.length === 0) {
+        setNotFound({ type: 'VIDEO', value: url });
+      } else {
+        setNotFound(null);
+      }
+      setLoading(false);
+    } catch (err: any) {
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      setArticles([]);
+      setNotFound({ type: 'VIDEO', value: url });
+      setLoading(false);
+    }
+  };
+
+  const fetchEE24ArticlesByAudio = async (url: string) => {
+    try {
+      setLoading(true);
+      const data = await FetchEE24ArticlesByVideoOrAudio(url);
+      setArticles(data.articles);
+      setPage({
+        ...data.page,
+        records: data.records
+      });
+      if (data.articles.length === 0) {
+        setNotFound({ type: 'AUDIO', value: '/assets/portraits/audio.svg' });
+      } else {
+        setNotFound(null);
+      }
+      setLoading(false);
+    } catch (err: any) {
+      if (typeof err?.response?.data?.message === 'object') {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: err?.response?.data?.message[0]
+        });
+      } else {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: 'Please try again later'
+        });
+      }
+      setArticles([]);
+      setNotFound({ type: 'AUDIO', value: '/assets/portraits/audio.svg' });
+      setLoading(false);
+    }
+  };
+
   const context = {
     loading,
     notFound,
@@ -196,6 +262,8 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     page,
     fetchEE24Articles,
     fetchEE24ArticlesByImage,
+    fetchEE24ArticlesByVideo,
+    fetchEE24ArticlesByAudio,
     downloadEE24Articles,
     fetchArticleById,
     fetchArticleData
