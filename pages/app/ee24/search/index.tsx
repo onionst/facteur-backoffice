@@ -116,8 +116,7 @@ export default function Repository() {
                 withUploader
                 accept={{
                   'image/png': FILE_TYPES.images,
-                  'video/mp4': FILE_TYPES.videos,
-                  'audio/mp3': FILE_TYPES.audio
+                  'video/mp4': FILE_TYPES.videos
                 }}
                 onUpload={(url, type) => {
                   switch (type) {

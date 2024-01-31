@@ -120,8 +120,7 @@ export default function EE24Search(props: EE24SearchProps) {
             <Uploader
               accept={{
                 'image/png': FILE_TYPES.images,
-                'video/mp4': FILE_TYPES.videos,
-                'audio/mp3': FILE_TYPES.audio
+                'video/mp4': FILE_TYPES.videos
               }}
               onChange={setUploadedUrl}
               onLoadFinished={() => setUploadingImage(false)}
