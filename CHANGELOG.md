@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.3%0Dv0.1.2#diff) (2024-01-31)
+
+
+### Features
+
+* **[EFCSN-38](https://newtral.atlassian.net/browse/EFCSN-38):** fetch claim review data ([431eb16](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/431eb168edccf2d2f412a90d0539ac868171df8f))
+* new stas env vars ([615f93a](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/615f93aa6b256c3ec0e9ed4238a887d071c276e9))
+
+
+### Bug Fixes
+
+* duplicated dependencies ([e59e81e](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/e59e81e43886fb4eccae9038cbe6ce4d9364220b))
+
 ### [0.1.2](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.2%0Dv0.1.1#diff) (2024-01-23)
 
 ### 0.1.1 (2024-01-16)
