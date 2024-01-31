@@ -188,7 +188,6 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
               <Input disabled value={form.itemReviewed.politicalParty} label="EU party related to the claim" />
             </Row>
           )}
-
           {form?.itemReviewed?.appearances?.length > 0 ? (
             <Input label="Claim appearances details">
               {form.itemReviewed.appearances.map((appearance: any, appearanceIndex: number) => (
