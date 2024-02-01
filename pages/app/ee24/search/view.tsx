@@ -12,10 +12,12 @@ import Wrapper from '@/components/Wrapper/Wrapper';
 import { ROLES } from '@/constants/roles.constants';
 import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
+import { useHistory } from '@/contexts/history.context';
 import { useModal } from '@/contexts/modal.context';
 import useWindowSize from '@/hooks/useWindowWidth';
 
 export default function View() {
+  const { canGoBack } = useHistory();
   const router = useRouter();
   const modals = useModal();
   const [loading, setLoading] = useState<boolean>(true);
@@ -114,7 +116,7 @@ export default function View() {
             router.back();
           }
         }}
-        backable
+        backable={canGoBack()}
         icon={<File />}
         title="Article"
       >

@@ -8,6 +8,7 @@ import { ArticlesProvider } from '@/contexts/articles.context';
 import { AuthProvider } from '@/contexts/auth.context';
 import { EE24Provider } from '@/contexts/ee24.context';
 import { FilesProvider } from '@/contexts/files.context';
+import { HistoryProvider } from '@/contexts/history.context';
 import { ModalProvider } from '@/contexts/modal.context';
 import { OrganizationsProvider } from '@/contexts/organizations.context';
 import { TrendingsProvider } from '@/contexts/trendings.context';
@@ -50,29 +51,31 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ConfigProvider theme={theme}>
-      <EE24Provider>
-        <FilesProvider>
-          <TrendingsProvider>
-            <ArticlesProvider>
-              <OrganizationsProvider>
-                <UsersProvider>
-                  <AuthProvider>
-                    <ModalProvider>
-                      {router.asPath.includes('/app') ? (
-                        <AppLayout>
+      <HistoryProvider>
+        <EE24Provider>
+          <FilesProvider>
+            <TrendingsProvider>
+              <ArticlesProvider>
+                <OrganizationsProvider>
+                  <UsersProvider>
+                    <AuthProvider>
+                      <ModalProvider>
+                        {router.asPath.includes('/app') ? (
+                          <AppLayout>
+                            <Component {...pageProps} />
+                          </AppLayout>
+                        ) : (
                           <Component {...pageProps} />
-                        </AppLayout>
-                      ) : (
-                        <Component {...pageProps} />
-                      )}
-                    </ModalProvider>
-                  </AuthProvider>
-                </UsersProvider>
-              </OrganizationsProvider>
-            </ArticlesProvider>
-          </TrendingsProvider>
-        </FilesProvider>
-      </EE24Provider>
+                        )}
+                      </ModalProvider>
+                    </AuthProvider>
+                  </UsersProvider>
+                </OrganizationsProvider>
+              </ArticlesProvider>
+            </TrendingsProvider>
+          </FilesProvider>
+        </EE24Provider>
+      </HistoryProvider>
     </ConfigProvider>
   );
 }
