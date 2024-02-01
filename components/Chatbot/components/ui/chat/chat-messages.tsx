@@ -51,28 +51,28 @@ export default function ChatMessages({
 
               <div className="ds-message-welcome__questions">
                 <button
-                  onClick={() => onQuestion('What lies do you have about gender violence in Spain?')}
+                  onClick={() => onQuestion('What rumors do you have about the Israel-Palestine war?')}
                   className="ds-message-welcome__questions-item"
                 >
-                  What lies do you have about gender violence in Spain?
+                  What rumors do you have about the Israel-Palestine war?
                 </button>
                 <button
-                  onClick={() => onQuestion('What did Ayuso say about climate change?')}
+                  onClick={() => onQuestion('Did the European Commission contact Elon Musk?')}
                   className="ds-message-welcome__questions-item"
                 >
-                  What did Ayuso say about climate change?
+                  Did the European Commission contact Elon Musk?
                 </button>
                 <button
-                  onClick={() => onQuestion("What were the most notorious hoaxes during Pedro Sánchez's inauguration?")}
+                  onClick={() => onQuestion('Does Spain receive more money than it contributes to the EU?')}
                   className="ds-message-welcome__questions-item"
                 >
-                  What were the most notorious hoaxes during Pedro {"Sánchez's"} inauguration?
+                  Does Spain receive more money than it contributes to the EU?
                 </button>
                 <button
-                  onClick={() => onQuestion('Do Moroccans live off public subsidies?')}
+                  onClick={() => onQuestion('Does the European Commission ignore Doñana?')}
                   className="ds-message-welcome__questions-item"
                 >
-                  Do Moroccans live off public subsidies?
+                  Does the European Commission ignore Doñana?
                 </button>
               </div>
             </div>
