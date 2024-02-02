@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.4%0Dv0.1.3#diff) (2024-02-02)
+
 ### [0.1.3](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.3%0Dv0.1.2#diff) (2024-01-31)
 
 
