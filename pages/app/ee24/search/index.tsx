@@ -1,5 +1,6 @@
 import { Popover } from 'antd';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
@@ -306,28 +307,38 @@ export default function Repository() {
                         placement="bottomRight"
                         content={
                           <div className="w-full">
-                            <Button
-                              type="button"
-                              onClick={e => {
-                                e.stopPropagation();
-                                router.push(`/app/ee24/search/view?id=${article?.externalId}&&f=search`);
-                              }}
-                              style={{ width: '100%', marginBottom: 4 }}
-                              theme="TERTIARY"
+                            <Link
+                              onClick={e => e?.stopPropagation()}
+                              href={`/app/ee24/search/view?id=${article?.externalId}&&f=search`}
+                              target="_blank"
                             >
-                              View <Eye size={18} />
-                            </Button>
-                            <Button
-                              onClick={e => {
-                                e.stopPropagation();
-                                router.push(`/app/data/articles/edit?id=${article?.externalId}&&f=search`);
-                              }}
-                              type="button"
-                              style={{ width: '100%' }}
-                              theme="TERTIARY"
+                              <Button
+                                type="button"
+                                onClick={e => {
+                                  e.stopPropagation();
+                                }}
+                                style={{ width: '100%', marginBottom: 4 }}
+                                theme="TERTIARY"
+                              >
+                                View <Eye size={18} />
+                              </Button>
+                            </Link>
+                            <Link
+                              onClick={e => e?.stopPropagation()}
+                              href={`/app/data/articles/edit?id=${article?.externalId}&&f=search`}
+                              target="_blank"
                             >
-                              Edit <Edit size={18} />
-                            </Button>
+                              <Button
+                                onClick={e => {
+                                  e.stopPropagation();
+                                }}
+                                type="button"
+                                style={{ width: '100%' }}
+                                theme="TERTIARY"
+                              >
+                                Edit <Edit size={18} />
+                              </Button>
+                            </Link>
                           </div>
                         }
                       >

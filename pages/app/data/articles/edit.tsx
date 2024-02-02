@@ -14,10 +14,12 @@ import Stepper from '@/components/Stepper/Stepper';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
+import { useHistory } from '@/contexts/history.context';
 import { useModal } from '@/contexts/modal.context';
 import useWindowSize from '@/hooks/useWindowWidth';
 
 export default function Edit() {
+  const { canGoBack } = useHistory();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const { session } = useAuth();
@@ -211,7 +213,7 @@ export default function Edit() {
             router.back();
           }
         }}
-        backable
+        backable={canGoBack()}
         icon={<File />}
         title="Edit article"
       >
