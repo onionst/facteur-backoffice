@@ -5,4 +5,6 @@ export class Trending {
     CLAIM: string;
     TRANSLATION: string;
   }>;
+  'TOTAL CLAIMS': number;
+  URLS: string[];
 }
