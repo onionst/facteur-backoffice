@@ -20,6 +20,8 @@ export type SidebarProps = {
   onClose?: () => void;
 };
 
+export const CHATBOT_SECTION_ID = 'chatbot';
+
 export default function Sidebar(props: SidebarProps) {
   const { session, signOut } = useAuth();
   const {
@@ -84,7 +86,7 @@ export default function Sidebar(props: SidebarProps) {
           </section>
         </div>
         <div className="w-full">
-          {SETTINGS.PUBLIC_SECTIONS.includes('chatbot') && (
+          {SETTINGS.PUBLIC_SECTIONS.includes(CHATBOT_SECTION_ID) && (
             <section className={s['ds-sidebar__sections']}>
               <div className={s['ds-sidebar__sections-group']}>
                 <ul>
@@ -173,7 +175,7 @@ export default function Sidebar(props: SidebarProps) {
         </section>
       </div>
       <div className="w-full">
-        {SETTINGS.PUBLIC_SECTIONS.includes('chatbot') && (
+        {SETTINGS.PUBLIC_SECTIONS.includes(CHATBOT_SECTION_ID) && (
           <section className={s['ds-sidebar__sections']}>
             <div className={s['ds-sidebar__sections-group']}>
               <ul>
