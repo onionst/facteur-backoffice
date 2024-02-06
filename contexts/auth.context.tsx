@@ -103,19 +103,6 @@ export const AuthProvider = (props: AuthProviderProps) => {
       return await RefreshApiCredentials(id, type);
     } catch (err: any) {
       console.error(err);
-      if (typeof err?.response?.data?.message === 'object') {
-        notification.error({
-          ...NOTIFICATIONS_CONFIG.error,
-          message: 'Error',
-          description: err?.response?.data?.message[0]
-        });
-      } else {
-        notification.error({
-          ...NOTIFICATIONS_CONFIG.error,
-          message: 'Error',
-          description: 'Please try again later'
-        });
-      }
       throw new Error('Unauthorized');
     }
   };
