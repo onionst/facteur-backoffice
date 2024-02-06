@@ -17,7 +17,7 @@ export const doOpenGoogleLogin =
   '&scope=profile%20email' +
   '&response_type=code' +
   '&access_type=offline' +
-  '&prompt=consent' +
+  '&prompt=select_account' +
   `&redirect_uri=${REDIRECT_URI}`;
 
 export const SignInWithEmailAndPassword = async (credentials: Credentials): Promise<'AUTHORIZED' | '2FA'> => {
