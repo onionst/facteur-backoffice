@@ -15,6 +15,10 @@ export default function Footer() {
             <span>Privacy policy</span>
           </Link>
         </section>
+        <p className={s['ds-footer-contact']}>
+          If you have any questions or comments, please contact us at{' '}
+          <a href="mailto:support@efcsn.freshdesk.com">support@efcsn.freshdesk.com</a>
+        </p>
         <Link target="_blank" href={'https://newtral.es'}>
           <Image src="/assets/powered.svg" height={42} width={115} alt={''} />
         </Link>
