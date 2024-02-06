@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.5%0Dv0.1.4#diff) (2024-02-06)
+
+
+### Features
+
+* google consent screen ([e031916](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/e031916f134010a1a69cfb5879f7c7ec326e79f9))
+
 ### [0.1.4](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.4%0Dv0.1.3#diff) (2024-02-02)
 
 ### [0.1.3](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.3%0Dv0.1.2#diff) (2024-01-31)
