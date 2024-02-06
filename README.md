@@ -4,16 +4,17 @@ Frontend of EFCSN EE24 Backoffice project.
 
 ## Environment variables
 
-| Name               | Description            | Type     | Required | Default |
-| ------------------ | ---------------------- | -------- | -------- | ------- |
-| PUBLIC_API_URL     | Api url                | `string` | ✅       |         |
-| PUBLIC_ES_API_URL  | Elastic Search Api url | `string` | ✅       |         |
-| NODE_ENV           | Node env               | `string` | ✅       |         |
-| GOOGLE_OAUTH_ID    | Google oauth id        | `string` | ✅       |         |
-| APP_URL            | Client url             | `string` | ✅       |         |
-| PUBLIC_CHATBOT_URL | Chatbot url            | `string` | ✅       |         |
-| PUBLIC_STATS_URL   | Stats dashboard url    | `string` | ✅       |         |
-| PUBLIC_TRENDS_URL  | Trends dashboard url   | `string` | ✅       |         |
+| Name               | Description             | Type     | Required | Default |
+| ------------------ | ----------------------- | -------- | -------- | ------- |
+| PUBLIC_API_URL     | Api url                 | `string` | ✅       |         |
+| PUBLIC_ES_API_URL  | Elastic Search Api url  | `string` | ✅       |         |
+| NODE_ENV           | Node env                | `string` | ✅       |         |
+| GOOGLE_OAUTH_ID    | Google oauth id         | `string` | ✅       |         |
+| APP_URL            | Client url              | `string` | ✅       |         |
+| PUBLIC_CHATBOT_URL | Chatbot url             | `string` | ✅       |         |
+| PUBLIC_STATS_URL   | Stats dashboard url     | `string` | ✅       |         |
+| PUBLIC_TRENDS_URL  | Trends dashboard url    | `string` | ✅       |         |
+| PUBLIC_SECTIONS    | Available sections list | `string` | ✅       |         |
 
 ## Getting Started
 

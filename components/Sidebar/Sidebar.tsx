@@ -8,6 +8,7 @@ import IconButton from '@/bases/IconButton/IconButton';
 import Logo from '@/bases/Logo';
 import { ROLES } from '@/constants/roles.constants';
 import { SECTIONS } from '@/constants/sections.constant';
+import { SETTINGS } from '@/constants/settings';
 import { useAuth } from '@/contexts/auth.context';
 import { useModal } from '@/contexts/modal.context';
 
@@ -18,6 +19,8 @@ export type SidebarProps = {
   mobile?: boolean;
   onClose?: () => void;
 };
+
+export const CHATBOT_SECTION_ID = 'chatbot';
 
 export default function Sidebar(props: SidebarProps) {
   const { session, signOut } = useAuth();
@@ -83,21 +86,23 @@ export default function Sidebar(props: SidebarProps) {
           </section>
         </div>
         <div className="w-full">
-          <section className={s['ds-sidebar__sections']}>
-            <div className={s['ds-sidebar__sections-group']}>
-              <ul>
-                <Link href={'/app/chatbot'} onClick={() => props.mobile && props.onClose && props.onClose()}>
-                  <Tooltip placement="right" title="Chatbot">
-                    <li className={`${s['ds-sidebar--collapsed__sections-item']}`} style={{ backgroundColor: '#00986d' }}>
-                      <div>
-                        <MessageCircle size={18} strokeWidth={2.3} color="#FFF" />
-                      </div>
-                    </li>
-                  </Tooltip>
-                </Link>
-              </ul>
-            </div>
-          </section>
+          {SETTINGS.PUBLIC_SECTIONS.includes(CHATBOT_SECTION_ID) && (
+            <section className={s['ds-sidebar__sections']}>
+              <div className={s['ds-sidebar__sections-group']}>
+                <ul>
+                  <Link href={'/app/chatbot'} onClick={() => props.mobile && props.onClose && props.onClose()}>
+                    <Tooltip placement="right" title="Chatbot">
+                      <li className={`${s['ds-sidebar--collapsed__sections-item']}`} style={{ backgroundColor: '#00986d' }}>
+                        <div>
+                          <MessageCircle size={18} strokeWidth={2.3} color="#FFF" />
+                        </div>
+                      </li>
+                    </Tooltip>
+                  </Link>
+                </ul>
+              </div>
+            </section>
+          )}
           <Popover
             trigger={['click']}
             content={
@@ -170,21 +175,23 @@ export default function Sidebar(props: SidebarProps) {
         </section>
       </div>
       <div className="w-full">
-        <section className={s['ds-sidebar__sections']}>
-          <div className={s['ds-sidebar__sections-group']}>
-            <ul>
-              <Link href={'/app/chatbot'} onClick={() => props.mobile && props.onClose && props.onClose()}>
-                <li className={`${s['ds-sidebar__sections-item']}`} style={{ backgroundColor: '#00986d' }}>
-                  <div>
-                    <MessageCircle size={18} strokeWidth={2.3} color="#FFF" />
-                    <span style={{ color: '#FFF' }}>Chatbot</span>
-                  </div>
-                  <ChevronsRight size={16} color="#FFF" />
-                </li>
-              </Link>
-            </ul>
-          </div>
-        </section>
+        {SETTINGS.PUBLIC_SECTIONS.includes(CHATBOT_SECTION_ID) && (
+          <section className={s['ds-sidebar__sections']}>
+            <div className={s['ds-sidebar__sections-group']}>
+              <ul>
+                <Link href={'/app/chatbot'} onClick={() => props.mobile && props.onClose && props.onClose()}>
+                  <li className={`${s['ds-sidebar__sections-item']}`} style={{ backgroundColor: '#00986d' }}>
+                    <div>
+                      <MessageCircle size={18} strokeWidth={2.3} color="#FFF" />
+                      <span style={{ color: '#FFF' }}>Chatbot</span>
+                    </div>
+                    <ChevronsRight size={16} color="#FFF" />
+                  </li>
+                </Link>
+              </ul>
+            </div>
+          </section>
+        )}
         <Popover
           placement="top"
           arrow={false}
