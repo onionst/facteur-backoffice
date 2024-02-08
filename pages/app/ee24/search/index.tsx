@@ -94,9 +94,10 @@ export default function Repository() {
                   order: prev.order,
                   search: prev?.search
                 }));
+                setSearchType('TEXT');
                 setTimeout(() => {
-                  fetchEE24Articles(filter);
-                  setSearchType('TEXT');
+                  // @ts-ignore
+                  fetchEE24Articles({ search: filter?.search, order: filter?.search ? '' : filter?.order });
                   setKey(Date.now());
                 }, 150);
               }}
