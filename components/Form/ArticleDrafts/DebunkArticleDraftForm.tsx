@@ -1,5 +1,5 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import { Divider } from 'antd';
+import { Divider, notification } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { Plus, X } from 'react-feather';
@@ -154,7 +154,14 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               suffixIcon={null}
               value={form.keywords}
               mode="tags"
-              onChange={v => setForm((prev: any) => ({ ...prev, keywords: v }))}
+              onChange={v => {
+                if (v?.find((keyword: string) => keyword?.length < 3)) {
+                  notification.warning({
+                    message: 'Keywords must be at least 3 character long'
+                  });
+                }
+                setForm((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= 3) }));
+              }}
               placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
             <Select
