@@ -95,7 +95,7 @@ export default function Repository() {
                   search: prev?.search
                 }));
                 setTimeout(() => {
-                  fetchEE24Articles({ search: filter.search });
+                  fetchEE24Articles(filter);
                   setSearchType('TEXT');
                   setKey(Date.now());
                 }, 50);
