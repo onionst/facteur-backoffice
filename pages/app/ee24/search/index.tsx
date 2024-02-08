@@ -257,12 +257,12 @@ export default function Repository() {
               <EE24Table
                 notFound={ee24Props.notFound}
                 onReset={() => {
-                  setFilter(prev => ({
+                  setFilter({
                     order: '-datePublished',
-                    search: prev?.search
-                  }));
+                    search: ''
+                  });
                   setTimeout(() => {
-                    fetchEE24Articles({ search: filter.search });
+                    fetchEE24Articles({ order: '-datePublished', search: '' });
                     setSearchType('TEXT');
                     setKey(Date.now());
                   }, 150);
