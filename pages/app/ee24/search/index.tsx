@@ -47,7 +47,8 @@ export default function Repository() {
       if (router?.query?.c === 'TEXT') {
         setSearchType('TEXT');
         setFilter({ order: '-datePublished', search: router.query.q });
-        fetchEE24Articles({ order: '-datePublished', search: router.query.q });
+        // @ts-ignore
+        setTimeout(() => fetchEE24Articles({ order: '-datePublished', search: router.query.q }), 150);
       } else {
         if (router?.query?.ft === 'IMAGE') {
           setPortait(router?.query?.q);
@@ -67,7 +68,7 @@ export default function Repository() {
     } else {
       setSearchType('TEXT');
       if (articles?.length === 0 && !ee24Props.loading) {
-        fetchEE24Articles({});
+        fetchEE24Articles({ order: '-datePublished', search: '' });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,17 +91,22 @@ export default function Repository() {
               key={key}
               reset={() => {
                 setFilter(prev => ({
-                  order: '-datePublished',
+                  order: prev.order,
                   search: prev?.search
                 }));
-                fetchEE24Articles({ search: filter.search });
                 setSearchType('TEXT');
-                setKey(Date.now());
+                setTimeout(() => {
+                  // @ts-ignore
+                  fetchEE24Articles({ search: filter?.search, order: filter?.search ? '' : filter?.order });
+                  setKey(Date.now());
+                }, 150);
               }}
               filter={filter}
               onSubmit={() => {
-                fetchEE24Articles(filter);
-                setSearchType('TEXT');
+                setTimeout(() => {
+                  fetchEE24Articles(filter);
+                  setSearchType('TEXT');
+                }, 150);
               }}
               onChange={(data: Filter) => {
                 setFilter(prev => ({
@@ -140,20 +146,25 @@ export default function Repository() {
                   setSearchType(type);
                 }}
                 onChange={search => {
-                  setFilter(prev => ({
-                    ...prev,
-                    search
-                  }));
+                  if (search) {
+                    setFilter((prev: any) => ({ ...prev, search, order: '' }));
+                  } else {
+                    setFilter(prev => ({ ...prev, search, order: '-datePublished' }));
+                  }
                 }}
                 defaultValue={filter.search}
                 placeholder="Search articles..."
                 onSearch={search => {
-                  setFilter(prev => ({ ...prev, search }));
+                  if (search) {
+                    setFilter((prev: any) => ({ ...prev, search, order: '' }));
+                  } else {
+                    setFilter(prev => ({ ...prev, search, order: '-datePublished' }));
+                  }
 
                   setTimeout(() => {
                     fetchEE24Articles(filter);
                     setSearchType('TEXT');
-                  }, 50);
+                  }, 150);
                 }}
               />
             </Page>
@@ -174,9 +185,11 @@ export default function Repository() {
                             order: '-datePublished',
                             search: prev?.search
                           }));
-                          fetchEE24Articles({ search: filter.search });
-                          setSearchType('TEXT');
-                          setKey(Date.now());
+                          setTimeout(() => {
+                            fetchEE24Articles({ search: filter.search });
+                            setSearchType('TEXT');
+                            setKey(Date.now());
+                          }, 150);
                         }}
                       >
                         Clear filter <X size={18} />
@@ -200,9 +213,11 @@ export default function Repository() {
                             order: '-datePublished',
                             search: prev?.search
                           }));
-                          fetchEE24Articles({ search: filter.search });
-                          setSearchType('TEXT');
-                          setKey(Date.now());
+                          setTimeout(() => {
+                            fetchEE24Articles({ search: filter.search });
+                            setSearchType('TEXT');
+                            setKey(Date.now());
+                          }, 150);
                         }}
                       >
                         Clear filter <X size={18} />
@@ -226,9 +241,11 @@ export default function Repository() {
                             order: '-datePublished',
                             search: prev?.search
                           }));
-                          fetchEE24Articles({ search: filter.search });
-                          setSearchType('TEXT');
-                          setKey(Date.now());
+                          setTimeout(() => {
+                            fetchEE24Articles({ search: filter.search });
+                            setSearchType('TEXT');
+                            setKey(Date.now());
+                          }, 150);
                         }}
                       >
                         Clear filter <X size={18} />
@@ -240,13 +257,15 @@ export default function Repository() {
               <EE24Table
                 notFound={ee24Props.notFound}
                 onReset={() => {
-                  setFilter(prev => ({
+                  setFilter({
                     order: '-datePublished',
-                    search: prev?.search
-                  }));
-                  fetchEE24Articles({ search: filter.search });
-                  setSearchType('TEXT');
-                  setKey(Date.now());
+                    search: ''
+                  });
+                  setTimeout(() => {
+                    fetchEE24Articles({ order: '-datePublished', search: '' });
+                    setSearchType('TEXT');
+                    setKey(Date.now());
+                  }, 150);
                 }}
                 firstExtended
                 onRowClick={(i: any) => {
@@ -269,7 +288,7 @@ export default function Repository() {
                           setTimeout(() => {
                             fetchEE24Articles({ ...filter, order });
                             setSearchType('TEXT');
-                          }, 50);
+                          }, 150);
                         }}
                         order={filter.order?.includes('-') ? 'DESC' : 'ASC'}
                       >

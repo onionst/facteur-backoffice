@@ -44,6 +44,7 @@ export default function EE24Filter(props: EE24FilterProps) {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [filter, setFilter] = useState<Partial<Filter>>({});
   const [modified, setModified] = useState<boolean>(false);
+  const [renders, setRenders] = useState<number>(0);
 
   const [organizations, setOrganizations] = useState<Array<Partial<Organization>>>([]);
 
@@ -65,6 +66,17 @@ export default function EE24Filter(props: EE24FilterProps) {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    setRenders(prev => prev + 1);
+  }, [filter]);
+
+  // debido al componente <RangePicker />, se esta llamando 2 veces a setFilter() lo que provoca que aparezca el boton de "apply filter". el render === 2 busca esperar a que se haya terminado de inicializar los estados antes de continuar
+  useEffect(() => {
+    if (renders === 2) {
+      setModified(false);
+    }
+  }, [renders]);
 
   useEffect(() => {
     props.onChange(filter);
@@ -285,7 +297,7 @@ export default function EE24Filter(props: EE24FilterProps) {
               }}
             />
           )}
-          {modified && !submitted ? (
+          {modified && !submitted && renders >= 2 ? (
             <div className={s['ds-ee24-filter__apply']}>
               <Row align="RIGHT">
                 <Button theme="CTA">
