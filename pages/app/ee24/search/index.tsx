@@ -48,7 +48,7 @@ export default function Repository() {
         setSearchType('TEXT');
         setFilter({ order: '-datePublished', search: router.query.q });
         // @ts-ignore
-        setTimeout(() => fetchEE24Articles({ order: '-datePublished', search: router.query.q }), 50);
+        setTimeout(() => fetchEE24Articles({ order: '-datePublished', search: router.query.q }), 150);
       } else {
         if (router?.query?.ft === 'IMAGE') {
           setPortait(router?.query?.q);
@@ -91,21 +91,21 @@ export default function Repository() {
               key={key}
               reset={() => {
                 setFilter(prev => ({
-                  order: '-datePublished',
+                  order: prev.order,
                   search: prev?.search
                 }));
                 setTimeout(() => {
                   fetchEE24Articles(filter);
                   setSearchType('TEXT');
                   setKey(Date.now());
-                }, 50);
+                }, 150);
               }}
               filter={filter}
               onSubmit={() => {
                 setTimeout(() => {
                   fetchEE24Articles(filter);
                   setSearchType('TEXT');
-                }, 50);
+                }, 150);
               }}
               onChange={(data: Filter) => {
                 setFilter(prev => ({
@@ -163,7 +163,7 @@ export default function Repository() {
                   setTimeout(() => {
                     fetchEE24Articles(filter);
                     setSearchType('TEXT');
-                  }, 100);
+                  }, 150);
                 }}
               />
             </Page>
@@ -188,7 +188,7 @@ export default function Repository() {
                             fetchEE24Articles({ search: filter.search });
                             setSearchType('TEXT');
                             setKey(Date.now());
-                          }, 50);
+                          }, 150);
                         }}
                       >
                         Clear filter <X size={18} />
@@ -216,7 +216,7 @@ export default function Repository() {
                             fetchEE24Articles({ search: filter.search });
                             setSearchType('TEXT');
                             setKey(Date.now());
-                          }, 50);
+                          }, 150);
                         }}
                       >
                         Clear filter <X size={18} />
@@ -244,7 +244,7 @@ export default function Repository() {
                             fetchEE24Articles({ search: filter.search });
                             setSearchType('TEXT');
                             setKey(Date.now());
-                          }, 50);
+                          }, 150);
                         }}
                       >
                         Clear filter <X size={18} />
@@ -264,7 +264,7 @@ export default function Repository() {
                     fetchEE24Articles({ search: filter.search });
                     setSearchType('TEXT');
                     setKey(Date.now());
-                  }, 50);
+                  }, 150);
                 }}
                 firstExtended
                 onRowClick={(i: any) => {
@@ -287,7 +287,7 @@ export default function Repository() {
                           setTimeout(() => {
                             fetchEE24Articles({ ...filter, order });
                             setSearchType('TEXT');
-                          }, 50);
+                          }, 150);
                         }}
                         order={filter.order?.includes('-') ? 'DESC' : 'ASC'}
                       >
