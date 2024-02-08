@@ -67,7 +67,7 @@ export default function Repository() {
     } else {
       setSearchType('TEXT');
       if (articles?.length === 0 && !ee24Props.loading) {
-        fetchEE24Articles({});
+        fetchEE24Articles({ order: '-datePublished', search: '' });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,6 +79,10 @@ export default function Repository() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log(filter);
+  }, [filter]);
 
   return (
     <>
@@ -148,7 +152,13 @@ export default function Repository() {
                 defaultValue={filter.search}
                 placeholder="Search articles..."
                 onSearch={search => {
-                  setFilter(prev => ({ ...prev, search }));
+                  if (search) {
+                    setFilter((prev: any) => {
+                      return { ...prev, search, order: '' };
+                    });
+                  } else {
+                    setFilter(prev => ({ ...prev, search, order: '-datePublished' }));
+                  }
 
                   setTimeout(() => {
                     fetchEE24Articles(filter);
