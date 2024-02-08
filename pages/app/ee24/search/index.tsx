@@ -47,7 +47,8 @@ export default function Repository() {
       if (router?.query?.c === 'TEXT') {
         setSearchType('TEXT');
         setFilter({ order: '-datePublished', search: router.query.q });
-        fetchEE24Articles({ order: '-datePublished', search: router.query.q });
+        // @ts-ignore
+        setTimeout(() => fetchEE24Articles({ order: '-datePublished', search: router.query.q }), 50);
       } else {
         if (router?.query?.ft === 'IMAGE') {
           setPortait(router?.query?.q);
@@ -93,14 +94,18 @@ export default function Repository() {
                   order: '-datePublished',
                   search: prev?.search
                 }));
-                fetchEE24Articles({ search: filter.search });
-                setSearchType('TEXT');
-                setKey(Date.now());
+                setTimeout(() => {
+                  fetchEE24Articles({ search: filter.search });
+                  setSearchType('TEXT');
+                  setKey(Date.now());
+                }, 50);
               }}
               filter={filter}
               onSubmit={() => {
-                fetchEE24Articles(filter);
-                setSearchType('TEXT');
+                setTimeout(() => {
+                  fetchEE24Articles(filter);
+                  setSearchType('TEXT');
+                }, 50);
               }}
               onChange={(data: Filter) => {
                 setFilter(prev => ({
@@ -140,18 +145,17 @@ export default function Repository() {
                   setSearchType(type);
                 }}
                 onChange={search => {
-                  setFilter(prev => ({
-                    ...prev,
-                    search
-                  }));
+                  if (search) {
+                    setFilter((prev: any) => ({ ...prev, search, order: '' }));
+                  } else {
+                    setFilter(prev => ({ ...prev, search, order: '-datePublished' }));
+                  }
                 }}
                 defaultValue={filter.search}
                 placeholder="Search articles..."
                 onSearch={search => {
                   if (search) {
-                    setFilter((prev: any) => {
-                      return { ...prev, search, order: '' };
-                    });
+                    setFilter((prev: any) => ({ ...prev, search, order: '' }));
                   } else {
                     setFilter(prev => ({ ...prev, search, order: '-datePublished' }));
                   }
@@ -159,7 +163,7 @@ export default function Repository() {
                   setTimeout(() => {
                     fetchEE24Articles(filter);
                     setSearchType('TEXT');
-                  }, 50);
+                  }, 100);
                 }}
               />
             </Page>
@@ -180,9 +184,11 @@ export default function Repository() {
                             order: '-datePublished',
                             search: prev?.search
                           }));
-                          fetchEE24Articles({ search: filter.search });
-                          setSearchType('TEXT');
-                          setKey(Date.now());
+                          setTimeout(() => {
+                            fetchEE24Articles({ search: filter.search });
+                            setSearchType('TEXT');
+                            setKey(Date.now());
+                          }, 50);
                         }}
                       >
                         Clear filter <X size={18} />
@@ -206,9 +212,11 @@ export default function Repository() {
                             order: '-datePublished',
                             search: prev?.search
                           }));
-                          fetchEE24Articles({ search: filter.search });
-                          setSearchType('TEXT');
-                          setKey(Date.now());
+                          setTimeout(() => {
+                            fetchEE24Articles({ search: filter.search });
+                            setSearchType('TEXT');
+                            setKey(Date.now());
+                          }, 50);
                         }}
                       >
                         Clear filter <X size={18} />
@@ -232,9 +240,11 @@ export default function Repository() {
                             order: '-datePublished',
                             search: prev?.search
                           }));
-                          fetchEE24Articles({ search: filter.search });
-                          setSearchType('TEXT');
-                          setKey(Date.now());
+                          setTimeout(() => {
+                            fetchEE24Articles({ search: filter.search });
+                            setSearchType('TEXT');
+                            setKey(Date.now());
+                          }, 50);
                         }}
                       >
                         Clear filter <X size={18} />
@@ -250,9 +260,11 @@ export default function Repository() {
                     order: '-datePublished',
                     search: prev?.search
                   }));
-                  fetchEE24Articles({ search: filter.search });
-                  setSearchType('TEXT');
-                  setKey(Date.now());
+                  setTimeout(() => {
+                    fetchEE24Articles({ search: filter.search });
+                    setSearchType('TEXT');
+                    setKey(Date.now());
+                  }, 50);
                 }}
                 firstExtended
                 onRowClick={(i: any) => {
