@@ -12,6 +12,7 @@ import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
+import { TextArea } from '@/bases/Textarea';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
@@ -52,7 +53,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
           <div className="w-full">
             {form.headline != form.headlineNative && (
               <Badge.Ribbon text="Translated with AI">
-                <Input
+                <TextArea
                   type="text"
                   minLength={10}
                   required
@@ -64,7 +65,7 @@ export default function ArticlePreviewForm(props: ArticlePreviewFormProps & IArt
               </Badge.Ribbon>
             )}
           </div>
-          <Input
+          <TextArea
             type="text"
             minLength={10}
             disabled

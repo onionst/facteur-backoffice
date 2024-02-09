@@ -28,26 +28,13 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
         <Card theme="LIGHT">
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
-
-          <div className="w-full">
-            {form?.headline != form?.headlineNative && (
-              <Input
-                type="text"
-                disabled
-                minLength={10}
-                value={form?.headline}
-                label={`Title of the ${props?.type === ArticleType.Narrative ? 'report' : 'article'} (In english)`}
-                placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
-              />
-            )}
-          </div>
-          <Input
-            type="text"
-            disabled
-            minLength={10}
-            value={form?.headlineNative}
-            label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
-          />
+          <Card>
+            <div className="w-full">
+              <label>Title {form?.headline != form?.headlineNative && '(In english)'}</label>
+              <h1>{form?.headline}</h1>
+              {form?.healine != form?.headlineNative && <p style={{ margin: 0 }}>Title: “{form?.headlineNative}”</p>}
+            </div>
+          </Card>
 
           <Input
             label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
@@ -147,19 +134,13 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
         <Card theme="LIGHT">
           <h4>Claim Details</h4>
           <Divider style={{ margin: '8px 0' }} />
-          <div className="w-full">
-            {form?.claimreviewed != form?.claimreviewedNative && (
-              <Input
-                disabled
-                type="text"
-                minLength={10}
-                value={form?.claimreviewed}
-                label="Claim (In english)"
-                placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
-              />
-            )}
-          </div>
-          <Input disabled label="Claim" value={form?.claimreviewedNative} type="text" minLength={10} />
+          <Card>
+            <div className="w-full">
+              <label>Claim {form?.claimreviewed != form?.claimreviewedNative && '(In english)'}</label>
+              <h2>{form?.claimreviewed}</h2>
+              {form?.claimreviewed != form?.claimreviewedNative && <p style={{ margin: 0 }}>Claim: “{form?.claimreviewedNative}”</p>}
+            </div>
+          </Card>
           <Row align="SPACE">
             <Select
               disabled

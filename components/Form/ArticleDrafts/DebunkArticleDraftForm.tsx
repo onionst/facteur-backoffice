@@ -13,6 +13,7 @@ import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
+import { TextArea } from '@/bases/Textarea';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
@@ -112,7 +113,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               Fetch data
             </Button>
           </div>
-          <Input
+          <TextArea
             type="text"
             minLength={10}
             required
@@ -230,7 +231,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
         <Card>
           <h4>Claim Details</h4>
           <Divider style={{ margin: '8px 0' }} />
-          <Input
+          <TextArea
             label="Claim"
             value={form.claimreviewedNative}
             onChange={v => handleUpdate(v, 'claimreviewedNative')}

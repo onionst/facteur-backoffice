@@ -1,5 +1,5 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import { Divider } from 'antd';
+import { Divider, notification } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
@@ -12,6 +12,7 @@ import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
+import { TextArea } from '@/bases/Textarea';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
@@ -99,7 +100,7 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
             </Button>
           </div>
 
-          <Input
+          <TextArea
             type="text"
             minLength={10}
             required
@@ -142,7 +143,14 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
               suffixIcon={null}
               value={form.keywords}
               mode="tags"
-              onChange={v => setForm((prev: any) => ({ ...prev, keywords: v }))}
+              onChange={v => {
+                if (v?.find((keyword: string) => keyword?.length < 3)) {
+                  notification.warning({
+                    message: 'Keywords must be at least 3 character long'
+                  });
+                }
+                setForm((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= 3) }));
+              }}
               placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
             <Select

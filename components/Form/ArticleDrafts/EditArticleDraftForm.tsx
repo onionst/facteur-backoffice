@@ -12,6 +12,7 @@ import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
+import { TextArea } from '@/bases/Textarea';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
@@ -97,7 +98,7 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
               Fetch data
             </Button>
           </div>
-          <Input
+          <TextArea
             type="text"
             minLength={10}
             required
