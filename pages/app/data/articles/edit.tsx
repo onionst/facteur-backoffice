@@ -130,7 +130,7 @@ export default function Edit() {
         headlineNative: form.headlineNative,
         datePublished: form.datePublished || null,
         image: form.image || null,
-        keywords: form.keywords || null,
+        keywords: form?.keywords?.filter((keyword: string) => keyword?.length >= 3) || null,
         inLanguage: form.inLanguage || null,
         topics: form.topics || null,
         euRelation: form.euRelation || null,
