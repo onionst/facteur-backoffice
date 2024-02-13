@@ -1,10 +1,11 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { Spin, Tooltip } from 'antd';
+import { Spin, Tooltip, notification } from 'antd';
 import { useCallback, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Paperclip } from 'react-feather';
 import s from './Uploader.module.scss';
 import { FILE_TYPES, MAX_FILE_SIZE } from '@/constants/accept';
+import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { useFiles } from '@/contexts/files.context';
 
 export type UploaderProps = {
@@ -45,6 +46,10 @@ export function Uploader(props: UploaderProps) {
   };
 
   const onDrop = useCallback((acceptedFiles: any[]) => {
+    notification.success({
+      ...NOTIFICATIONS_CONFIG.success,
+      message: 'Uploading file...'
+    });
     if (acceptedFiles?.[0]) {
       if (props.customVideoManagment && FILE_TYPES.videos.some((extension: string) => acceptedFiles?.[0]?.path?.includes(extension))) {
         handleUploadVideo(acceptedFiles[0]);
