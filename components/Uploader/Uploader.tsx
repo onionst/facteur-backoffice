@@ -4,34 +4,53 @@ import { useCallback, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Paperclip } from 'react-feather';
 import s from './Uploader.module.scss';
-import { MAX_FILE_SIZE } from '@/constants/accept';
+import { FILE_TYPES, MAX_FILE_SIZE } from '@/constants/accept';
 import { useFiles } from '@/contexts/files.context';
 
 export type UploaderProps = {
-  onChange: (url: string) => void;
+  onChange: (url: string, data: any) => void;
   onLoad: () => void;
   accept: Accept;
+  customVideoManagment?: boolean;
   onLoadFinished: () => void;
 };
 
 export function Uploader(props: UploaderProps) {
-  const { uploadFile } = useFiles();
+  const { uploadFile, uploadVideo } = useFiles();
   const [loading, setLoading] = useState<boolean>(false);
   const handleUpload = async (file: File) => {
     try {
       setLoading(true);
       props.onLoad();
       const url = await uploadFile(file);
-      props.onChange(url);
+      props.onChange(url, null);
       setLoading(false);
       props.onLoadFinished();
     } catch (err) {
       console.error(err);
     }
   };
+
+  const handleUploadVideo = async (file: File) => {
+    try {
+      setLoading(true);
+      props.onLoad();
+      const binary = await uploadVideo(file);
+      props.onChange(URL.createObjectURL(file), binary);
+      setLoading(false);
+      props.onLoadFinished();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const onDrop = useCallback((acceptedFiles: any[]) => {
-    if (acceptedFiles[0]) {
-      handleUpload(acceptedFiles[0]);
+    if (acceptedFiles?.[0]) {
+      if (props.customVideoManagment && FILE_TYPES.videos.some((extension: string) => acceptedFiles?.[0]?.path?.includes(extension))) {
+        handleUploadVideo(acceptedFiles[0]);
+      } else {
+        handleUpload(acceptedFiles[0]);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

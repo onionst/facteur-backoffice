@@ -19,13 +19,14 @@ import Grid from '@/components/Grid/Grid';
 import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
-import Search from '@/components/Search/Search';
+import EE24Search from '@/components/Search/EE24Search';
 import { EE24Headline, EE24Table } from '@/components/Table/EE24Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { FILE_TYPES } from '@/constants/accept';
 import { ROLES } from '@/constants/roles.constants';
 import { useAuth } from '@/contexts/auth.context';
 import { EE24_ARTICLES_LIMIT_PER_PAGE, useEE24 } from '@/contexts/ee24.context';
+import { useFiles } from '@/contexts/files.context';
 import { useModal } from '@/contexts/modal.context';
 import { plainShowing } from '@/utils/plainShowing';
 import { safeReturn } from '@/utils/safeReturn';
@@ -41,6 +42,7 @@ export default function Repository() {
   const { showDownloadEE24Articles } = modals.ee24;
   const [key, setKey] = useState(Date.now());
   const [filter, setFilter] = useState<Filter & { search: string }>({ order: '-datePublished', search: '' });
+  const { fingerPrints, videoUrl } = useFiles();
 
   useEffect(() => {
     if (router?.query?.c && router?.query?.q && router?.query?.ft && typeof router?.query?.q === 'string') {
@@ -55,9 +57,9 @@ export default function Repository() {
           setSearchType('IMAGE');
           fetchEE24ArticlesByImage(router?.query?.q);
         } else if (router?.query?.ft === 'VIDEO') {
-          setPortait(router?.query?.q);
+          setPortait(videoUrl);
           setSearchType('VIDEO');
-          fetchEE24ArticlesByVideo(router?.query?.q);
+          fetchEE24ArticlesByVideo(fingerPrints, videoUrl);
         } else if (router?.query?.ft === 'AUDIO') {
           setPortait(router?.query?.q);
           setSearchType('AUDIO');
@@ -119,7 +121,7 @@ export default function Repository() {
           </div>
           <Column align="LEFT">
             <Page>
-              <Search
+              <EE24Search
                 withUploader
                 accept={{
                   'image/png': FILE_TYPES.images,
@@ -133,7 +135,7 @@ export default function Repository() {
 
                       break;
                     case 'VIDEO':
-                      fetchEE24ArticlesByVideo(url);
+                      fetchEE24ArticlesByVideo(fingerPrints, videoUrl);
                       setPortait(url);
 
                       break;
