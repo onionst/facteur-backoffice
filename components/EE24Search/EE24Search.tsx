@@ -35,40 +35,6 @@ export default function EE24Search(props: EE24SearchProps) {
       console.error(err);
     }
   };
-  const handleUpdatePortrait = (urlUploaded: string) => {
-    if (!urlUploaded) {
-      setPortait('');
-      setFileType('NONE');
-    } else {
-      const url = urlUploaded?.toLowerCase();
-      let portraitType: FileType = 'NONE';
-      FILE_TYPES.images.forEach(ext => {
-        if (url.includes(ext)) {
-          portraitType = 'IMAGE';
-        }
-      });
-      FILE_TYPES.audio.forEach(ext => {
-        if (url.includes(ext)) {
-          portraitType = 'AUDIO';
-        }
-      });
-      FILE_TYPES.videos.forEach(ext => {
-        if (url.includes(ext)) {
-          portraitType = 'VIDEO';
-        }
-      });
-      // eslint-disable-next-line no-shadow
-      const portrait = {
-        NONE: '',
-        IMAGE: url,
-        AUDIO: '/assets/portraits/audio.svg',
-        VIDEO: url
-      }[portraitType];
-
-      setPortait(portrait || '');
-      setFileType(portraitType);
-    }
-  };
 
   return (
     <form onSubmit={handleSearch} className={s['ds-ee24-search']}>
@@ -135,8 +101,9 @@ export default function EE24Search(props: EE24SearchProps) {
                   setFileType('VIDEO');
                   setPortait(url);
                 } else {
-                  handleUpdatePortrait(uploadedUrl);
                   setUploadedUrl(url);
+                  setFileType('IMAGE');
+                  setPortait(url);
                 }
               }}
               onLoadFinished={() => setUploadingImage(false)}
