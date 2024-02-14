@@ -4,6 +4,7 @@ import { Download, Edit, Mail, RefreshCcw, Trash, Users as UsersIcon } from 'rea
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
+import { Filter } from '@/bases/Sorter/Filter';
 import Header from '@/components/Header/Header';
 import NotFound from '@/components/NotFound/NotFound';
 import Page from '@/components/Page/Page';
@@ -25,6 +26,7 @@ export default function Users() {
   const [organizations, setOrganizations] = useState<Array<{ value: string; label: string }>>([]);
   const [filter, setFilter] = useState<any>({});
   const { session } = useAuth();
+  const [role, setRole] = useState('');
   const { users, fetchUsers, page, resendInvitation, ...usersProps } = useUsers();
   const { listOrganizations } = useOrganizations();
   const { showInviteUsers, showEditUser, showDownloadUsers, showDeleteUserInvitation, showRestoreUser, showDeleteUser } = modals.users;
@@ -77,23 +79,31 @@ export default function Users() {
                   email: search,
                   organizationId: session.role === ROLES.SUPER_ADMIN ? organizationId : session.organizationId
                 });
-                fetchUsers({
+                const query: any = {
                   surname: search,
                   name: search,
                   email: search,
                   organizationId: session.role === ROLES.SUPER_ADMIN ? organizationId : session.organizationId
-                });
+                };
+                if (role) {
+                  query.role = role;
+                }
+                fetchUsers(query);
               } else {
                 setFilter({
                   surname: search,
                   name: search,
                   email: search
                 });
-                fetchUsers({
+                const query: any = {
                   surname: search,
                   name: search,
                   email: search
-                });
+                };
+                if (role) {
+                  query.role = role;
+                }
+                fetchUsers(query);
               }
             }}
             withSelector={session.role === ROLES.SUPER_ADMIN ? organizations : undefined}
@@ -107,7 +117,26 @@ export default function Users() {
               ...(session.role === ROLES.SUPER_ADMIN ? ['Organization', 'Email'] : ['Email']),
               'Name',
               'Surname',
-              'Role',
+              <Filter
+                key="users_filter"
+                onSort={role => {
+                  setRole(role);
+                  if (role) {
+                    setFilter((prev: any) => ({ ...prev, role }));
+                    fetchUsers({ ...filter, role });
+                  } else {
+                    if (filter?.role) {
+                      setFilter((prev: any) => {
+                        delete prev?.role;
+                        fetchUsers(prev);
+                        return prev;
+                      });
+                    }
+                  }
+                }}
+              >
+                <span>Role</span>
+              </Filter>,
               'State',
               <Row align="RIGHT" key={'column_actions'}>
                 Actions
