@@ -1,5 +1,11 @@
 @import '@/styles/app/variables.scss';
-
+.ds-filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 4px;
+}
 .ds-sorter {
   display: flex;
   justify-content: flex-start;

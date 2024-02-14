@@ -32,7 +32,8 @@ export function Filter(props: SorterProps) {
     <Popover
       trigger={'click'}
       content={
-        <div>
+        <div className={s['ds-filter']}>
+          <h6>Roles</h6>
           {session.role === ROLES.SUPER_ADMIN && (
             <Radio
               checked={ROLES.SUPER_ADMIN === selected}
