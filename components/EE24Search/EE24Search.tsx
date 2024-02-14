@@ -1,5 +1,5 @@
 import { Popover } from 'antd';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Search, X } from 'react-feather';
 import { Uploader } from '../Uploader/Uploader';
 import s from './EE24Search.module.scss';
@@ -8,6 +8,7 @@ import Image from '@/bases/Image/Image';
 import Row from '@/bases/Row/Row';
 import Video from '@/bases/Video/Video';
 import { FILE_TYPES } from '@/constants/accept';
+import { useFiles } from '@/contexts/files.context';
 
 export type FileType = 'NONE' | 'TEXT' | 'IMAGE' | 'AUDIO' | 'VIDEO';
 export type EE24SearchProps = {
@@ -20,6 +21,7 @@ export default function EE24Search(props: EE24SearchProps) {
   const [portrait, setPortait] = useState('');
   const [uploadedUrl, setUploadedUrl] = useState<string>('');
   const [uploadingImage, setUploadingImage] = useState<boolean>(false);
+  const { videoUrl } = useFiles();
 
   const handleSearch = (e: FormEvent) => {
     try {
@@ -33,44 +35,6 @@ export default function EE24Search(props: EE24SearchProps) {
       console.error(err);
     }
   };
-  const handleUpdatePortrait = (urlUploaded: string) => {
-    if (!urlUploaded) {
-      setPortait('');
-      setFileType('NONE');
-    } else {
-      const url = urlUploaded?.toLowerCase();
-      let portraitType: FileType = 'NONE';
-      FILE_TYPES.images.forEach(ext => {
-        if (url.includes(ext)) {
-          portraitType = 'IMAGE';
-        }
-      });
-      FILE_TYPES.audio.forEach(ext => {
-        if (url.includes(ext)) {
-          portraitType = 'AUDIO';
-        }
-      });
-      FILE_TYPES.videos.forEach(ext => {
-        if (url.includes(ext)) {
-          portraitType = 'VIDEO';
-        }
-      });
-      // eslint-disable-next-line no-shadow
-      const portrait = {
-        NONE: '',
-        IMAGE: url,
-        AUDIO: '/assets/portraits/audio.svg',
-        VIDEO: url
-      }[portraitType];
-
-      setPortait(portrait || '');
-      setFileType(portraitType);
-    }
-  };
-
-  useEffect(() => {
-    handleUpdatePortrait(uploadedUrl);
-  }, [uploadedUrl]);
 
   return (
     <form onSubmit={handleSearch} className={s['ds-ee24-search']}>
@@ -94,11 +58,19 @@ export default function EE24Search(props: EE24SearchProps) {
                 theme="CTA"
                 type="button"
                 onClick={() => {
-                  props.onSearch({
-                    type: 'URL',
-                    value: uploadedUrl,
-                    fileType: fileType
-                  });
+                  if (fileType === 'VIDEO') {
+                    props.onSearch({
+                      type: 'URL',
+                      value: videoUrl,
+                      fileType: fileType
+                    });
+                  } else {
+                    props.onSearch({
+                      type: 'URL',
+                      value: uploadedUrl,
+                      fileType: fileType
+                    });
+                  }
                 }}
               >
                 Search <Search size={18} />
@@ -118,11 +90,22 @@ export default function EE24Search(props: EE24SearchProps) {
               placeholder="Search in the EE24 dataset..."
             />
             <Uploader
+              customVideoManagment
               accept={{
                 'image/png': FILE_TYPES.images,
                 'video/mp4': FILE_TYPES.videos
               }}
-              onChange={setUploadedUrl}
+              onChange={(url, binary) => {
+                if (binary) {
+                  setUploadedUrl(url);
+                  setFileType('VIDEO');
+                  setPortait(url);
+                } else {
+                  setUploadedUrl(url);
+                  setFileType('IMAGE');
+                  setPortait(url);
+                }
+              }}
               onLoadFinished={() => setUploadingImage(false)}
               onLoad={() => {
                 setUploadingImage(true);

@@ -9,6 +9,7 @@ import {
   FetchEE24ArticleById,
   FetchEE24Articles,
   FetchEE24ArticlesByImage,
+  FetchEE24ArticlesByVideo,
   FetchEE24ArticlesByVideoOrAudio
 } from '@/services/ee24.service';
 import { plainArticle } from '@/utils/plainArticle';
@@ -29,7 +30,7 @@ export type EE24ContextProps = {
   page: EE24ArticlesPage;
   downloadEE24Articles: (filter: Filter & { search?: string }) => Promise<Array<Partial<Article>>>;
   fetchEE24ArticlesByImage: (url: string) => Promise<void>;
-  fetchEE24ArticlesByVideo: (url: string) => Promise<void>;
+  fetchEE24ArticlesByVideo: (fingerPrints: any[], portrait: string) => Promise<void>;
   fetchEE24ArticlesByAudio: (url: string) => Promise<void>;
   fetchEE24Articles: (filter: Filter & { search?: string }, pageIndex?: number) => Promise<void>;
 };
@@ -184,17 +185,17 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     }
   };
 
-  const fetchEE24ArticlesByVideo = async (url: string) => {
+  const fetchEE24ArticlesByVideo = async (fingerPrints: any[], portrait: string) => {
     try {
       setLoading(true);
-      const data = await FetchEE24ArticlesByVideoOrAudio(url);
+      const data = await FetchEE24ArticlesByVideo(fingerPrints);
       setArticles(data.articles);
       setPage({
         ...data.page,
         records: data.records
       });
       if (data.articles.length === 0) {
-        setNotFound({ type: 'VIDEO', value: url });
+        setNotFound({ type: 'VIDEO', value: portrait });
       } else {
         setNotFound(null);
       }
@@ -214,7 +215,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
         });
       }
       setArticles([]);
-      setNotFound({ type: 'VIDEO', value: url });
+      setNotFound({ type: 'VIDEO', value: portrait });
       setLoading(false);
     }
   };

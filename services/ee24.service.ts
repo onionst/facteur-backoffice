@@ -116,3 +116,28 @@ export const FetchEE24ArticlesByVideoOrAudio = async (
     }
   };
 };
+
+export const FetchEE24ArticlesByVideo = async (
+  fingerPrints: any[]
+): Promise<{
+  articles: Article[];
+  records: number;
+  page: {
+    current: number;
+    prevPage: number | null;
+    nextPage: number | null;
+  };
+}> => {
+  const response = await api.post(parseUrl(PREFIX, `/find/video/fingerprints`), fingerPrints);
+  const current = 1;
+  const maxPage = 1;
+  return {
+    articles: response?.data,
+    records: parseInt(response.data.length),
+    page: {
+      current: current - 1,
+      prevPage: current > 1 ? current - 1 : null,
+      nextPage: current < maxPage ? current + 1 : null
+    }
+  };
+};

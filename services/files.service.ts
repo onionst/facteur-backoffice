@@ -12,3 +12,14 @@ export const UploadFile = async (file: File): Promise<string> => {
   });
   return response?.data?.url;
 };
+
+export const UploadVideo = async (file: File): Promise<any[]> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await api.post('/articles/find/video/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+  return response?.data;
+};
