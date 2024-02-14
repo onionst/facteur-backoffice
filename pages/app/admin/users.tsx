@@ -4,7 +4,6 @@ import { Download, Edit, Mail, RefreshCcw, Trash, Users as UsersIcon } from 'rea
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
-import { Filter } from '@/bases/Sorter/Filter';
 import Header from '@/components/Header/Header';
 import NotFound from '@/components/NotFound/NotFound';
 import Page from '@/components/Page/Page';
@@ -26,7 +25,6 @@ export default function Users() {
   const [organizations, setOrganizations] = useState<Array<{ value: string; label: string }>>([]);
   const [filter, setFilter] = useState<any>({});
   const { session } = useAuth();
-  const [role, setRole] = useState('');
   const { users, fetchUsers, page, resendInvitation, ...usersProps } = useUsers();
   const { listOrganizations } = useOrganizations();
   const { showInviteUsers, showEditUser, showDownloadUsers, showDeleteUserInvitation, showRestoreUser, showDeleteUser } = modals.users;
@@ -71,7 +69,7 @@ export default function Users() {
         <Page>
           <Search
             placeholder="Search users..."
-            onSearch={(search, organizationId) => {
+            onSearch={(search, organizationId, role) => {
               if (organizationId || session.role != ROLES.SUPER_ADMIN) {
                 setFilter({
                   surname: search,
@@ -107,6 +105,7 @@ export default function Users() {
               }
             }}
             withSelector={session.role === ROLES.SUPER_ADMIN ? organizations : undefined}
+            withRoles={session.role === ROLES.SUPER_ADMIN}
           />
         </Page>
         <Page>
@@ -117,26 +116,7 @@ export default function Users() {
               ...(session.role === ROLES.SUPER_ADMIN ? ['Organization', 'Email'] : ['Email']),
               'Name',
               'Surname',
-              <Filter
-                key="users_filter"
-                onSort={(role: string) => {
-                  setRole(role);
-                  if (role) {
-                    setFilter((prev: any) => ({ ...prev, role }));
-                    fetchUsers({ ...filter, role });
-                  } else {
-                    if (filter?.role) {
-                      setFilter((prev: any) => {
-                        delete prev?.role;
-                        fetchUsers(prev);
-                        return prev;
-                      });
-                    }
-                  }
-                }}
-              >
-                <span>Role</span>
-              </Filter>,
+              'Role',
               'State',
               <Row align="RIGHT" key={'column_actions'}>
                 Actions

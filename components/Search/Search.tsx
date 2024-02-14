@@ -12,17 +12,20 @@ import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Video from '@/bases/Video/Video';
 import { FILE_TYPES } from '@/constants/accept';
+import { ROLES } from '@/constants/roles.constants';
+import { parseRole } from '@/modals/users/InviteUsers.modal';
 
 export type SearchProps = {
   placeholder: string;
   defaultValue?: string;
   onUpload?: (url: string, fileType: FileType) => void;
-  onSearch: (search: string, selector?: string) => void;
+  onSearch: (search: string, selector?: string, role?: string) => void;
   accept?: Accept;
   onChange?: (v: string) => void;
   withUploader?: boolean;
   withFilter?: boolean;
   withSelector?: Array<{ label: string; value: string }>;
+  withRoles?: boolean;
 };
 
 export default function Search(props: SearchProps) {
@@ -32,6 +35,7 @@ export default function Search(props: SearchProps) {
   const [uploadingImage, setUploadingImage] = useState<boolean>(false);
   const [search, setSearch] = useState<string>(props.defaultValue || '');
   const [selector, setSelector] = useState<any>('');
+  const [role, setRole] = useState<any>('');
 
   useEffect(() => {
     setSearch('');
@@ -84,7 +88,7 @@ export default function Search(props: SearchProps) {
 
   const handleSearch = (e: FormEvent) => {
     e?.preventDefault();
-    props.onSearch(search, selector);
+    props.onSearch(search, selector, role);
   };
 
   return (
@@ -122,7 +126,6 @@ export default function Search(props: SearchProps) {
         }
       >
         <div className={s['ds-search__left']}>
-          {/* <span>Filter</span> */}
           <Input
             defaultValue={props?.defaultValue}
             placeholder={props.placeholder}
@@ -148,8 +151,38 @@ export default function Search(props: SearchProps) {
               options={props.withSelector}
               onChange={v => {
                 setSelector(v);
-                props.onSearch(search, v);
+                props.onSearch(search, v, role);
               }}
+            />
+          )}
+          {props.withRoles && (
+            <Select
+              onChange={v => {
+                setRole(v);
+                props.onSearch(search, selector, v);
+              }}
+              options={[
+                {
+                  label: 'Filter by role',
+                  value: ''
+                },
+                {
+                  label: parseRole(ROLES.SUPER_ADMIN),
+                  value: ROLES.SUPER_ADMIN
+                },
+                {
+                  label: parseRole(ROLES.ADMIN),
+                  value: ROLES.ADMIN
+                },
+                {
+                  label: parseRole(ROLES.RESEARCHER),
+                  value: ROLES.RESEARCHER
+                },
+                {
+                  label: parseRole(ROLES.FACT_CHECKER),
+                  value: ROLES.FACT_CHECKER
+                }
+              ]}
             />
           )}
         </div>
