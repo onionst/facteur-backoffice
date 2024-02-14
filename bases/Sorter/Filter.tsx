@@ -5,6 +5,7 @@ import Radio from '../Radio/Radio';
 import { parseRole } from '@/modals/users/InviteUsers.modal';
 import { ROLES } from '@/constants/roles.constants';
 import { useState } from 'react';
+import { useAuth } from '@/contexts/auth.context';
 
 export type order = 'ASC' | 'DESC' | 'NONE';
 
@@ -14,6 +15,7 @@ export type SorterProps = {
 };
 
 export function Filter(props: SorterProps) {
+  const { session } = useAuth();
   const [selected, setSelected] = useState('');
 
   const handleCheck = (role: any) => {
@@ -31,17 +33,21 @@ export function Filter(props: SorterProps) {
       trigger={'click'}
       content={
         <div>
-          <Radio
-            checked={ROLES.SUPER_ADMIN === selected}
-            onClick={() => handleCheck(ROLES.SUPER_ADMIN)}
-            label={parseRole(ROLES.SUPER_ADMIN)}
-          />
+          {session.role === ROLES.SUPER_ADMIN && (
+            <Radio
+              checked={ROLES.SUPER_ADMIN === selected}
+              onClick={() => handleCheck(ROLES.SUPER_ADMIN)}
+              label={parseRole(ROLES.SUPER_ADMIN)}
+            />
+          )}
           <Radio checked={ROLES.ADMIN === selected} onClick={() => handleCheck(ROLES.ADMIN)} label={parseRole(ROLES.ADMIN)} />
-          <Radio
-            checked={ROLES.RESEARCHER === selected}
-            onClick={() => handleCheck(ROLES.RESEARCHER)}
-            label={parseRole(ROLES.RESEARCHER)}
-          />
+          {session.role === ROLES.SUPER_ADMIN && (
+            <Radio
+              checked={ROLES.RESEARCHER === selected}
+              onClick={() => handleCheck(ROLES.RESEARCHER)}
+              label={parseRole(ROLES.RESEARCHER)}
+            />
+          )}
           <Radio
             checked={ROLES.FACT_CHECKER === selected}
             onClick={() => handleCheck(ROLES.FACT_CHECKER)}
