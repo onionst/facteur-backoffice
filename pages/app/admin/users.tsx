@@ -119,7 +119,7 @@ export default function Users() {
               'Surname',
               <Filter
                 key="users_filter"
-                onSort={role => {
+                onSort={(role: string) => {
                   setRole(role);
                   if (role) {
                     setFilter((prev: any) => ({ ...prev, role }));
