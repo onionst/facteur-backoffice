@@ -11,7 +11,7 @@ export type SorterProps = {
 
 export function Sorter(props: SorterProps) {
   return (
-    <button className={s['ds-sorter']} onClick={props.onSort}>
+    <button className={s['ds-sorter']} type="button" onClick={props.onSort}>
       {props.children}
       <div className={s['ds-sorter-box']}>
         {props.order === 'ASC' ? (

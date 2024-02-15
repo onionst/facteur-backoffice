@@ -69,7 +69,7 @@ export default function Users() {
         <Page>
           <Search
             placeholder="Search users..."
-            onSearch={(search, organizationId) => {
+            onSearch={(search, organizationId, role) => {
               if (organizationId || session.role != ROLES.SUPER_ADMIN) {
                 setFilter({
                   surname: search,
@@ -77,26 +77,35 @@ export default function Users() {
                   email: search,
                   organizationId: session.role === ROLES.SUPER_ADMIN ? organizationId : session.organizationId
                 });
-                fetchUsers({
+                const query: any = {
                   surname: search,
                   name: search,
                   email: search,
                   organizationId: session.role === ROLES.SUPER_ADMIN ? organizationId : session.organizationId
-                });
+                };
+                if (role) {
+                  query.role = role;
+                }
+                fetchUsers(query);
               } else {
                 setFilter({
                   surname: search,
                   name: search,
                   email: search
                 });
-                fetchUsers({
+                const query: any = {
                   surname: search,
                   name: search,
                   email: search
-                });
+                };
+                if (role) {
+                  query.role = role;
+                }
+                fetchUsers(query);
               }
             }}
             withSelector={session.role === ROLES.SUPER_ADMIN ? organizations : undefined}
+            withRoles={session.role === ROLES.SUPER_ADMIN}
           />
         </Page>
         <Page>
