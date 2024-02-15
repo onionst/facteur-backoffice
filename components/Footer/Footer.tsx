@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className={s['ds-footer']}>
       <Row align="SPACE">
         <section className={s['ds-footer__left']}>
-          <Link target="_blank" href={'https://efcsn.com/contact/'}>
+          <Link target="_blank" href={'https://elections24.efcsn.com/contact'}>
             <span>Point of contact</span>
           </Link>
           <Link target="_blank" href={'https://efcsn.com/privacy-policy'}>
