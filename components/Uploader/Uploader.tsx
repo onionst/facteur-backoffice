@@ -27,9 +27,16 @@ export function Uploader(props: UploaderProps) {
       props.onLoad();
       const url = await uploadFile(file);
       props.onChange(url, null);
+      api.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'File uploaded successfully',
+        type: 'success',
+        key,
+        duration: 100000
+      });
       setTimeout(() => {
         api.destroy(key);
-      }, 500);
+      }, 1000);
       setLoading(false);
       props.onLoadFinished();
     } catch (err) {
@@ -43,9 +50,16 @@ export function Uploader(props: UploaderProps) {
       props.onLoad();
       const binary = await uploadVideo(file);
       props.onChange(URL.createObjectURL(file), binary);
+      api.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'File uploaded successfully',
+        type: 'success',
+        key,
+        duration: 100000
+      });
       setTimeout(() => {
         api.destroy(key);
-      }, 500);
+      }, 1000);
       setLoading(false);
       props.onLoadFinished();
     } catch (err) {
@@ -59,12 +73,16 @@ export function Uploader(props: UploaderProps) {
       ...NOTIFICATIONS_CONFIG.success,
       message: 'Uploading file...',
       type: 'success',
+      icon: <Spin indicator={<LoadingOutlined style={{ fontSize: 24, color: '#00986d' }} />}></Spin>,
       key,
       duration: 100000
     });
 
     if (acceptedFiles?.[0]) {
-      if (props.customVideoManagment && FILE_TYPES.videos.some((extension: string) => acceptedFiles?.[0]?.path?.includes(extension))) {
+      if (
+        props.customVideoManagment &&
+        FILE_TYPES.videos.some((extension: string) => acceptedFiles?.[0]?.path?.toLowerCase()?.includes(extension))
+      ) {
         handleUploadVideo(acceptedFiles[0], key);
       } else {
         handleUpload(acceptedFiles[0], key);
