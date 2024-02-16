@@ -27,9 +27,16 @@ export function Uploader(props: UploaderProps) {
       props.onLoad();
       const url = await uploadFile(file);
       props.onChange(url, null);
+      api.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'File uploaded successfully',
+        type: 'success',
+        key,
+        duration: 100000
+      });
       setTimeout(() => {
         api.destroy(key);
-      }, 500);
+      }, 1000);
       setLoading(false);
       props.onLoadFinished();
     } catch (err) {
@@ -43,9 +50,16 @@ export function Uploader(props: UploaderProps) {
       props.onLoad();
       const binary = await uploadVideo(file);
       props.onChange(URL.createObjectURL(file), binary);
+      api.success({
+        ...NOTIFICATIONS_CONFIG.success,
+        message: 'File uploaded successfully',
+        type: 'success',
+        key,
+        duration: 100000
+      });
       setTimeout(() => {
         api.destroy(key);
-      }, 500);
+      }, 1000);
       setLoading(false);
       props.onLoadFinished();
     } catch (err) {
