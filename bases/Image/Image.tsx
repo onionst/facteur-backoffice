@@ -16,7 +16,7 @@ export default function Image(props: DetailedHTMLProps<ImgHTMLAttributes<HTMLIma
 
   const [src, setSrc] = useState<string>('');
   useEffect(() => {
-    const url = props.src || '';
+    const url = (props.src || '').toLowerCase();
     let portraitType: FileType = 'NONE';
     FILE_TYPES.images.forEach(ext => {
       if (url.includes(ext)) {

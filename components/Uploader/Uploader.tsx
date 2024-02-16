@@ -59,12 +59,16 @@ export function Uploader(props: UploaderProps) {
       ...NOTIFICATIONS_CONFIG.success,
       message: 'Uploading file...',
       type: 'success',
+      icon: <Spin indicator={<LoadingOutlined style={{ fontSize: 24, color: '#00986d' }} />}></Spin>,
       key,
       duration: 100000
     });
 
     if (acceptedFiles?.[0]) {
-      if (props.customVideoManagment && FILE_TYPES.videos.some((extension: string) => acceptedFiles?.[0]?.path?.includes(extension))) {
+      if (
+        props.customVideoManagment &&
+        FILE_TYPES.videos.some((extension: string) => acceptedFiles?.[0]?.path?.toLowerCase()?.includes(extension))
+      ) {
         handleUploadVideo(acceptedFiles[0], key);
       } else {
         handleUpload(acceptedFiles[0], key);
