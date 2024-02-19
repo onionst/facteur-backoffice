@@ -11,7 +11,7 @@ export default function Footer() {
           <Link target="_blank" href={'https://elections24.efcsn.com/contact'}>
             <span>Point of contact</span>
           </Link>
-          <Link target="_blank" href={'https://efcsn.com/privacy-policy'}>
+          <Link target="_blank" href={'https://elections24.efcsn.com/privacy-policy'}>
             <span>Privacy policy</span>
           </Link>
         </section>
