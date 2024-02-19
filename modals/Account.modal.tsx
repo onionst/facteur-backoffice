@@ -46,7 +46,7 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
   };
 
   useEffect(() => {
-    if ([ROLES.ADMIN, ROLES.RESEARCHER].includes(session.role)) {
+    if ([ROLES.ADMIN, ROLES.RESEARCHER, ROLES.SUPER_ADMIN].includes(session.role)) {
       fetchApiCredentials();
     }
   }, [session]);
@@ -69,7 +69,7 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
           <Minus color="#252f4a" size={18} onClick={props.onClose} />
         </IconButton>
       </Row>
-      {(session.role === ROLES.RESEARCHER || session.role === ROLES.ADMIN) &&
+      {(session.role === ROLES.RESEARCHER || session.role === ROLES.SUPER_ADMIN || session.role === ROLES.ADMIN) &&
         (loadingApiKey ? (
           <Card style={{ marginTop: 16 }}>
             <Skeleton active />
