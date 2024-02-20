@@ -5,12 +5,12 @@ export type LogoProps = {
 };
 export default function Logo(props: LogoProps) {
   const height = {
-    S: 48,
-    M: 56,
-    L: 64
+    S: 24,
+    M: 32,
+    L: 38
   }[props.size];
 
   const width = height * 2;
 
-  return <Image src="/assets/icons/e-logo.svg" height={height} width={width} alt={'EFCSN logo'} />;
+  return <Image src="/assets/icons/e-logo-legacy.svg" height={height} width={width} alt={'EFCSN logo'} />;
 }
