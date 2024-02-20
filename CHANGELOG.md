@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.12](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.12%0Dv0.1.11#diff) (2024-02-20)
+
+
+### Bug Fixes
+
+* users export pagination ([96c9211](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/96c9211c8ba9b9a8a6df4c7f31142b78d03002e5))
+
 ### [0.1.11](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.11%0Dv0.1.10#diff) (2024-02-19)
 
 ### [0.1.10](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.10%0Dv0.1.9#diff) (2024-02-16)
