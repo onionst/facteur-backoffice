@@ -173,7 +173,7 @@ export const UsersProvider = (props: UsersProviderProps) => {
 
       const filter = { page: currentPage, limit: DOWNLOAD_USERS_LIMIT_PER_PAGE };
       const response = await FetchUsers(filter);
-      debugger;
+
       if (response.users.length === 0) {
         return organizationsToDownload;
       } else if (response.users.length < DOWNLOAD_USERS_LIMIT_PER_PAGE) {
