@@ -15,6 +15,7 @@ import { ROLES } from '@/constants/roles.constants';
 import { useAuth } from '@/contexts/auth.context';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { useUsers } from '@/contexts/users.context';
+import { User } from '@/dtos/users/user.dto';
 import { convertJsonToCsv } from '@/utils/convertJsonToCsv';
 
 export type DownloadUsersModalProps = {
@@ -53,28 +54,33 @@ export const DownloadUsersModal = (props: DownloadUsersModalProps & ModalProps) 
       e?.preventDefault();
       setLoading(true);
       notification.success({ ...NOTIFICATIONS_CONFIG.success, message: 'Download started', description: 'It may take a few minutes' });
-      const users = await downloadUsers(0, []);
+      const initialPage = 1;
+      const users = await downloadUsers(initialPage, []);
+      const getStatusUser = (user: Partial<User>) => {
+        if (user?.active) {
+          if (user?.name) return 'active';
+          return 'pending';
+        }
+        return 'deleted';
+      };
 
-      const data = users
-        .filter(user => user?.name || user?.surname)
-        .map(user => {
-          let payload = {
-            name: user?.name || '',
-            surname: user?.surname || '',
-            email: user?.email || '',
-            active: user?.active ? 1 : 0,
-            role: parseRole(user?.role) || ''
-            // apiKey: user?.apiKey || ''
+      const data = users.map(user => {
+        let payload = {
+          name: user?.name || '',
+          surname: user?.surname || '',
+          email: user?.email || '',
+          status: getStatusUser(user),
+          role: parseRole(user?.role) || ''
+        };
+        if (session.role === ROLES.SUPER_ADMIN) {
+          payload = {
+            ...payload,
+            // @ts-ignore
+            organization: organizations.find((i: any) => i.value === user.organizationId)?.label || ''
           };
-          if (session.role === ROLES.SUPER_ADMIN) {
-            payload = {
-              ...payload,
-              // @ts-ignore
-              organization: organizations.find((i: any) => i.value === user.organizationId)?.label || ''
-            };
-          }
-          return payload;
-        });
+        }
+        return payload;
+      });
 
       let blob: Blob;
       const filename = `users-${dayjs().format('DD-MM-YYYY')}.${fileType === 'CSV' ? 'csv' : 'xlsx'}`;

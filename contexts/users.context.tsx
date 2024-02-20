@@ -165,20 +165,21 @@ export const UsersProvider = (props: UsersProviderProps) => {
     }
   };
 
-  const downloadUsers = async (page: number = 0, users: Array<Partial<User>> = []): Promise<Array<Partial<User>>> => {
+  const downloadUsers = async (pageNumber: number = 1, usersList: Array<Partial<User>> = []): Promise<Array<Partial<User>>> => {
     try {
       const DOWNLOAD_USERS_LIMIT_PER_PAGE = 50;
-      let currentPage = page;
-      const organizationsToDownload: Array<Partial<User>> = users;
+      let currentPage = pageNumber;
+      let organizationsToDownload: Array<Partial<User>> = usersList;
 
-      const filter = { skip: currentPage * DOWNLOAD_USERS_LIMIT_PER_PAGE, limit: DOWNLOAD_USERS_LIMIT_PER_PAGE };
+      const filter = { page: currentPage, limit: DOWNLOAD_USERS_LIMIT_PER_PAGE };
       const response = await FetchUsers(filter);
+      debugger;
       if (response.users.length === 0) {
         return organizationsToDownload;
       } else if (response.users.length < DOWNLOAD_USERS_LIMIT_PER_PAGE) {
         return [...organizationsToDownload, ...response.users];
       } else {
-        organizationsToDownload.concat(response.users);
+        organizationsToDownload = [...organizationsToDownload, ...response.users];
         currentPage += 1;
         return downloadUsers(currentPage, organizationsToDownload);
       }
