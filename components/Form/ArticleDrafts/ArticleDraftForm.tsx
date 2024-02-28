@@ -52,10 +52,11 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
   const handleFetchUrlMetadata = async () => {
     try {
       setFetchingUrlMetadata(true);
-      const { metadata } = await fetchMetadata(props.type, form.url);
+      const { metadata, language } = await fetchMetadata(props.type, form.url);
 
       setForm((prev: any) => ({
         ...prev,
+        inLanguage: language || '',
         description: metadata?.summary || '',
         headlineNative: metadata?.title || prev?.headlineNative,
         image: metadata?.image || metadata?.meta_image || prev?.image,

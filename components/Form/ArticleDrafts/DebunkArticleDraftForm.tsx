@@ -60,10 +60,11 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
   const handleFetchUrlMetadata = async () => {
     try {
       setFetchingUrlMetadata(true);
-      const { metadata, claimReview } = await fetchMetadata(props.type, form.url);
+      const { metadata, claimReview, language } = await fetchMetadata(props.type, form.url);
 
       setForm((prev: any) => ({
         ...prev,
+        inLanguage: language || '',
         description: metadata?.summary || '',
         headlineNative: metadata?.title || prev?.headlineNative,
         image: metadata?.image || metadata?.meta_image || prev?.image,

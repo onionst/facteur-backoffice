@@ -33,7 +33,7 @@ export default function Select({ label, required, options, defaultValue, onChang
         className={`form-select ${selectedValue ? s['ds-select--default'] : s['ds-select--placeholder']}`}
         aria-label="Select option"
         required={required}
-        value={selectedValue}
+        value={defaultValue || selectedValue}
         defaultValue={selectedValue}
         onChange={handleChange}
       >
