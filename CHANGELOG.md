@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.13](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.13%0Dv0.1.12#diff) (2024-02-28)
+
+
+### Features
+
+* get in language iso ([5217d1c](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/5217d1c40bfb85eca2271b87664a9569504a775d))
+
 ### [0.1.12](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.12%0Dv0.1.11#diff) (2024-02-20)
 
 
