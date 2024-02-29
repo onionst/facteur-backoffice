@@ -18,7 +18,7 @@ import useWindowSize from '@/hooks/useWindowWidth';
 export default function New() {
   const router = useRouter();
   const { session } = useAuth();
-  const { createArticle, fetchArticles } = useArticles();
+  const { createArticle, fetchArticles, isDebunkArticle } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
@@ -63,7 +63,7 @@ export default function New() {
         countryOfOrigin: form.countryOfOrigin || null,
         contentLocation: form.contentLocation || null
       };
-      if (articleType && [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType)) {
+      if (articleType && isDebunkArticle(articleType)) {
         payload = {
           ...payload,
           claimreviewed: form.claimreviewed,
@@ -173,7 +173,7 @@ export default function New() {
           )}
           {step === 1 ? (
             articleType ? (
-              [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
+              isDebunkArticle(articleType) ? (
                 <DebunkArticleDraftForm
                   onBack={() => setStep(0)}
                   form={form}
@@ -194,7 +194,7 @@ export default function New() {
           ) : null}
           {step === 2 ? (
             articleType ? (
-              [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
+              isDebunkArticle(articleType) ? (
                 <DebunkArticlePreviewForm
                   onBack={() => setStep(1)}
                   form={form}

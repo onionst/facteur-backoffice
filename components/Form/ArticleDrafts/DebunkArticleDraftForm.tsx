@@ -31,7 +31,7 @@ import { validateUrl } from '@/utils/validateUrl';
 export type DebunkArticleDraftFormProps = {};
 export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProps & IArticleDraft) {
   const [loading, setLoading] = useState<boolean>(false);
-  const { fetchTranslation, fetchMetadata } = useArticles();
+  const { fetchTranslation, handleFetchUrlMetadata } = useArticles();
   const { setForm, form } = props;
   const [fetchingUrlMetadata, setFetchingUrlMetadata] = useState<boolean>(false);
   const [urlFetcheable, setUrlFetcheable] = useState<boolean>(false);
@@ -57,30 +57,8 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
     }
   };
 
-  const handleFetchUrlMetadata = async () => {
-    try {
-      setFetchingUrlMetadata(true);
-      const { metadata, claimReview, language } = await fetchMetadata(props.type, form.url);
-
-      setForm((prev: any) => ({
-        ...prev,
-        inLanguage: language || '',
-        description: metadata?.summary || '',
-        headlineNative: metadata?.title || prev?.headlineNative,
-        image: metadata?.image || metadata?.meta_image || prev?.image,
-        datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished,
-        claimreviewedNative: claimReview?.claimReviewed,
-        itemReviewed: {
-          datePublished: claimReview?.itemReviewed?.datePublished,
-          author: claimReview?.itemReviewed?.author?.name,
-          politicalParty: prev?.itemReviewed?.politicalParty,
-          appearances: prev?.itemReviewed?.appearances
-        }
-      }));
-      setFetchingUrlMetadata(false);
-    } catch (err) {
-      setFetchingUrlMetadata(false);
-    }
+  const handleClickFetchUrlMetadata = async () => {
+    await handleFetchUrlMetadata(props.type, form.url, setForm, setFetchingUrlMetadata);
   };
 
   return (
@@ -110,7 +88,13 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
               required
               placeholder="https://example.com/factchecking/article-010101"
             />
-            <Button type="button" onClick={handleFetchUrlMetadata} loading={fetchingUrlMetadata} disabled={!urlFetcheable} theme="TERTIARY">
+            <Button
+              type="button"
+              onClick={handleClickFetchUrlMetadata}
+              loading={fetchingUrlMetadata}
+              disabled={!urlFetcheable}
+              theme="TERTIARY"
+            >
               Fetch data
             </Button>
           </div>

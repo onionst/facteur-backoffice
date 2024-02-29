@@ -23,7 +23,7 @@ export default function View() {
   const [loading, setLoading] = useState<boolean>(true);
   const { session } = useAuth();
   const [articleId, setArticleId] = useState<string>('');
-  const { fetchArticleData, fetchArticleById } = useArticles();
+  const { fetchArticleData, fetchArticleById, isDebunkArticle } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
@@ -146,7 +146,7 @@ export default function View() {
           {width >= 768 && <div style={{ width: '25%' }}></div>}
 
           {articleType ? (
-            [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
+            isDebunkArticle(articleType) ? (
               <DebunkArticleViewForm form={form} type={articleType} />
             ) : (
               <ArticleViewForm form={form} type={articleType} />
