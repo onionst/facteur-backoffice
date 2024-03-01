@@ -1,5 +1,6 @@
 import { notification } from 'antd';
-import { createContext, useContext, useState } from 'react';
+import dayjs from 'dayjs';
+import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
 import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
@@ -28,6 +29,13 @@ export type ArticlesContextProps = {
   fetchArticleData: (id: string) => Promise<Article | undefined>;
   fetchArticleById: (id: string) => Promise<Article | undefined>;
   fetchMetadata: (type: ArticleType, url: string) => Promise<any>;
+  isDebunkArticle: (articleType: ArticleType) => boolean;
+  handleFetchUrlMetadata: (
+    articleType: ArticleType,
+    url: string,
+    setForm: Dispatch<SetStateAction<any>>,
+    setFetchingUrlMetadata: Dispatch<SetStateAction<boolean>>
+  ) => Promise<void>;
   fetchArticles: (filter?: any, pageIndex?: any) => Promise<void>;
   createArticle: (article: any) => Promise<void>;
   updateArticle: (article: any) => Promise<void>;
@@ -132,6 +140,47 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
         });
       }
       return {};
+    }
+  };
+
+  const isDebunkArticle = (articleType: ArticleType) => [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType);
+
+  const handleFetchUrlMetadata = async (
+    articleType: ArticleType,
+    url: string,
+    setForm: any,
+    setFetchingUrlMetadata: any
+  ): Promise<void> => {
+    try {
+      setFetchingUrlMetadata(true);
+
+      const { metadata, claimReview, language } = await fetchMetadata(articleType, url);
+
+      setForm((prev: any) => ({
+        ...prev,
+        inLanguage: language || '',
+        description: metadata?.summary || '',
+        headlineNative: metadata?.title || prev?.headlineNative,
+        image: metadata?.image || metadata?.meta_image || prev?.image,
+        datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished
+      }));
+
+      if (isDebunkArticle(articleType)) {
+        setForm((prev: any) => ({
+          ...prev,
+          claimreviewedNative: claimReview?.claimReviewed,
+          itemReviewed: {
+            datePublished: claimReview?.itemReviewed?.datePublished,
+            author: claimReview?.itemReviewed?.author?.name,
+            politicalParty: prev?.itemReviewed?.politicalParty,
+            appearances: prev?.itemReviewed?.appearances
+          }
+        }));
+      }
+
+      setFetchingUrlMetadata(false);
+    } catch (err) {
+      setFetchingUrlMetadata(false);
     }
   };
 
@@ -292,6 +341,8 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     deleteArticle,
     fetchTranslation,
     downloadArticles,
+    isDebunkArticle,
+    handleFetchUrlMetadata,
     fetchMetadata
   };
   return <ArticlesContext.Provider value={context}>{props.children}</ArticlesContext.Provider>;

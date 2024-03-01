@@ -25,7 +25,7 @@ export default function Edit() {
   const { session } = useAuth();
   const modals = useModal();
   const { showDeleteArticle } = modals.articles;
-  const { updateArticle, fetchArticles, fetchArticleData, fetchArticleById } = useArticles();
+  const { updateArticle, fetchArticles, fetchArticleData, fetchArticleById, isDebunkArticle } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
@@ -137,7 +137,7 @@ export default function Edit() {
         countryOfOrigin: form.countryOfOrigin || null,
         contentLocation: form.contentLocation || null
       };
-      if (articleType && [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType)) {
+      if (articleType && isDebunkArticle(articleType)) {
         payload = {
           ...payload,
           claimreviewed: form.claimreviewed,
@@ -239,7 +239,7 @@ export default function Edit() {
 
           {step === 0 ? (
             articleType ? (
-              [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
+              isDebunkArticle(articleType) ? (
                 <EditDebunkArticleDraftForm
                   onBack={() => setStep(0)}
                   form={form}
@@ -262,7 +262,7 @@ export default function Edit() {
           ) : null}
           {step === 1 ? (
             articleType ? (
-              [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType) ? (
+              isDebunkArticle(articleType) ? (
                 <DebunkArticlePreviewForm
                   onBack={() => setStep(0)}
                   form={form}

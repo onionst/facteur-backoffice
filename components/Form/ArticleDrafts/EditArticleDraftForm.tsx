@@ -26,7 +26,7 @@ import { validateUrl } from '@/utils/validateUrl';
 
 export type ArticleDraftFormProps = {};
 export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArticleDraft) {
-  const { fetchTranslation, fetchMetadata } = useArticles();
+  const { fetchTranslation, handleFetchUrlMetadata } = useArticles();
   const [fetchingUrlMetadata, setFetchingUrlMetadata] = useState<boolean>(false);
   const [urlFetcheable, setUrlFetcheable] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -50,22 +50,8 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
     }
   };
 
-  const handleFetchUrlMetadata = async () => {
-    try {
-      setFetchingUrlMetadata(true);
-      const { metadata } = await fetchMetadata(props.type, form.url);
-
-      setForm((prev: any) => ({
-        ...prev,
-        description: metadata?.summary || '',
-        headlineNative: metadata?.title || prev?.headlineNative,
-        image: metadata?.image || metadata?.meta_image || prev?.image,
-        datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished
-      }));
-      setFetchingUrlMetadata(false);
-    } catch (err) {
-      setFetchingUrlMetadata(false);
-    }
+  const handleClickFetchUrlMetadata = async () => {
+    await handleFetchUrlMetadata(props.type, form.url, setForm, setFetchingUrlMetadata);
   };
   return (
     <form className={s['ds-article-draft-form']} onSubmit={handleSubmit}>
@@ -94,7 +80,13 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
               required
               placeholder="https://example.com/factchecking/article-010101"
             />
-            <Button type="button" onClick={handleFetchUrlMetadata} loading={fetchingUrlMetadata} disabled={!urlFetcheable} theme="TERTIARY">
+            <Button
+              type="button"
+              onClick={handleClickFetchUrlMetadata}
+              loading={fetchingUrlMetadata}
+              disabled={!urlFetcheable}
+              theme="TERTIARY"
+            >
               Fetch data
             </Button>
           </div>
