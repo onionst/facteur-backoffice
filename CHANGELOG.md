@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.14](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.14%0Dv0.1.13#diff) (2024-03-01)
+
+
+### Features
+
+* refactor handle fetch data ([d83425a](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/d83425ae27a24e3bc2aee10f3e670913d30730b9))
+* update political parties ([8939ef8](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/8939ef8f751cb5310806f23402a1bc7ca0b9c220))
+
 ### [0.1.13](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.13%0Dv0.1.12#diff) (2024-02-28)
 
 
