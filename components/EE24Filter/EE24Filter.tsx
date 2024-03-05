@@ -1,4 +1,5 @@
 import { ArrowRightOutlined } from '@ant-design/icons';
+import { notification } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useEffect, useState } from 'react';
 import { X } from 'react-feather';
@@ -168,6 +169,22 @@ export default function EE24Filter(props: EE24FilterProps) {
               ]}
             />
           </Input>
+          <Tagger
+            label="Keywords"
+            maxTagCount="responsive"
+            suffixIcon={null}
+            mode="tags"
+            onChange={v => {
+              setModified(true);
+              if (v?.find((keyword: string) => keyword?.length < 3)) {
+                notification.warning({
+                  message: 'Keywords must be at least 3 character long'
+                });
+              }
+              setFilter((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= 2) }));
+            }}
+            placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
+          />
           <Input label="Rating">
             <Select
               onChange={(rating: any) => {
