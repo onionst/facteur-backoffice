@@ -28,6 +28,7 @@ export type Filter = {
   euRelation?: EuRelation;
   publisher?: string;
   inLanguage?: LanguageISO;
+  keywords?: string[];
   topics?: Topic[];
   countryOfOrigin?: CountryISO;
   reviewRating?: ReviewRating;
@@ -176,9 +177,9 @@ export default function EE24Filter(props: EE24FilterProps) {
             mode="tags"
             onChange={v => {
               setModified(true);
-              if (v?.find((keyword: string) => keyword?.length < 3)) {
+              if (v?.find((keyword: string) => keyword?.length < 2)) {
                 notification.warning({
-                  message: 'Keywords must be at least 3 character long'
+                  message: 'Keywords must be at least 2 character long'
                 });
               }
               setFilter((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= 2) }));

@@ -136,12 +136,12 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
               value={form.keywords}
               mode="tags"
               onChange={v => {
-                if (v?.find((keyword: string) => keyword?.length < 3)) {
+                if (v?.find((keyword: string) => keyword?.length < 2)) {
                   notification.warning({
-                    message: 'Keywords must be at least 3 character long'
+                    message: 'Keywords must be at least 2 character long'
                   });
                 }
-                setForm((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= 3) }));
+                setForm((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= 2) }));
               }}
               placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />
