@@ -57,6 +57,7 @@ export enum WorldCountriesISO {
   Estonia = 'EE',
   Eswatini = 'SZ',
   Ethiopia = 'ET',
+  European_Union = 'EU',
   Fiji = 'FJ',
   Finland = 'FI',
   France = 'FR',
