@@ -11,6 +11,7 @@ export enum CountryISO {
   Cyprus = 'CY',
   Czech_Republic = 'CZ',
   Denmark = 'DK',
+  EuropeanUnion = 'EU',
   Estonia = 'EE',
   Finland = 'FI',
   France = 'FR',
