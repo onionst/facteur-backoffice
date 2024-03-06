@@ -1,4 +1,5 @@
 import { ArrowRightOutlined } from '@ant-design/icons';
+import { notification } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useEffect, useState } from 'react';
 import { X } from 'react-feather';
@@ -11,6 +12,7 @@ import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
+import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { CountryISO } from '@/constants/country';
 import { EuRelation } from '@/constants/euRelation';
 import { LanguageISO } from '@/constants/language';
@@ -27,6 +29,7 @@ export type Filter = {
   euRelation?: EuRelation;
   publisher?: string;
   inLanguage?: LanguageISO;
+  keywords?: string[];
   topics?: Topic[];
   countryOfOrigin?: CountryISO;
   reviewRating?: ReviewRating;
@@ -168,6 +171,22 @@ export default function EE24Filter(props: EE24FilterProps) {
               ]}
             />
           </Input>
+          <Tagger
+            label="Keywords"
+            maxTagCount="responsive"
+            suffixIcon={null}
+            mode="tags"
+            onChange={v => {
+              setModified(true);
+              if (v?.find((keyword: string) => keyword?.length < MIN_LENGTH_KEYWORDS)) {
+                notification.warning({
+                  message: `Keywords must be at least ${MIN_LENGTH_KEYWORDS} character long`
+                });
+              }
+              setFilter((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= MIN_LENGTH_KEYWORDS) }));
+            }}
+            placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
+          />
           <Input label="Rating">
             <Select
               onChange={(rating: any) => {

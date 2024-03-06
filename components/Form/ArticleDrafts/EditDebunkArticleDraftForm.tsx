@@ -17,7 +17,7 @@ import { TextArea } from '@/bases/Textarea';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
-import { FILE_TYPES } from '@/constants/accept';
+import { FILE_TYPES, MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
@@ -158,12 +158,12 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
               value={form.keywords}
               mode="tags"
               onChange={v => {
-                if (v?.find((keyword: string) => keyword?.length < 3)) {
+                if (v?.find((keyword: string) => keyword?.length < MIN_LENGTH_KEYWORDS)) {
                   notification.warning({
-                    message: 'Keywords must be at least 3 character long'
+                    message: `Keywords must be at least ${MIN_LENGTH_KEYWORDS} character long`
                   });
                 }
-                setForm((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= 3) }));
+                setForm((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= MIN_LENGTH_KEYWORDS) }));
               }}
               placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
             />

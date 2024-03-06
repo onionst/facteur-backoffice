@@ -11,6 +11,7 @@ import SelectArticleType, { ArticleType } from '@/components/Form/SelectArticleT
 import Header from '@/components/Header/Header';
 import Stepper from '@/components/Stepper/Stepper';
 import Wrapper from '@/components/Wrapper/Wrapper';
+import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
 import useWindowSize from '@/hooks/useWindowWidth';
@@ -56,7 +57,7 @@ export default function New() {
         headlineNative: form.headlineNative,
         datePublished: form.datePublished || null,
         image: form.image || null,
-        keywords: form?.keywords?.filter((keyword: string) => keyword?.length >= 3) || null,
+        keywords: form?.keywords?.filter((keyword: string) => keyword?.length >= MIN_LENGTH_KEYWORDS) || null,
         inLanguage: form.inLanguage || null,
         topics: form.topics || null,
         euRelation: form.euRelation || null,
