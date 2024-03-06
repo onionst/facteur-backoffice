@@ -12,6 +12,7 @@ import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
+import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { CountryISO } from '@/constants/country';
 import { EuRelation } from '@/constants/euRelation';
 import { LanguageISO } from '@/constants/language';
@@ -177,12 +178,12 @@ export default function EE24Filter(props: EE24FilterProps) {
             mode="tags"
             onChange={v => {
               setModified(true);
-              if (v?.find((keyword: string) => keyword?.length < 2)) {
+              if (v?.find((keyword: string) => keyword?.length < MIN_LENGTH_KEYWORDS)) {
                 notification.warning({
-                  message: 'Keywords must be at least 2 character long'
+                  message: `Keywords must be at least ${MIN_LENGTH_KEYWORDS} character long`
                 });
               }
-              setFilter((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= 2) }));
+              setFilter((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= MIN_LENGTH_KEYWORDS) }));
             }}
             placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
           />
