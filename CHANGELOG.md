@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.1.0%0Dv1.0.0#diff) (2024-03-06)
+
+
+### Features
+
+* constant min length keywords ([ff09550](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/ff095501f4b34c925fbd4225378f6d4da6cb0eea))
+* eu iso code ([6a8df88](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/6a8df88ccec9bf5d3fc78e2b9e0732f65998d39b))
+* filter by keywords ([024f539](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/024f5398bf8ab1383edee7f840af358b9fefced4))
+* keywords length ([100c60b](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/100c60bb87c9d900537184f6aa81a0d4ae43ce1f))
+* min keywords length to constant ([b681cb6](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/b681cb6bcd829504d75e194f27a7bf1c278b3192))
+
 ## [1.0.0](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.0.0%0Dv0.1.14#diff) (2024-03-01)
 
 ### [0.1.14](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v0.1.14%0Dv0.1.13#diff) (2024-03-01)
