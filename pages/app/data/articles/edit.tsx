@@ -13,6 +13,7 @@ import Header from '@/components/Header/Header';
 import Stepper from '@/components/Stepper/Stepper';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
+import { ROLES } from '@/constants/roles.constants';
 import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
 import { useHistory } from '@/contexts/history.context';
@@ -178,9 +179,14 @@ export default function Edit() {
 
       await updateArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
 
-      fetchArticles({
-        publisher: session.organization?.domain
-      });
+      let params = {};
+      if ([ROLES.ADMIN, ROLES.FACT_CHECKER].includes(session?.role)) {
+        params = {
+          publisher: session.organization?.domain
+        };
+      }
+      fetchArticles(params);
+
       if (router?.query?.f === 'search') {
         router.push('/app/ee24/search');
       } else {
