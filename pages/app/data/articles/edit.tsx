@@ -179,13 +179,14 @@ export default function Edit() {
 
       await updateArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
 
+      let params = {};
       if ([ROLES.ADMIN, ROLES.FACT_CHECKER].includes(session?.role)) {
-        fetchArticles({
+        params = {
           publisher: session.organization?.domain
-        });
-      } else {
-        fetchArticles();
+        };
       }
+      fetchArticles(params);
+
       if (router?.query?.f === 'search') {
         router.push('/app/ee24/search');
       } else {
