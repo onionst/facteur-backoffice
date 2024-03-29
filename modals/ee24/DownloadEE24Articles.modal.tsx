@@ -1,8 +1,9 @@
-import { Modal, ModalProps, notification } from 'antd';
+import { Modal, ModalProps, Tooltip, notification } from 'antd';
 import dayjs from 'dayjs';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { X } from 'react-feather';
 import { utils, writeFile } from 'xlsx';
+import { FileType } from '../FileType';
 import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
@@ -20,8 +21,29 @@ export type DownloadEE24ArticlesModalProps = {
 };
 export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [fileType, setFileType] = useState<string>('CSV');
-  const { downloadEE24Articles } = useEE24();
+  const [fileType, setFileType] = useState<string>(FileType.CSV);
+  const { downloadEE24Articles, page } = useEE24();
+  const [exportArticles, setExportArticles] = useState<number>(page.records);
+
+  const handleChangeExportArticles = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setExportArticles(parseInt(event?.target?.value));
+  };
+
+  const handleCancel = (e: FormEvent) => {
+    e?.preventDefault();
+    setExportArticles(page.records);
+    // @ts-ignore
+    props.onCancel();
+  };
+
+  const resetForm = () => {
+    setLoading(false);
+    setExportArticles(page.records);
+  };
+
+  useEffect(() => {
+    setExportArticles(page.records);
+  }, [page, page.records]);
 
   const handleDownloadEE24Articles = async (e: FormEvent) => {
     try {
@@ -29,12 +51,18 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
       setLoading(true);
       notification.success({ ...NOTIFICATIONS_CONFIG.success, message: 'Download started', description: 'It may take a few minutes' });
 
-      const data = await downloadEE24Articles({ ...props.filter, export: true });
+      const sliceData = page.records && exportArticles && exportArticles !== page.records;
+      let filters = { ...props.filter, export: true, fileType };
+      if (sliceData) {
+        filters = { ...filters, exportSize: exportArticles };
+      }
+
+      const data = await downloadEE24Articles(filters);
 
       let blob: Blob;
-      const filename = `articles-${dayjs().format('DD-MM-YYYY')}.${fileType === 'CSV' ? 'csv' : fileType === 'XLSX' ? 'xlsx' : 'json'}`;
+      const filename = `articles-${dayjs().format('DD-MM-YYYY')}.${fileType === FileType.CSV ? 'csv' : fileType === FileType.XLSX ? 'xlsx' : 'json'}`;
 
-      if (fileType === 'CSV') {
+      if (fileType === FileType.CSV) {
         blob = convertJsonToCsv(data);
 
         const link = document.createElement('a');
@@ -47,7 +75,7 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
           link.click();
           document.body.removeChild(link);
         }
-      } else if (fileType === 'XLSX') {
+      } else if (fileType === FileType.XLSX) {
         const wb = utils.book_new();
         const ws = utils.json_to_sheet(data);
         utils.book_append_sheet(wb, ws, 'articles');
@@ -66,17 +94,17 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
         }
       }
 
-      setLoading(false);
+      resetForm();
       // @ts-ignore
       props.onCancel();
     } catch (err) {
       console.error(err);
-      setLoading(false);
+      resetForm();
     }
   };
 
   return (
-    <Modal {...props} closeIcon={<X />} closable={!loading} maskClosable={!loading}>
+    <Modal {...props} closeIcon={<X />} closable={!loading} maskClosable={!loading} onCancel={handleCancel}>
       <ModalHeader subTitle="Export articles" title="Select an export file type" />
       <form className={s['ds-modal-form']} onSubmit={handleDownloadEE24Articles}>
         {!loading && (
@@ -87,20 +115,32 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
                 onSelect={setFileType}
                 options={[
                   {
-                    label: '.CSV',
-                    value: 'CSV'
+                    label: `.${FileType.CSV}`,
+                    value: FileType.CSV
                   },
                   {
-                    label: '.XLSX',
-                    value: 'XLSX'
+                    label: `.${FileType.XLSX}`,
+                    value: FileType.XLSX
                   },
                   {
-                    label: '.JSON',
-                    value: 'JSON'
+                    label: `.${FileType.JSON}`,
+                    value: FileType.JSON
                   }
                 ]}
               />
             </Input>
+            <Tooltip title={`Total articles ${page.records}`}>
+              <Input
+                onChange={e => handleChangeExportArticles(e)}
+                type="number"
+                placeholder={`Total articles ${page.records}`}
+                max={page.records}
+                min={1}
+                value={exportArticles}
+                label="How many articles do you want to export?"
+                required
+              ></Input>
+            </Tooltip>
           </Card>
         )}
 
@@ -108,7 +148,7 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
           <Button loading={loading} theme="CTA">
             Export
           </Button>
-          <Button type="button" disabled={loading} onClick={props.onCancel} theme="SECONDARY">
+          <Button type="button" disabled={loading} onClick={handleCancel} theme="SECONDARY">
             Cancel
           </Button>
         </div>

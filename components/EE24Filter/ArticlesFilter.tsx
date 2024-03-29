@@ -15,6 +15,7 @@ import { LanguageISO } from '@/constants/language';
 import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
 import { Topic } from '@/constants/topics';
+import { FileType } from '@/modals/FileType';
 
 export type Filter = {
   type?: ArticleType[];
@@ -28,6 +29,9 @@ export type Filter = {
   reviewRating?: ReviewRating;
   politicalParty?: PoliticalParty;
   order?: '-datePublished' | 'datePublished' | '-dateCreated' | 'dateCreated' | '-dateModified' | 'dateModified';
+  export?: boolean;
+  exportSize?: number;
+  fileType?: FileType;
 };
 export type EE24FilterProps = {
   onChange: (filter: Filter) => void;
