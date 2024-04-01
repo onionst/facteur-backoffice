@@ -1,6 +1,6 @@
 import { Modal, ModalProps, Tooltip, notification } from 'antd';
 import dayjs from 'dayjs';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { X } from 'react-feather';
 import { utils, writeFile } from 'xlsx';
 import { FileType } from '../FileType';
@@ -23,7 +23,7 @@ export const DownloadArticlesModal = (props: DownloadArticlesModalProps & ModalP
   const [loading, setLoading] = useState<boolean>(false);
   const [fileType, setFileType] = useState<string>(FileType.CSV);
   const { downloadArticles, page } = useArticles();
-  const [exportArticles, setExportArticles] = useState<number>(page.records);
+  const [exportArticles, setExportArticles] = useState<number | string>();
 
   const handleChangeExportArticles = (event: React.ChangeEvent<HTMLInputElement>) => {
     setExportArticles(parseInt(event?.target?.value));
@@ -31,24 +31,19 @@ export const DownloadArticlesModal = (props: DownloadArticlesModalProps & ModalP
 
   const handleCancel = (e: FormEvent) => {
     e?.preventDefault();
-    setExportArticles(page.records);
+    setExportArticles('');
     // @ts-ignore
     props.onCancel();
   };
 
   const resetForm = () => {
     setLoading(false);
-    setExportArticles(page.records);
+    setExportArticles('');
   };
-
-  useEffect(() => {
-    setExportArticles(page.records);
-  }, [page, page.records]);
 
   const handleDownloadArticles = async (e: FormEvent) => {
     try {
       e?.preventDefault();
-      setExportArticles(page.records);
       setLoading(true);
       notification.success({ ...NOTIFICATIONS_CONFIG.success, message: 'Download started', description: 'It may take a few minutes' });
 

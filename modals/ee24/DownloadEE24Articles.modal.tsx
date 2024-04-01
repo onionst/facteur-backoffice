@@ -1,6 +1,6 @@
 import { Modal, ModalProps, Tooltip, notification } from 'antd';
 import dayjs from 'dayjs';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { X } from 'react-feather';
 import { utils, writeFile } from 'xlsx';
 import { FileType } from '../FileType';
@@ -23,7 +23,7 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
   const [loading, setLoading] = useState<boolean>(false);
   const [fileType, setFileType] = useState<string>(FileType.CSV);
   const { downloadEE24Articles, page } = useEE24();
-  const [exportArticles, setExportArticles] = useState<number>(page.records);
+  const [exportArticles, setExportArticles] = useState<number | string>();
 
   const handleChangeExportArticles = (event: React.ChangeEvent<HTMLInputElement>) => {
     setExportArticles(parseInt(event?.target?.value));
@@ -31,19 +31,15 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
 
   const handleCancel = (e: FormEvent) => {
     e?.preventDefault();
-    setExportArticles(page.records);
+    setExportArticles('');
     // @ts-ignore
     props.onCancel();
   };
 
   const resetForm = () => {
     setLoading(false);
-    setExportArticles(page.records);
+    setExportArticles('');
   };
-
-  useEffect(() => {
-    setExportArticles(page.records);
-  }, [page, page.records]);
 
   const handleDownloadEE24Articles = async (e: FormEvent) => {
     try {
@@ -138,7 +134,6 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
                 min={1}
                 value={exportArticles}
                 label="How many articles do you want to export?"
-                required
               ></Input>
             </Tooltip>
           </Card>
