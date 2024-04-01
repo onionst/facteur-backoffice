@@ -1,11 +1,21 @@
 export const convertJsonToCsv = (jsonData: any[]) => {
   const csvRows = [];
-  const headers = Object.keys(jsonData[0]);
+  let max = 0;
+  let indexMax = 0;
+  jsonData.forEach((data, index) => {
+    const lengthKeys = Object.keys(data).length;
+    if (lengthKeys > max) {
+      max = lengthKeys;
+      indexMax = index;
+    }
+  });
+  const headers = Object.keys(jsonData[indexMax]);
   csvRows.push(headers.join(';'));
 
   for (const row of jsonData) {
     const values = headers.map(header => {
-      const escaped = ('' + row[header]).replace(/"/g, '\\"');
+      const valueRow = row[header] ?? '';
+      const escaped = ('' + valueRow).replace(/"/g, '\\"');
       return `"${escaped}"`;
     });
     csvRows.push(values.join(';'));

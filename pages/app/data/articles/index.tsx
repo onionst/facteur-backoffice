@@ -125,9 +125,7 @@ export default function Articles() {
                 <Download color="#252f4a" size={16} />
               </IconButton>
             )}
-            <span>
-              <span>{plainShowing(page.current, articles.length, page.records, 'articles')}</span>
-            </span>
+            <span>{plainShowing(page.current, articles.length, page.records, 'articles')}</span>
           </Row>
           <Row align="RIGHT">
             <Pagination

@@ -131,7 +131,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
         export: true
       });
 
-      return data.map((raw: any) => plainArticle(raw));
+      return data.map((raw: any) => plainArticle(raw, filter));
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
         notification.error({

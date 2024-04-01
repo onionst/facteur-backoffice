@@ -278,7 +278,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
         export: true
       });
 
-      return data.map((raw: any) => plainArticle(raw));
+      return data.map((raw: any) => plainArticle(raw, filter));
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
         notification.error({
