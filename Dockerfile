@@ -5,8 +5,8 @@ FROM --platform=linux/amd64 node:18-alpine as builder
 
 # In order to install git dependencies
 # ------------------------------------
-RUN apk update && apk upgrade && \
-  apk add --no-cache bash git openssh
+RUN apk update
+RUN apk add --no-cache bash git openssh
 
 WORKDIR /app
 COPY package.json /app/package.json
