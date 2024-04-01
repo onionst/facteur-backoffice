@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.2.0%0Dv1.1.3#diff) (2024-04-01)
+
+
+### Features
+
+* **[EFCSN-77](https://newtral.atlassian.net/browse/EFCSN-77):** export size records & fix appaearances export ([9d39098](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/9d3909896411164f324bb2b809cb4081d80f3e76))
+
 ### [1.1.3](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.1.3%0Dv1.1.2#diff) (2024-03-18)
 
 
