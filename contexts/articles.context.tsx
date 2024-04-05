@@ -170,7 +170,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
           ...prev,
           claimreviewedNative: claimReview?.claimReviewed,
           itemReviewed: {
-            datePublished: claimReview?.itemReviewed?.datePublished,
+            datePublished: claimReview?.itemReviewed?.datePublished ?? claimReview?.datePublished,
             author: claimReview?.itemReviewed?.author?.name,
             politicalParty: prev?.itemReviewed?.politicalParty,
             appearances: prev?.itemReviewed?.appearances
