@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.2.1%0Dv1.2.0#diff) (2024-04-05)
+
+
+### Bug Fixes
+
+* fetch metada cliam date published ([f0dc4ce](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/f0dc4cedf50dd152ed55f145a7afd4a8f7bcf0c8))
+
 ## [1.2.0](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.2.0%0Dv1.1.3#diff) (2024-04-01)
 
 
