@@ -122,6 +122,11 @@ export default function Edit() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
+  const handleDeleteArticle = async (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/ee24/search' : '/app/data/articles');
+  };
+
   const handleSubmit = async () => {
     try {
       let payload: any = {
@@ -224,10 +229,7 @@ export default function Edit() {
         icon={<File />}
         title="Edit article"
       >
-        <Button
-          theme="ATTENTION"
-          onClick={() => showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/ee24/search' : '/app/data/articles')}
-        >
+        <Button theme="ATTENTION" onClick={e => handleDeleteArticle(e)}>
           Delete <Trash size={18} />
         </Button>
       </Header>

@@ -52,6 +52,7 @@ export const RestoreOrganizationModal = (props: RestoreOrganizationModalProps & 
     if (props.id) {
       fetchData(props.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props?.id]);
 
   return (

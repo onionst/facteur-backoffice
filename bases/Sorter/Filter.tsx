@@ -1,11 +1,11 @@
-import { Filter as FIcon } from 'react-feather';
-import s from './Sorter.module.scss';
 import { Popover } from 'antd';
-import Radio from '../Radio/Radio';
-import { parseRole } from '@/modals/users/InviteUsers.modal';
-import { ROLES } from '@/constants/roles.constants';
 import { useState } from 'react';
+import { Filter as FIcon } from 'react-feather';
+import Radio from '../Radio/Radio';
+import s from './Sorter.module.scss';
+import { ROLES } from '@/constants/roles.constants';
 import { useAuth } from '@/contexts/auth.context';
+import { parseRole } from '@/modals/users/InviteUsers.modal';
 
 export type order = 'ASC' | 'DESC' | 'NONE';
 

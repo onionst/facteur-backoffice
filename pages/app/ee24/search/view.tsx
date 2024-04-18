@@ -56,6 +56,11 @@ export default function View() {
     associatedClaimReview: []
   });
 
+  const handleDeleteArticle = async (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/ee24/search' : '/app/data/articles');
+  };
+
   const handleSetup = async (id?: any) => {
     try {
       setLoading(true);
@@ -130,12 +135,7 @@ export default function View() {
             >
               Edit <Edit color="#252f4a" size={16} />
             </Button>
-            <Button
-              theme="ATTENTION"
-              onClick={() => {
-                showDeleteArticle(articleId, '/app/ee24/search');
-              }}
-            >
+            <Button theme="ATTENTION" onClick={e => handleDeleteArticle(e)}>
               Delete <Trash color="#fff" size={16} />
             </Button>
           </Row>
