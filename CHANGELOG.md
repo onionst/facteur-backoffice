@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.2.2%0Dv1.2.1#diff) (2024-04-19)
+
+
+### Bug Fixes
+
+* **[EFCSN-80](https://newtral.atlassian.net/browse/EFCSN-80):** superadmin delete articles ([4c13420](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/4c13420d0ddcfe63cc6e750bc9b926f168245e5a))
+
 ### [1.2.1](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.2.1%0Dv1.2.0#diff) (2024-04-05)
 
 
