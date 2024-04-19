@@ -19,7 +19,7 @@ export const DeleteArticleModal = (props: DeleteArticleModalProps & ModalProps) 
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [confirmation, setConfirmation] = useState<string>('');
-  const { fetchArticleData, deleteArticle } = useArticles();
+  const { fetchArticleById, deleteArticle } = useArticles();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [article, setArticle] = useState<Partial<Article>>({});
 
@@ -46,7 +46,7 @@ export const DeleteArticleModal = (props: DeleteArticleModalProps & ModalProps) 
   };
 
   const fetchData = async (id: string) => {
-    const data = await fetchArticleData(id);
+    const data = await fetchArticleById(id);
     if (!data) {
       // @ts-ignore
       props.onCancel();
@@ -60,6 +60,7 @@ export const DeleteArticleModal = (props: DeleteArticleModalProps & ModalProps) 
     if (props.id) {
       fetchData(props.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props?.id]);
 
   return (
