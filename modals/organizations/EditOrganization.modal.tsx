@@ -7,6 +7,7 @@ import IconButton from '@/bases/IconButton/IconButton';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
+import Switch from '@/bases/Switch/Switch';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { CountryISO } from '@/constants/country';
@@ -28,6 +29,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
   const [organization, setOrganization] = useState<Partial<Organization>>({});
   const [apiKey, setApiKey] = useState<string>('');
   const [showApiKey, setShowApiKey] = useState<boolean>(false);
+  const [climate, setClimate] = useState<boolean | undefined>(organization?.climate);
   const { getApiCredentials, refreshApiCredentials } = useAuth();
 
   const handleUpdateOrganization = async (e: FormEvent) => {
@@ -40,6 +42,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
         name: form.name?.trim(),
         domain: form.domain?.trim()
       };
+      payload.climate = climate;
       if (form.language) {
         payload.language = form.language;
       }
@@ -64,6 +67,7 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
       props.onCancel();
     } else {
       setOrganization(data);
+      setClimate(data.climate);
     }
   };
 
@@ -152,6 +156,9 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
                 ]}
                 onChange={v => setOrganization(prev => ({ ...prev, language: v }))}
               />
+            </Card>
+            <Card title="Member of Climate Facts Europe" style={{ background: '#FFF' }}>
+              <Switch checked={climate} onChange={CLIMATE => setClimate(CLIMATE)} left="Inactive" right="Active" />
             </Card>
           </Tabs.TabPane>
           <Tabs.TabPane tab="API" key={1}>

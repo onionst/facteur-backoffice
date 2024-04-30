@@ -3,4 +3,5 @@ export class CreateOrganization {
   domain: string;
   country?: string;
   language?: string;
+  climate?: boolean;
 }

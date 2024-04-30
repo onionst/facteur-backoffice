@@ -67,8 +67,8 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
   const fetchApiCredentials = async (id: string) => {
     try {
       setLoadingApiKey(true);
-      const apiKey = await getApiCredentials(id, 'RESEARCHER');
-      setApiKey(apiKey);
+      const _apiKey = await getApiCredentials(id, 'RESEARCHER');
+      setApiKey(_apiKey);
       setLoadingApiKey(false);
     } catch (err) {
       setLoadingApiKey(false);
@@ -78,8 +78,8 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
   const handleRefreshApiKey = async () => {
     try {
       setRefreshingApiKey(true);
-      const apiKey = await refreshApiCredentials(props.id, 'RESEARCHER');
-      setApiKey(apiKey);
+      const _apiKey = await refreshApiCredentials(props.id, 'RESEARCHER');
+      setApiKey(_apiKey);
       setShowApiKey(true);
       setRefreshingApiKey(false);
     } catch (err) {
@@ -159,7 +159,7 @@ export const EditUserModal = (props: EditUserModalProps & ModalProps) => {
             <Card>
               <Row align="SPACE">
                 <Card title="2FA" style={{ background: '#FFF' }}>
-                  <Switch checked={user?.TFA} onChange={TFA => setUser(prev => ({ ...prev, TFA }))} left="Unactive" right="Active" />
+                  <Switch checked={user?.TFA} onChange={TFA => setUser(prev => ({ ...prev, TFA }))} left="Inactive" right="Active" />
                 </Card>
                 {user?.email != session?.email && user.organizationId ? (
                   <Card title="Role" style={{ background: '#FFF' }}>

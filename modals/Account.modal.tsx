@@ -25,8 +25,8 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
   const fetchApiCredentials = async () => {
     try {
       setLoadingApiKey(true);
-      const apiKey = await getApiCredentials();
-      setApiKey(apiKey);
+      const _apiKey = await getApiCredentials();
+      setApiKey(_apiKey);
       setLoadingApiKey(false);
     } catch (err) {
       setLoadingApiKey(false);
@@ -36,8 +36,8 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
   const handleRefreshApiKey = async () => {
     try {
       setRefreshingApiKey(true);
-      const apiKey = await refreshApiCredentials();
-      setApiKey(apiKey);
+      const _apiKey = await refreshApiCredentials();
+      setApiKey(_apiKey);
       setShowApiKey(true);
       setRefreshingApiKey(false);
     } catch (err) {
@@ -49,6 +49,7 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
     if ([ROLES.ADMIN, ROLES.RESEARCHER, ROLES.SUPER_ADMIN].includes(session.role)) {
       fetchApiCredentials();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   const handleSetupTFA = async () => {
@@ -155,7 +156,7 @@ export function AccountModal(props: AccountModalProps & DrawerProps) {
       <Card style={{ marginTop: 16 }} title="Security">
         <Page>
           <Row align="SPACE">
-            <Preset title="Two factor authentication" value={session.TFA ? 'Active' : 'Unactive'} />
+            <Preset title="Two factor authentication" value={session.TFA ? 'Active' : 'Inactive'} />
             {!session.TFA && (
               <Button theme="SECONDARY" loading={tfaLoading} onClick={handleSetupTFA}>
                 Activate

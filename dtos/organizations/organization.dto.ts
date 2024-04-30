@@ -7,6 +7,7 @@ export class Organization {
   language?: string;
   visible: boolean;
   active: boolean;
+  climate?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
