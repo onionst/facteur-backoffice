@@ -34,7 +34,8 @@ export const CreateOrganizationModal = (props: CreateOrganizationModalProps & Mo
       language: form.language,
       climate
     });
-  }, [props.open, climate, form]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.open]);
 
   const handleCreateOrganization = (e: FormEvent) => {
     try {
@@ -43,8 +44,9 @@ export const CreateOrganizationModal = (props: CreateOrganizationModalProps & Mo
       const payload: CreateOrganization = {
         name: form.name?.trim(),
         domain: form.domain?.trim(),
-        climate: form.climate
+        climate
       };
+
       if (form.language) {
         payload.language = form.language;
       }
@@ -109,7 +111,7 @@ export const CreateOrganizationModal = (props: CreateOrganizationModalProps & Mo
           />
         </Card>
         <Card title="Member of Climate Facts Europe" style={{ background: '#FFF' }}>
-          <Switch checked={form?.climate ?? climate} onChange={CLIMATE => setClimate(CLIMATE)} left="Inactive" right="Active" />
+          <Switch checked={climate} onChange={CLIMATE => setClimate(CLIMATE)} left="Inactive" right="Active" />
         </Card>
         <div className={s['ds-modal-form__buttons']}>
           <Button disabled={form?.name === '' || form?.domain === ''} loading={loading} theme="CTA">

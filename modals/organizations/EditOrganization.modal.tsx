@@ -40,9 +40,10 @@ export const EditOrganizationModal = (props: EditOrganizationModalProps & ModalP
       const form: Organization = organization;
       const payload: UpdateOrganization = {
         name: form.name?.trim(),
-        domain: form.domain?.trim()
+        domain: form.domain?.trim(),
+        climate
       };
-      payload.climate = climate;
+
       if (form.language) {
         payload.language = form.language;
       }
