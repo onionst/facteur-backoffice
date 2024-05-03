@@ -222,9 +222,9 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
           {form?.itemReviewed?.appearances?.length > 0 ? (
             <Input requiredHide label="Claim appearances details" required={form?.itemReviewed?.appearances?.length > 0}>
               {form.itemReviewed.appearances.map((appearance: any, appearanceIndex: number) => (
-                <div key={appearance.id}>
+                <div key={`${form.url}_appearance_${appearanceIndex}`}>
                   <Card
-                    key={appearance.id}
+                    key={`card_${form.url}_appearance_${appearanceIndex}`}
                     style={{
                       marginBottom: 8
                     }}
@@ -234,7 +234,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                       label="URL"
                       disabled
                       pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-                      key={`${appearance.id}_URL`}
+                      key={`${form.url}_appearance_${appearanceIndex}_URL`}
                       value={appearance?.url}
                     />
 
@@ -243,6 +243,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                         label="Platform"
                         disabled
                         defaultValue={appearance?.platform}
+                        key={`${form.url}_appearance_${appearanceIndex}_platform`}
                         options={[
                           { label: 'Select platform where appearance was found', value: '' },
                           ...Object.entries(Platform).map(([key, value]) => ({
@@ -255,6 +256,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                         disabled
                         label="Format"
                         defaultValue={appearance?.mediaFormat}
+                        key={`${form.url}_appearance_${appearanceIndex}_mediaFormat`}
                         options={[
                           { label: 'Select media format', value: '' },
                           ...Object.entries(MediaFormat).map(([key, value]) => ({
@@ -266,12 +268,18 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                     </Row>
 
                     <Row align="SPACE">
-                      <InputUploader label="Associated multimedia" value={appearance?.associatedMedia} disabled />
+                      <InputUploader
+                        label="Associated multimedia"
+                        value={appearance?.associatedMedia}
+                        key={`${form.url}_appearance_${appearanceIndex}_associatedMedia`}
+                        disabled
+                      />
 
                       <Select
                         disabled
                         label="Associated multimedia format"
                         defaultValue={appearance?.associatedMediaType}
+                        key={`${form.url}_appearance_${appearanceIndex}_associatedMediaType`}
                         options={[
                           { label: 'Select associated media format', value: '' },
                           ...Object.entries(MediaType).map(([key, value]) => ({
@@ -285,8 +293,8 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                       disabled
                       label="Archive URL"
                       pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-                      key={`${appearance.id}_archived`}
                       value={appearance?.archivedAt}
+                      key={`${form.url}_appearance_${appearanceIndex}_archivedAt`}
                     />
                   </Card>
                 </div>

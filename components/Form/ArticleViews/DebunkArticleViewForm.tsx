@@ -174,9 +174,9 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
           {form?.itemReviewed?.appearances?.length > 0 ? (
             <Input label="Claim appearances details">
               {form?.itemReviewed.appearances.map((appearance: any, appearanceIndex: number) => (
-                <div key={appearance.id}>
+                <div key={`${form.url}_appearance_${appearanceIndex}`}>
                   <Card
-                    key={appearance.id}
+                    key={`card_${form.url}_appearance_${appearanceIndex}`}
                     style={{
                       marginBottom: 8
                     }}
@@ -186,7 +186,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                       disabled
                       label="URL"
                       pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-                      key={`${appearance.id}_URL`}
+                      key={`${form.url}_appearance_${appearanceIndex}_URL`}
                       value={appearance?.url}
                     />
 
@@ -195,6 +195,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                         disabled
                         label="Platform"
                         defaultValue={appearance?.platform}
+                        key={`${form.url}_appearance_${appearanceIndex}_platform`}
                         options={[
                           ...Object.entries(Platform)
                             .filter(([, value]) => appearance?.platform === value)
@@ -208,6 +209,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                         disabled
                         label="Format"
                         defaultValue={appearance?.mediaFormat}
+                        key={`${form.url}_appearance_${appearanceIndex}_mediaFormat`}
                         options={[
                           { label: 'Select media format', value: '' },
                           ...Object.entries(MediaFormat)
@@ -221,12 +223,18 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                     </Row>
 
                     <Row align="SPACE">
-                      <InputUploader disabled label="Associated multimedia" value={appearance?.associatedMedia} />
+                      <InputUploader
+                        disabled
+                        label="Associated multimedia"
+                        value={appearance?.associatedMedia}
+                        key={`${form.url}_appearance_${appearanceIndex}_associatedMedia`}
+                      />
 
                       <Select
                         disabled
                         label="Associated multimedia format"
                         defaultValue={appearance?.associatedMediaType}
+                        key={`${form.url}_appearance_${appearanceIndex}_associatedMediaType`}
                         options={[
                           { label: 'Select associated media format', value: '' },
                           ...Object.entries(MediaType)
@@ -242,7 +250,7 @@ export default function DebunkArticleViewForm(props: DebunkArticleViewFormProps 
                       disabled
                       label="Archive URL"
                       pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-                      key={`${appearance.id}_archived`}
+                      key={`${form.url}_appearance_${appearanceIndex}_archivedAt`}
                       value={appearance?.archivedAt}
                     />
                   </Card>
