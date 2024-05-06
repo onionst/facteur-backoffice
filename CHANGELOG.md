@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.3.0%0Dv1.2.2#diff) (2024-05-06)
+
+
+### Features
+
+* organization climate reports ([f99c40d](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/f99c40da0dde7c72729e22b427a49a447f0befeb))
+* organization switch climate property ([8cdfcc8](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/8cdfcc8581744a1f9304d959cae3f0682fba768e))
+
+
+### Bug Fixes
+
+* create and edit appearances ([4e637e6](https://bitbucket.org/newtralmedia/ee24-backoffice/commits/4e637e62088f97a87d564bf06063c91402accb94))
+
 ### [1.2.2](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.2.2%0Dv1.2.1#diff) (2024-04-19)
 
 
