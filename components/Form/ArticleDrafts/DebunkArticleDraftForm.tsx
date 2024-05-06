@@ -289,9 +289,9 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
 
           <Input requiredHide label="Claim appearances details" required={form?.itemReviewed?.appearances?.length > 0}>
             {form?.itemReviewed?.appearances?.map((appearance: any, appearanceIndex: number) => (
-              <div key={appearance?.id}>
+              <div key={`${form.url}_appearance_${appearanceIndex}`}>
                 <Card
-                  key={appearance?.id}
+                  key={`card_${form.url}_appearance_${appearanceIndex}`}
                   style={{
                     marginBottom: 8
                   }}
@@ -301,21 +301,21 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                     label="URL"
                     pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
                     placeholder="https://example.com/factchecking/article-010101"
-                    key={`${appearance?.id}_URL`}
+                    key={`${form.url}_appearance_${appearanceIndex}_URL`}
                     value={appearance?.url}
                     onChange={v =>
                       setForm((prev: any) => ({
                         ...prev,
                         itemReviewed: {
                           ...prev.itemReviewed,
-                          appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                            if (_appearance.id != appearance.id) {
-                              return _appearance;
+                          appearances: prev.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                            if (_appearanceIndex === appearanceIndex) {
+                              return {
+                                ..._appearance,
+                                url: v.target.value
+                              };
                             }
-                            return {
-                              ..._appearance,
-                              url: v.target.value
-                            };
+                            return _appearance;
                           })
                         }
                       }))
@@ -326,6 +326,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                     <Select
                       label="Platform"
                       defaultValue={appearance?.platform}
+                      key={`${form.url}_appearance_${appearanceIndex}_platform`}
                       options={[
                         { label: 'Select platform where appearance was found', value: '' },
                         ...Object.entries(Platform).map(([key, value]) => ({
@@ -338,14 +339,14 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                           ...prev,
                           itemReviewed: {
                             ...prev.itemReviewed,
-                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                              if (_appearance.id != appearance.id) {
-                                return _appearance;
+                            appearances: prev.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                              if (_appearanceIndex === appearanceIndex) {
+                                return {
+                                  ..._appearance,
+                                  platform: v
+                                };
                               }
-                              return {
-                                ..._appearance,
-                                platform: v
-                              };
+                              return _appearance;
                             })
                           }
                         }))
@@ -354,6 +355,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                     <Select
                       label="Format"
                       defaultValue={appearance?.mediaFormat}
+                      key={`${form.url}_appearance_${appearanceIndex}_mediaFormat`}
                       options={[
                         { label: 'Select media format', value: '' },
                         ...Object.entries(MediaFormat).map(([key, value]) => ({
@@ -366,14 +368,14 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                           ...prev,
                           itemReviewed: {
                             ...prev.itemReviewed,
-                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                              if (_appearance.id != appearance.id) {
-                                return _appearance;
+                            appearances: prev.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                              if (_appearanceIndex === appearanceIndex) {
+                                return {
+                                  ..._appearance,
+                                  mediaFormat: v
+                                };
                               }
-                              return {
-                                ..._appearance,
-                                mediaFormat: v
-                              };
+                              return _appearance;
                             })
                           }
                         }))
@@ -391,19 +393,20 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                       }}
                       label="Associated multimedia"
                       value={appearance?.associatedMedia}
+                      key={`${form.url}_appearance_${appearanceIndex}_associatedMedia`}
                       onUrlChange={(url: string) => {
                         setForm((prev: any) => ({
                           ...prev,
                           itemReviewed: {
                             ...prev.itemReviewed,
-                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                              if (_appearance.id != appearance.id) {
-                                return _appearance;
+                            appearances: prev.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                              if (_appearanceIndex === appearanceIndex) {
+                                return {
+                                  ..._appearance,
+                                  associatedMedia: url
+                                };
                               }
-                              return {
-                                ..._appearance,
-                                associatedMedia: url
-                              };
+                              return _appearance;
                             })
                           }
                         }));
@@ -414,6 +417,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                     <Select
                       label="Associated multimedia format"
                       defaultValue={appearance?.associatedMediaType}
+                      key={`${form.url}_appearance_${appearanceIndex}_associatedMediaType`}
                       options={[
                         { label: 'Select associated media format', value: '' },
                         ...Object.entries(MediaType).map(([key, value]) => ({
@@ -426,14 +430,14 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                           ...prev,
                           itemReviewed: {
                             ...prev.itemReviewed,
-                            appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                              if (_appearance.id != appearance.id) {
-                                return _appearance;
+                            appearances: prev.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                              if (_appearanceIndex === appearanceIndex) {
+                                return {
+                                  ..._appearance,
+                                  associatedMediaType: v
+                                };
                               }
-                              return {
-                                ..._appearance,
-                                associatedMediaType: v
-                              };
+                              return _appearance;
                             })
                           }
                         }))
@@ -444,21 +448,21 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                     label="Archive URL"
                     pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
                     placeholder="https://example.com/factchecking/article-010101"
-                    key={`${appearance.id}_archived`}
+                    key={`${form.url}_appearance_${appearanceIndex}_archivedAt`}
                     value={appearance?.archivedAt}
                     onChange={v =>
                       setForm((prev: any) => ({
                         ...prev,
                         itemReviewed: {
                           ...prev.itemReviewed,
-                          appearances: prev.itemReviewed.appearances.map((_appearance: any) => {
-                            if (_appearance.id != appearance.id) {
-                              return _appearance;
+                          appearances: prev.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                            if (_appearanceIndex === appearanceIndex) {
+                              return {
+                                ..._appearance,
+                                archivedAt: v.target.value
+                              };
                             }
-                            return {
-                              ..._appearance,
-                              archivedAt: v.target.value
-                            };
+                            return _appearance;
                           })
                         }
                       }))
@@ -472,7 +476,11 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
                           ...prev,
                           itemReviewed: {
                             ...prev.itemReviewed,
-                            appearances: prev.itemReviewed.appearances.filter((_appearance: any) => _appearance.id != appearance.id)
+                            appearances: prev.itemReviewed.appearances.filter((_appearance: any, _appearanceIndex: any) => {
+                              if (_appearanceIndex !== appearanceIndex) {
+                                return _appearance;
+                              }
+                            })
                           }
                         }))
                       }

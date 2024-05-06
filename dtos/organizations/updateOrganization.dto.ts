@@ -5,4 +5,5 @@ export class UpdateOrganization {
   language?: string;
   active?: boolean;
   visible?: boolean;
+  climate?: boolean;
 }
