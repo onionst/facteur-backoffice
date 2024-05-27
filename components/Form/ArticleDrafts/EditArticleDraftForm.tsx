@@ -38,6 +38,7 @@ export default function EditArticleDraftForm(props: ArticleDraftFormProps & IArt
       setLoading(true);
       if (props.ogForm.headlineNative != form.headlineNative) {
         const [headline] = await Promise.all([fetchTranslation(form.headlineNative)]);
+        headline.replaceAll('\\', '');
         setForm((prev: any) => ({
           ...prev,
           headline

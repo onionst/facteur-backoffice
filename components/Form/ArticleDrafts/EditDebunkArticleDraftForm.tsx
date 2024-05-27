@@ -48,6 +48,9 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
           fetchTranslation(form.headlineNative),
           fetchTranslation(form.claimreviewedNative)
         ]);
+        headline.replaceAll('\\', '');
+        claimreviewed.replaceAll('\\', '');
+
         setForm((prev: any) => ({
           ...prev,
           headline,
@@ -55,12 +58,16 @@ export default function EditDebunkArticleDraftForm(props: DebunkArticleDraftForm
         }));
       } else if (headlineChanged) {
         const [headline] = await Promise.all([fetchTranslation(form.headlineNative)]);
+        headline.replaceAll('\\', '');
+
         setForm((prev: any) => ({
           ...prev,
           headline
         }));
       } else if (claimreviewedChanged) {
         const [claimreviewed] = await Promise.all([fetchTranslation(form.claimreviewedNative)]);
+        claimreviewed.replaceAll('\\', '');
+
         setForm((prev: any) => ({
           ...prev,
           claimreviewed

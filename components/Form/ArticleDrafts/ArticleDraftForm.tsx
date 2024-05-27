@@ -38,6 +38,8 @@ export default function ArticleDraftForm(props: ArticleDraftFormProps & IArticle
       e?.preventDefault();
       setLoading(true);
       const [headline] = await Promise.all([fetchTranslation(form.headlineNative)]);
+      headline.replaceAll('\\', '');
+
       setForm((prev: any) => ({
         ...prev,
         headline
