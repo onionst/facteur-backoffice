@@ -45,6 +45,9 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
         fetchTranslation(form.headlineNative),
         fetchTranslation(form.claimreviewedNative)
       ]);
+      headline.replaceAll('\\', '');
+      claimreviewed.replaceAll('\\', '');
+
       setForm((prev: any) => ({
         ...prev,
         headline,
