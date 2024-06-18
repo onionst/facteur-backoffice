@@ -12,7 +12,7 @@ export const CreateArticle = async (article: Partial<Article>) => {
   return response.data;
 };
 
-export const DownloadArticles = async (filter: any) => {
+export const DownloadArticles = async (filter: any): Promise<Blob | undefined> => {
   try {
     const headers = new Headers({
       Authorization: `Bearer ${Store.get(STORAGE_KEYS.ACCESS_TOKEN)}`
@@ -23,20 +23,7 @@ export const DownloadArticles = async (filter: any) => {
     });
     const response = await fetch(url, { headers });
 
-    const reader: any = response?.body?.getReader();
-    const chunks = [];
-    let done, value;
-
-    while (!done) {
-      ({ done, value } = await reader.read());
-      if (done) break;
-      chunks.push(value);
-    }
-
-    const concatenatedChunks = new Uint8Array(chunks.reduce((acc, chunk) => acc.concat(Array.from(chunk)), []));
-    const text = new TextDecoder().decode(concatenatedChunks);
-
-    return JSON.parse(text);
+    return response.blob();
   } catch (error) {
     console.error('Error fetching data:', error);
   }

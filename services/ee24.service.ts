@@ -45,20 +45,7 @@ export const DownloadEE24Articles = async (filter: Filter & { search: string }) 
     // @ts-ignore
     const response = await fetch(url, { headers });
 
-    const reader: any = response?.body?.getReader();
-    const chunks = [];
-    let done, value;
-
-    while (!done) {
-      ({ done, value } = await reader.read());
-      if (done) break;
-      chunks.push(value);
-    }
-
-    const concatenatedChunks = new Uint8Array(chunks.reduce((acc, chunk) => acc.concat(Array.from(chunk)), []));
-    const text = new TextDecoder().decode(concatenatedChunks);
-
-    return JSON.parse(text);
+    return response.blob();
   } catch (error) {
     console.error('Error fetching data:', error);
   }
@@ -128,7 +115,7 @@ export const FetchEE24ArticlesByVideo = async (
     nextPage: number | null;
   };
 }> => {
-  const response = await api.post(parseUrl(PREFIX, `/find/video/fingerprints`), fingerPrints);
+  const response = await api.post(parseUrl(PREFIX, '/find/video/fingerprints'), fingerPrints);
   const current = 1;
   const maxPage = 1;
   return {

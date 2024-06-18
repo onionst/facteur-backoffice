@@ -14,7 +14,6 @@ import {
   FetchTranslation,
   UpdateArticle
 } from '@/services/articles.service';
-import { plainArticle } from '@/utils/plainArticle';
 
 export type ArticlesPage = {
   records: number;
@@ -41,7 +40,7 @@ export type ArticlesContextProps = {
   updateArticle: (article: any) => Promise<void>;
   deleteArticle: (id: string) => Promise<void>;
   fetchTranslation: (text: string) => Promise<string>;
-  downloadArticles: (filter: any) => Promise<Array<Partial<Article>>>;
+  downloadArticles: (filter: any) => Promise<Blob | undefined>;
 };
 export const ArticlesContext = createContext<ArticlesContextProps>(
   // @ts-ignore
@@ -270,7 +269,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     }
   };
 
-  const downloadArticles = async (filter: any): Promise<Array<Partial<Article>>> => {
+  const downloadArticles = async (filter: any): Promise<Blob | undefined> => {
     try {
       const data = await DownloadArticles({
         order: '-dateModified',
@@ -278,7 +277,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
         export: true
       });
 
-      return data.map((raw: any) => plainArticle(raw, filter));
+      return data;
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
         notification.error({
@@ -299,7 +298,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
           description: 'Please try again later'
         });
       }
-      return [];
+      return undefined;
     }
   };
 

@@ -2,7 +2,6 @@ import { Modal, ModalProps, Tooltip, notification } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { X } from 'react-feather';
-import { utils, writeFile } from 'xlsx';
 import { FileType } from '../FileType';
 import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
@@ -12,8 +11,6 @@ import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { useEE24 } from '@/contexts/ee24.context';
-import { convertJsonToBlob } from '@/utils/convertJsonToBlob';
-import { convertJsonToCsv } from '@/utils/convertJsonToCsv';
 
 export type DownloadEE24ArticlesModalProps = {
   id: string;
@@ -53,41 +50,19 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
         filters = { ...filters, exportSize: exportArticles };
       }
 
-      const data = await downloadEE24Articles(filters);
+      const blob = await downloadEE24Articles(filters);
 
-      let blob: Blob;
       const filename = `articles-${dayjs().format('DD-MM-YYYY')}.${fileType === FileType.CSV ? 'csv' : fileType === FileType.XLSX ? 'xlsx' : 'json'}`;
 
-      if (fileType === FileType.CSV) {
-        blob = convertJsonToCsv(data);
-
-        const link = document.createElement('a');
-        if (link.download !== undefined) {
-          const url = URL.createObjectURL(blob);
-          link.setAttribute('href', url);
-          link.setAttribute('download', filename);
-          link.style.visibility = 'hidden';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-      } else if (fileType === FileType.XLSX) {
-        const wb = utils.book_new();
-        const ws = utils.json_to_sheet(data);
-        utils.book_append_sheet(wb, ws, 'articles');
-        writeFile(wb, filename);
-      } else {
-        blob = convertJsonToBlob(data);
-        const link = document.createElement('a');
-        if (link.download !== undefined) {
-          const url = URL.createObjectURL(blob);
-          link.setAttribute('href', url);
-          link.setAttribute('download', filename);
-          link.style.visibility = 'hidden';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
+      const link = document.createElement('a');
+      if (link.download !== undefined && blob !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
 
       resetForm();

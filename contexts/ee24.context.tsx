@@ -12,7 +12,6 @@ import {
   FetchEE24ArticlesByVideo,
   FetchEE24ArticlesByVideoOrAudio
 } from '@/services/ee24.service';
-import { plainArticle } from '@/utils/plainArticle';
 
 export type EE24ArticlesPage = {
   records: number;
@@ -28,7 +27,7 @@ export type EE24ContextProps = {
   fetchArticleData: (id: string) => Promise<Article | undefined>;
   fetchArticleById: (id: string) => Promise<Article | undefined>;
   page: EE24ArticlesPage;
-  downloadEE24Articles: (filter: Filter & { search?: string }) => Promise<Array<Partial<Article>>>;
+  downloadEE24Articles: (filter: Filter & { search?: string }) => Promise<Blob | undefined>;
   fetchEE24ArticlesByImage: (url: string) => Promise<void>;
   fetchEE24ArticlesByVideo: (fingerPrints: any[], portrait: string) => Promise<void>;
   fetchEE24ArticlesByAudio: (url: string) => Promise<void>;
@@ -123,7 +122,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     }
   };
 
-  const downloadEE24Articles = async (filter: any): Promise<Array<Partial<Article>>> => {
+  const downloadEE24Articles = async (filter: any): Promise<Blob | undefined> => {
     try {
       const data = await DownloadEE24Articles({
         order: '-datePublished',
@@ -131,7 +130,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
         export: true
       });
 
-      return data.map((raw: any) => plainArticle(raw, filter));
+      return data;
     } catch (err: any) {
       if (typeof err?.response?.data?.message === 'object') {
         notification.error({
@@ -146,7 +145,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
           description: 'Please try again later'
         });
       }
-      return [];
+      return undefined;
     }
   };
 
