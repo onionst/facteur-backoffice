@@ -64,6 +64,8 @@ export const DownloadArticlesModal = (props: DownloadArticlesModalProps & ModalP
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+      } else {
+        throw new Error('Could not retrieve file.');
       }
 
       resetForm();
@@ -71,6 +73,11 @@ export const DownloadArticlesModal = (props: DownloadArticlesModalProps & ModalP
       props.onCancel();
     } catch (err) {
       console.error(err);
+      notification.error({
+        ...NOTIFICATIONS_CONFIG.error,
+        message: 'Download error',
+        description: 'File download failed'
+      });
       resetForm();
     }
   };

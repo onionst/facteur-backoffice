@@ -63,6 +63,8 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+      } else {
+        throw new Error('Could not retrieve file.');
       }
 
       resetForm();
@@ -70,6 +72,11 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
       props.onCancel();
     } catch (err) {
       console.error(err);
+      notification.error({
+        ...NOTIFICATIONS_CONFIG.error,
+        message: 'Download error',
+        description: 'File download failed'
+      });
       resetForm();
     }
   };
