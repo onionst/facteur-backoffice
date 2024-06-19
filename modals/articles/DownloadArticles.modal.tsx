@@ -117,7 +117,6 @@ export const DownloadArticlesModal = (props: DownloadArticlesModalProps & ModalP
                 min={1}
                 value={exportArticles}
                 label="How many articles do you want to export?"
-                required
               ></Input>
             </Tooltip>
           </Card>
