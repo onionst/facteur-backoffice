@@ -46,16 +46,21 @@ export default function Edit() {
     euRelation: '',
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
-    claimreviewed: '',
-    claimreviewedNative: '',
-    reviewRating: '',
-    itemReviewed: {
-      datePublished: null,
-      author: '',
-      politicalParty: '',
-      appearances: []
-    },
-    associatedClaimReview: []
+    claimReviews: [
+      {
+        claimReviewed: '',
+        claimReviewNative: '',
+        reviewRating: '',
+        appearances: [],
+        itemReviewed: {
+          datePublished: null,
+          author: '',
+          politicalParty: ''
+        },
+        associatedClaimReview: []
+      }
+    ],
+    evidences: []
   });
   const [form, setForm] = useState({
     externalId: '',
@@ -71,16 +76,21 @@ export default function Edit() {
     euRelation: '',
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
-    claimreviewed: '',
-    claimreviewedNative: '',
-    reviewRating: '',
-    itemReviewed: {
-      datePublished: null,
-      author: '',
-      politicalParty: '',
-      appearances: []
-    },
-    associatedClaimReview: []
+    claimReviews: [
+      {
+        claimReviewed: '',
+        claimReviewNative: '',
+        reviewRating: '',
+        appearances: [],
+        itemReviewed: {
+          datePublished: null,
+          author: '',
+          politicalParty: ''
+        },
+        associatedClaimReview: []
+      }
+    ],
+    evidences: []
   });
 
   const handleSetup = async (id?: any) => {
@@ -146,30 +156,15 @@ export default function Edit() {
       };
       if (articleType && isDebunkArticle(articleType)) {
         payload = {
-          ...payload,
-          claimreviewed: form.claimreviewed,
-          claimreviewedNative: form.claimreviewedNative,
-          reviewRating: form.reviewRating,
-          itemReviewed: {
-            appearances: form.itemReviewed.appearances.map(appearance => Object.fromEntries(Object.entries(appearance).filter(v => v[1])))
-          }
+          ...payload
         };
-
-        if (form.itemReviewed.datePublished) {
-          payload = {
-            ...payload,
-            itemReviewed: {
-              ...payload.itemReviewed,
-              datePublished: form.itemReviewed.datePublished
-            }
-          };
-        }
 
         if (articleType === ArticleType.Factcheck) {
           const authorData = Object.fromEntries(
-            Object.entries({ author: form.itemReviewed.author || null, politicalParty: form.itemReviewed.politicalParty || null }).filter(
-              v => v[1] != null
-            )
+            Object.entries({
+              author: form.claimReviews[0].itemReviewed.author || null,
+              politicalParty: form.claimReviews[0].itemReviewed.politicalParty || null
+            }).filter(v => v[1] != null)
           );
 
           payload = {
