@@ -176,9 +176,9 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
         <Card theme="LIGHT">
           <h4>Claim Details</h4>
 
-          {form.claimReviews.map((claimReview: any) => {
+          {form.claimReviews.map((claimReview: any, key: number) => {
             return (
-              <>
+              <div key={key}>
                 <Divider style={{ margin: '8px 0' }} />
                 <div className="w-full">
                   {claimReview.claimReviewed != claimReview.claimReviewedNative && (
@@ -225,8 +225,8 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                   </Row>
                 )}
 
-                {form?.itemReviewed?.appearances?.length > 0 ? (
-                  <Input requiredHide label="Claim appearances details" required={form?.itemReviewed?.appearances?.length > 0}>
+                {claimReview?.itemReviewed?.appearances?.length > 0 ? (
+                  <Input requiredHide label="Claim appearances details" required={claimReview?.itemReviewed?.appearances?.length > 0}>
                     {claimReview.itemReviewed.appearances.map((appearance: any, appearanceIndex: number) => (
                       <div key={`${form.url}_appearance_${appearanceIndex}`}>
                         <Card
@@ -307,7 +307,7 @@ export default function DebunkArticlePreviewForm(props: DebunkArticlePreviewForm
                     ))}
                   </Input>
                 ) : null}
-              </>
+              </div>
             );
           })}
         </Card>

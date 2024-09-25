@@ -248,7 +248,9 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
 
   const fetchTranslation = async (text: string): Promise<string> => {
     try {
+      console.log(text);
       const response = await FetchTranslation(text);
+      console.log(response);
       return response;
     } catch (err: any) {
       console.error(err);

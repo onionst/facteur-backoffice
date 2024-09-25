@@ -40,7 +40,7 @@ export default function New() {
     claimReviews: [
       {
         claimReviewed: '',
-        claimReviewNative: '',
+        claimReviewedNative: '',
         reviewRating: '',
         appearances: [],
         itemReviewed: {
@@ -154,7 +154,7 @@ export default function New() {
                   claimReviews: [
                     {
                       claimReviewed: '',
-                      claimReviewNative: '',
+                      claimReviewedNative: '',
                       reviewRating: '',
                       appearances: [],
                       itemReviewed: {

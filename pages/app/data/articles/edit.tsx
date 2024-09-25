@@ -49,7 +49,7 @@ export default function Edit() {
     claimReviews: [
       {
         claimReviewed: '',
-        claimReviewNative: '',
+        claimReviewedNative: '',
         reviewRating: '',
         appearances: [],
         itemReviewed: {
@@ -79,7 +79,7 @@ export default function Edit() {
     claimReviews: [
       {
         claimReviewed: '',
-        claimReviewNative: '',
+        claimReviewedNative: '',
         reviewRating: '',
         appearances: [],
         itemReviewed: {
@@ -152,7 +152,9 @@ export default function Edit() {
         topics: form.topics || null,
         euRelation: form.euRelation || null,
         countryOfOrigin: form.countryOfOrigin || null,
-        contentLocation: form.contentLocation || null
+        contentLocation: form.contentLocation || null,
+        claimReviews: form.claimReviews,
+        evidences: form.evidences
       };
       if (articleType && isDebunkArticle(articleType)) {
         payload = {
@@ -177,6 +179,7 @@ export default function Edit() {
         }
       }
 
+      console.log(form);
       await updateArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
 
       let params = {};
