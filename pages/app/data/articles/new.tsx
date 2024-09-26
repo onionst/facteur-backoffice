@@ -2,8 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { File } from 'react-feather';
 import Row from '@/bases/Row/Row';
-import DebunkArticleDraftForm from '@/components/Form/ArticleDrafts/DebunkArticleDraftForm';
-import DebunkArticlePreviewForm from '@/components/Form/ArticlePreviews/DebunkArticlePreviewForm';
+import ArticleForm from '@/components/Form/ArticleDrafts/ArticleForm';
 import ArticlePublished from '@/components/Form/ArticlePublish';
 import SelectArticleType, { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
@@ -170,16 +169,17 @@ export default function New() {
             />
           )}
           {step === 1 && articleType ? (
-            <DebunkArticleDraftForm
-              onBack={() => setStep(0)}
+            <ArticleForm onBack={() => setStep(0)} form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
+          ) : null}
+          {step === 2 && articleType ? (
+            <ArticleForm
+              preview={true}
+              onBack={() => setStep(1)}
               form={form}
               setForm={setForm}
               type={articleType}
-              onContinue={() => setStep(2)}
+              onPublish={handleSubmit}
             />
-          ) : null}
-          {step === 2 && articleType ? (
-            <DebunkArticlePreviewForm onBack={() => setStep(1)} form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
           ) : null}
           {step === 3 ? <ArticlePublished /> : null}
           {width >= 768 && <div style={{ width: '25%' }}></div>}

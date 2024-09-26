@@ -4,10 +4,7 @@ import { useEffect, useState } from 'react';
 import { File, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import Row from '@/bases/Row/Row';
-import EditArticleDraftForm from '@/components/Form/ArticleDrafts/EditArticleDraftForm';
-import EditDebunkArticleDraftForm from '@/components/Form/ArticleDrafts/EditDebunkArticleDraftForm';
-import ArticlePreviewForm from '@/components/Form/ArticlePreviews/ArticlePreviewForm';
-import DebunkArticlePreviewForm from '@/components/Form/ArticlePreviews/DebunkArticlePreviewForm';
+import ArticleForm from '@/components/Form/ArticleDrafts/ArticleForm';
 import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
 import Stepper from '@/components/Stepper/Stepper';
@@ -244,43 +241,25 @@ export default function Edit() {
             />
           </div>
 
-          {step === 0 ? (
-            articleType ? (
-              isDebunkArticle(articleType) ? (
-                <EditDebunkArticleDraftForm
-                  onBack={() => setStep(0)}
-                  form={form}
-                  ogForm={ogForm}
-                  setForm={setForm}
-                  type={articleType}
-                  onContinue={() => setStep(1)}
-                />
-              ) : (
-                <EditArticleDraftForm
-                  onBack={() => setStep(0)}
-                  form={form}
-                  ogForm={ogForm}
-                  setForm={setForm}
-                  type={articleType}
-                  onContinue={() => setStep(1)}
-                />
-              )
-            ) : null
+          {step === 0 && articleType ? (
+            <ArticleForm
+              onBack={() => setStep(0)}
+              form={form}
+              ogForm={ogForm}
+              setForm={setForm}
+              type={articleType}
+              onContinue={() => setStep(1)}
+            />
           ) : null}
-          {step === 1 ? (
-            articleType ? (
-              isDebunkArticle(articleType) ? (
-                <DebunkArticlePreviewForm
-                  onBack={() => setStep(0)}
-                  form={form}
-                  setForm={setForm}
-                  type={articleType}
-                  onPublish={handleSubmit}
-                />
-              ) : (
-                <ArticlePreviewForm onBack={() => setStep(0)} form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
-              )
-            ) : null
+          {step === 1 && articleType ? (
+            <ArticleForm
+              preview={true}
+              onBack={() => setStep(0)}
+              form={form}
+              setForm={setForm}
+              type={articleType}
+              onPublish={handleSubmit}
+            />
           ) : null}
           {width >= 768 && <div style={{ width: '25%' }}></div>}
         </Row>
