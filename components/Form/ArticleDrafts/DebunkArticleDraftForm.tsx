@@ -2,6 +2,7 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Divider, notification } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
+import { Minus, Plus } from 'react-feather';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
@@ -48,7 +49,7 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
           claimReviewed: translations[i + 1]
         };
       });
-      console.log(claimReviews);
+
       setForm((prev: any) => ({
         ...prev,
         headline: translations[0],
@@ -63,6 +64,34 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
 
   const handleClickFetchUrlMetadata = async () => {
     await handleFetchUrlMetadata(props.type, form.url, setForm, setFetchingUrlMetadata);
+  };
+
+  const removeClaimReview = async (indexToRemove: number) => {
+    setForm((prev: any) => ({
+      ...prev,
+      claimReviews: form.claimReviews.filter((_: any, index: number) => index !== indexToRemove)
+    }));
+  };
+
+  const addClaimReview = async () => {
+    setForm((prev: any) => ({
+      ...prev,
+      claimReviews: [
+        ...form.claimReviews,
+        {
+          claimReviewed: '',
+          claimReviewedNative: '',
+          reviewRating: '',
+          appearances: [],
+          itemReviewed: {
+            datePublished: null,
+            author: '',
+            politicalParty: ''
+          },
+          associatedClaimReview: []
+        }
+      ]
+    }));
   };
 
   return (
@@ -226,26 +255,35 @@ export default function DebunkArticleDraftForm(props: DebunkArticleDraftFormProp
         </Card>
         <Card>
           <h4>Claim Details</h4>
-
           {form.claimReviews.map((claimReview: any, index: number) => {
             return (
-              <ClaimReviewDraftForm
-                claimReview={claimReview}
-                formUrl={form.url}
-                handleUpdate={(newClaimReviewValue: any) => {
-                  setForm({
-                    ...form,
-                    claimReviews: form.claimReviews.map((currentClaimReview: any, i: number) =>
-                      i === index ? newClaimReviewValue : currentClaimReview
-                    )
-                  });
-                }}
-                key={index}
-                type={props.type}
-              />
+              <>
+                <ClaimReviewDraftForm
+                  claimReview={claimReview}
+                  formUrl={form.url}
+                  handleUpdate={(newClaimReviewValue: any) => {
+                    setForm({
+                      ...form,
+                      claimReviews: form.claimReviews.map((currentClaimReview: any, i: number) =>
+                        i === index ? newClaimReviewValue : currentClaimReview
+                      )
+                    });
+                  }}
+                  key={index}
+                  type={props.type}
+                />
+                {index !== 0 && (
+                  <span onClick={() => removeClaimReview(index)} className="c-pointer">
+                    <Minus size={14} /> Remove claim review
+                  </span>
+                )}
+              </>
             );
           })}
         </Card>
+        <Button onClick={addClaimReview} theme="CTA">
+          <Plus size={14} /> Add claim review
+        </Button>
       </Page>
       <div className={s['ds-article-draft-form__fab']}>
         <Row align="RIGHT">

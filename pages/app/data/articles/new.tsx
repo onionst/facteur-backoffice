@@ -2,9 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { File } from 'react-feather';
 import Row from '@/bases/Row/Row';
-import ArticleDraftForm from '@/components/Form/ArticleDrafts/ArticleDraftForm';
 import DebunkArticleDraftForm from '@/components/Form/ArticleDrafts/DebunkArticleDraftForm';
-import ArticlePreviewForm from '@/components/Form/ArticlePreviews/ArticlePreviewForm';
 import DebunkArticlePreviewForm from '@/components/Form/ArticlePreviews/DebunkArticlePreviewForm';
 import ArticlePublished from '@/components/Form/ArticlePublish';
 import SelectArticleType, { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
@@ -171,41 +169,17 @@ export default function New() {
               }}
             />
           )}
-          {step === 1 ? (
-            articleType ? (
-              isDebunkArticle(articleType) ? (
-                <DebunkArticleDraftForm
-                  onBack={() => setStep(0)}
-                  form={form}
-                  setForm={setForm}
-                  type={articleType}
-                  onContinue={() => setStep(2)}
-                />
-              ) : (
-                <ArticleDraftForm
-                  onBack={() => setStep(0)}
-                  form={form}
-                  setForm={setForm}
-                  type={articleType}
-                  onContinue={() => setStep(2)}
-                />
-              )
-            ) : null
+          {step === 1 && articleType ? (
+            <DebunkArticleDraftForm
+              onBack={() => setStep(0)}
+              form={form}
+              setForm={setForm}
+              type={articleType}
+              onContinue={() => setStep(2)}
+            />
           ) : null}
-          {step === 2 ? (
-            articleType ? (
-              isDebunkArticle(articleType) ? (
-                <DebunkArticlePreviewForm
-                  onBack={() => setStep(1)}
-                  form={form}
-                  setForm={setForm}
-                  type={articleType}
-                  onPublish={handleSubmit}
-                />
-              ) : (
-                <ArticlePreviewForm onBack={() => setStep(1)} form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
-              )
-            ) : null
+          {step === 2 && articleType ? (
+            <DebunkArticlePreviewForm onBack={() => setStep(1)} form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
           ) : null}
           {step === 3 ? <ArticlePublished /> : null}
           {width >= 768 && <div style={{ width: '25%' }}></div>}
