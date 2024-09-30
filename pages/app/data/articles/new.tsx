@@ -16,7 +16,7 @@ import useWindowSize from '@/hooks/useWindowWidth';
 export default function New() {
   const router = useRouter();
   const { session } = useAuth();
-  const { createArticle, fetchArticles, isDebunkArticle } = useArticles();
+  const { createArticle, fetchArticles } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
@@ -69,27 +69,39 @@ export default function New() {
         claimReviews: structuredClone(form.claimReviews),
         evidences: structuredClone(form.evidences)
       };
-      if (articleType && isDebunkArticle(articleType)) {
+      payload = {
+        ...payload
+      };
+
+      if (articleType === ArticleType.Factcheck) {
+        const authorData = Object.fromEntries(
+          Object.entries({
+            author: form.claimReviews[0].itemReviewed.author || null,
+            politicalParty: form.claimReviews[0].itemReviewed.politicalParty || null
+          }).filter(v => v[1] != null)
+        );
+
         payload = {
-          ...payload
-        };
-
-        if (articleType === ArticleType.Factcheck) {
-          const authorData = Object.fromEntries(
-            Object.entries({
-              author: form.claimReviews[0].itemReviewed.author || null,
-              politicalParty: form.claimReviews[0].itemReviewed.politicalParty || null
-            }).filter(v => v[1] != null)
-          );
-
-          payload = {
-            ...payload,
+          ...payload,
+          claimReviews: payload.claimReviews.map((claimReview: any) => ({
+            ...claimReview,
             itemReviewed: {
-              ...payload.itemReviewed,
+              ...claimReview.itemReviewed,
               ...authorData
             }
-          };
-        }
+          }))
+        };
+      } else if (articleType === ArticleType.Prebunk) {
+        payload = {
+          ...payload,
+          claimReviews: payload.claimReviews.map((obj: any) => {
+            const { ...rest } = obj;
+            delete rest.itemReviewed;
+            delete rest.appearances;
+            rest.claimreviewed = obj.claimReviewed;
+            return rest;
+          })
+        };
       }
 
       await createArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));

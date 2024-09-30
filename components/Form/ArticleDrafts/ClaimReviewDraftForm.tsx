@@ -1,6 +1,6 @@
 import { Divider } from 'antd';
 import dayjs from 'dayjs';
-import { Plus, X } from 'react-feather';
+import { Minus, Plus, X } from 'react-feather';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { DatePicker } from '@/bases/DatePicker/DatePicker';
 import { Input } from '@/bases/Input';
@@ -17,15 +17,17 @@ import { ReviewRating } from '@/constants/ratings';
 export default function ClaimReviewDraftForm(props: {
   claimReview: any;
   handleUpdate: any;
+  removeClaimReview: any;
   type: ArticleType;
   formUrl: string;
+  index: number;
   preview: boolean;
 }) {
   const claimReview = props.claimReview;
   const preview = props.preview;
 
   return (
-    <div>
+    <>
       <Divider style={{ margin: '8px 0' }} />
       <TextArea
         label="Claim"
@@ -103,7 +105,7 @@ export default function ClaimReviewDraftForm(props: {
         </Row>
       )}
 
-      {(!preview || claimReview?.itemReviewed?.appearances.length) > 0 && (
+      {((!preview || claimReview?.itemReviewed?.appearances?.length) && props.type === ArticleType.Factcheck) > 0 && (
         <Input requiredHide label="Claim appearances details" required={claimReview?.itemReviewed?.appearances?.length > 0}>
           {claimReview?.itemReviewed?.appearances?.map((appearance: any, appearanceIndex: number) => (
             <div key={`${props.formUrl}_appearance_${appearanceIndex}`}>
@@ -346,6 +348,11 @@ export default function ClaimReviewDraftForm(props: {
           )}
         </Input>
       )}
-    </div>
+      {props.index !== 0 && !preview && (
+        <span onClick={() => props.removeClaimReview(props.index)} className="c-pointer bg-danger">
+          <Minus size={14} /> Remove claim review
+        </span>
+      )}
+    </>
   );
 }

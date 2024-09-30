@@ -24,7 +24,7 @@ export default function Edit() {
   const { session } = useAuth();
   const modals = useModal();
   const { showDeleteArticle } = modals.articles;
-  const { updateArticle, fetchArticles, fetchArticleData, fetchArticleById, isDebunkArticle } = useArticles();
+  const { updateArticle, fetchArticles, fetchArticleData, fetchArticleById } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
@@ -153,30 +153,40 @@ export default function Edit() {
         claimReviews: form.claimReviews,
         evidences: form.evidences
       };
-      if (articleType && isDebunkArticle(articleType)) {
+      payload = {
+        ...payload
+      };
+
+      if (articleType === ArticleType.Factcheck) {
+        const authorData = Object.fromEntries(
+          Object.entries({
+            author: form.claimReviews[0].itemReviewed.author || null,
+            politicalParty: form.claimReviews[0].itemReviewed.politicalParty || null
+          }).filter(v => v[1] != null)
+        );
+
         payload = {
-          ...payload
-        };
-
-        if (articleType === ArticleType.Factcheck) {
-          const authorData = Object.fromEntries(
-            Object.entries({
-              author: form.claimReviews[0].itemReviewed.author || null,
-              politicalParty: form.claimReviews[0].itemReviewed.politicalParty || null
-            }).filter(v => v[1] != null)
-          );
-
-          payload = {
-            ...payload,
+          ...payload,
+          claimReviews: payload.claimReviews.map((claimReview: any) => ({
+            ...claimReview,
             itemReviewed: {
-              ...payload.itemReviewed,
+              ...claimReview.itemReviewed,
               ...authorData
             }
-          };
-        }
+          }))
+        };
+      } else if (articleType === ArticleType.Prebunk) {
+        payload = {
+          ...payload,
+          claimReviews: payload.claimReviews.map((obj: any) => {
+            const { ...rest } = obj;
+            delete rest.itemReviewed;
+            delete rest.appearances;
+            return rest;
+          })
+        };
       }
 
-      console.log(form);
       await updateArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
 
       let params = {};

@@ -2,7 +2,7 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Divider, notification } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
-import { Minus, Plus } from 'react-feather';
+import { Plus } from 'react-feather';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
@@ -112,7 +112,18 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
       ]
     }));
   };
-
+  const addEvidence = async () => {
+    setForm((prev: any) => ({
+      ...prev,
+      evidences: [
+        ...form.evidences,
+        {
+          title: '',
+          url: ''
+        }
+      ]
+    }));
+  };
   return (
     <form className={s['ds-article-draft-form']} onSubmit={preview ? handlePublish : handleSubmit}>
       <Page>
@@ -288,36 +299,86 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
           <h4>Claim Details</h4>
           {form.claimReviews.map((claimReview: any, index: number) => {
             return (
+              <ClaimReviewDraftForm
+                claimReview={claimReview}
+                formUrl={form.url}
+                index={index}
+                removeClaimReview={removeClaimReview}
+                handleUpdate={(newClaimReviewValue: any) => {
+                  setForm({
+                    ...form,
+                    claimReviews: form.claimReviews.map((currentClaimReview: any, i: number) =>
+                      i === index ? newClaimReviewValue : currentClaimReview
+                    )
+                  });
+                }}
+                key={index}
+                type={props.type}
+                preview={preview}
+              />
+            );
+          })}
+          {!preview && (
+            <Button onClick={addClaimReview} theme="CTA">
+              <Plus size={14} /> Add claim review
+            </Button>
+          )}
+        </Card>
+        <Card>
+          <h4>Evidences</h4>
+          <Divider style={{ margin: '8px 0' }} />
+
+          {form.evidences.map((evidence: any, index: number) => {
+            return (
               <>
-                <ClaimReviewDraftForm
-                  claimReview={claimReview}
-                  formUrl={form.url}
-                  handleUpdate={(newClaimReviewValue: any) => {
+                <div className="w-full ds-buttons-flex">
+                  <Input
+                    label={'URL of the evidence'}
+                    type="url"
+                    name="url"
+                    minLength={10}
+                    value={evidence.url}
+                    onChange={v => {
+                      setForm({
+                        ...form,
+                        evidences: form.evidences.map((currentEvidence: any, i: number) =>
+                          i === index ? { ...currentEvidence, url: v.target.value } : currentEvidence
+                        )
+                      });
+                    }}
+                    id="url"
+                    pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+                    required
+                    placeholder="https://example.com/factchecking/article-010101"
+                    disabled={preview}
+                  />
+                </div>
+                <TextArea
+                  type="text"
+                  minLength={10}
+                  required
+                  value={evidence.title}
+                  onChange={v => {
                     setForm({
                       ...form,
-                      claimReviews: form.claimReviews.map((currentClaimReview: any, i: number) =>
-                        i === index ? newClaimReviewValue : currentClaimReview
+                      evidences: form.evidences.map((currentEvidence: any, i: number) =>
+                        i === index ? { ...currentEvidence, title: v.target.value } : currentEvidence
                       )
                     });
                   }}
-                  key={index}
-                  type={props.type}
-                  preview={preview}
+                  label={'Title of the evidence'}
+                  placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
+                  disabled={preview}
                 />
-                {index !== 0 && !preview && (
-                  <span onClick={() => removeClaimReview(index)} className="c-pointer bg-danger">
-                    <Minus size={14} /> Remove claim review
-                  </span>
-                )}
               </>
             );
           })}
+          {!preview && (
+            <Button onClick={addEvidence} theme="CTA">
+              <Plus size={14} /> Add evidence
+            </Button>
+          )}
         </Card>
-        {!preview && (
-          <Button onClick={addClaimReview} theme="CTA">
-            <Plus size={14} /> Add claim review
-          </Button>
-        )}
       </Page>
       <div className={s['ds-article-draft-form__fab']}>
         <Row align="RIGHT">
