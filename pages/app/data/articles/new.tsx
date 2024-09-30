@@ -98,7 +98,6 @@ export default function New() {
             const { ...rest } = obj;
             delete rest.itemReviewed;
             delete rest.appearances;
-            rest.claimreviewed = obj.claimReviewed;
             return rest;
           })
         };
