@@ -1,4 +1,4 @@
-import { Divider } from 'antd';
+import { Badge, Divider } from 'antd';
 import dayjs from 'dayjs';
 import { Minus, Plus, X } from 'react-feather';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
@@ -29,6 +29,27 @@ export default function ClaimReviewDraftForm(props: {
   return (
     <>
       <Divider style={{ margin: '8px 0' }} />
+      <div className="w-full">
+        {claimReview.claimReviewed != claimReview.claimReviewedNative && props.preview && (
+          <Badge.Ribbon text="Translated with AI">
+            <TextArea
+              type="text"
+              minLength={10}
+              required
+              value={claimReview.claimReviewed}
+              onChange={v =>
+                props.handleUpdate({
+                  ...claimReview,
+                  claimReviewed: v.target.value
+                })
+              }
+              label="Claim (In english)"
+              placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
+            />
+          </Badge.Ribbon>
+        )}
+      </div>
+
       <TextArea
         label="Claim"
         value={claimReview.claimReviewedNative}
@@ -122,6 +143,7 @@ export default function ClaimReviewDraftForm(props: {
                   placeholder="https://example.com/factchecking/article-010101"
                   key={`${props.formUrl}_appearance_${appearanceIndex}_URL`}
                   value={appearance?.url}
+                  required
                   onChange={v =>
                     props.handleUpdate({
                       ...claimReview,
@@ -293,7 +315,7 @@ export default function ClaimReviewDraftForm(props: {
                   }
                   disabled={preview}
                 />
-                {!preview && (
+                {!preview && appearanceIndex !== 0 && (
                   <Row align="RIGHT">
                     <span
                       className="c-pointer mt-2"
@@ -322,7 +344,6 @@ export default function ClaimReviewDraftForm(props: {
             <span
               className="c-pointer"
               onClick={() => {
-                const id = Date.now();
                 props.handleUpdate({
                   ...claimReview,
                   itemReviewed: {
@@ -330,7 +351,6 @@ export default function ClaimReviewDraftForm(props: {
                     appearances: [
                       ...(claimReview?.itemReviewed?.appearances || []),
                       {
-                        id,
                         url: '',
                         archivedAt: '',
                         associatedMedia: '',

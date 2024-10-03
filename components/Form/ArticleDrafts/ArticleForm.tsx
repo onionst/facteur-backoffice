@@ -1,9 +1,8 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import { Divider, notification } from 'antd';
+import { Badge, Divider, notification } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { Plus } from 'react-feather';
-import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
 import ClaimReviewDraftForm from './ClaimReviewDraftForm';
@@ -101,11 +100,15 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
           claimReviewed: '',
           claimReviewedNative: '',
           reviewRating: '',
-          appearances: [],
           itemReviewed: {
             datePublished: null,
             author: '',
-            politicalParty: ''
+            politicalParty: '',
+            appearances: [
+              {
+                url: ''
+              }
+            ]
           },
           associatedClaimReview: []
         }
@@ -135,9 +138,25 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
         <Card>
           <h4>Overview</h4>
           <Divider style={{ margin: '8px 0' }} />
+          <div className="w-full">
+            {form.headline != form.headlineNative && props.preview && (
+              <Badge.Ribbon text="Translated with AI">
+                <TextArea
+                  type="text"
+                  minLength={10}
+                  required
+                  value={form.headline}
+                  onChange={v => handleUpdate(v, 'headline')}
+                  label={'Title of the article (In English)'}
+                  placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
+                />
+              </Badge.Ribbon>
+            )}
+          </div>
+
           <div className="w-full ds-buttons-flex">
             <Input
-              label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
+              label={'URL of the article'}
               type="url"
               name="url"
               minLength={10}
@@ -170,7 +189,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
             required
             value={form.headlineNative}
             onChange={v => handleUpdate(v, 'headlineNative')}
-            label={`Title of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
+            label={'Title of the article'}
             placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
             disabled={preview}
           />
@@ -324,61 +343,63 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
             </Button>
           )}
         </Card>
-        <Card>
-          <h4>Evidences</h4>
-          <Divider style={{ margin: '8px 0' }} />
+        {(!preview || form.evidences.length > 0) && (
+          <Card>
+            <h4>Evidences</h4>
+            <Divider style={{ margin: '8px 0' }} />
 
-          {form.evidences.map((evidence: any, index: number) => {
-            return (
-              <>
-                <div className="w-full ds-buttons-flex">
-                  <Input
-                    label={'URL of the evidence'}
-                    type="url"
-                    name="url"
+            {form.evidences.map((evidence: any, index: number) => {
+              return (
+                <>
+                  <div className="w-full ds-buttons-flex">
+                    <Input
+                      label={'URL of the evidence'}
+                      type="url"
+                      name="url"
+                      minLength={10}
+                      value={evidence.url}
+                      onChange={v => {
+                        setForm({
+                          ...form,
+                          evidences: form.evidences.map((currentEvidence: any, i: number) =>
+                            i === index ? { ...currentEvidence, url: v.target.value } : currentEvidence
+                          )
+                        });
+                      }}
+                      id="url"
+                      pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+                      required
+                      placeholder="https://example.com/factchecking/article-010101"
+                      disabled={preview}
+                    />
+                  </div>
+                  <TextArea
+                    type="text"
                     minLength={10}
-                    value={evidence.url}
+                    required
+                    value={evidence.title}
                     onChange={v => {
                       setForm({
                         ...form,
                         evidences: form.evidences.map((currentEvidence: any, i: number) =>
-                          i === index ? { ...currentEvidence, url: v.target.value } : currentEvidence
+                          i === index ? { ...currentEvidence, title: v.target.value } : currentEvidence
                         )
                       });
                     }}
-                    id="url"
-                    pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-                    required
-                    placeholder="https://example.com/factchecking/article-010101"
+                    label={'Title of the evidence'}
+                    placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
                     disabled={preview}
                   />
-                </div>
-                <TextArea
-                  type="text"
-                  minLength={10}
-                  required
-                  value={evidence.title}
-                  onChange={v => {
-                    setForm({
-                      ...form,
-                      evidences: form.evidences.map((currentEvidence: any, i: number) =>
-                        i === index ? { ...currentEvidence, title: v.target.value } : currentEvidence
-                      )
-                    });
-                  }}
-                  label={'Title of the evidence'}
-                  placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
-                  disabled={preview}
-                />
-              </>
-            );
-          })}
-          {!preview && (
-            <Button onClick={addEvidence} theme="CTA">
-              <Plus size={14} /> Add evidence
-            </Button>
-          )}
-        </Card>
+                </>
+              );
+            })}
+            {!preview && (
+              <Button onClick={addEvidence} theme="CTA">
+                <Plus size={14} /> Add evidence
+              </Button>
+            )}
+          </Card>
+        )}
       </Page>
       <div className={s['ds-article-draft-form__fab']}>
         <Row align="RIGHT">

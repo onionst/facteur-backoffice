@@ -8,8 +8,6 @@ import Page from '@/components/Page/Page';
 
 export enum ArticleType {
   Factcheck = 'Factcheck',
-  Debunk = 'Debunk',
-  Narrative = 'Narrative',
   Prebunk = 'Prebunk'
 }
 
@@ -23,7 +21,7 @@ export default function SelectArticleType(props: SelectArticleTypeProps) {
       <ModalHeader
         style={{ margin: 0 }}
         subTitle="Select type of publication"
-        title="Choose between Political Fact-check, Debunk, Prebunk or Narrative report"
+        title="Choose between Political Fact-check or Prebunk report"
       />
       <Row align="SPACE">
         <Column align="SPACE">

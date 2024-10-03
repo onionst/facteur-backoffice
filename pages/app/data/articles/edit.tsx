@@ -48,11 +48,15 @@ export default function Edit() {
         claimReviewed: '',
         claimReviewedNative: '',
         reviewRating: '',
-        appearances: [],
         itemReviewed: {
           datePublished: null,
           author: '',
-          politicalParty: ''
+          politicalParty: '',
+          appearances: [
+            {
+              url: ''
+            }
+          ]
         },
         associatedClaimReview: []
       }
@@ -78,7 +82,6 @@ export default function Edit() {
         claimReviewed: '',
         claimReviewedNative: '',
         reviewRating: '',
-        appearances: [],
         itemReviewed: {
           datePublished: null,
           author: '',
@@ -181,7 +184,6 @@ export default function Edit() {
           claimReviews: payload.claimReviews.map((obj: any) => {
             const { ...rest } = obj;
             delete rest.itemReviewed;
-            delete rest.appearances;
             return rest;
           })
         };

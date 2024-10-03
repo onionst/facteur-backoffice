@@ -43,8 +43,8 @@ export default function View() {
     euRelation: '',
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
-    claimreviewed: '',
-    claimreviewedNative: '',
+    claimReviewed: '',
+    claimReviewedNative: '',
     reviewRating: '',
     itemReviewed: {
       datePublished: null,

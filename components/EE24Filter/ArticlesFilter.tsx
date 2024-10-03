@@ -110,14 +110,6 @@ export default function ArticlesFilter(props: EE24FilterProps) {
                   value: ArticleType.Factcheck
                 },
                 {
-                  label: ArticleType.Debunk,
-                  value: ArticleType.Debunk
-                },
-                {
-                  label: ArticleType.Narrative,
-                  value: ArticleType.Narrative
-                },
-                {
                   label: ArticleType.Prebunk,
                   value: ArticleType.Prebunk
                 }

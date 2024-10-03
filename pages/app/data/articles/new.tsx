@@ -12,6 +12,7 @@ import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
 import useWindowSize from '@/hooks/useWindowWidth';
+import { removeFalsyValues } from '@/utils/validateUrl';
 
 export default function New() {
   const router = useRouter();
@@ -39,11 +40,15 @@ export default function New() {
         claimReviewed: '',
         claimReviewedNative: '',
         reviewRating: '',
-        appearances: [],
         itemReviewed: {
           datePublished: null,
           author: '',
-          politicalParty: ''
+          politicalParty: '',
+          appearances: [
+            {
+              url: ''
+            }
+          ]
         },
         associatedClaimReview: []
       }
@@ -102,7 +107,7 @@ export default function New() {
           })
         };
       }
-
+      payload = removeFalsyValues(payload);
       await createArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
       fetchArticles({
         publisher: session.organization?.domain
@@ -164,11 +169,15 @@ export default function New() {
                       claimReviewed: '',
                       claimReviewedNative: '',
                       reviewRating: '',
-                      appearances: [],
                       itemReviewed: {
                         datePublished: null,
                         author: '',
-                        politicalParty: ''
+                        politicalParty: '',
+                        appearances: [
+                          {
+                            url: ''
+                          }
+                        ]
                       },
                       associatedClaimReview: []
                     }

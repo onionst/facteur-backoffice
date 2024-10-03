@@ -37,7 +37,7 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
           </Card>
 
           <Input
-            label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
+            label={'URL of the article'}
             type="url"
             name="url"
             disabled

@@ -167,7 +167,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
       if (isDebunkArticle(articleType)) {
         setForm((prev: any) => ({
           ...prev,
-          claimreviewedNative: claimReview?.claimReviewed,
+          claimReviewedNative: claimReview?.claimReviewed,
           itemReviewed: {
             datePublished: claimReview?.itemReviewed?.datePublished ?? claimReview?.datePublished,
             author: claimReview?.itemReviewed?.author?.name,
