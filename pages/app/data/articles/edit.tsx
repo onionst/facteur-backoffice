@@ -16,6 +16,7 @@ import { useAuth } from '@/contexts/auth.context';
 import { useHistory } from '@/contexts/history.context';
 import { useModal } from '@/contexts/modal.context';
 import useWindowSize from '@/hooks/useWindowWidth';
+import { removeFalsyValues } from '@/utils/validateUrl';
 
 export default function Edit() {
   const { canGoBack } = useHistory();
@@ -188,7 +189,7 @@ export default function Edit() {
           })
         };
       }
-
+      payload = removeFalsyValues(payload);
       await updateArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
 
       let params = {};
