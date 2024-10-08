@@ -268,18 +268,20 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
           })}
         </Card>
 
-        <Card theme="LIGHT">
-          <h4>Evidences</h4>
-          <Divider style={{ margin: '8px 0' }} />
-          {form.evidences.map((evidence: any, i: number) => {
-            return (
-              <Row align="SPACE" key={i}>
-                <Input disabled value={evidence.title} label="Title" />
-                <Input disabled value={evidence.url} label="URL" />
-              </Row>
-            );
-          })}
-        </Card>
+        {form.evidences && (
+          <Card theme="LIGHT">
+            <h4>Evidences</h4>
+            <Divider style={{ margin: '8px 0' }} />
+            {form.evidences.map((evidence: any, i: number) => {
+              return (
+                <Row align="SPACE" key={i}>
+                  <Input disabled value={evidence.title} label="Title" />
+                  <Input disabled value={evidence.url} label="URL" />
+                </Row>
+              );
+            })}
+          </Card>
+        )}
       </Page>
     </form>
   );
