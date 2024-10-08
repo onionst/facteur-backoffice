@@ -236,7 +236,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
                 }
                 setForm((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= MIN_LENGTH_KEYWORDS) }));
               }}
-              placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
+              placeholder="Add keywords separated by commas. e.g:Ukraine, Covid"
               disabled={preview}
             />
             <Select

@@ -103,7 +103,7 @@ export default function Edit() {
         const articleFound: any = await fetchArticleById(id);
         if (!articleFound) {
           if (router?.query?.f === 'search') {
-            router.push('/app/ee24/search');
+            router.push('/app/repository/search');
           } else {
             router.push('/app/data/articles');
           }
@@ -135,7 +135,7 @@ export default function Edit() {
 
   const handleDeleteArticle = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
-    showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/ee24/search' : '/app/data/articles');
+    showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/repository/search' : '/app/data/articles');
   };
 
   const handleSubmit = async () => {
@@ -201,7 +201,7 @@ export default function Edit() {
       fetchArticles(params);
 
       if (router?.query?.f === 'search') {
-        router.push('/app/ee24/search');
+        router.push('/app/repository/search');
       } else {
         router.push('/app/data/articles');
       }

@@ -85,7 +85,7 @@ export default function Repository() {
 
   return (
     <>
-      <Header icon={<SearchIcon />} title="EE24 Repository" />
+      <Header icon={<SearchIcon />} title="FactCricis Repository" />
       <Wrapper>
         <Grid size="20-80">
           <div className="p-rel">
@@ -317,7 +317,7 @@ export default function Repository() {
                       <IconButton
                         onClick={e => {
                           e.stopPropagation();
-                          router.push(`/app/ee24/search/view?id=${article?.externalId}&&f=search`);
+                          router.push(`/app/repository/search/view?id=${article?.externalId}&&f=search`);
                         }}
                       >
                         <Eye size={18} color="#252f4a" />
@@ -330,7 +330,7 @@ export default function Repository() {
                           <div className="w-full">
                             <Link
                               onClick={e => e?.stopPropagation()}
-                              href={`/app/ee24/search/view?id=${article?.externalId}&&f=search`}
+                              href={`/app/repository/search/view?id=${article?.externalId}&&f=search`}
                               target="_blank"
                             >
                               <Button

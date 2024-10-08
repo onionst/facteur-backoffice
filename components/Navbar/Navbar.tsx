@@ -31,10 +31,10 @@ export default function Navbar(props: NavbarProps) {
             <Plus color="#252f4a" size={18} />
           </IconButton>
         )}
-        {!router.asPath.includes('/ee24/search') && (
+        {!router.asPath.includes('/repository/search') && (
           <EE24Search
             onSearch={filter => {
-              router.push(`/app/ee24/search?q=${filter.value}&&c=${filter.type}&&ft=${filter.fileType}`);
+              router.push(`/app/repository/search?q=${filter.value}&&c=${filter.type}&&ft=${filter.fileType}`);
             }}
           />
         )}

@@ -57,7 +57,7 @@ export default function View() {
 
   const handleDeleteArticle = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
-    showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/ee24/search' : '/app/data/articles');
+    showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/repository/search' : '/app/data/articles');
   };
 
   const handleSetup = async (id?: any) => {
@@ -69,7 +69,7 @@ export default function View() {
         const articleFound: any = await fetchArticleById(id);
         if (!articleFound) {
           if (router?.query?.f === 'search') {
-            router.push('/app/ee24/search');
+            router.push('/app/repository/search');
           } else {
             router.push('/app/data/articles');
           }
