@@ -87,7 +87,7 @@ export default function ClaimReviewDraftForm(props: {
               ? dayjs(claimReview.itemReviewed.datePublished)
               : claimReview.itemReviewed.datePublished
           }
-          onChange={v => props.handleUpdate({ ...claimReview, itemReviewed: { ...claimReview.itemReviewed, datePublished: v } })}
+          onChange={v => props.handleUpdate({ ...claimReview, itemReviewed: { ...claimReview.itemReviewed, datePublished: v?.toDate() } })}
           disabled={preview}
         />
       </Row>
