@@ -4,10 +4,7 @@ import { useEffect, useState } from 'react';
 import { File, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import Row from '@/bases/Row/Row';
-import EditArticleDraftForm from '@/components/Form/ArticleDrafts/EditArticleDraftForm';
-import EditDebunkArticleDraftForm from '@/components/Form/ArticleDrafts/EditDebunkArticleDraftForm';
-import ArticlePreviewForm from '@/components/Form/ArticlePreviews/ArticlePreviewForm';
-import DebunkArticlePreviewForm from '@/components/Form/ArticlePreviews/DebunkArticlePreviewForm';
+import ArticleForm from '@/components/Form/ArticleDrafts/ArticleForm';
 import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
 import Stepper from '@/components/Stepper/Stepper';
@@ -19,6 +16,7 @@ import { useAuth } from '@/contexts/auth.context';
 import { useHistory } from '@/contexts/history.context';
 import { useModal } from '@/contexts/modal.context';
 import useWindowSize from '@/hooks/useWindowWidth';
+import { removeFalsyValues } from '@/utils/validateUrl';
 
 export default function Edit() {
   const { canGoBack } = useHistory();
@@ -27,7 +25,7 @@ export default function Edit() {
   const { session } = useAuth();
   const modals = useModal();
   const { showDeleteArticle } = modals.articles;
-  const { updateArticle, fetchArticles, fetchArticleData, fetchArticleById, isDebunkArticle } = useArticles();
+  const { updateArticle, fetchArticles, fetchArticleData, fetchArticleById } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
@@ -46,16 +44,25 @@ export default function Edit() {
     euRelation: '',
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
-    claimreviewed: '',
-    claimreviewedNative: '',
-    reviewRating: '',
-    itemReviewed: {
-      datePublished: null,
-      author: '',
-      politicalParty: '',
-      appearances: []
-    },
-    associatedClaimReview: []
+    claimReviews: [
+      {
+        claimReviewed: '',
+        claimReviewedNative: '',
+        reviewRating: '',
+        itemReviewed: {
+          datePublished: null,
+          author: '',
+          politicalParty: '',
+          appearances: [
+            {
+              url: ''
+            }
+          ]
+        },
+        associatedClaimReview: []
+      }
+    ],
+    evidences: []
   });
   const [form, setForm] = useState({
     externalId: '',
@@ -71,16 +78,20 @@ export default function Edit() {
     euRelation: '',
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
-    claimreviewed: '',
-    claimreviewedNative: '',
-    reviewRating: '',
-    itemReviewed: {
-      datePublished: null,
-      author: '',
-      politicalParty: '',
-      appearances: []
-    },
-    associatedClaimReview: []
+    claimReviews: [
+      {
+        claimReviewed: '',
+        claimReviewedNative: '',
+        reviewRating: '',
+        itemReviewed: {
+          datePublished: null,
+          author: '',
+          politicalParty: ''
+        },
+        associatedClaimReview: []
+      }
+    ],
+    evidences: []
   });
 
   const handleSetup = async (id?: any) => {
@@ -92,7 +103,7 @@ export default function Edit() {
         const articleFound: any = await fetchArticleById(id);
         if (!articleFound) {
           if (router?.query?.f === 'search') {
-            router.push('/app/ee24/search');
+            router.push('/app/repository/search');
           } else {
             router.push('/app/data/articles');
           }
@@ -124,7 +135,7 @@ export default function Edit() {
 
   const handleDeleteArticle = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
-    showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/ee24/search' : '/app/data/articles');
+    showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/repository/search' : '/app/data/articles');
   };
 
   const handleSubmit = async () => {
@@ -142,46 +153,43 @@ export default function Edit() {
         topics: form.topics || null,
         euRelation: form.euRelation || null,
         countryOfOrigin: form.countryOfOrigin || null,
-        contentLocation: form.contentLocation || null
+        contentLocation: form.contentLocation || null,
+        claimReviews: form.claimReviews,
+        evidences: form.evidences
       };
-      if (articleType && isDebunkArticle(articleType)) {
+      payload = {
+        ...payload
+      };
+
+      if (articleType === ArticleType.Factcheck) {
+        const authorData = Object.fromEntries(
+          Object.entries({
+            author: form.claimReviews[0].itemReviewed.author || null,
+            politicalParty: form.claimReviews[0].itemReviewed.politicalParty || null
+          }).filter(v => v[1] != null)
+        );
+
         payload = {
           ...payload,
-          claimreviewed: form.claimreviewed,
-          claimreviewedNative: form.claimreviewedNative,
-          reviewRating: form.reviewRating,
-          itemReviewed: {
-            appearances: form.itemReviewed.appearances.map(appearance => Object.fromEntries(Object.entries(appearance).filter(v => v[1])))
-          }
-        };
-
-        if (form.itemReviewed.datePublished) {
-          payload = {
-            ...payload,
+          claimReviews: payload.claimReviews.map((claimReview: any) => ({
+            ...claimReview,
             itemReviewed: {
-              ...payload.itemReviewed,
-              datePublished: form.itemReviewed.datePublished
-            }
-          };
-        }
-
-        if (articleType === ArticleType.Factcheck) {
-          const authorData = Object.fromEntries(
-            Object.entries({ author: form.itemReviewed.author || null, politicalParty: form.itemReviewed.politicalParty || null }).filter(
-              v => v[1] != null
-            )
-          );
-
-          payload = {
-            ...payload,
-            itemReviewed: {
-              ...payload.itemReviewed,
+              ...claimReview.itemReviewed,
               ...authorData
             }
-          };
-        }
+          }))
+        };
+      } else if (articleType === ArticleType.Prebunk) {
+        payload = {
+          ...payload,
+          claimReviews: payload.claimReviews.map((obj: any) => {
+            const { ...rest } = obj;
+            delete rest.itemReviewed;
+            return rest;
+          })
+        };
       }
-
+      payload = removeFalsyValues(payload);
       await updateArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
 
       let params = {};
@@ -193,7 +201,7 @@ export default function Edit() {
       fetchArticles(params);
 
       if (router?.query?.f === 'search') {
-        router.push('/app/ee24/search');
+        router.push('/app/repository/search');
       } else {
         router.push('/app/data/articles');
       }
@@ -246,43 +254,25 @@ export default function Edit() {
             />
           </div>
 
-          {step === 0 ? (
-            articleType ? (
-              isDebunkArticle(articleType) ? (
-                <EditDebunkArticleDraftForm
-                  onBack={() => setStep(0)}
-                  form={form}
-                  ogForm={ogForm}
-                  setForm={setForm}
-                  type={articleType}
-                  onContinue={() => setStep(1)}
-                />
-              ) : (
-                <EditArticleDraftForm
-                  onBack={() => setStep(0)}
-                  form={form}
-                  ogForm={ogForm}
-                  setForm={setForm}
-                  type={articleType}
-                  onContinue={() => setStep(1)}
-                />
-              )
-            ) : null
+          {step === 0 && articleType ? (
+            <ArticleForm
+              onBack={() => setStep(0)}
+              form={form}
+              ogForm={ogForm}
+              setForm={setForm}
+              type={articleType}
+              onContinue={() => setStep(1)}
+            />
           ) : null}
-          {step === 1 ? (
-            articleType ? (
-              isDebunkArticle(articleType) ? (
-                <DebunkArticlePreviewForm
-                  onBack={() => setStep(0)}
-                  form={form}
-                  setForm={setForm}
-                  type={articleType}
-                  onPublish={handleSubmit}
-                />
-              ) : (
-                <ArticlePreviewForm onBack={() => setStep(0)} form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
-              )
-            ) : null
+          {step === 1 && articleType ? (
+            <ArticleForm
+              preview={true}
+              onBack={() => setStep(0)}
+              form={form}
+              setForm={setForm}
+              type={articleType}
+              onPublish={handleSubmit}
+            />
           ) : null}
           {width >= 768 && <div style={{ width: '25%' }}></div>}
         </Row>

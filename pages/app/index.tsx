@@ -12,7 +12,7 @@ export default function Index() {
     const path = {
       [ROLES.SUPER_ADMIN]: '/app/admin/organizations',
       [ROLES.ADMIN]: '/app/admin/users',
-      [ROLES.RESEARCHER]: '/app/ee24/search',
+      [ROLES.RESEARCHER]: '/app/repository/search',
       [ROLES.FACT_CHECKER]: '/app/data/articles',
       [ROLES.NONE]: '/auth/sign-in'
     }[role];

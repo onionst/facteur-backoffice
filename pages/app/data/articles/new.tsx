@@ -2,10 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { File } from 'react-feather';
 import Row from '@/bases/Row/Row';
-import ArticleDraftForm from '@/components/Form/ArticleDrafts/ArticleDraftForm';
-import DebunkArticleDraftForm from '@/components/Form/ArticleDrafts/DebunkArticleDraftForm';
-import ArticlePreviewForm from '@/components/Form/ArticlePreviews/ArticlePreviewForm';
-import DebunkArticlePreviewForm from '@/components/Form/ArticlePreviews/DebunkArticlePreviewForm';
+import ArticleForm from '@/components/Form/ArticleDrafts/ArticleForm';
 import ArticlePublished from '@/components/Form/ArticlePublish';
 import SelectArticleType, { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
@@ -15,15 +12,17 @@ import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
 import useWindowSize from '@/hooks/useWindowWidth';
+import { removeFalsyValues } from '@/utils/validateUrl';
 
 export default function New() {
   const router = useRouter();
   const { session } = useAuth();
-  const { createArticle, fetchArticles, isDebunkArticle } = useArticles();
+  const { createArticle, fetchArticles } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
   const [form, setForm] = useState({
+    externalId: '',
     type: '',
     url: '',
     headline: '',
@@ -36,16 +35,25 @@ export default function New() {
     euRelation: '',
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
-    claimreviewed: '',
-    claimreviewedNative: '',
-    reviewRating: '',
-    itemReviewed: {
-      datePublished: null,
-      author: '',
-      politicalParty: '',
-      appearances: []
-    },
-    associatedClaimReview: []
+    claimReviews: [
+      {
+        claimReviewed: '',
+        claimReviewedNative: '',
+        reviewRating: '',
+        itemReviewed: {
+          datePublished: null,
+          author: '',
+          politicalParty: '',
+          appearances: [
+            {
+              url: ''
+            }
+          ]
+        },
+        associatedClaimReview: []
+      }
+    ],
+    evidences: []
   });
 
   const handleSubmit = async () => {
@@ -62,46 +70,44 @@ export default function New() {
         topics: form.topics || null,
         euRelation: form.euRelation || null,
         countryOfOrigin: form.countryOfOrigin || null,
-        contentLocation: form.contentLocation || null
+        contentLocation: form.contentLocation || null,
+        claimReviews: structuredClone(form.claimReviews),
+        evidences: structuredClone(form.evidences)
       };
-      if (articleType && isDebunkArticle(articleType)) {
+      payload = {
+        ...payload
+      };
+
+      if (articleType === ArticleType.Factcheck) {
+        const authorData = Object.fromEntries(
+          Object.entries({
+            author: form.claimReviews[0].itemReviewed.author || null,
+            politicalParty: form.claimReviews[0].itemReviewed.politicalParty || null
+          }).filter(v => v[1] != null)
+        );
+
         payload = {
           ...payload,
-          claimreviewed: form.claimreviewed,
-          claimreviewedNative: form.claimreviewedNative,
-          reviewRating: form.reviewRating,
-          itemReviewed: {
-            appearances: form.itemReviewed.appearances.map(appearance => Object.fromEntries(Object.entries(appearance).filter(v => v[1])))
-          }
-        };
-
-        if (form.itemReviewed.datePublished) {
-          payload = {
-            ...payload,
+          claimReviews: payload.claimReviews.map((claimReview: any) => ({
+            ...claimReview,
             itemReviewed: {
-              ...payload.itemReviewed,
-              datePublished: form.itemReviewed.datePublished
-            }
-          };
-        }
-
-        if (articleType === ArticleType.Factcheck) {
-          const authorData = Object.fromEntries(
-            Object.entries({ author: form.itemReviewed.author || null, politicalParty: form.itemReviewed.politicalParty || null }).filter(
-              v => v[1] != null
-            )
-          );
-
-          payload = {
-            ...payload,
-            itemReviewed: {
-              ...payload.itemReviewed,
+              ...claimReview.itemReviewed,
               ...authorData
             }
-          };
-        }
+          }))
+        };
+      } else if (articleType === ArticleType.Prebunk) {
+        payload = {
+          ...payload,
+          claimReviews: payload.claimReviews.map((obj: any) => {
+            const { ...rest } = obj;
+            delete rest.itemReviewed;
+            delete rest.appearances;
+            return rest;
+          })
+        };
       }
-
+      payload = removeFalsyValues(payload);
       await createArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
       fetchArticles({
         publisher: session.organization?.domain
@@ -145,6 +151,7 @@ export default function New() {
               onSelect={type => {
                 setArticleType(type);
                 setForm({
+                  externalId: '',
                   type: '',
                   url: '',
                   headline: '',
@@ -157,56 +164,42 @@ export default function New() {
                   euRelation: '',
                   countryOfOrigin: session.organization?.country || '',
                   contentLocation: [],
-                  claimreviewed: '',
-                  claimreviewedNative: '',
-                  reviewRating: '',
-                  itemReviewed: {
-                    datePublished: null,
-                    author: '',
-                    politicalParty: '',
-                    appearances: []
-                  },
-                  associatedClaimReview: []
+                  claimReviews: [
+                    {
+                      claimReviewed: '',
+                      claimReviewedNative: '',
+                      reviewRating: '',
+                      itemReviewed: {
+                        datePublished: null,
+                        author: '',
+                        politicalParty: '',
+                        appearances: [
+                          {
+                            url: ''
+                          }
+                        ]
+                      },
+                      associatedClaimReview: []
+                    }
+                  ],
+                  evidences: []
                 });
                 setStep(1);
               }}
             />
           )}
-          {step === 1 ? (
-            articleType ? (
-              isDebunkArticle(articleType) ? (
-                <DebunkArticleDraftForm
-                  onBack={() => setStep(0)}
-                  form={form}
-                  setForm={setForm}
-                  type={articleType}
-                  onContinue={() => setStep(2)}
-                />
-              ) : (
-                <ArticleDraftForm
-                  onBack={() => setStep(0)}
-                  form={form}
-                  setForm={setForm}
-                  type={articleType}
-                  onContinue={() => setStep(2)}
-                />
-              )
-            ) : null
+          {step === 1 && articleType ? (
+            <ArticleForm onBack={() => setStep(0)} form={form} setForm={setForm} type={articleType} onContinue={() => setStep(2)} />
           ) : null}
-          {step === 2 ? (
-            articleType ? (
-              isDebunkArticle(articleType) ? (
-                <DebunkArticlePreviewForm
-                  onBack={() => setStep(1)}
-                  form={form}
-                  setForm={setForm}
-                  type={articleType}
-                  onPublish={handleSubmit}
-                />
-              ) : (
-                <ArticlePreviewForm onBack={() => setStep(1)} form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
-              )
-            ) : null
+          {step === 2 && articleType ? (
+            <ArticleForm
+              preview={true}
+              onBack={() => setStep(1)}
+              form={form}
+              setForm={setForm}
+              type={articleType}
+              onPublish={handleSubmit}
+            />
           ) : null}
           {step === 3 ? <ArticlePublished /> : null}
           {width >= 768 && <div style={{ width: '25%' }}></div>}

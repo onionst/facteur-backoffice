@@ -32,7 +32,7 @@ export default function Sidebar(props: SidebarProps) {
   const router = useRouter();
 
   useEffect(() => {
-    if (router.asPath.includes('/ee24/search')) {
+    if (router.asPath.includes('/repository/search')) {
       setCollapsed(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

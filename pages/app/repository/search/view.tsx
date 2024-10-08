@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import { Edit, File, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import Row from '@/bases/Row/Row';
-import ArticleViewForm from '@/components/Form/ArticleViews/ArticleViewForm';
-import DebunkArticleViewForm from '@/components/Form/ArticleViews/DebunkArticleViewForm';
+import ArticleView from '@/components/Form/ArticleViews/ArticleView';
 import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
 import Wrapper from '@/components/Wrapper/Wrapper';
@@ -23,7 +22,7 @@ export default function View() {
   const [loading, setLoading] = useState<boolean>(true);
   const { session } = useAuth();
   const [articleId, setArticleId] = useState<string>('');
-  const { fetchArticleData, fetchArticleById, isDebunkArticle } = useArticles();
+  const { fetchArticleData, fetchArticleById } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
   const { width } = useWindowSize();
@@ -44,8 +43,8 @@ export default function View() {
     euRelation: '',
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
-    claimreviewed: '',
-    claimreviewedNative: '',
+    claimReviewed: '',
+    claimReviewedNative: '',
     reviewRating: '',
     itemReviewed: {
       datePublished: null,
@@ -58,7 +57,7 @@ export default function View() {
 
   const handleDeleteArticle = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
-    showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/ee24/search' : '/app/data/articles');
+    showDeleteArticle(articleId, router?.query?.f === 'search' ? '/app/repository/search' : '/app/data/articles');
   };
 
   const handleSetup = async (id?: any) => {
@@ -70,7 +69,7 @@ export default function View() {
         const articleFound: any = await fetchArticleById(id);
         if (!articleFound) {
           if (router?.query?.f === 'search') {
-            router.push('/app/ee24/search');
+            router.push('/app/repository/search');
           } else {
             router.push('/app/data/articles');
           }
@@ -145,13 +144,7 @@ export default function View() {
         <Row align="SPACE" style={{ alignItems: 'flex-start' }}>
           {width >= 768 && <div style={{ width: '25%' }}></div>}
 
-          {articleType ? (
-            isDebunkArticle(articleType) ? (
-              <DebunkArticleViewForm form={form} type={articleType} />
-            ) : (
-              <ArticleViewForm form={form} type={articleType} />
-            )
-          ) : null}
+          {articleType ? <ArticleView form={form} type={articleType} /> : null}
           {width >= 768 && <div style={{ width: '25%' }}></div>}
         </Row>
       </Wrapper>

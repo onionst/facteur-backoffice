@@ -5,6 +5,7 @@ export interface IArticleDraft {
   ogForm?: any;
   setForm: any;
   type: ArticleType;
-  onContinue: (form: any) => void;
+  onContinue?: (form: any) => void;
   onBack: () => void;
+  onPublish?: () => void;
 }

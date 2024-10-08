@@ -1,6 +1,5 @@
 import { Divider, Tag } from 'antd';
 import dayjs from 'dayjs';
-import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleView } from './articleView.interface';
 import s from './ArticleViewForm.module.scss';
 import { DatePicker } from '@/bases/DatePicker/DatePicker';
@@ -33,7 +32,7 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
           </Card>
 
           <Input
-            label={`URL of the ${props.type === ArticleType.Narrative ? 'report' : 'article'}`}
+            label={'URL of the article'}
             type="url"
             name="url"
             disabled
