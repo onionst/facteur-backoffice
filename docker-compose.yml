@@ -1,7 +1,7 @@
 version: '3'
 services:
-  ee24-backoffice:
-    image: newtral/efcsn-backoffice:dev
+  backoffice-factcricis-svc:
+    image: newtral/backoffice-factcricis-svc:dev
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,4 +13,4 @@ services:
       - GOOGLE_OAUTH_ID=254095989607-19rbci1m32qsdb66e51514pmre9cgrds.apps.googleusercontent.com
     ports:
       - 3000:3000
-    container_name: efcsn-backoffice
+    container_name: backoffice-factcricis-svc
