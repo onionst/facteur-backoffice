@@ -142,7 +142,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     }
   };
 
-  const isDebunkArticle = (articleType: ArticleType) => [ArticleType.Factcheck, ArticleType.Debunk].includes(articleType);
+  const isDebunkArticle = (articleType: ArticleType) => [ArticleType.Factcheck].includes(articleType);
 
   const handleFetchUrlMetadata = async (
     articleType: ArticleType,
