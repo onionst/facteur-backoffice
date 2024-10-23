@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.5.0%0Dv1.4.1#diff) (2024-10-23)
+
+
+### Features
+
+* rename to EuroClimateCheck ([ec80610](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/ec8061088d95b61895824aa8cf142f69c95d121b))
+
 ### [1.4.1](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.4.1%0Dv1.4.0#diff) (2024-06-21)
 
 ## [1.4.0](https://bitbucket.org/newtralmedia/ee24-backoffice/branches/compare/v1.4.0%0Dv1.3.0#diff) (2024-05-29)
