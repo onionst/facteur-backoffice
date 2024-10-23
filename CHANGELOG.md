@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.6.0%0Dv1.5.1#diff) (2024-10-23)
+
+
+### Features
+
+* rename docker image ([7762d76](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/7762d766b90613a0af33e48ede1c19e8952e721c))
+
 ### [1.5.1](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.5.1%0Dv1.5.0#diff) (2024-10-23)
 
 ## [1.5.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.5.0%0Dv1.4.1#diff) (2024-10-23)
