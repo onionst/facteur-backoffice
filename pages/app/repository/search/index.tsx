@@ -85,7 +85,7 @@ export default function Repository() {
 
   return (
     <>
-      <Header icon={<SearchIcon />} title="FactCricis Repository" />
+      <Header icon={<SearchIcon />} title="EuroClimateCheck Repository" />
       <Wrapper>
         <Grid size="20-80">
           <div className="p-rel">

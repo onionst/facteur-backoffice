@@ -87,7 +87,7 @@ export default function EE24Search(props: EE24SearchProps) {
               type="text"
               disabled={uploadingImage}
               className={s['ds-navbar__left-input']}
-              placeholder="Search in the FactCricis dataset..."
+              placeholder="Search in the EuroClimateCheck dataset..."
             />
             <Uploader
               customVideoManagment

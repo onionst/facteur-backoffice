@@ -56,7 +56,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'repository',
     access: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
-    name: 'FactCricis Dataset',
+    name: 'EuroClimateCheck Dataset',
     type: 'MENU',
     sections: [
       {
