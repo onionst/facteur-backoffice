@@ -1,13 +1,13 @@
 import Store from 'store';
-import { api, ee24api, parseUrl } from './api';
-import { Filter } from '@/components/EE24Filter/EE24Filter';
+import { api, repositoryApi, parseUrl } from './api';
+import { Filter } from '@/components/RepositoryFilter/RepositoryFilter';
 import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Article } from '@/dtos/articles/article.dto';
 import { cleanObject } from '@/utils/clean';
 
 const PREFIX = '/articles';
 
-export const FetchEE24Articles = async (
+export const FetchRepositoryArticles = async (
   filter: Filter & { search: string; page?: number; limit?: number }
 ): Promise<{
   articles: Article[];
@@ -18,7 +18,7 @@ export const FetchEE24Articles = async (
     nextPage: number | null;
   };
 }> => {
-  const response = await ee24api.get(parseUrl(PREFIX), { params: cleanObject(filter) });
+  const response = await repositoryApi.get(parseUrl(PREFIX), { params: cleanObject(filter) });
   const headers = response?.headers;
   const current = parseInt(headers['pagination-page']);
   const maxPage = parseInt(headers['pagination-total-pages']);
@@ -33,12 +33,12 @@ export const FetchEE24Articles = async (
   };
 };
 
-export const DownloadEE24Articles = async (filter: Filter & { search: string }) => {
+export const DownloadRepositoryArticles = async (filter: Filter & { search: string }) => {
   try {
     const headers = new Headers({
       Authorization: `Bearer ${Store.get(STORAGE_KEYS.ACCESS_TOKEN)}`
     });
-    const url = ee24api.getUri({
+    const url = repositoryApi.getUri({
       url: parseUrl(PREFIX),
       params: cleanObject(filter)
     });
@@ -50,11 +50,11 @@ export const DownloadEE24Articles = async (filter: Filter & { search: string }) 
     console.error('Error fetching data:', error);
   }
 };
-export const FetchEE24ArticleById = async (id: string): Promise<Article> => {
-  const response = await ee24api.get(parseUrl(PREFIX, `/id/${id}`));
+export const FetchRepositoryArticleById = async (id: string): Promise<Article> => {
+  const response = await repositoryApi.get(parseUrl(PREFIX, `/id/${id}`));
   return response.data;
 };
-export const FetchEE24ArticlesByImage = async (
+export const FetchRepositoryArticlesByImage = async (
   url: string
 ): Promise<{
   articles: Article[];
@@ -79,7 +79,7 @@ export const FetchEE24ArticlesByImage = async (
   };
 };
 
-export const FetchEE24ArticlesByVideoOrAudio = async (
+export const FetchRepositoryArticlesByVideoOrAudio = async (
   url: string
 ): Promise<{
   articles: Article[];
@@ -104,7 +104,7 @@ export const FetchEE24ArticlesByVideoOrAudio = async (
   };
 };
 
-export const FetchEE24ArticlesByVideo = async (
+export const FetchRepositoryArticlesByVideo = async (
   fingerPrints: any[]
 ): Promise<{
   articles: Article[];

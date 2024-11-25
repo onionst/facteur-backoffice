@@ -17,7 +17,7 @@ export default function Banner(props: BannerProps) {
         </Link>
       </div>
       <Image
-        alt="ee24"
+        alt="EuroClimateCheck"
         style={{ width: '100%', height: 160, minHeight: 160, maxHeight: 160, minWidth: '100%', maxWidth: '100%', objectFit: 'cover' }}
         src={props.src}
       />

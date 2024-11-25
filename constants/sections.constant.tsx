@@ -66,14 +66,6 @@ export const SECTIONS: Section[] = [
         name: 'Search',
         type: 'ITEM',
         path: '/app/repository/search'
-      },
-      {
-        id: 'repository.trends',
-        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN, ROLES.RESEARCHER],
-        icon: <TrendingUp size={18} strokeWidth={2.3} color="#4b5675" />,
-        name: 'Global Trends',
-        type: 'ITEM',
-        path: '/app/repository/trendings'
       }
     ].filter(item => SETTINGS.PUBLIC_SECTIONS.includes(item.id))
   },

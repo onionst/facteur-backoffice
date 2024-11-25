@@ -1,6 +1,6 @@
-# EE24 Backoffice frontend
+# EuroClimateCheck Backoffice frontend
 
-Frontend of EFCSN EE24 Backoffice project.
+Frontend of EFCSN EuroClimateCheck Backoffice project.
 
 ## Environment variables
 

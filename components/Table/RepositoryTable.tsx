@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import { Empty, Popover, Skeleton } from 'antd';
 import { useMemo, useState } from 'react';
-import { FileType } from '../EE24Search/EE24Search';
+import { FileType } from '../RepositorySearch/RepositorySearch';
 import s from './Table.module.scss';
 import Button from '@/bases/Button/Button';
 import Image from '@/bases/Image/Image';
 import Video from '@/bases/Video/Video';
 
-export type EE24TableProps = {
+export type RepositoryTableProps = {
   firstExtended?: boolean;
   columns: any[];
   data: any[][];
@@ -16,7 +16,7 @@ export type EE24TableProps = {
   onRowClick?: (index: number) => void;
   onReset: () => void;
 };
-export type EE24HeadlineProps = {
+export type RepositoryHeadlineProps = {
   image?: string;
   headline?: string;
 };
@@ -98,7 +98,7 @@ export function NotFound(props: { withoutButton?: boolean; type: FileType; value
 
   return render;
 }
-export function EE24Headline(props: EE24HeadlineProps) {
+export function RepositoryHeadline(props: RepositoryHeadlineProps) {
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
   return (
@@ -118,7 +118,7 @@ export function EE24Headline(props: EE24HeadlineProps) {
           onMouseOver={() => setShowPreview(true)}
           onMouseLeave={() => setShowPreview(false)}
           src={props.image || '/assets/portraits/image.svg'}
-          alt={'ee24 image'}
+          alt={'repository image'}
         />
       </Popover>
       <p>{props.headline}</p>
@@ -126,7 +126,7 @@ export function EE24Headline(props: EE24HeadlineProps) {
   );
 }
 
-export function EE24Table(props: EE24TableProps) {
+export function RepositoryTable(props: RepositoryTableProps) {
   const Columns = useMemo(
     () =>
       props.columns.map((title, index) => (

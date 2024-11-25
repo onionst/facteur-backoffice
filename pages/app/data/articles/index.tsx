@@ -11,7 +11,7 @@ import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
 import ArticleSearch from '@/components/Search/ArticlesSearch';
-import { EE24Headline, NotFound } from '@/components/Table/EE24Table';
+import { RepositoryHeadline, NotFound } from '@/components/Table/RepositoryTable';
 import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { ARTICLES_LIMIT_PER_PAGE, useArticles } from '@/contexts/articles.context';
@@ -94,7 +94,7 @@ export default function Articles() {
             }}
             notFound={<NotFound withoutButton value="" onClick={() => setFilter({})} type="TEXT" />}
             data={articles.map(article => [
-              <EE24Headline key={article?.externalId} image={article?.image} headline={article?.headlineNative} />,
+              <RepositoryHeadline key={article?.externalId} image={article?.image} headline={article?.headlineNative} />,
               <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
                 {article?.type}
               </Badge>,

@@ -13,21 +13,21 @@ import Row from '@/bases/Row/Row';
 import { Sorter } from '@/bases/Sorter/Sorter';
 import Video from '@/bases/Video/Video';
 import Card from '@/components/Card/Card';
-import EE24Filter, { Filter } from '@/components/EE24Filter/EE24Filter';
-import { FileType } from '@/components/EE24Search/EE24Search';
 import Grid from '@/components/Grid/Grid';
 import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
-import EE24Search from '@/components/Search/EE24Search';
-import { EE24Headline, EE24Table } from '@/components/Table/EE24Table';
+import RepositoryFilter, { Filter } from '@/components/RepositoryFilter/RepositoryFilter';
+import { FileType } from '@/components/RepositorySearch/RepositorySearch';
+import RepositorySearch from '@/components/Search/RepositorySearch';
+import { RepositoryHeadline, RepositoryTable } from '@/components/Table/RepositoryTable';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { FILE_TYPES } from '@/constants/accept';
 import { ROLES } from '@/constants/roles.constants';
 import { useAuth } from '@/contexts/auth.context';
-import { EE24_ARTICLES_LIMIT_PER_PAGE, useEE24 } from '@/contexts/ee24.context';
 import { useFiles } from '@/contexts/files.context';
 import { useModal } from '@/contexts/modal.context';
+import { ARTICLES_LIMIT_PER_PAGE, useRepository } from '@/contexts/repository.context';
 import { plainShowing } from '@/utils/plainShowing';
 import { safeReturn } from '@/utils/safeReturn';
 
@@ -37,9 +37,16 @@ export default function Repository() {
   const { session } = useAuth();
   const [portrait, setPortait] = useState<string>('');
   const [searchType, setSearchType] = useState<FileType>('TEXT');
-  const { articles, page, fetchEE24Articles, fetchEE24ArticlesByImage, fetchEE24ArticlesByVideo, fetchEE24ArticlesByAudio, ...ee24Props } =
-    useEE24();
-  const { showDownloadEE24Articles } = modals.ee24;
+  const {
+    articles,
+    page,
+    fetchRepositoryArticles,
+    fetchRepositoryArticlesByImage,
+    fetchRepositoryArticlesByVideo,
+    fetchRepositoryArticlesByAudio,
+    ...repositoryProps
+  } = useRepository();
+  const { showDownloadRepositoryArticles: showDownloaRepositoryArticles } = modals.repository;
   const [key, setKey] = useState(Date.now());
   const [filter, setFilter] = useState<Filter & { search: string }>({ order: '-datePublished', search: '' });
   const { fingerPrints, videoUrl } = useFiles();
@@ -50,27 +57,27 @@ export default function Repository() {
         setSearchType('TEXT');
         setFilter({ order: '-datePublished', search: router.query.q });
         // @ts-ignore
-        setTimeout(() => fetchEE24Articles({ order: '-datePublished', search: router.query.q }), 150);
+        setTimeout(() => fetchRepositoryArticles({ order: '-datePublished', search: router.query.q }), 150);
       } else {
         if (router?.query?.ft === 'IMAGE') {
           setPortait(router?.query?.q);
           setSearchType('IMAGE');
-          fetchEE24ArticlesByImage(router?.query?.q);
+          fetchRepositoryArticlesByImage(router?.query?.q);
         } else if (router?.query?.ft === 'VIDEO') {
           setPortait(videoUrl);
           setSearchType('VIDEO');
-          fetchEE24ArticlesByVideo(fingerPrints, videoUrl);
+          fetchRepositoryArticlesByVideo(fingerPrints, videoUrl);
         } else if (router?.query?.ft === 'AUDIO') {
           setPortait(router?.query?.q);
           setSearchType('AUDIO');
-          fetchEE24ArticlesByAudio(router?.query?.q);
+          fetchRepositoryArticlesByAudio(router?.query?.q);
         }
         setFilter({ order: '-datePublished', search: '' });
       }
     } else {
       setSearchType('TEXT');
-      if (articles?.length === 0 && !ee24Props.loading) {
-        fetchEE24Articles({ order: '-datePublished', search: '' });
+      if (articles?.length === 0 && !repositoryProps.loading) {
+        fetchRepositoryArticles({ order: '-datePublished', search: '' });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,7 +85,7 @@ export default function Repository() {
 
   useEffect(() => {
     return () => {
-      safeReturn(() => fetchEE24Articles({ order: '-datePublished' }));
+      safeReturn(() => fetchRepositoryArticles({ order: '-datePublished' }));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -89,7 +96,7 @@ export default function Repository() {
       <Wrapper>
         <Grid size="20-80">
           <div className="p-rel">
-            <EE24Filter
+            <RepositoryFilter
               key={key}
               reset={() => {
                 setFilter(prev => ({
@@ -99,14 +106,14 @@ export default function Repository() {
                 setSearchType('TEXT');
                 setTimeout(() => {
                   // @ts-ignore
-                  fetchEE24Articles({ search: filter?.search, order: filter?.search ? '' : filter?.order });
+                  fetchRepositoryArticles({ search: filter?.search, order: filter?.search ? '' : filter?.order });
                   setKey(Date.now());
                 }, 150);
               }}
               filter={filter}
               onSubmit={() => {
                 setTimeout(() => {
-                  fetchEE24Articles(filter);
+                  fetchRepositoryArticles(filter);
                   setSearchType('TEXT');
                 }, 150);
               }}
@@ -121,7 +128,7 @@ export default function Repository() {
           </div>
           <Column align="LEFT">
             <Page>
-              <EE24Search
+              <RepositorySearch
                 withUploader
                 accept={{
                   'image/png': FILE_TYPES.images,
@@ -130,17 +137,17 @@ export default function Repository() {
                 onUpload={(url, type) => {
                   switch (type) {
                     case 'IMAGE':
-                      fetchEE24ArticlesByImage(url);
+                      fetchRepositoryArticlesByImage(url);
                       setPortait(url);
 
                       break;
                     case 'VIDEO':
-                      fetchEE24ArticlesByVideo(fingerPrints, videoUrl);
+                      fetchRepositoryArticlesByVideo(fingerPrints, videoUrl);
                       setPortait(url);
 
                       break;
                     case 'AUDIO':
-                      fetchEE24ArticlesByAudio(url);
+                      fetchRepositoryArticlesByAudio(url);
                       setPortait(url);
 
                       break;
@@ -164,7 +171,7 @@ export default function Repository() {
                   }
 
                   setTimeout(() => {
-                    fetchEE24Articles(filter);
+                    fetchRepositoryArticles(filter);
                     setSearchType('TEXT');
                   }, 150);
                 }}
@@ -188,7 +195,7 @@ export default function Repository() {
                             search: prev?.search
                           }));
                           setTimeout(() => {
-                            fetchEE24Articles({ search: filter.search });
+                            fetchRepositoryArticles({ search: filter.search });
                             setSearchType('TEXT');
                             setKey(Date.now());
                           }, 150);
@@ -216,7 +223,7 @@ export default function Repository() {
                             search: prev?.search
                           }));
                           setTimeout(() => {
-                            fetchEE24Articles({ search: filter.search });
+                            fetchRepositoryArticles({ search: filter.search });
                             setSearchType('TEXT');
                             setKey(Date.now());
                           }, 150);
@@ -244,7 +251,7 @@ export default function Repository() {
                             search: prev?.search
                           }));
                           setTimeout(() => {
-                            fetchEE24Articles({ search: filter.search });
+                            fetchRepositoryArticles({ search: filter.search });
                             setSearchType('TEXT');
                             setKey(Date.now());
                           }, 150);
@@ -256,15 +263,15 @@ export default function Repository() {
                   </Row>
                 </Card>
               )}
-              <EE24Table
-                notFound={ee24Props.notFound}
+              <RepositoryTable
+                notFound={repositoryProps.notFound}
                 onReset={() => {
                   setFilter({
                     order: '-datePublished',
                     search: ''
                   });
                   setTimeout(() => {
-                    fetchEE24Articles({ order: '-datePublished', search: '' });
+                    fetchRepositoryArticles({ order: '-datePublished', search: '' });
                     setSearchType('TEXT');
                     setKey(Date.now());
                   }, 150);
@@ -273,7 +280,7 @@ export default function Repository() {
                 onRowClick={(i: any) => {
                   window.open(articles[i].url, '_blank');
                 }}
-                loading={ee24Props.loading}
+                loading={repositoryProps.loading}
                 columns={[
                   'Title of the article/report',
                   'Name of the organization',
@@ -288,7 +295,7 @@ export default function Repository() {
                             order
                           }));
                           setTimeout(() => {
-                            fetchEE24Articles({ ...filter, order });
+                            fetchRepositoryArticles({ ...filter, order });
                             setSearchType('TEXT');
                           }, 150);
                         }}
@@ -303,7 +310,7 @@ export default function Repository() {
                   <div key="empty" />
                 ]}
                 data={articles.map(article => [
-                  <EE24Headline key={article?.url} image={article?.image} headline={article?.headline} />,
+                  <RepositoryHeadline key={article?.url} image={article?.image} headline={article?.headline} />,
                   article?.publisher,
                   <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
                     {article?.type}
@@ -377,7 +384,7 @@ export default function Repository() {
         <Row align="SPACE">
           <Row align="LEFT">
             {page.records > 0 && (
-              <IconButton type="button" onClick={() => showDownloadEE24Articles(filter)}>
+              <IconButton type="button" onClick={() => showDownloaRepositoryArticles(filter)}>
                 <Download color="#252f4a" size={16} />
               </IconButton>
             )}
@@ -385,19 +392,19 @@ export default function Repository() {
           </Row>
           <Row align="RIGHT">
             <Pagination
-              limit={EE24_ARTICLES_LIMIT_PER_PAGE}
+              limit={ARTICLES_LIMIT_PER_PAGE}
               currentPage={page.current + 1}
               totalRecordsCount={page.records}
               prevPage={() => {
-                fetchEE24Articles(filter, page.current);
+                fetchRepositoryArticles(filter, page.current);
                 setSearchType('TEXT');
               }}
               nextPage={() => {
-                fetchEE24Articles(filter, page.current + 1 + 1);
+                fetchRepositoryArticles(filter, page.current + 1 + 1);
                 setSearchType('TEXT');
               }}
               skip={skip => {
-                fetchEE24Articles(filter, skip);
+                fetchRepositoryArticles(filter, skip);
                 setSearchType('TEXT');
               }}
             />

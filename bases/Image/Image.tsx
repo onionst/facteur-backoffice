@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { DetailedHTMLProps, ImgHTMLAttributes, useEffect, useState } from 'react';
 import s from './Image.module.scss';
-import { FileType } from '@/components/EE24Search/EE24Search';
+import { FileType } from '@/components/RepositorySearch/RepositorySearch';
 import { FILE_TYPES } from '@/constants/accept';
 
 export type ImageProps = {
