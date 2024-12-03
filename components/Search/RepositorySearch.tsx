@@ -2,7 +2,7 @@ import { Popover } from 'antd';
 import { FormEvent, useEffect, useState } from 'react';
 import { Accept } from 'react-dropzone';
 import { Search as SearchIcon, X } from 'react-feather';
-import { FileType } from '../EE24Search/EE24Search';
+import { FileType } from '../RepositorySearch/RepositorySearch';
 import { Uploader } from '../Uploader/Uploader';
 import s from './Search.module.scss';
 import Button from '@/bases/Button/Button';
@@ -25,7 +25,7 @@ export type SearchProps = {
   withSelector?: Array<{ label: string; value: string }>;
 };
 
-export default function EE24Search(props: SearchProps) {
+export default function RepositorySearch(props: SearchProps) {
   const [portrait, setPortait] = useState('');
   const [fileType, setFileType] = useState<FileType>('NONE');
   const [uploadedUrl, setUploadedUrl] = useState<string>('');
@@ -90,17 +90,17 @@ export default function EE24Search(props: SearchProps) {
         trigger={[]}
         open={uploadedUrl != ''}
         content={
-          <div className={s['ds-ee24-search__popover']} key={uploadedUrl}>
-            <button type="button" className={s['ds-ee24-search__popover-x']} onClick={() => setUploadedUrl('')}>
+          <div className={s['ds-repository-search__popover']} key={uploadedUrl}>
+            <button type="button" className={s['ds-repository-search__popover-x']} onClick={() => setUploadedUrl('')}>
               <X color="#4b5675" size={18} />
             </button>
-            <div className={s['ds-ee24-search__popover-portrait']}>
+            <div className={s['ds-repository-search__popover-portrait']}>
               {fileType === 'IMAGE' && <Image key={portrait + 'image'} alt="portrait" src={portrait} />}
               {fileType === 'VIDEO' && <Video key={portrait + 'video'} src={portrait} />}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               {fileType === 'AUDIO' && <img key={portrait + 'audio'} alt="audio" src="/assets/portraits/audio.svg" />}
             </div>
-            <div className={s['ds-ee24-search__popover-form']}>
+            <div className={s['ds-repository-search__popover-form']}>
               <Button
                 theme="CTA"
                 type="button"

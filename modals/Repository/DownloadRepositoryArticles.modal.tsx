@@ -10,16 +10,16 @@ import { Segment } from '@/bases/Segment/Segment';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
-import { useEE24 } from '@/contexts/ee24.context';
+import { useRepository } from '@/contexts/repository.context';
 
-export type DownloadEE24ArticlesModalProps = {
+export type DownloadRepositoryArticlesModalProps = {
   id: string;
   filter: any;
 };
-export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps & ModalProps) => {
+export const DownloadRepositoryArticlesModal = (props: DownloadRepositoryArticlesModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [fileType, setFileType] = useState<string>(FileType.CSV);
-  const { downloadEE24Articles, page } = useEE24();
+  const { downloadRepositoryArticles: downloadRepositoryArticles, page } = useRepository();
   const [exportArticles, setExportArticles] = useState<number | string>();
 
   const handleChangeExportArticles = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +38,7 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
     setExportArticles('');
   };
 
-  const handleDownloadEE24Articles = async (e: FormEvent) => {
+  const handleDownloadRepositoryArticles = async (e: FormEvent) => {
     try {
       e?.preventDefault();
       setLoading(true);
@@ -50,7 +50,7 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
         filters = { ...filters, exportSize: exportArticles };
       }
 
-      const blob = await downloadEE24Articles(filters);
+      const blob = await downloadRepositoryArticles(filters);
 
       const filename = `articles-${dayjs().format('DD-MM-YYYY')}.${fileType === FileType.CSV ? 'csv' : fileType === FileType.XLSX ? 'xlsx' : 'json'}`;
 
@@ -84,7 +84,7 @@ export const DownloadEE24ArticlesModal = (props: DownloadEE24ArticlesModalProps 
   return (
     <Modal {...props} closeIcon={<X />} closable={!loading} maskClosable={!loading} onCancel={handleCancel}>
       <ModalHeader subTitle="Export articles" title="Select an export file type" />
-      <form className={s['ds-modal-form']} onSubmit={handleDownloadEE24Articles}>
+      <form className={s['ds-modal-form']} onSubmit={handleDownloadRepositoryArticles}>
         {!loading && (
           <Card>
             <Input label="File type" required>

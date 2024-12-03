@@ -1,62 +1,62 @@
 import { notification } from 'antd';
 import { createContext, useContext, useState } from 'react';
-import { Filter } from '@/components/EE24Filter/EE24Filter';
-import { FileType } from '@/components/EE24Search/EE24Search';
+import { Filter } from '@/components/RepositoryFilter/RepositoryFilter';
+import { FileType } from '@/components/RepositorySearch/RepositorySearch';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
 import {
-  DownloadEE24Articles,
-  FetchEE24ArticleById,
-  FetchEE24Articles,
-  FetchEE24ArticlesByImage,
-  FetchEE24ArticlesByVideo,
-  FetchEE24ArticlesByVideoOrAudio
-} from '@/services/ee24.service';
+  DownloadRepositoryArticles,
+  FetchRepositoryArticleById,
+  FetchRepositoryArticles,
+  FetchRepositoryArticlesByImage,
+  FetchRepositoryArticlesByVideo,
+  FetchRepositoryArticlesByVideoOrAudio
+} from '@/services/repository.service';
 
-export type EE24ArticlesPage = {
+export type RepositoryArticlesPage = {
   records: number;
   current: number;
   prevPage: number | null;
   nextPage: number | null;
 };
-export const EE24_ARTICLES_LIMIT_PER_PAGE = 20;
-export type EE24ContextProps = {
+export const ARTICLES_LIMIT_PER_PAGE = 20;
+export type RepositoryContextProps = {
   loading: boolean;
   notFound: { type: FileType; value: string } | null;
   articles: Article[];
   fetchArticleData: (id: string) => Promise<Article | undefined>;
   fetchArticleById: (id: string) => Promise<Article | undefined>;
-  page: EE24ArticlesPage;
-  downloadEE24Articles: (filter: Filter & { search?: string }) => Promise<Blob | undefined>;
-  fetchEE24ArticlesByImage: (url: string) => Promise<void>;
-  fetchEE24ArticlesByVideo: (fingerPrints: any[], portrait: string) => Promise<void>;
-  fetchEE24ArticlesByAudio: (url: string) => Promise<void>;
-  fetchEE24Articles: (filter: Filter & { search?: string }, pageIndex?: number) => Promise<void>;
+  page: RepositoryArticlesPage;
+  downloadRepositoryArticles: (filter: Filter & { search?: string }) => Promise<Blob | undefined>;
+  fetchRepositoryArticlesByImage: (url: string) => Promise<void>;
+  fetchRepositoryArticlesByVideo: (fingerPrints: any[], portrait: string) => Promise<void>;
+  fetchRepositoryArticlesByAudio: (url: string) => Promise<void>;
+  fetchRepositoryArticles: (filter: Filter & { search?: string }, pageIndex?: number) => Promise<void>;
 };
-export const EE24Context = createContext<EE24ContextProps>(
+export const RepositoryContext = createContext<RepositoryContextProps>(
   // @ts-ignore
   {}
 );
-export type EE24ProviderProps = {
+export type RepositoryProviderProps = {
   children: any;
 };
-export const EE24Provider = (props: EE24ProviderProps) => {
+export const RepositoryProvider = (props: RepositoryProviderProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [articles, setArticles] = useState<Article[]>([]);
   const [notFound, setNotFound] = useState<{ type: FileType; value: string } | null>(null);
-  const [page, setPage] = useState<EE24ArticlesPage>({
+  const [page, setPage] = useState<RepositoryArticlesPage>({
     current: 1,
     prevPage: null,
     nextPage: null,
     records: 0
   });
-  const fetchEE24Articles = async (filter: any, pageIndex: number = 1) => {
+  const fetchRepositoryArticles = async (filter: any, pageIndex: number = 1) => {
     try {
       setLoading(true);
-      const data = await FetchEE24Articles({
+      const data = await FetchRepositoryArticles({
         ...filter,
         page: pageIndex,
-        limit: EE24_ARTICLES_LIMIT_PER_PAGE
+        limit: ARTICLES_LIMIT_PER_PAGE
       });
 
       setArticles(data.articles);
@@ -102,7 +102,7 @@ export const EE24Provider = (props: EE24ProviderProps) => {
 
   const fetchArticleById = async (id: string): Promise<Article | undefined> => {
     try {
-      return await FetchEE24ArticleById(id);
+      return await FetchRepositoryArticleById(id);
     } catch (err: any) {
       console.error(err);
       if (typeof err?.response?.data?.message === 'object') {
@@ -122,9 +122,9 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     }
   };
 
-  const downloadEE24Articles = async (filter: any): Promise<Blob | undefined> => {
+  const downloadRepositoryArticles = async (filter: any): Promise<Blob | undefined> => {
     try {
-      const data = await DownloadEE24Articles({
+      const data = await DownloadRepositoryArticles({
         order: '-datePublished',
         ...filter,
         export: true
@@ -149,10 +149,10 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     }
   };
 
-  const fetchEE24ArticlesByImage = async (url: string) => {
+  const fetchRepositoryArticlesByImage = async (url: string) => {
     try {
       setLoading(true);
-      const data = await FetchEE24ArticlesByImage(url);
+      const data = await FetchRepositoryArticlesByImage(url);
       setArticles(data.articles);
       setPage({
         ...data.page,
@@ -184,10 +184,10 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     }
   };
 
-  const fetchEE24ArticlesByVideo = async (fingerPrints: any[], portrait: string) => {
+  const fetchRepositoryArticlesByVideo = async (fingerPrints: any[], portrait: string) => {
     try {
       setLoading(true);
-      const data = await FetchEE24ArticlesByVideo(fingerPrints);
+      const data = await FetchRepositoryArticlesByVideo(fingerPrints);
       setArticles(data.articles);
       setPage({
         ...data.page,
@@ -219,10 +219,10 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     }
   };
 
-  const fetchEE24ArticlesByAudio = async (url: string) => {
+  const fetchRepositoryArticlesByAudio = async (url: string) => {
     try {
       setLoading(true);
-      const data = await FetchEE24ArticlesByVideoOrAudio(url);
+      const data = await FetchRepositoryArticlesByVideoOrAudio(url);
       setArticles(data.articles);
       setPage({
         ...data.page,
@@ -259,16 +259,16 @@ export const EE24Provider = (props: EE24ProviderProps) => {
     notFound,
     articles,
     page,
-    fetchEE24Articles,
-    fetchEE24ArticlesByImage,
-    fetchEE24ArticlesByVideo,
-    fetchEE24ArticlesByAudio,
-    downloadEE24Articles,
+    fetchRepositoryArticles,
+    fetchRepositoryArticlesByImage,
+    fetchRepositoryArticlesByVideo,
+    fetchRepositoryArticlesByAudio,
+    downloadRepositoryArticles,
     fetchArticleById,
     fetchArticleData
   };
 
-  return <EE24Context.Provider value={context}>{props.children}</EE24Context.Provider>;
+  return <RepositoryContext.Provider value={context}>{props.children}</RepositoryContext.Provider>;
 };
 
-export const useEE24 = () => useContext(EE24Context);
+export const useRepository = () => useContext(RepositoryContext);

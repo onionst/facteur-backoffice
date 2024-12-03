@@ -1,6 +1,6 @@
-# EE24 Backoffice frontend
+# EuroClimateCheck Backoffice frontend
 
-Frontend of EFCSN EE24 Backoffice project.
+Frontend of EFCSN EuroClimateCheck Backoffice project.
 
 ## Environment variables
 
@@ -21,11 +21,10 @@ Frontend of EFCSN EE24 Backoffice project.
 First, run the development server:
 
 ```bash
-npm run dev
+npm run start:dev
 # or
-yarn dev
-# or
-pnpm dev
+yarn start:dev
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

@@ -4,12 +4,12 @@ import useWindowSize from '@/hooks/useWindowWidth';
 import { AccountModal } from '@/modals/Account.modal';
 import { DeleteArticleModal } from '@/modals/articles/DeleteArticle.modal';
 import { DownloadArticlesModal } from '@/modals/articles/DownloadArticles.modal';
-import { DownloadEE24ArticlesModal } from '@/modals/ee24/DownloadEE24Articles.modal';
 import { CreateOrganizationModal } from '@/modals/organizations/CreateOrganization.modal';
 import { DeleteOrganizationModal } from '@/modals/organizations/DeleteOrganization.modal';
 import { DownloadOrganizationsModal } from '@/modals/organizations/DownloadOrganizations.modal';
 import { EditOrganizationModal } from '@/modals/organizations/EditOrganization.modal';
 import { RestoreOrganizationModal } from '@/modals/organizations/RestoreOrganization.modal';
+import { DownloadRepositoryArticlesModal } from '@/modals/Repository/DownloadRepositoryArticles.modal';
 import { TFAEmailSentModal } from '@/modals/TFAEmailSent.modal';
 import { DeleteUserModal } from '@/modals/users/DeleteUser.modal';
 import { DeleteUserInvitationModal } from '@/modals/users/DeleteUserInvitation.modal';
@@ -42,8 +42,8 @@ export const ModalContext = createContext<{
     showDeleteArticle: (id: string, redirect?: string) => void;
     showDownloadArticles: (filter: any) => void;
   };
-  ee24: {
-    showDownloadEE24Articles: (filter: any) => void;
+  repository: {
+    showDownloadRepositoryArticles: (filter: any) => void;
   };
   // @ts-ignore
 }>({});
@@ -80,10 +80,10 @@ export const ModalProvider = (props: { children: any }) => {
   const [downloadArticlesFilter, setDownloadArticlesFilter] = useState<any>({});
   // <!--- articles --->
 
-  // <--- ee24 --->
-  const [downloadEE24ArticlesActive, setDownloadEE24ArticlesActive] = useState<string>('');
-  const [downloadEE24ArticlesFilter, setDownloadEE24ArticlesFilter] = useState<any>({});
-  // <!--- ee24 --->
+  // <--- Repository --->
+  const [downloadRepositoryArticlesActive, setDownloadRepositoryArticlesActive] = useState<string>('');
+  const [downloadRepositoryArticlesFilter, setDownloadRepositoryArticlesFilter] = useState<any>({});
+  // <!--- Repository --->
 
   useEffect(() => {
     setEmailSentActive(false);
@@ -131,11 +131,11 @@ export const ModalProvider = (props: { children: any }) => {
         }, 100);
       }
     },
-    ee24: {
-      showDownloadEE24Articles: (filter: any) => {
-        setDownloadEE24ArticlesFilter(filter);
+    repository: {
+      showDownloadRepositoryArticles: (filter: any) => {
+        setDownloadRepositoryArticlesFilter(filter);
         setTimeout(() => {
-          setDownloadEE24ArticlesActive(Date.now().toString());
+          setDownloadRepositoryArticlesActive(Date.now().toString());
         }, 100);
       }
     }
@@ -247,15 +247,15 @@ export const ModalProvider = (props: { children: any }) => {
             setDownloadArticlesFilter({});
           }}
         />
-        <DownloadEE24ArticlesModal
+        <DownloadRepositoryArticlesModal
           footer={null}
-          filter={downloadEE24ArticlesFilter}
+          filter={downloadRepositoryArticlesFilter}
           width={width <= 464 ? width - 40 : 424}
-          open={downloadEE24ArticlesActive != ''}
-          id={downloadEE24ArticlesActive}
+          open={downloadRepositoryArticlesActive != ''}
+          id={downloadRepositoryArticlesActive}
           onCancel={() => {
-            setDownloadEE24ArticlesActive('');
-            setDownloadEE24ArticlesFilter({});
+            setDownloadRepositoryArticlesActive('');
+            setDownloadRepositoryArticlesFilter({});
           }}
         />
         {props.children}

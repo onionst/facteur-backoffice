@@ -5,7 +5,6 @@ import s from '../Modals.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import Select from '@/bases/Select/Select';
-import Switch from '@/bases/Switch/Switch';
 import Card from '@/components/Card/Card';
 import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import { CountryISO } from '@/constants/country';
@@ -16,13 +15,11 @@ import { CreateOrganization } from '@/dtos/organizations/createOrganization.dto'
 export type CreateOrganizationModalProps = { id: string };
 export const CreateOrganizationModal = (props: CreateOrganizationModalProps & ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [climate, setClimate] = useState<boolean>(false);
   const [form, setForm] = useState<CreateOrganization>({
     name: '',
     domain: '',
     country: '',
-    language: '',
-    climate
+    language: ''
   });
   const { createOrganization } = useOrganizations();
 
@@ -31,8 +28,7 @@ export const CreateOrganizationModal = (props: CreateOrganizationModalProps & Mo
       name: form.name,
       domain: form.domain,
       country: form.country,
-      language: form.language,
-      climate
+      language: form.language
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.open]);
@@ -43,8 +39,7 @@ export const CreateOrganizationModal = (props: CreateOrganizationModalProps & Mo
       setLoading(true);
       const payload: CreateOrganization = {
         name: form.name?.trim(),
-        domain: form.domain?.trim(),
-        climate
+        domain: form.domain?.trim()
       };
 
       if (form.language) {
@@ -54,7 +49,7 @@ export const CreateOrganizationModal = (props: CreateOrganizationModalProps & Mo
         payload.country = form.country;
       }
       createOrganization(payload);
-      setForm({ name: '', domain: '', country: '', language: '', climate: false });
+      setForm({ name: '', domain: '', country: '', language: '' });
       setLoading(false);
       // @ts-ignore
       props.onCancel();
@@ -109,9 +104,6 @@ export const CreateOrganizationModal = (props: CreateOrganizationModalProps & Mo
             ]}
             onChange={v => setForm(prev => ({ ...prev, language: v }))}
           />
-        </Card>
-        <Card title="Member of Climate Facts Europe" style={{ background: '#FFF' }}>
-          <Switch checked={climate} onChange={CLIMATE => setClimate(CLIMATE)} left="Inactive" right="Active" />
         </Card>
         <div className={s['ds-modal-form__buttons']}>
           <Button disabled={form?.name === '' || form?.domain === ''} loading={loading} theme="CTA">

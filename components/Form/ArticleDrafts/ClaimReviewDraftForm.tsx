@@ -83,9 +83,9 @@ export default function ClaimReviewDraftForm(props: {
         <DatePicker
           label="Date of claim publication"
           value={
-            dayjs(claimReview.itemReviewed.datePublished).isValid()
-              ? dayjs(claimReview.itemReviewed.datePublished)
-              : claimReview.itemReviewed.datePublished
+            dayjs(claimReview?.itemReviewed?.datePublished).isValid()
+              ? dayjs(claimReview?.itemReviewed?.datePublished)
+              : claimReview?.itemReviewed?.datePublished
           }
           onChange={v => props.handleUpdate({ ...claimReview, itemReviewed: { ...claimReview.itemReviewed, datePublished: v?.toDate() } })}
           disabled={preview}
@@ -318,7 +318,7 @@ export default function ClaimReviewDraftForm(props: {
                 {!preview && appearanceIndex !== 0 && (
                   <Row align="RIGHT">
                     <span
-                      className="c-pointer mt-2"
+                      className="c-pointer mt-2 c-pointer bg-danger"
                       onClick={() =>
                         props.handleUpdate({
                           ...claimReview,

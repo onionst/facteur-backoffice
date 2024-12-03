@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { notification } from 'antd';
 import dayjs from 'dayjs';
 import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
@@ -151,9 +152,9 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     setFetchingUrlMetadata: any
   ): Promise<void> => {
     try {
-      setFetchingUrlMetadata(true);
+      const { metadata, claim_review_schema, language } = await fetchMetadata(articleType, url);
 
-      const { metadata, claimReview, language } = await fetchMetadata(articleType, url);
+      setFetchingUrlMetadata(true);
 
       setForm((prev: any) => ({
         ...prev,
@@ -167,13 +168,20 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
       if (isDebunkArticle(articleType)) {
         setForm((prev: any) => ({
           ...prev,
-          claimReviewedNative: claimReview?.claimReviewed,
-          itemReviewed: {
-            datePublished: claimReview?.itemReviewed?.datePublished ?? claimReview?.datePublished,
-            author: claimReview?.itemReviewed?.author?.name,
-            politicalParty: prev?.itemReviewed?.politicalParty,
-            appearances: prev?.itemReviewed?.appearances
-          }
+          claimReviews: prev.claimReviews.map((preClaimReview: any) => {
+            if (claim_review_schema?.claimReviewed === preClaimReview.claimReviewedNative || preClaimReview.claimReviewedNative === '') {
+              return {
+                claimReviewedNative: claim_review_schema?.claimReviewed,
+                itemReviewed: {
+                  datePublished: claim_review_schema?.itemReviewed?.datePublished ?? claim_review_schema?.datePublished,
+                  author: claim_review_schema?.itemReviewed?.author?.name,
+                  politicalParty: preClaimReview?.itemReviewed?.politicalParty,
+                  appearances: preClaimReview?.itemReviewed?.appearances
+                }
+              };
+            }
+            return preClaimReview;
+          })
         }));
       }
 

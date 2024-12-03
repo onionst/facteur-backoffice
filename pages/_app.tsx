@@ -6,11 +6,11 @@ import App, { AppContext, AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { ArticlesProvider } from '@/contexts/articles.context';
 import { AuthProvider } from '@/contexts/auth.context';
-import { EE24Provider } from '@/contexts/ee24.context';
 import { FilesProvider } from '@/contexts/files.context';
 import { HistoryProvider } from '@/contexts/history.context';
 import { ModalProvider } from '@/contexts/modal.context';
 import { OrganizationsProvider } from '@/contexts/organizations.context';
+import { RepositoryProvider } from '@/contexts/repository.context';
 import { TrendingsProvider } from '@/contexts/trendings.context';
 import { UsersProvider } from '@/contexts/users.context';
 import AppLayout from '@/layout/AppLayout/AppLayout';
@@ -52,7 +52,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ConfigProvider theme={theme}>
       <HistoryProvider>
-        <EE24Provider>
+        <RepositoryProvider>
           <FilesProvider>
             <TrendingsProvider>
               <ArticlesProvider>
@@ -74,7 +74,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               </ArticlesProvider>
             </TrendingsProvider>
           </FilesProvider>
-        </EE24Provider>
+        </RepositoryProvider>
       </HistoryProvider>
     </ConfigProvider>
   );

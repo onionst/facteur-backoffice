@@ -164,9 +164,9 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                     disabled
                     label="Date of claim publication"
                     value={
-                      dayjs(claimReview?.itemReviewed.datePublished).isValid()
-                        ? dayjs(claimReview?.itemReviewed.datePublished)
-                        : claimReview?.itemReviewed.datePublished
+                      dayjs(claimReview?.itemReviewed?.datePublished).isValid()
+                        ? dayjs(claimReview?.itemReviewed?.datePublished)
+                        : claimReview?.itemReviewed?.datePublished
                     }
                   />
                 </Row>

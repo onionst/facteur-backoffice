@@ -2,7 +2,7 @@ import { Popover } from 'antd';
 import { FormEvent, useState } from 'react';
 import { Search, X } from 'react-feather';
 import { Uploader } from '../Uploader/Uploader';
-import s from './EE24Search.module.scss';
+import s from './RepositorySearch.module.scss';
 import Button from '@/bases/Button/Button';
 import Image from '@/bases/Image/Image';
 import Row from '@/bases/Row/Row';
@@ -11,11 +11,11 @@ import { FILE_TYPES } from '@/constants/accept';
 import { useFiles } from '@/contexts/files.context';
 
 export type FileType = 'NONE' | 'TEXT' | 'IMAGE' | 'AUDIO' | 'VIDEO';
-export type EE24SearchProps = {
+export type RepositorySearchProps = {
   onSearch: (filter: { value: string; type: 'TEXT' | 'URL'; fileType: FileType }) => void;
 };
 
-export default function EE24Search(props: EE24SearchProps) {
+export default function RepositorySearch(props: RepositorySearchProps) {
   const [filter, setFilter] = useState<string>('');
   const [fileType, setFileType] = useState<FileType>('NONE');
   const [portrait, setPortait] = useState('');
@@ -37,23 +37,23 @@ export default function EE24Search(props: EE24SearchProps) {
   };
 
   return (
-    <form onSubmit={handleSearch} className={s['ds-ee24-search']}>
+    <form onSubmit={handleSearch} className={s['ds-repository-search']}>
       <Popover
         placement="bottomRight"
         trigger={[]}
         open={uploadedUrl != ''}
         content={
-          <div className={s['ds-ee24-search__popover']} key={uploadedUrl}>
-            <button type="button" className={s['ds-ee24-search__popover-x']} onClick={() => setUploadedUrl('')}>
+          <div className={s['ds-repository-search__popover']} key={uploadedUrl}>
+            <button type="button" className={s['ds-repository-search__popover-x']} onClick={() => setUploadedUrl('')}>
               <X color="#4b5675" size={18} />
             </button>
-            <div className={s['ds-ee24-search__popover-portrait']}>
+            <div className={s['ds-repository-search__popover-portrait']}>
               {fileType === 'IMAGE' && <Image key={portrait + 'image'} alt="portrait" src={portrait} />}
               {fileType === 'VIDEO' && <Video key={portrait + 'video'} src={portrait} />}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               {fileType === 'AUDIO' && <img key={portrait + 'audio'} alt="audio" src={portrait} />}
             </div>
-            <div className={s['ds-ee24-search__popover-form']}>
+            <div className={s['ds-repository-search__popover-form']}>
               <Button
                 theme="CTA"
                 type="button"
@@ -80,7 +80,7 @@ export default function EE24Search(props: EE24SearchProps) {
         }
       >
         <Row align="LEFT">
-          <div className={s['ds-ee24-search__input']}>
+          <div className={s['ds-repository-search__input']}>
             <input
               value={filter}
               onChange={v => setFilter(v.target.value)}

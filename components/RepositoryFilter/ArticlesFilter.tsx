@@ -5,7 +5,7 @@ import { X } from 'react-feather';
 import { ArticleType } from '../Form/SelectArticleType/SelectArticleType';
 import RadioGroup from '../RadioGroup/RadioGroup';
 import RangePicker from '../RangePicker/RangePicker';
-import s from './EE24Filter.module.scss';
+import s from './RepositoryFilter.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
@@ -33,14 +33,14 @@ export type Filter = {
   exportSize?: number;
   fileType?: FileType;
 };
-export type EE24FilterProps = {
+export type RepositoryFilterProps = {
   onChange: (filter: Filter) => void;
   onSubmit: () => void;
   reset: () => void;
   filter: Filter;
   setFilter: Dispatch<any>;
 };
-export default function ArticlesFilter(props: EE24FilterProps) {
+export default function ArticlesFilter(props: RepositoryFilterProps) {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [modified, setModified] = useState<boolean>(false);
   const { filter, setFilter } = props;
@@ -61,17 +61,17 @@ export default function ArticlesFilter(props: EE24FilterProps) {
   }, [filter]);
 
   return (
-    <div className={`${s['ds-ee24-filter__container']} ${s['ds-articles-filter__container']}`}>
-      <div className={`${s['ds-ee24-filter']} ${s['ds-articles-filter']}`}>
+    <div className={`${s['ds-repository-filter__container']} ${s['ds-articles-filter__container']}`}>
+      <div className={`${s['ds-repository-filter']} ${s['ds-articles-filter']}`}>
         <Row align="SPACE">
           <h4 style={{ lineHeight: '30px' }}>Filter</h4>
           {Object.values(filter).find(i => i) && (
-            <span className={`c-pointer ${s['ds-ee24-filter__bg--white']}`} onClick={() => props.reset()}>
+            <span className={`c-pointer ${s['ds-repository-filter__bg--white']}`} onClick={() => props.reset()}>
               Clear filter <X size={18} />
             </span>
           )}
         </Row>
-        <form className={s['ds-ee24-filter__form']}>
+        <form className={s['ds-repository-filter__form']}>
           <Input label="Date of article publication range">
             <RangePicker
               value={[filter.sinceDate ? dayjs(filter.sinceDate) : null, filter.untilDate ? dayjs(filter.untilDate) : null]}

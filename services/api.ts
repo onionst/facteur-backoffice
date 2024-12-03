@@ -12,7 +12,7 @@ export const api = axios.create({
   baseURL: SETTINGS.PUBLIC_API_URL
 });
 
-export const ee24api = axios.create({
+export const repositoryApi = axios.create({
   baseURL: SETTINGS.PUBLIC_ES_API_URL
 });
 

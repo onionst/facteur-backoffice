@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Plus } from 'react-feather';
-import EE24Search from '../EE24Search/EE24Search';
+import RepositorySearch from '../RepositorySearch/RepositorySearch';
 import s from './Navbar.module.scss';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
@@ -32,7 +32,7 @@ export default function Navbar(props: NavbarProps) {
           </IconButton>
         )}
         {!router.asPath.includes('/repository/search') && (
-          <EE24Search
+          <RepositorySearch
             onSearch={filter => {
               router.push(`/app/repository/search?q=${filter.value}&&c=${filter.type}&&ft=${filter.fileType}`);
             }}

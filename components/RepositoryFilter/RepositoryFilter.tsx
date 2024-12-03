@@ -6,7 +6,7 @@ import { X } from 'react-feather';
 import { ArticleType } from '../Form/SelectArticleType/SelectArticleType';
 import RadioGroup from '../RadioGroup/RadioGroup';
 import RangePicker from '../RangePicker/RangePicker';
-import s from './EE24Filter.module.scss';
+import s from './RepositoryFilter.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
@@ -40,13 +40,13 @@ export type Filter = {
   exportSize?: number;
   fileType?: FileType;
 };
-export type EE24FilterProps = {
+export type RepositoryFilterProps = {
   onChange: (filter: Filter) => void;
   onSubmit: () => void;
   reset: () => void;
   filter: Filter & { search: string };
 };
-export default function EE24Filter(props: EE24FilterProps) {
+export default function RepositoryFilter(props: RepositoryFilterProps) {
   const { listOrganizations } = useOrganizations();
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [filter, setFilter] = useState<Partial<Filter>>({});
@@ -92,17 +92,17 @@ export default function EE24Filter(props: EE24FilterProps) {
   }, [filter]);
 
   return (
-    <div className={s['ds-ee24-filter__container']}>
-      <div className={s['ds-ee24-filter']}>
+    <div className={s['ds-repository-filter__container']}>
+      <div className={s['ds-repository-filter']}>
         <Row align="SPACE">
           <h4 style={{ lineHeight: '30px' }}>Filter</h4>
           {Object.values(filter).find(i => i) && (
-            <span className={`c-pointer ${s['ds-ee24-filter__bg--white']}`} onClick={() => props.reset()}>
+            <span className={`c-pointer ${s['ds-repository-filter__bg--white']}`} onClick={() => props.reset()}>
               Clear filter <X size={18} />
             </span>
           )}
         </Row>
-        <form onSubmit={handleSubmit} className={s['ds-ee24-filter__form']}>
+        <form onSubmit={handleSubmit} className={s['ds-repository-filter__form']}>
           <Input label="Date of article publication range">
             <RangePicker
               value={[filter.sinceDate ? dayjs(filter.sinceDate) : null, filter.untilDate ? dayjs(filter.untilDate) : null]}
@@ -181,7 +181,7 @@ export default function EE24Filter(props: EE24FilterProps) {
               }
               setFilter((prev: any) => ({ ...prev, keywords: v.filter((keyword: string) => keyword?.length >= MIN_LENGTH_KEYWORDS) }));
             }}
-            placeholder="Add keywords separated by commas. e.g:Ukraine, Covid, EE24"
+            placeholder="Add keywords separated by commas. e.g:Ukraine, Covid"
           />
           <Input label="Rating">
             <Select
@@ -313,7 +313,7 @@ export default function EE24Filter(props: EE24FilterProps) {
             />
           )}
           {modified && !submitted && renders >= 2 ? (
-            <div className={s['ds-ee24-filter__apply']}>
+            <div className={s['ds-repository-filter__apply']}>
               <Row align="RIGHT">
                 <Button theme="CTA">
                   Apply filter <ArrowRightOutlined />

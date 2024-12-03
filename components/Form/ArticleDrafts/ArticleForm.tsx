@@ -2,7 +2,7 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Badge, Divider, notification } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
-import { Plus } from 'react-feather';
+import { Plus, Minus } from 'react-feather';
 import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
 import ClaimReviewDraftForm from './ClaimReviewDraftForm';
@@ -88,6 +88,13 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
     setForm((prev: any) => ({
       ...prev,
       claimReviews: form.claimReviews.filter((_: any, index: number) => index !== indexToRemove)
+    }));
+  };
+
+  const removeEvidence = async (indexToRemove: number) => {
+    setForm((prev: any) => ({
+      ...prev,
+      evidences: form.evidences.filter((_: any, index: number) => index !== indexToRemove)
     }));
   };
 
@@ -316,7 +323,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
         </Card>
         <Card>
           <h4>Claim Details</h4>
-          {form.claimReviews.map((claimReview: any, index: number) => {
+          {form.claimReviews?.map((claimReview: any, index: number) => {
             return (
               <ClaimReviewDraftForm
                 claimReview={claimReview}
@@ -348,7 +355,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
             <h4>Evidences</h4>
             <Divider style={{ margin: '8px 0' }} />
 
-            {form.evidences.map((evidence: any, index: number) => {
+            {form.evidences?.map((evidence: any, evidenceIndex: number) => {
               return (
                 <>
                   <div className="w-full ds-buttons-flex">
@@ -362,7 +369,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
                         setForm({
                           ...form,
                           evidences: form.evidences.map((currentEvidence: any, i: number) =>
-                            i === index ? { ...currentEvidence, url: v.target.value } : currentEvidence
+                            i === evidenceIndex ? { ...currentEvidence, url: v.target.value } : currentEvidence
                           )
                         });
                       }}
@@ -382,7 +389,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
                       setForm({
                         ...form,
                         evidences: form.evidences.map((currentEvidence: any, i: number) =>
-                          i === index ? { ...currentEvidence, title: v.target.value } : currentEvidence
+                          i === evidenceIndex ? { ...currentEvidence, title: v.target.value } : currentEvidence
                         )
                       });
                     }}
@@ -390,6 +397,11 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
                     placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
                     disabled={preview}
                   />
+                  {!preview && (
+                    <span onClick={() => removeEvidence(evidenceIndex)} className="c-pointer bg-danger">
+                      <Minus size={14} /> Remove evidence
+                    </span>
+                  )}
                 </>
               );
             })}
