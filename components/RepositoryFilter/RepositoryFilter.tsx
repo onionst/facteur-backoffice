@@ -14,7 +14,6 @@ import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
 import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { CountryISO } from '@/constants/country';
-import { EuRelation } from '@/constants/euRelation';
 import { LanguageISO } from '@/constants/language';
 import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
@@ -27,7 +26,6 @@ export type Filter = {
   type?: ArticleType[];
   untilDate?: Date;
   sinceDate?: Date;
-  euRelation?: EuRelation;
   publisher?: string;
   inLanguage?: LanguageISO;
   keywords?: string[];
@@ -142,27 +140,6 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
                 {
                   label: ArticleType.Prebunk,
                   value: ArticleType.Prebunk
-                }
-              ]}
-            />
-          </Input>
-          <Input label="EU relation">
-            <RadioGroup
-              onChange={(relation: any) => {
-                setModified(true);
-                setFilter(prev => ({
-                  ...prev,
-                  euRelation: relation
-                }));
-              }}
-              options={[
-                {
-                  label: EuRelation.Direct,
-                  value: EuRelation.Direct
-                },
-                {
-                  label: EuRelation.Indirect,
-                  value: EuRelation.Indirect
                 }
               ]}
             />

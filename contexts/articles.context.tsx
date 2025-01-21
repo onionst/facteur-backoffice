@@ -168,20 +168,14 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
       if (isDebunkArticle(articleType)) {
         setForm((prev: any) => ({
           ...prev,
-          claimReviews: prev.claimReviews.map((preClaimReview: any) => {
-            if (claim_review_schema?.claimReviewed === preClaimReview.claimReviewedNative || preClaimReview.claimReviewedNative === '') {
-              return {
-                claimReviewedNative: claim_review_schema?.claimReviewed,
-                itemReviewed: {
-                  datePublished: claim_review_schema?.itemReviewed?.datePublished ?? claim_review_schema?.datePublished,
-                  author: claim_review_schema?.itemReviewed?.author?.name,
-                  politicalParty: preClaimReview?.itemReviewed?.politicalParty,
-                  appearances: preClaimReview?.itemReviewed?.appearances
+          claimReview:
+            claim_review_schema?.claimReviewed === prev.claimReview.claimReviewedNative || prev.claimReview.claimReviewedNative === ''
+              ? {
+                  ...prev.claimReview,
+                  claimReviewedNative: claim_review_schema?.claimReviewed,
+                  author: claim_review_schema?.author?.name
                 }
-              };
-            }
-            return preClaimReview;
-          })
+              : prev.claimReview
         }));
       }
 

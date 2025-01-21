@@ -1,8 +1,6 @@
 import { Badge, Divider } from 'antd';
-import dayjs from 'dayjs';
-import { Minus, Plus, X } from 'react-feather';
+import { Plus, X } from 'react-feather';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
-import { DatePicker } from '@/bases/DatePicker/DatePicker';
 import { Input } from '@/bases/Input';
 import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
@@ -11,13 +9,11 @@ import { TextArea } from '@/bases/Textarea';
 import Card from '@/components/Card/Card';
 import { FILE_TYPES } from '@/constants/accept';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
-import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
 
 export default function ClaimReviewDraftForm(props: {
   claimReview: any;
   handleUpdate: any;
-  removeClaimReview: any;
   type: ArticleType;
   formUrl: string;
   index: number;
@@ -80,55 +76,23 @@ export default function ClaimReviewDraftForm(props: {
           onChange={v => props.handleUpdate({ ...claimReview, reviewRating: v })}
           disabled={preview}
         />
-        <DatePicker
-          label="Date of claim publication"
-          value={
-            dayjs(claimReview?.itemReviewed?.datePublished).isValid()
-              ? dayjs(claimReview?.itemReviewed?.datePublished)
-              : claimReview?.itemReviewed?.datePublished
-          }
-          onChange={v => props.handleUpdate({ ...claimReview, itemReviewed: { ...claimReview.itemReviewed, datePublished: v?.toDate() } })}
-          disabled={preview}
-        />
       </Row>
 
       {props.type === ArticleType.Factcheck && (
         <Row align="SPACE">
           <Input
-            value={claimReview.itemReviewed.author}
-            onChange={v => props.handleUpdate({ ...claimReview, itemReviewed: { ...claimReview.itemReviewed, author: v.target.value } })}
+            value={claimReview.author}
+            onChange={v => props.handleUpdate({ ...claimReview, author: v.target.value })}
             label="Person"
             placeholder="John Doe"
-            disabled={preview}
-          />
-
-          <Select
-            label="EU party related to the claim"
-            defaultValue={claimReview?.itemReviewed?.politicalParty}
-            options={[
-              { label: 'Political party', value: '' },
-              ...Object.entries(PoliticalParty).map(v => ({
-                value: v[1].split('_').join(' '),
-                label: v[1].split('_').join(' ')
-              }))
-            ]}
-            onChange={v =>
-              props.handleUpdate({
-                ...claimReview,
-                itemReviewed: {
-                  ...claimReview.itemReviewed,
-                  politicalParty: v
-                }
-              })
-            }
             disabled={preview}
           />
         </Row>
       )}
 
-      {((!preview || claimReview?.itemReviewed?.appearances?.length) && props.type === ArticleType.Factcheck) > 0 && (
-        <Input requiredHide label="Claim appearances details" required={claimReview?.itemReviewed?.appearances?.length > 0}>
-          {claimReview?.itemReviewed?.appearances?.map((appearance: any, appearanceIndex: number) => (
+      {((!preview || claimReview?.appearances?.length) && props.type === ArticleType.Factcheck) > 0 && (
+        <Input requiredHide label="Claim appearances details" required={claimReview?.appearances?.length > 0}>
+          {claimReview?.appearances?.map((appearance: any, appearanceIndex: number) => (
             <div key={`${props.formUrl}_appearance_${appearanceIndex}`}>
               <Card
                 key={`card_${props.formUrl}_appearance_${appearanceIndex}`}
@@ -147,18 +111,15 @@ export default function ClaimReviewDraftForm(props: {
                   onChange={v =>
                     props.handleUpdate({
                       ...claimReview,
-                      itemReviewed: {
-                        ...claimReview.itemReviewed,
-                        appearances: claimReview.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
-                          if (_appearanceIndex === appearanceIndex) {
-                            return {
-                              ..._appearance,
-                              url: v.target.value
-                            };
-                          }
-                          return _appearance;
-                        })
-                      }
+                      appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                        if (_appearanceIndex === appearanceIndex) {
+                          return {
+                            ..._appearance,
+                            url: v.target.value
+                          };
+                        }
+                        return _appearance;
+                      })
                     })
                   }
                   disabled={preview}
@@ -179,18 +140,15 @@ export default function ClaimReviewDraftForm(props: {
                     onChange={v =>
                       props.handleUpdate({
                         ...claimReview,
-                        itemReviewed: {
-                          ...claimReview.itemReviewed,
-                          appearances: claimReview.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
-                            if (_appearanceIndex === appearanceIndex) {
-                              return {
-                                ..._appearance,
-                                platform: v
-                              };
-                            }
-                            return _appearance;
-                          })
-                        }
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              platform: v
+                            };
+                          }
+                          return _appearance;
+                        })
                       })
                     }
                     disabled={preview}
@@ -209,18 +167,15 @@ export default function ClaimReviewDraftForm(props: {
                     onChange={v =>
                       props.handleUpdate({
                         ...claimReview,
-                        itemReviewed: {
-                          ...claimReview.itemReviewed,
-                          appearances: claimReview.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
-                            if (_appearanceIndex === appearanceIndex) {
-                              return {
-                                ..._appearance,
-                                mediaFormat: v
-                              };
-                            }
-                            return _appearance;
-                          })
-                        }
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              mediaFormat: v
+                            };
+                          }
+                          return _appearance;
+                        })
                       })
                     }
                     disabled={preview}
@@ -241,18 +196,15 @@ export default function ClaimReviewDraftForm(props: {
                     onUrlChange={(url: string) => {
                       props.handleUpdate({
                         ...claimReview,
-                        itemReviewed: {
-                          ...claimReview.itemReviewed,
-                          appearances: claimReview.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
-                            if (_appearanceIndex === appearanceIndex) {
-                              return {
-                                ..._appearance,
-                                associatedMedia: url
-                              };
-                            }
-                            return _appearance;
-                          })
-                        }
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              associatedMedia: url
+                            };
+                          }
+                          return _appearance;
+                        })
                       });
                     }}
                     placeholder="Upload file"
@@ -273,18 +225,15 @@ export default function ClaimReviewDraftForm(props: {
                     onChange={v =>
                       props.handleUpdate({
                         ...claimReview,
-                        itemReviewed: {
-                          ...claimReview.itemReviewed,
-                          appearances: claimReview.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
-                            if (_appearanceIndex === appearanceIndex) {
-                              return {
-                                ..._appearance,
-                                associatedMediaType: v
-                              };
-                            }
-                            return _appearance;
-                          })
-                        }
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              associatedMediaType: v
+                            };
+                          }
+                          return _appearance;
+                        })
                       })
                     }
                     disabled={preview}
@@ -299,18 +248,15 @@ export default function ClaimReviewDraftForm(props: {
                   onChange={v =>
                     props.handleUpdate({
                       ...claimReview,
-                      itemReviewed: {
-                        ...claimReview.itemReviewed,
-                        appearances: claimReview.itemReviewed.appearances.map((_appearance: any, _appearanceIndex: any) => {
-                          if (_appearanceIndex === appearanceIndex) {
-                            return {
-                              ..._appearance,
-                              archivedAt: v.target.value
-                            };
-                          }
-                          return _appearance;
-                        })
-                      }
+                      appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                        if (_appearanceIndex === appearanceIndex) {
+                          return {
+                            ..._appearance,
+                            archivedAt: v.target.value
+                          };
+                        }
+                        return _appearance;
+                      })
                     })
                   }
                   disabled={preview}
@@ -322,14 +268,11 @@ export default function ClaimReviewDraftForm(props: {
                       onClick={() =>
                         props.handleUpdate({
                           ...claimReview,
-                          itemReviewed: {
-                            ...claimReview.itemReviewed,
-                            appearances: claimReview.itemReviewed.appearances.filter((_appearance: any, _appearanceIndex: any) => {
-                              if (_appearanceIndex !== appearanceIndex) {
-                                return _appearance;
-                              }
-                            })
-                          }
+                          appearances: claimReview.appearances.filter((_appearance: any, _appearanceIndex: any) => {
+                            if (_appearanceIndex !== appearanceIndex) {
+                              return _appearance;
+                            }
+                          })
                         })
                       }
                     >
@@ -346,20 +289,17 @@ export default function ClaimReviewDraftForm(props: {
               onClick={() => {
                 props.handleUpdate({
                   ...claimReview,
-                  itemReviewed: {
-                    ...claimReview.itemReviewed,
-                    appearances: [
-                      ...(claimReview?.itemReviewed?.appearances || []),
-                      {
-                        url: '',
-                        archivedAt: '',
-                        associatedMedia: '',
-                        associatedMediaType: '',
-                        mediaFormat: '',
-                        platform: ''
-                      }
-                    ]
-                  }
+                  appearances: [
+                    ...(claimReview?.appearances || []),
+                    {
+                      url: '',
+                      archivedAt: '',
+                      associatedMedia: '',
+                      associatedMediaType: '',
+                      mediaFormat: '',
+                      platform: ''
+                    }
+                  ]
                 });
               }}
             >
@@ -367,11 +307,6 @@ export default function ClaimReviewDraftForm(props: {
             </span>
           )}
         </Input>
-      )}
-      {props.index !== 0 && !preview && (
-        <span onClick={() => props.removeClaimReview(props.index)} className="c-pointer bg-danger">
-          <Minus size={14} /> Remove claim review
-        </span>
       )}
     </>
   );

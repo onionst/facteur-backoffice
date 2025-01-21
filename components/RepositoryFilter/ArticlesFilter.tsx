@@ -10,7 +10,6 @@ import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import { CountryISO } from '@/constants/country';
-import { EuRelation } from '@/constants/euRelation';
 import { LanguageISO } from '@/constants/language';
 import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
@@ -21,7 +20,6 @@ export type Filter = {
   type?: ArticleType[];
   untilDate?: Date;
   sinceDate?: Date;
-  euRelation?: EuRelation;
   publisher?: string;
   inLanguage?: LanguageISO;
   topics?: Topic[];

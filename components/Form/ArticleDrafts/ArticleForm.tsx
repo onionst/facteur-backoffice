@@ -20,7 +20,7 @@ import Page from '@/components/Page/Page';
 import { FILE_TYPES, MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
-import { Topic } from '@/constants/topics';
+import { Subtopic, Topic } from '@/constants/topics';
 import { WorldCountriesISO } from '@/constants/worldCountries';
 import { useArticles } from '@/contexts/articles.context';
 import { validateUrl } from '@/utils/validateUrl';
@@ -54,23 +54,19 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
       try {
         e?.preventDefault();
         setLoading(true);
-        const natives: string[] = [form.headlineNative].concat(
-          form.claimReviews.map((claimReview: any) => claimReview.claimReviewedNative)
-        );
+        const natives: string[] = [form.headlineNative].concat(form.claimReview.claimReviewedNative);
         const translations = await Promise.all(natives.map(native => fetchTranslation(native)));
         translations.forEach((text: string) => text.replaceAll('\\', ''));
 
-        const claimReviews = form.claimReviews.map((claimReview: any, i: number) => {
-          return {
-            ...claimReview,
-            claimReviewed: translations[i + 1]
-          };
-        });
+        const claimReview = {
+          ...form.claimReview,
+          claimReviewed: translations[0]
+        };
 
         setForm((prev: any) => ({
           ...prev,
           headline: translations[0],
-          claimReviews: claimReviews
+          claimReview: claimReview
         }));
         setLoading(false);
         props.onContinue(form);
@@ -84,13 +80,6 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
     await handleFetchUrlMetadata(props.type, form.url, setForm, setFetchingUrlMetadata);
   };
 
-  const removeClaimReview = async (indexToRemove: number) => {
-    setForm((prev: any) => ({
-      ...prev,
-      claimReviews: form.claimReviews.filter((_: any, index: number) => index !== indexToRemove)
-    }));
-  };
-
   const removeEvidence = async (indexToRemove: number) => {
     setForm((prev: any) => ({
       ...prev,
@@ -98,30 +87,6 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
     }));
   };
 
-  const addClaimReview = async () => {
-    setForm((prev: any) => ({
-      ...prev,
-      claimReviews: [
-        ...form.claimReviews,
-        {
-          claimReviewed: '',
-          claimReviewedNative: '',
-          reviewRating: '',
-          itemReviewed: {
-            datePublished: null,
-            author: '',
-            politicalParty: '',
-            appearances: [
-              {
-                url: ''
-              }
-            ]
-          },
-          associatedClaimReview: []
-        }
-      ]
-    }));
-  };
   const addEvidence = async () => {
     setForm((prev: any) => ({
       ...prev,
@@ -275,16 +240,17 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
               placeholder="Article's topics"
               disabled={preview}
             />
-            <Select
-              label="EU Relation"
-              required
-              defaultValue={form?.euRelation}
-              options={[
-                { label: 'EU Relation', value: '' },
-                { label: 'Direct', value: 'Direct' },
-                { label: 'Indirect', value: 'Indirect' }
-              ]}
-              onChange={v => setForm((prev: any) => ({ ...prev, euRelation: v }))}
+            <Tagger
+              label="Subtopics"
+              value={form.topics}
+              options={Object.entries(Subtopic).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))}
+              maxTagCount="responsive"
+              mode="multiple"
+              onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
+              placeholder="Article's subtopics"
               disabled={preview}
             />
           </Row>
@@ -323,32 +289,20 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
         </Card>
         <Card>
           <h4>Claim Details</h4>
-          {form.claimReviews?.map((claimReview: any, index: number) => {
-            return (
-              <ClaimReviewDraftForm
-                claimReview={claimReview}
-                formUrl={form.url}
-                index={index}
-                removeClaimReview={removeClaimReview}
-                handleUpdate={(newClaimReviewValue: any) => {
-                  setForm({
-                    ...form,
-                    claimReviews: form.claimReviews.map((currentClaimReview: any, i: number) =>
-                      i === index ? newClaimReviewValue : currentClaimReview
-                    )
-                  });
-                }}
-                key={index}
-                type={props.type}
-                preview={preview}
-              />
-            );
-          })}
-          {!preview && (
-            <Button onClick={addClaimReview} theme="CTA">
-              <Plus size={14} /> Add claim review
-            </Button>
-          )}
+          <ClaimReviewDraftForm
+            claimReview={form.claimReview}
+            formUrl={form.url}
+            index={0}
+            handleUpdate={(newClaimReviewValue: any) => {
+              setForm({
+                ...form,
+                claimReview: newClaimReviewValue
+              });
+            }}
+            key={0}
+            type={props.type}
+            preview={preview}
+          />
         </Card>
         {(!preview || form.evidences.length > 0) && (
           <Card>

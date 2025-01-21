@@ -46,12 +46,8 @@ export default function View() {
     claimReviewed: '',
     claimReviewedNative: '',
     reviewRating: '',
-    itemReviewed: {
-      datePublished: null,
-      author: '',
-      politicalParty: '',
-      appearances: []
-    },
+    appearances: [],
+    author: '',
     associatedClaimReview: []
   });
 
