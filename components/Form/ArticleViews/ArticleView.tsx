@@ -72,12 +72,6 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                   }))
               ]}
             />
-            <Select
-              disabled
-              label="EU Relation"
-              defaultValue={form?.euRelation}
-              options={[{ label: form?.euRelation, value: form?.euRelation }]}
-            />
           </Row>
           <Row align="SPACE">
             <Select
@@ -113,6 +107,17 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
             <Input label="Topics">
               <div className="ds-debunk-view__tags">
                 {form?.topics.map((i: any, index: number) => (
+                  <Tag style={{ marginBottom: 4 }} key={index}>
+                    {i}
+                  </Tag>
+                ))}
+              </div>
+            </Input>
+          ) : null}
+          {form?.subtopics?.length > 0 ? (
+            <Input label="Subtopics">
+              <div className="ds-debunk-view__tags">
+                {form?.subtopics.map((i: any, index: number) => (
                   <Tag style={{ marginBottom: 4 }} key={index}>
                     {i}
                   </Tag>
@@ -261,10 +266,16 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
             <Divider style={{ margin: '8px 0' }} />
             {form.evidences.map((evidence: any, i: number) => {
               return (
-                <Row align="SPACE" key={i}>
-                  <Input disabled value={evidence.title} label="Title" />
-                  <Input disabled value={evidence.url} label="URL" />
-                </Row>
+                <Card key={i}>
+                  <Row align="SPACE">
+                    <Input disabled value={evidence.question} label="Question" />
+                    <Input disabled value={evidence.answer} label="Answer" />
+                  </Row>
+                  <Row align="SPACE">
+                    <Input disabled value={evidence.type} label="Type" />
+                    <Input disabled value={evidence.url} label="URL" />
+                  </Row>
+                </Card>
               );
             })}
           </Card>

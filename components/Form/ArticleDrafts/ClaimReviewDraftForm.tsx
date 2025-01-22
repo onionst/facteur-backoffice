@@ -128,6 +128,7 @@ export default function ClaimReviewDraftForm(props: {
                 <Row align="SPACE">
                   <Select
                     label="Platform"
+                    required={true}
                     defaultValue={appearance?.platform}
                     key={`${props.formUrl}_appearance_${appearanceIndex}_platform`}
                     options={[
@@ -155,6 +156,7 @@ export default function ClaimReviewDraftForm(props: {
                   />
                   <Select
                     label="Format"
+                    required={true}
                     defaultValue={appearance?.mediaFormat}
                     key={`${props.formUrl}_appearance_${appearanceIndex}_mediaFormat`}
                     options={[
@@ -245,6 +247,7 @@ export default function ClaimReviewDraftForm(props: {
                   placeholder="https://example.com/factchecking/article-010101"
                   key={`${props.formUrl}_appearance_${appearanceIndex}_archivedAt`}
                   value={appearance?.archivedAt}
+                  required={true}
                   onChange={v =>
                     props.handleUpdate({
                       ...claimReview,

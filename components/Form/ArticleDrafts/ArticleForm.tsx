@@ -3,6 +3,7 @@ import { Badge, Divider, notification } from 'antd';
 import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { Plus, Minus } from 'react-feather';
+import { ArticleType } from '../SelectArticleType/SelectArticleType';
 import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
 import ClaimReviewDraftForm from './ClaimReviewDraftForm';
@@ -19,6 +20,7 @@ import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
 import { FILE_TYPES, MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { CountryISO } from '@/constants/country';
+import { EvidenceType } from '@/constants/evidenceType';
 import { LanguageISO } from '@/constants/language';
 import { Subtopic, Topic } from '@/constants/topics';
 import { WorldCountriesISO } from '@/constants/worldCountries';
@@ -99,6 +101,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
       ]
     }));
   };
+  console.log(form);
   return (
     <form className={s['ds-article-draft-form']} onSubmit={preview ? handlePublish : handleSubmit}>
       <Page>
@@ -242,14 +245,14 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
             />
             <Tagger
               label="Subtopics"
-              value={form.topics}
+              value={form.subtopics}
               options={Object.entries(Subtopic).map(v => ({
                 value: v[1].split('_').join(' '),
                 label: v[1].split('_').join(' ')
               }))}
               maxTagCount="responsive"
               mode="multiple"
-              onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
+              onChange={v => setForm((prev: any) => ({ ...prev, subtopics: v }))}
               placeholder="Article's subtopics"
               disabled={preview}
             />
@@ -304,7 +307,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
             preview={preview}
           />
         </Card>
-        {(!preview || form.evidences.length > 0) && (
+        {(!preview || form.evidences.length > 0) && props.type !== ArticleType.Prebunk && (
           <Card>
             <h4>Evidences</h4>
             <Divider style={{ margin: '8px 0' }} />
@@ -338,17 +341,56 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
                     type="text"
                     minLength={10}
                     required
-                    value={evidence.title}
+                    value={evidence.question}
                     onChange={v => {
                       setForm({
                         ...form,
                         evidences: form.evidences.map((currentEvidence: any, i: number) =>
-                          i === evidenceIndex ? { ...currentEvidence, title: v.target.value } : currentEvidence
+                          i === evidenceIndex ? { ...currentEvidence, question: v.target.value } : currentEvidence
                         )
                       });
                     }}
-                    label={'Title of the evidence'}
-                    placeholder="Hours quoted in Spain to grow by 8.3% from 2019 despite what Figaredo said"
+                    label={'Evidence question'}
+                    placeholder="Question"
+                    disabled={preview}
+                  />
+                  <TextArea
+                    type="text"
+                    minLength={10}
+                    required
+                    value={evidence.answer}
+                    onChange={v => {
+                      setForm({
+                        ...form,
+                        evidences: form.evidences.map((currentEvidence: any, i: number) =>
+                          i === evidenceIndex ? { ...currentEvidence, answer: v.target.value } : currentEvidence
+                        )
+                      });
+                    }}
+                    label={'Evidence answer'}
+                    placeholder="Answer"
+                    disabled={preview}
+                  />
+                  <Select
+                    label="Evidence type"
+                    required
+                    defaultValue={evidence.type}
+                    options={[
+                      { label: 'Evidence type', value: '' },
+                      ...Object.entries(EvidenceType).map(([, value]) => ({
+                        label: value.split('_').join(' '),
+                        value: value.split('_').join(' ')
+                      }))
+                    ]}
+                    onChange={v => {
+                      console.log(v);
+                      setForm({
+                        ...form,
+                        evidences: form.evidences.map((currentEvidence: any, i: number) =>
+                          i === evidenceIndex ? { ...currentEvidence, type: v } : currentEvidence
+                        )
+                      });
+                    }}
                     disabled={preview}
                   />
                   {!preview && (

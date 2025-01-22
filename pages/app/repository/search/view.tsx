@@ -40,7 +40,7 @@ export default function View() {
     keywords: [],
     inLanguage: session.organization?.language || '',
     topics: [],
-    euRelation: '',
+    subtopics: [],
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
     claimReviewed: '',

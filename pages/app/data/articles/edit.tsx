@@ -41,7 +41,7 @@ export default function Edit() {
     keywords: [],
     inLanguage: session.organization?.language || '',
     topics: [],
-    euRelation: '',
+    subtopics: [],
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
     claimReview: {
@@ -70,7 +70,7 @@ export default function Edit() {
     keywords: [],
     inLanguage: session.organization?.language || '',
     topics: [],
-    euRelation: '',
+    subtopics: [],
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
     claimReview: {
@@ -146,7 +146,7 @@ export default function Edit() {
         keywords: form?.keywords?.filter((keyword: string) => keyword?.length >= MIN_LENGTH_KEYWORDS) || null,
         inLanguage: form.inLanguage || null,
         topics: form.topics || null,
-        euRelation: form.euRelation || null,
+        subtopics: form.subtopics || null,
         countryOfOrigin: form.countryOfOrigin || null,
         contentLocation: form.contentLocation || null,
         claimReview: form.claimReview,
