@@ -95,6 +95,7 @@ export default function ClaimReviewDraftForm(props: {
           }
         ]}
         onChange={v => props.handleUpdate({ ...claimReview, multiclaim: v === 'true' })}
+        required
       />
       <Tagger
         value={claimReview?.distortionType}
@@ -108,6 +109,7 @@ export default function ClaimReviewDraftForm(props: {
         mode="multiple"
         label="Distortion type"
         disabled={preview}
+        required
       />
       <Tagger
         value={claimReview?.aiVerification}
