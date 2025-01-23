@@ -12,6 +12,8 @@ import Tagger from '@/bases/Tagger/Tagger';
 import Banner from '@/components/Banner/Banner';
 import Card from '@/components/Card/Card';
 import Page from '@/components/Page/Page';
+import { AiVerificationType } from '@/constants/aiVerification';
+import { DistortionType } from '@/constants/distortionType';
 import { LanguageISO } from '@/constants/language';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
 import { ReviewRating } from '@/constants/ratings';
@@ -133,128 +135,154 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
             </Input>
           ) : null}
         </Card>
-        <Card theme="LIGHT">
-          <h4>Claim Details</h4>
-          <>
-            <Divider style={{ margin: '8px 0' }} />
-            <Card>
-              <div className="w-full">
-                <label>Claim {claimReview?.claimReviewed != claimReview?.claimReviewedNative && '(In english)'}</label>
-                <h2>{claimReview?.claimReviewed}</h2>
-                {claimReview?.claimReviewed != claimReview?.claimReviewedNative && (
-                  <p style={{ margin: 0 }}>Claim: “{claimReview?.claimReviewedNative}”</p>
-                )}
-              </div>
-            </Card>
-            <Row align="SPACE">
-              <Select
-                disabled
-                label="Rating"
-                defaultValue={claimReview?.reviewRating}
-                options={[
-                  ...Object.entries(ReviewRating)
-                    .filter(([, value]) => claimReview?.reviewRating === value)
-                    .map(v => ({
-                      value: v[1].split('_').join(' '),
-                      label: v[1].split('_').join(' ')
-                    }))
-                ]}
-              />
-            </Row>
-            {props.type === ArticleType.Factcheck && (
+        {props.type !== ArticleType.Prebunk && (
+          <Card theme="LIGHT">
+            <h4>Claim Details</h4>
+            <>
+              <Divider style={{ margin: '8px 0' }} />
+              <Card>
+                <div className="w-full">
+                  <label>Claim {claimReview?.claimReviewed != claimReview?.claimReviewedNative && '(In english)'}</label>
+                  <h2>{claimReview?.claimReviewed}</h2>
+                  {claimReview?.claimReviewed != claimReview?.claimReviewedNative && (
+                    <p style={{ margin: 0 }}>Claim: “{claimReview?.claimReviewedNative}”</p>
+                  )}
+                </div>
+              </Card>
               <Row align="SPACE">
-                <Input disabled value={claimReview?.author} label="Person" />
+                <Select
+                  disabled
+                  label="Rating"
+                  defaultValue={claimReview?.reviewRating}
+                  options={[
+                    ...Object.entries(ReviewRating)
+                      .filter(([, value]) => claimReview?.reviewRating === value)
+                      .map(v => ({
+                        value: v[1].split('_').join(' '),
+                        label: v[1].split('_').join(' ')
+                      }))
+                  ]}
+                />
               </Row>
-            )}
-            {claimReview?.appearances?.length > 0 ? (
-              <Input label="Claim appearances details">
-                {claimReview?.appearances.map((appearance: any, appearanceIndex: number) => (
-                  <div key={`${form.url}_appearance_${appearanceIndex}`}>
-                    <Card
-                      key={`card_${form.url}_appearance_${appearanceIndex}`}
-                      style={{
-                        marginBottom: 8
-                      }}
-                      title={`Claim appearance #${appearanceIndex + 1}`}
-                    >
-                      <Input
-                        disabled
-                        label="URL"
-                        pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-                        key={`${form.url}_appearance_${appearanceIndex}_URL`}
-                        value={appearance?.url}
-                      />
-
-                      <Row align="SPACE">
-                        <Select
+              {props.type === ArticleType.Factcheck && (
+                <Row align="SPACE">
+                  <Input disabled value={claimReview?.author} label="Person" />
+                </Row>
+              )}
+              <Tagger
+                value={claimReview?.distortionType}
+                options={[
+                  ...Object.entries(DistortionType).map(([, value]) => ({
+                    label: value.split('_').join(' '),
+                    value: value.split('_').join(' ')
+                  }))
+                ]}
+                mode="multiple"
+                label="Distortion type"
+                disabled
+              />
+              <Tagger
+                value={claimReview?.aiVerification}
+                options={[
+                  ...Object.entries(AiVerificationType).map(([, value]) => ({
+                    label: value.split('_').join(' '),
+                    value: value.split('_').join(' ')
+                  }))
+                ]}
+                mode="multiple"
+                label="AI verification"
+                disabled
+              />
+              {claimReview?.appearances?.length > 0 ? (
+                <Input label="Claim appearances details">
+                  {claimReview?.appearances.map((appearance: any, appearanceIndex: number) => (
+                    <div key={`${form.url}_appearance_${appearanceIndex}`}>
+                      <Card
+                        key={`card_${form.url}_appearance_${appearanceIndex}`}
+                        style={{
+                          marginBottom: 8
+                        }}
+                        title={`Claim appearance #${appearanceIndex + 1}`}
+                      >
+                        <Input
                           disabled
-                          label="Platform"
-                          defaultValue={appearance?.platform}
-                          key={`${form.url}_appearance_${appearanceIndex}_platform`}
-                          options={[
-                            ...Object.entries(Platform)
-                              .filter(([, value]) => appearance?.platform === value)
-                              .map(([key, value]) => ({
-                                label: key.split('_').join(' '),
-                                value: value.split('_').join(' ')
-                              }))
-                          ]}
-                        />
-                        <Select
-                          disabled
-                          label="Format"
-                          defaultValue={appearance?.difussionFormat}
-                          key={`${form.url}_appearance_${appearanceIndex}_difussionFormat`}
-                          options={[
-                            { label: 'Select diffusion format', value: '' },
-                            ...Object.entries(MediaFormat)
-                              .filter(([, value]) => appearance?.difussionFormat === value)
-                              .map(([key, value]) => ({
-                                label: key.split('_').join(' '),
-                                value: value.split('_').join(' ')
-                              }))
-                          ]}
-                        />
-                      </Row>
-
-                      <Row align="SPACE">
-                        <InputUploader
-                          disabled
-                          label="Associated multimedia"
-                          value={appearance?.associatedMedia}
-                          key={`${form.url}_appearance_${appearanceIndex}_associatedMedia`}
+                          label="URL"
+                          pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+                          key={`${form.url}_appearance_${appearanceIndex}_URL`}
+                          value={appearance?.url}
                         />
 
-                        <Select
+                        <Row align="SPACE">
+                          <Select
+                            disabled
+                            label="Platform"
+                            defaultValue={appearance?.platform}
+                            key={`${form.url}_appearance_${appearanceIndex}_platform`}
+                            options={[
+                              ...Object.entries(Platform)
+                                .filter(([, value]) => appearance?.platform === value)
+                                .map(([key, value]) => ({
+                                  label: key.split('_').join(' '),
+                                  value: value.split('_').join(' ')
+                                }))
+                            ]}
+                          />
+                          <Select
+                            disabled
+                            label="Format"
+                            defaultValue={appearance?.difussionFormat}
+                            key={`${form.url}_appearance_${appearanceIndex}_difussionFormat`}
+                            options={[
+                              { label: 'Select diffusion format', value: '' },
+                              ...Object.entries(MediaFormat)
+                                .filter(([, value]) => appearance?.difussionFormat === value)
+                                .map(([key, value]) => ({
+                                  label: key.split('_').join(' '),
+                                  value: value.split('_').join(' ')
+                                }))
+                            ]}
+                          />
+                        </Row>
+
+                        <Row align="SPACE">
+                          <InputUploader
+                            disabled
+                            label="Associated multimedia"
+                            value={appearance?.associatedMedia}
+                            key={`${form.url}_appearance_${appearanceIndex}_associatedMedia`}
+                          />
+
+                          <Select
+                            disabled
+                            label="Associated multimedia format"
+                            defaultValue={appearance?.associatedMediaType}
+                            key={`${form.url}_appearance_${appearanceIndex}_associatedMediaType`}
+                            options={[
+                              { label: 'Select associated media format', value: '' },
+                              ...Object.entries(MediaType)
+                                .filter(([, value]) => appearance?.associatedMediaType === value)
+                                .map(([key, value]) => ({
+                                  label: key.split('_').join(' '),
+                                  value: value.split('_').join(' ')
+                                }))
+                            ]}
+                          />
+                        </Row>
+                        <Input
                           disabled
-                          label="Associated multimedia format"
-                          defaultValue={appearance?.associatedMediaType}
-                          key={`${form.url}_appearance_${appearanceIndex}_associatedMediaType`}
-                          options={[
-                            { label: 'Select associated media format', value: '' },
-                            ...Object.entries(MediaType)
-                              .filter(([, value]) => appearance?.associatedMediaType === value)
-                              .map(([key, value]) => ({
-                                label: key.split('_').join(' '),
-                                value: value.split('_').join(' ')
-                              }))
-                          ]}
+                          label="Archive URL"
+                          pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+                          key={`${form.url}_appearance_${appearanceIndex}_archivedAt`}
+                          value={appearance?.archivedAt}
                         />
-                      </Row>
-                      <Input
-                        disabled
-                        label="Archive URL"
-                        pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-                        key={`${form.url}_appearance_${appearanceIndex}_archivedAt`}
-                        value={appearance?.archivedAt}
-                      />
-                    </Card>
-                  </div>
-                ))}
-              </Input>
-            ) : null}
-          </>
-        </Card>
+                      </Card>
+                    </div>
+                  ))}
+                </Input>
+              ) : null}
+            </>
+          </Card>
+        )}
 
         {form.evidences && (
           <Card theme="LIGHT">

@@ -5,9 +5,12 @@ import { Input } from '@/bases/Input';
 import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
+import Tagger from '@/bases/Tagger/Tagger';
 import { TextArea } from '@/bases/Textarea';
 import Card from '@/components/Card/Card';
 import { FILE_TYPES } from '@/constants/accept';
+import { AiVerificationType } from '@/constants/aiVerification';
+import { DistortionType } from '@/constants/distortionType';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
 import { ReviewRating } from '@/constants/ratings';
 
@@ -77,7 +80,48 @@ export default function ClaimReviewDraftForm(props: {
           disabled={preview}
         />
       </Row>
-
+      <Select
+        disabled={preview}
+        label="Multiclaim"
+        defaultValue={claimReview?.multiclaim ? 'true' : 'false'}
+        options={[
+          {
+            label: 'Yes',
+            value: 'true'
+          },
+          {
+            label: 'No',
+            value: 'false'
+          }
+        ]}
+        onChange={v => props.handleUpdate({ ...claimReview, multiclaim: v === 'true' })}
+      />
+      <Tagger
+        value={claimReview?.distortionType}
+        options={[
+          ...Object.entries(DistortionType).map(([, value]) => ({
+            label: value.split('_').join(' '),
+            value: value.split('_').join(' ')
+          }))
+        ]}
+        onChange={v => props.handleUpdate({ ...claimReview, distortionType: v })}
+        mode="multiple"
+        label="Distortion type"
+        disabled={preview}
+      />
+      <Tagger
+        value={claimReview?.aiVerification}
+        options={[
+          ...Object.entries(AiVerificationType).map(([, value]) => ({
+            label: value.split('_').join(' '),
+            value: value.split('_').join(' ')
+          }))
+        ]}
+        onChange={v => props.handleUpdate({ ...claimReview, aiVerification: v })}
+        mode="multiple"
+        label="AI verification"
+        disabled={preview}
+      />
       {((!preview || claimReview?.appearances?.length) && props.type === ArticleType.Factcheck) > 0 && (
         <Input requiredHide label="Claim appearances details" required={claimReview?.appearances?.length > 0}>
           {claimReview?.appearances?.map((appearance: any, appearanceIndex: number) => (
