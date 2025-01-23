@@ -103,14 +103,10 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
             />
           </Row>
 
-          {form?.topics?.length > 0 ? (
-            <Input label="Topics">
+          {form?.topic ? (
+            <Input label="Topic">
               <div className="ds-debunk-view__tags">
-                {form?.topics.map((i: any, index: number) => (
-                  <Tag style={{ marginBottom: 4 }} key={index}>
-                    {i}
-                  </Tag>
-                ))}
+                <Tag style={{ marginBottom: 4 }}>{form.topic}</Tag>
               </div>
             </Input>
           ) : null}
@@ -207,12 +203,12 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                         <Select
                           disabled
                           label="Format"
-                          defaultValue={appearance?.mediaFormat}
-                          key={`${form.url}_appearance_${appearanceIndex}_mediaFormat`}
+                          defaultValue={appearance?.difussionFormat}
+                          key={`${form.url}_appearance_${appearanceIndex}_difussionFormat`}
                           options={[
-                            { label: 'Select media format', value: '' },
+                            { label: 'Select diffusion format', value: '' },
                             ...Object.entries(MediaFormat)
-                              .filter(([, value]) => appearance?.mediaFormat === value)
+                              .filter(([, value]) => appearance?.difussionFormat === value)
                               .map(([key, value]) => ({
                                 label: key.split('_').join(' '),
                                 value: value.split('_').join(' ')

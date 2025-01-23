@@ -97,14 +97,10 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
             label="Country/Countries identified in article"
           />
 
-          {form?.topics?.length > 0 ? (
-            <Input label="Topics">
+          {form?.topic ? (
+            <Input label="Topic">
               <div className="ds-debunk-view__tags">
-                {form?.topics.map((i: any, index: number) => (
-                  <Tag style={{ marginBottom: 4 }} key={index}>
-                    {i}
-                  </Tag>
-                ))}
+                <Tag style={{ marginBottom: 4 }}>{form.topic}</Tag>
               </div>
             </Input>
           ) : null}

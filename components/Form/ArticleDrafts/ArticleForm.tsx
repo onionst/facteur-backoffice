@@ -101,7 +101,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
       ]
     }));
   };
-  console.log(form);
+
   return (
     <form className={s['ds-article-draft-form']} onSubmit={preview ? handlePublish : handleSubmit}>
       <Page>
@@ -230,31 +230,32 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
             />
           </Row>
           <Row align="SPACE">
-            <Tagger
-              label="Topics"
-              value={form.topics}
+            <Select
+              label="Topic"
+              defaultValue={form.topic}
               options={Object.entries(Topic).map(v => ({
                 value: v[1].split('_').join(' '),
                 label: v[1].split('_').join(' ')
               }))}
-              maxTagCount="responsive"
-              mode="multiple"
-              onChange={v => setForm((prev: any) => ({ ...prev, topics: v }))}
-              placeholder="Article's topics"
+              required
+              onChange={v => setForm((prev: any) => ({ ...prev, topic: v, subtopics: [] }))}
               disabled={preview}
             />
             <Tagger
               label="Subtopics"
               value={form.subtopics}
-              options={Object.entries(Subtopic).map(v => ({
-                value: v[1].split('_').join(' '),
-                label: v[1].split('_').join(' ')
-              }))}
+              options={Object.entries(Subtopic)
+                .filter(v => v[1].startsWith(form.topic))
+                .map(v => ({
+                  value: v[1].split('_').join(' '),
+                  label: v[1].split('_').join(' ')
+                }))}
               maxTagCount="responsive"
               mode="multiple"
               onChange={v => setForm((prev: any) => ({ ...prev, subtopics: v }))}
               placeholder="Article's subtopics"
-              disabled={preview}
+              required
+              disabled={preview || !form.topic}
             />
           </Row>
           <Row align="SPACE">
@@ -290,23 +291,25 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
             />
           </Row>
         </Card>
-        <Card>
-          <h4>Claim Details</h4>
-          <ClaimReviewDraftForm
-            claimReview={form.claimReview}
-            formUrl={form.url}
-            index={0}
-            handleUpdate={(newClaimReviewValue: any) => {
-              setForm({
-                ...form,
-                claimReview: newClaimReviewValue
-              });
-            }}
-            key={0}
-            type={props.type}
-            preview={preview}
-          />
-        </Card>
+        {props.type !== ArticleType.Prebunk && (
+          <Card>
+            <h4>Claim Details</h4>
+            <ClaimReviewDraftForm
+              claimReview={form.claimReview}
+              formUrl={form.url}
+              index={0}
+              handleUpdate={(newClaimReviewValue: any) => {
+                setForm({
+                  ...form,
+                  claimReview: newClaimReviewValue
+                });
+              }}
+              key={0}
+              type={props.type}
+              preview={preview}
+            />
+          </Card>
+        )}
         {(!preview || form.evidences.length > 0) && props.type !== ArticleType.Prebunk && (
           <Card>
             <h4>Evidences</h4>

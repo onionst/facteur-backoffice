@@ -39,7 +39,7 @@ export default function View() {
     image: '',
     keywords: [],
     inLanguage: session.organization?.language || '',
-    topics: [],
+    topic: '',
     subtopics: [],
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],

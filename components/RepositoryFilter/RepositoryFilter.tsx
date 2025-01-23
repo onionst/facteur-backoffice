@@ -29,7 +29,7 @@ export type Filter = {
   publisher?: string;
   inLanguage?: LanguageISO;
   keywords?: string[];
-  topics?: Topic[];
+  topic?: Topic;
   countryOfOrigin?: CountryISO;
   reviewRating?: ReviewRating;
   politicalParty?: PoliticalParty;
@@ -198,22 +198,25 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               ]}
             />
           </Input>
-          <Tagger
-            label="Topics"
-            options={Object.entries(Topic).map(v => ({
-              value: v[1].split('_').join(' '),
-              label: v[1].split('_').join(' ')
-            }))}
-            maxTagCount="responsive"
-            mode="multiple"
-            onChange={(topics: any) => {
+          <Select
+            label="Topic"
+            options={[
+              {
+                value: '',
+                label: 'Filter by topic'
+              },
+              ...Object.entries(Topic).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))
+            ]}
+            onChange={(topic: any) => {
               setModified(true);
               setFilter(prev => ({
                 ...prev,
-                topics
+                topic
               }));
             }}
-            placeholder="Filter by topic"
           />
 
           <Select

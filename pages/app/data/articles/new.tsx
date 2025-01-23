@@ -31,7 +31,8 @@ export default function New() {
     image: '',
     keywords: [],
     inLanguage: session.organization?.language || '',
-    topics: [],
+    topic: '',
+    subtopics: [],
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
     claimReview: {
@@ -61,7 +62,7 @@ export default function New() {
         image: form.image || null,
         keywords: form?.keywords?.filter((keyword: string) => keyword?.length >= MIN_LENGTH_KEYWORDS) || null,
         inLanguage: form.inLanguage || null,
-        topics: form.topics || null,
+        topic: form.topic || null,
         countryOfOrigin: form.countryOfOrigin || null,
         contentLocation: form.contentLocation || null,
         claimReview: structuredClone(form.claimReview),
@@ -141,7 +142,8 @@ export default function New() {
                   image: '',
                   keywords: [],
                   inLanguage: session.organization?.language || '',
-                  topics: [],
+                  topic: '',
+                  subtopics: [],
                   countryOfOrigin: session.organization?.country || '',
                   contentLocation: [],
                   claimReview: {

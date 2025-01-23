@@ -78,18 +78,6 @@ export default function ClaimReviewDraftForm(props: {
         />
       </Row>
 
-      {props.type === ArticleType.Factcheck && (
-        <Row align="SPACE">
-          <Input
-            value={claimReview.author}
-            onChange={v => props.handleUpdate({ ...claimReview, author: v.target.value })}
-            label="Person"
-            placeholder="John Doe"
-            disabled={preview}
-          />
-        </Row>
-      )}
-
       {((!preview || claimReview?.appearances?.length) && props.type === ArticleType.Factcheck) > 0 && (
         <Input requiredHide label="Claim appearances details" required={claimReview?.appearances?.length > 0}>
           {claimReview?.appearances?.map((appearance: any, appearanceIndex: number) => (
@@ -157,10 +145,10 @@ export default function ClaimReviewDraftForm(props: {
                   <Select
                     label="Format"
                     required={true}
-                    defaultValue={appearance?.mediaFormat}
-                    key={`${props.formUrl}_appearance_${appearanceIndex}_mediaFormat`}
+                    defaultValue={appearance?.difussionFormat}
+                    key={`${props.formUrl}_appearance_${appearanceIndex}_difussionFormat`}
                     options={[
-                      { label: 'Select media format', value: '' },
+                      { label: 'Select Diffusion format', value: '' },
                       ...Object.entries(MediaFormat).map(([key, value]) => ({
                         label: key.split('_').join(' '),
                         value: value.split('_').join(' ')
@@ -173,7 +161,7 @@ export default function ClaimReviewDraftForm(props: {
                           if (_appearanceIndex === appearanceIndex) {
                             return {
                               ..._appearance,
-                              mediaFormat: v
+                              difussionFormat: v
                             };
                           }
                           return _appearance;
@@ -299,7 +287,7 @@ export default function ClaimReviewDraftForm(props: {
                       archivedAt: '',
                       associatedMedia: '',
                       associatedMediaType: '',
-                      mediaFormat: '',
+                      difussionFormat: '',
                       platform: ''
                     }
                   ]

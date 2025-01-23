@@ -3,7 +3,7 @@ import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
 import { ReviewRating } from '@/constants/ratings';
-import { Topic } from '@/constants/topics';
+import { Subtopic, Topic } from '@/constants/topics';
 
 export class Article {
   _id?: string;
@@ -20,7 +20,8 @@ export class Article {
   inLanguage?: LanguageISO;
   copyrightHolder: string;
   description?: string;
-  topics: Topic[];
+  topic: Topic;
+  subtopics?: Subtopic[];
   countryOfOrigin: CountryISO;
   contentLocation?: CountryISO;
   maintainer: string;
@@ -31,7 +32,7 @@ export class Article {
     url?: string;
     archivedAt?: string;
     associatedMedia?: MediaType;
-    mediaFormat?: MediaFormat;
+    difussionFormat?: MediaFormat;
     platform?: Platform;
   }>;
   author?: string;

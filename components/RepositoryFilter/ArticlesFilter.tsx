@@ -22,7 +22,7 @@ export type Filter = {
   sinceDate?: Date;
   publisher?: string;
   inLanguage?: LanguageISO;
-  topics?: Topic[];
+  topic?: Topic;
   countryOfOrigin?: CountryISO;
   reviewRating?: ReviewRating;
   politicalParty?: PoliticalParty;
