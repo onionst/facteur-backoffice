@@ -38,6 +38,7 @@ export default function New() {
     claimReview: {
       claimReviewed: '',
       aiVerification: '',
+      multiclaim: false,
       claimReviewedNative: '',
       reviewRating: '',
       author: '',
@@ -150,6 +151,7 @@ export default function New() {
                     claimReviewed: '',
                     claimReviewedNative: '',
                     aiVerification: '',
+                    multiclaim: false,
                     reviewRating: '',
                     author: '',
                     appearances: [
