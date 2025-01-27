@@ -5,7 +5,6 @@ import { IArticleView } from './articleView.interface';
 import s from './ArticleViewForm.module.scss';
 import { DatePicker } from '@/bases/DatePicker/DatePicker';
 import { Input } from '@/bases/Input';
-import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
@@ -15,7 +14,7 @@ import Page from '@/components/Page/Page';
 import { AiVerificationType } from '@/constants/aiVerification';
 import { DistortionType } from '@/constants/distortionType';
 import { LanguageISO } from '@/constants/language';
-import { MediaFormat, MediaType, Platform } from '@/constants/media';
+import { MediaFormat, Platform } from '@/constants/media';
 import { ReviewRating } from '@/constants/ratings';
 import { WorldCountriesISO } from '@/constants/worldCountries';
 
@@ -164,11 +163,6 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                   ]}
                 />
               </Row>
-              {props.type === ArticleType.Factcheck && (
-                <Row align="SPACE">
-                  <Input disabled value={claimReview?.author} label="Person" />
-                </Row>
-              )}
               <Tagger
                 value={claimReview?.distortionType}
                 options={[
@@ -236,31 +230,6 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                               { label: 'Select diffusion format', value: '' },
                               ...Object.entries(MediaFormat)
                                 .filter(([, value]) => appearance?.difussionFormat === value)
-                                .map(([key, value]) => ({
-                                  label: key.split('_').join(' '),
-                                  value: value.split('_').join(' ')
-                                }))
-                            ]}
-                          />
-                        </Row>
-
-                        <Row align="SPACE">
-                          <InputUploader
-                            disabled
-                            label="Associated multimedia"
-                            value={appearance?.associatedMedia}
-                            key={`${form.url}_appearance_${appearanceIndex}_associatedMedia`}
-                          />
-
-                          <Select
-                            disabled
-                            label="Associated multimedia format"
-                            defaultValue={appearance?.associatedMediaType}
-                            key={`${form.url}_appearance_${appearanceIndex}_associatedMediaType`}
-                            options={[
-                              { label: 'Select associated media format', value: '' },
-                              ...Object.entries(MediaType)
-                                .filter(([, value]) => appearance?.associatedMediaType === value)
                                 .map(([key, value]) => ({
                                   label: key.split('_').join(' '),
                                   value: value.split('_').join(' ')

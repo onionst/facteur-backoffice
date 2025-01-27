@@ -1,6 +1,5 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Badge, Divider, notification } from 'antd';
-import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { Plus, Minus } from 'react-feather';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
@@ -8,7 +7,6 @@ import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
 import ClaimReviewDraftForm from './ClaimReviewDraftForm';
 import Button from '@/bases/Button/Button';
-import { DatePicker } from '@/bases/DatePicker/DatePicker';
 import { Input } from '@/bases/Input';
 import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
@@ -184,12 +182,6 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
               placeholder="Upload image"
               disabled={preview}
             />
-            <DatePicker
-              label="Date of article publication"
-              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
-              onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
-              disabled={preview}
-            />
           </Row>
         </Card>
         <Card>
@@ -233,23 +225,28 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
             <Select
               label="Topic"
               defaultValue={form.topic}
-              options={Object.entries(Topic).map(v => ({
-                value: v[1].split('_').join(' '),
-                label: v[1].split('_').join(' ')
-              }))}
+              options={[
+                { label: 'Topic', value: '' },
+                ...Object.entries(Topic).map(v => ({
+                  value: v[1].split('_').join(' '),
+                  label: v[1].split('_').join(' ')
+                }))
+              ]}
               required
-              onChange={v => setForm((prev: any) => ({ ...prev, topic: v, subtopics: [] }))}
+              onChange={v => setForm((prev: any) => ({ ...prev, topic: v, subtopics: undefined }))}
               disabled={preview}
             />
             <Tagger
               label="Subtopics"
               value={form.subtopics}
-              options={Object.entries(Subtopic)
-                .filter(v => v[1].startsWith(form.topic))
-                .map(v => ({
-                  value: v[1].split('_').join(' '),
-                  label: v[1].split('_').join(' ')
-                }))}
+              options={[
+                ...Object.entries(Subtopic)
+                  .filter(v => v[1].startsWith(form.topic))
+                  .map(v => ({
+                    value: v[1].split('_').join(' '),
+                    label: v[1].split('_').join(' ')
+                  }))
+              ]}
               maxTagCount="responsive"
               mode="multiple"
               onChange={v => setForm((prev: any) => ({ ...prev, subtopics: v }))}

@@ -1,17 +1,17 @@
 import { Badge, Divider } from 'antd';
+import dayjs from 'dayjs';
 import { Plus, X } from 'react-feather';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
+import { DatePicker } from '@/bases/DatePicker/DatePicker';
 import { Input } from '@/bases/Input';
-import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
 import { TextArea } from '@/bases/Textarea';
 import Card from '@/components/Card/Card';
-import { FILE_TYPES } from '@/constants/accept';
 import { AiVerificationType } from '@/constants/aiVerification';
 import { DistortionType } from '@/constants/distortionType';
-import { MediaFormat, MediaType, Platform } from '@/constants/media';
+import { MediaFormat, Platform } from '@/constants/media';
 import { ReviewRating } from '@/constants/ratings';
 
 export default function ClaimReviewDraftForm(props: {
@@ -217,71 +217,32 @@ export default function ClaimReviewDraftForm(props: {
                     disabled={preview}
                   />
                 </Row>
-
-                <Row align="SPACE">
-                  <InputUploader
-                    accept={{
-                      'image/png': FILE_TYPES.images,
-                      'audio/mp3': FILE_TYPES.audio,
-                      'video/mp4': FILE_TYPES.videos,
-                      'application/*': FILE_TYPES.files
-                    }}
-                    label="Associated multimedia"
-                    value={appearance?.associatedMedia}
-                    key={`${props.formUrl}_appearance_${appearanceIndex}_associatedMedia`}
-                    onUrlChange={(url: string) => {
-                      props.handleUpdate({
-                        ...claimReview,
-                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
-                          if (_appearanceIndex === appearanceIndex) {
-                            return {
-                              ..._appearance,
-                              associatedMedia: url
-                            };
-                          }
-                          return _appearance;
-                        })
-                      });
-                    }}
-                    placeholder="Upload file"
-                    disabled={preview}
-                  />
-
-                  <Select
-                    label="Associated multimedia format"
-                    defaultValue={appearance?.associatedMediaType}
-                    key={`${props.formUrl}_appearance_${appearanceIndex}_associatedMediaType`}
-                    options={[
-                      { label: 'Select associated media format', value: '' },
-                      ...Object.entries(MediaType).map(([key, value]) => ({
-                        label: key.split('_').join(' '),
-                        value: value.split('_').join(' ')
-                      }))
-                    ]}
-                    onChange={v =>
-                      props.handleUpdate({
-                        ...claimReview,
-                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
-                          if (_appearanceIndex === appearanceIndex) {
-                            return {
-                              ..._appearance,
-                              associatedMediaType: v
-                            };
-                          }
-                          return _appearance;
-                        })
+                <DatePicker
+                  label="Claim apperance date"
+                  required
+                  value={dayjs(appearance.appearanceDate).isValid() ? dayjs(appearance.appearanceDate) : appearance.appearanceDate}
+                  onChange={v =>
+                    props.handleUpdate({
+                      ...claimReview,
+                      appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                        if (_appearanceIndex === appearanceIndex) {
+                          return {
+                            ..._appearance,
+                            appearanceDate: v
+                          };
+                        }
+                        return _appearance;
                       })
-                    }
-                    disabled={preview}
-                  />
-                </Row>
+                    })
+                  }
+                  disabled={preview}
+                />
                 <Input
                   label="Archive URL"
                   pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
                   placeholder="https://example.com/factchecking/article-010101"
                   key={`${props.formUrl}_appearance_${appearanceIndex}_archivedAt`}
                   value={appearance?.archivedAt}
-                  required={true}
                   onChange={v =>
                     props.handleUpdate({
                       ...claimReview,
