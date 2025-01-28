@@ -35,6 +35,7 @@ export default function Articles() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log(articles);
   return (
     <>
       <Header icon={<File />} title="Your articles">
@@ -68,6 +69,7 @@ export default function Articles() {
             columns={[
               'Title of the article/report',
               'Type of publication',
+              'Imported',
               <Sorter
                 key="Sorter"
                 onSort={() => {
@@ -97,6 +99,9 @@ export default function Articles() {
               <RepositoryHeadline key={article?.externalId} image={article?.image} headline={article?.headlineNative} />,
               <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
                 {article?.type}
+              </Badge>,
+              <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
+                {article.imported ? 'Yes' : 'No'}
               </Badge>,
               dayjs(article?.dateModified).format('DD/MM/YYYY'),
               <Row align="RIGHT" key={article?.externalId + 'actions'}>

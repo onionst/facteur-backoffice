@@ -28,6 +28,7 @@ export class Article {
   claimreviewed?: string;
   claimreviewedNative?: string;
   reviewRating?: ReviewRating;
+  imported?: boolean;
   appearances?: Array<{
     url?: string;
     archivedAt?: string;
