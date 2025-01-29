@@ -78,6 +78,7 @@ export default function Edit() {
       aiVerification: '',
       claimReviewedNative: '',
       reviewRating: '',
+      multiclaim: false,
       author: '',
       appearances: [
         {
@@ -157,6 +158,9 @@ export default function Edit() {
       if (articleType === ArticleType.Factcheck) {
         payload.evidences = form.evidences;
         payload.claimReview = form.claimReview;
+        if (payload.claimReview.multiclaim === undefined) {
+          payload.claimReview.multiclaim = false;
+        }
         const authorData = Object.fromEntries(
           Object.entries({
             author: form.claimReview.author || null

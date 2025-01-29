@@ -25,7 +25,6 @@ export default function ClaimReviewDraftForm(props: {
   const claimReview = props.claimReview;
   const preview = props.preview;
 
-  console.log(claimReview);
   return (
     <>
       <Divider style={{ margin: '8px 0' }} />
