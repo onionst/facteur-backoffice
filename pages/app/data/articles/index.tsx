@@ -69,6 +69,7 @@ export default function Articles() {
               'Title of the article/report',
               'Type of publication',
               'Imported',
+              'Revised',
               <Sorter
                 key="Sorter"
                 onSort={() => {
@@ -101,6 +102,9 @@ export default function Articles() {
               </Badge>,
               <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
                 {article.imported ? 'Yes' : 'No'}
+              </Badge>,
+              <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
+                {article.revised ? 'Yes' : 'No'}
               </Badge>,
               dayjs(article?.dateModified).format('DD/MM/YYYY'),
               <Row align="RIGHT" key={article?.externalId + 'actions'}>
