@@ -35,7 +35,6 @@ export default function Articles() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(articles);
   return (
     <>
       <Header icon={<File />} title="Your articles">

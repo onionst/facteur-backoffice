@@ -28,6 +28,8 @@ export type Filter = {
   politicalParty?: PoliticalParty;
   order?: '-datePublished' | 'datePublished' | '-dateCreated' | 'dateCreated' | '-dateModified' | 'dateModified';
   export?: boolean;
+  imported?: string;
+  revised?: string;
   exportSize?: number;
   fileType?: FileType;
 };
@@ -114,7 +116,50 @@ export default function ArticlesFilter(props: RepositoryFilterProps) {
               ]}
             />
           </Input>
-
+          <Input label="Imported">
+            <RadioGroup
+              selected={filter?.imported || ''}
+              onChange={(value: any) => {
+                setModified(true);
+                setFilter((prev: any) => ({
+                  ...prev,
+                  imported: value
+                }));
+              }}
+              options={[
+                {
+                  label: 'Yes',
+                  value: 'true'
+                },
+                {
+                  label: 'No',
+                  value: 'false'
+                }
+              ]}
+            />
+          </Input>
+          <Input label="Revised">
+            <RadioGroup
+              selected={filter?.revised || ''}
+              onChange={(value: any) => {
+                setModified(true);
+                setFilter((prev: any) => ({
+                  ...prev,
+                  revised: value
+                }));
+              }}
+              options={[
+                {
+                  label: 'Yes',
+                  value: 'true'
+                },
+                {
+                  label: 'No',
+                  value: 'false'
+                }
+              ]}
+            />
+          </Input>
           {modified && !submitted ? (
             <Row align="RIGHT">
               <Button type="button" theme="CTA" onClick={handleSubmit}>
