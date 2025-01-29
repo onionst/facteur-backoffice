@@ -148,15 +148,15 @@ export default function Edit() {
         topic: form.topic || null,
         subtopics: form.subtopics || null,
         countryOfOrigin: form.countryOfOrigin || null,
-        contentLocation: form.contentLocation || null,
-        claimReview: form.claimReview,
-        evidences: form.evidences
+        contentLocation: form.contentLocation || null
       };
       payload = {
         ...payload
       };
 
       if (articleType === ArticleType.Factcheck) {
+        payload.evidences = form.evidences;
+        payload.claimReview = form.claimReview;
         const authorData = Object.fromEntries(
           Object.entries({
             author: form.claimReview.author || null

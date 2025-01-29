@@ -66,15 +66,15 @@ export default function New() {
         topic: form.topic || null,
         subtopics: form.subtopics || null,
         countryOfOrigin: form.countryOfOrigin || null,
-        contentLocation: form.contentLocation || null,
-        claimReview: structuredClone(form.claimReview),
-        evidences: structuredClone(form.evidences)
+        contentLocation: form.contentLocation || null
       };
       payload = {
         ...payload
       };
 
       if (articleType === ArticleType.Factcheck) {
+        payload.evidences = structuredClone(form.evidences);
+        payload.claimReview = structuredClone(form.claimReview);
         const authorData = Object.fromEntries(
           Object.entries({
             author: form.claimReview.author || null

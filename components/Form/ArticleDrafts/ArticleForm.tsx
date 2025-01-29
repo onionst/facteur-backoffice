@@ -57,17 +57,23 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
         const natives: string[] = [form.headlineNative].concat(form.claimReview.claimReviewedNative);
         const translations = await Promise.all(natives.map(native => fetchTranslation(native)));
         translations.forEach((text: string) => text.replaceAll('\\', ''));
+        if (form.type === ArticleType.Factcheck) {
+          const claimReview = {
+            ...form.claimReview,
+            claimReviewed: translations[0]
+          };
+          setForm((prev: any) => ({
+            ...prev,
+            headline: translations[0],
+            claimReview: claimReview
+          }));
+        } else {
+          setForm((prev: any) => ({
+            ...prev,
+            headline: translations[0]
+          }));
+        }
 
-        const claimReview = {
-          ...form.claimReview,
-          claimReviewed: translations[0]
-        };
-
-        setForm((prev: any) => ({
-          ...prev,
-          headline: translations[0],
-          claimReview: claimReview
-        }));
         setLoading(false);
         props.onContinue(form);
       } catch (err) {
