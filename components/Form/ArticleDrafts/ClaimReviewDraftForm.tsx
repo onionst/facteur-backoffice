@@ -25,6 +25,7 @@ export default function ClaimReviewDraftForm(props: {
   const claimReview = props.claimReview;
   const preview = props.preview;
 
+  console.log(claimReview);
   return (
     <>
       <Divider style={{ margin: '8px 0' }} />
@@ -218,9 +219,9 @@ export default function ClaimReviewDraftForm(props: {
                   />
                 </Row>
                 <DatePicker
-                  label="Claim apperance date"
+                  label="Claim appearance date"
                   required
-                  value={dayjs(appearance.appearanceDate).isValid() ? dayjs(appearance.appearanceDate) : appearance.appearanceDate}
+                  value={appearance.appearanceDate ? dayjs(appearance.appearanceDate) : undefined}
                   onChange={v =>
                     props.handleUpdate({
                       ...claimReview,
@@ -295,6 +296,7 @@ export default function ClaimReviewDraftForm(props: {
                       associatedMedia: '',
                       associatedMediaType: '',
                       difussionFormat: '',
+                      appearanceDate: '',
                       platform: ''
                     }
                   ]

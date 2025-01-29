@@ -36,6 +36,7 @@ export class Article {
     associatedMedia?: MediaType;
     difussionFormat?: MediaFormat;
     platform?: Platform;
+    appearanceDate?: Date;
   }>;
   author?: string;
   associatedClaimReview?: string[];
