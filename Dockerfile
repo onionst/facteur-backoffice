@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # App builder
 # ----------------------------------------------------------------------------------------------------------------------
-FROM --platform=linux/amd64 node:18-alpine as builder
+FROM node:18-alpine AS builder
 
 # In order to install git dependencies
 # ------------------------------------
@@ -21,11 +21,11 @@ RUN npm run build
 # ----------------------------------------------------------------------------------------------------------------------
 # Application server
 # ----------------------------------------------------------------------------------------------------------------------
-FROM --platform=linux/amd64 node:18-alpine
+FROM node:18-alpine
 
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
