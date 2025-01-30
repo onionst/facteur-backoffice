@@ -17,7 +17,7 @@ import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
 import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
-import { Topic } from '@/constants/topics';
+import { Subtopic, Topic } from '@/constants/topics';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { Organization } from '@/dtos/organizations/organization.dto';
 import { FileType } from '@/modals/FileType';
@@ -30,11 +30,14 @@ export type Filter = {
   inLanguage?: LanguageISO;
   keywords?: string[];
   topic?: Topic;
+  subtopic?: Subtopic;
   countryOfOrigin?: CountryISO;
   reviewRating?: ReviewRating;
   politicalParty?: PoliticalParty;
   order?: '-datePublished' | 'datePublished' | '-dateCreated' | 'dateCreated' | '-dateModified' | 'dateModified';
   export?: boolean;
+  imported?: string;
+  revised?: string;
   exportSize?: number;
   fileType?: FileType;
 };
@@ -144,6 +147,50 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               ]}
             />
           </Input>
+          <Input label="Imported">
+            <RadioGroup
+              selected={filter?.imported || ''}
+              onChange={(value: any) => {
+                setModified(true);
+                setFilter((prev: any) => ({
+                  ...prev,
+                  imported: value
+                }));
+              }}
+              options={[
+                {
+                  label: 'Yes',
+                  value: 'true'
+                },
+                {
+                  label: 'No',
+                  value: 'false'
+                }
+              ]}
+            />
+          </Input>
+          <Input label="Revised">
+            <RadioGroup
+              selected={filter?.revised || ''}
+              onChange={(value: any) => {
+                setModified(true);
+                setFilter((prev: any) => ({
+                  ...prev,
+                  revised: value
+                }));
+              }}
+              options={[
+                {
+                  label: 'Yes',
+                  value: 'true'
+                },
+                {
+                  label: 'No',
+                  value: 'false'
+                }
+              ]}
+            />
+          </Input>
           <Tagger
             label="Keywords"
             maxTagCount="responsive"
@@ -218,7 +265,26 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               }));
             }}
           />
-
+          <Select
+            label="Subtopic"
+            options={[
+              {
+                value: '',
+                label: 'Filter by subtopic'
+              },
+              ...Object.entries(Subtopic).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))
+            ]}
+            onChange={(subtopic: any) => {
+              setModified(true);
+              setFilter(prev => ({
+                ...prev,
+                subtopic
+              }));
+            }}
+          />
           <Select
             label="Name of the organization"
             onChange={organization => {

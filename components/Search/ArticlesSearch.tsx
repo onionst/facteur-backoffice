@@ -27,7 +27,6 @@ export default function ArticleSearch(props: SearchProps) {
   const [articlesFilter, setArticlesFilter] = useState<any>({});
   const [key, setKey] = useState(Date.now());
 
-  console.log(filter);
   useEffect(() => {
     if (typeof props.defaultValue === 'string') {
       setFilter({ search: props.defaultValue });
