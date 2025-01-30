@@ -13,7 +13,9 @@ import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
 import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
+import { AiVerificationType } from '@/constants/aiVerification';
 import { CountryISO } from '@/constants/country';
+import { DistortionType } from '@/constants/distortionType';
 import { LanguageISO } from '@/constants/language';
 import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
@@ -40,6 +42,8 @@ export type Filter = {
   revised?: string;
   exportSize?: number;
   fileType?: FileType;
+  distortionType?: DistortionType;
+  aiVerification?: AiVerificationType;
 };
 export type RepositoryFilterProps = {
   onChange: (filter: Filter) => void;
@@ -282,6 +286,46 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               setFilter(prev => ({
                 ...prev,
                 subtopic
+              }));
+            }}
+          />
+          <Select
+            label="Distortion type"
+            options={[
+              {
+                value: '',
+                label: 'Filter by distortion type'
+              },
+              ...Object.entries(DistortionType).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))
+            ]}
+            onChange={(distortionType: any) => {
+              setModified(true);
+              setFilter(prev => ({
+                ...prev,
+                distortionType
+              }));
+            }}
+          />
+          <Select
+            label="AI verification"
+            options={[
+              {
+                value: '',
+                label: 'Filter by AI verification'
+              },
+              ...Object.entries(AiVerificationType).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))
+            ]}
+            onChange={(aiVerification: any) => {
+              setModified(true);
+              setFilter(prev => ({
+                ...prev,
+                aiVerification
               }));
             }}
           />
