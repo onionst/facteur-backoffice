@@ -31,28 +31,24 @@ export default function New() {
     image: '',
     keywords: [],
     inLanguage: session.organization?.language || '',
-    topics: [],
-    euRelation: '',
+    topic: '',
+    subtopics: [],
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
-    claimReviews: [
-      {
-        claimReviewed: '',
-        claimReviewedNative: '',
-        reviewRating: '',
-        itemReviewed: {
-          datePublished: null,
-          author: '',
-          politicalParty: '',
-          appearances: [
-            {
-              url: ''
-            }
-          ]
-        },
-        associatedClaimReview: []
-      }
-    ],
+    claimReview: {
+      claimReviewed: '',
+      aiVerification: '',
+      multiclaim: false,
+      claimReviewedNative: '',
+      reviewRating: '',
+      author: '',
+      appearances: [
+        {
+          url: ''
+        }
+      ],
+      associatedClaimReview: []
+    },
     evidences: []
   });
 
@@ -67,11 +63,11 @@ export default function New() {
         image: form.image || null,
         keywords: form?.keywords?.filter((keyword: string) => keyword?.length >= MIN_LENGTH_KEYWORDS) || null,
         inLanguage: form.inLanguage || null,
-        topics: form.topics || null,
-        euRelation: form.euRelation || null,
+        topic: form.topic || null,
+        subtopics: form.subtopics || null,
         countryOfOrigin: form.countryOfOrigin || null,
         contentLocation: form.contentLocation || null,
-        claimReviews: structuredClone(form.claimReviews),
+        claimReview: structuredClone(form.claimReview),
         evidences: structuredClone(form.evidences)
       };
       payload = {
@@ -81,31 +77,19 @@ export default function New() {
       if (articleType === ArticleType.Factcheck) {
         const authorData = Object.fromEntries(
           Object.entries({
-            author: form.claimReviews[0].itemReviewed.author || null,
-            politicalParty: form.claimReviews[0].itemReviewed.politicalParty || null
+            author: form.claimReview.author || null
           }).filter(v => v[1] != null)
         );
 
         payload = {
           ...payload,
-          claimReviews: payload.claimReviews.map((claimReview: any) => ({
-            ...claimReview,
-            itemReviewed: {
-              ...claimReview.itemReviewed,
-              ...authorData
-            }
-          }))
+          claimReview: {
+            ...payload.claimReview,
+            ...authorData
+          }
         };
       } else if (articleType === ArticleType.Prebunk) {
-        payload = {
-          ...payload,
-          claimReviews: payload.claimReviews.map((obj: any) => {
-            const { ...rest } = obj;
-            delete rest.itemReviewed;
-            delete rest.appearances;
-            return rest;
-          })
-        };
+        delete payload.claimReview.appearances;
       }
       payload = removeFalsyValues(payload);
       await createArticle(Object.fromEntries(Object.entries(payload).filter(v => v[1] != null)));
@@ -160,28 +144,24 @@ export default function New() {
                   image: '',
                   keywords: [],
                   inLanguage: session.organization?.language || '',
-                  topics: [],
-                  euRelation: '',
+                  topic: '',
+                  subtopics: [],
                   countryOfOrigin: session.organization?.country || '',
                   contentLocation: [],
-                  claimReviews: [
-                    {
-                      claimReviewed: '',
-                      claimReviewedNative: '',
-                      reviewRating: '',
-                      itemReviewed: {
-                        datePublished: null,
-                        author: '',
-                        politicalParty: '',
-                        appearances: [
-                          {
-                            url: ''
-                          }
-                        ]
-                      },
-                      associatedClaimReview: []
-                    }
-                  ],
+                  claimReview: {
+                    claimReviewed: '',
+                    claimReviewedNative: '',
+                    aiVerification: '',
+                    multiclaim: false,
+                    reviewRating: '',
+                    author: '',
+                    appearances: [
+                      {
+                        url: ''
+                      }
+                    ],
+                    associatedClaimReview: []
+                  },
                   evidences: []
                 });
                 setStep(1);

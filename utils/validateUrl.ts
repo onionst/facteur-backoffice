@@ -10,7 +10,7 @@ export const removeFalsyValues = (obj: any) => {
     if (typeof value === 'object' && value !== null) {
       obj[key] = removeFalsyValues(value);
     }
-    if (!value && typeof value !== 'object') {
+    if ((value === null || value === undefined) && typeof value !== 'object') {
       delete obj[key];
     }
   }

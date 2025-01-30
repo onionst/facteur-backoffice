@@ -14,7 +14,6 @@ import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
 import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { CountryISO } from '@/constants/country';
-import { EuRelation } from '@/constants/euRelation';
 import { LanguageISO } from '@/constants/language';
 import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
@@ -27,11 +26,10 @@ export type Filter = {
   type?: ArticleType[];
   untilDate?: Date;
   sinceDate?: Date;
-  euRelation?: EuRelation;
   publisher?: string;
   inLanguage?: LanguageISO;
   keywords?: string[];
-  topics?: Topic[];
+  topic?: Topic;
   countryOfOrigin?: CountryISO;
   reviewRating?: ReviewRating;
   politicalParty?: PoliticalParty;
@@ -146,27 +144,6 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               ]}
             />
           </Input>
-          <Input label="EU relation">
-            <RadioGroup
-              onChange={(relation: any) => {
-                setModified(true);
-                setFilter(prev => ({
-                  ...prev,
-                  euRelation: relation
-                }));
-              }}
-              options={[
-                {
-                  label: EuRelation.Direct,
-                  value: EuRelation.Direct
-                },
-                {
-                  label: EuRelation.Indirect,
-                  value: EuRelation.Indirect
-                }
-              ]}
-            />
-          </Input>
           <Tagger
             label="Keywords"
             maxTagCount="responsive"
@@ -221,22 +198,25 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               ]}
             />
           </Input>
-          <Tagger
-            label="Topics"
-            options={Object.entries(Topic).map(v => ({
-              value: v[1].split('_').join(' '),
-              label: v[1].split('_').join(' ')
-            }))}
-            maxTagCount="responsive"
-            mode="multiple"
-            onChange={(topics: any) => {
+          <Select
+            label="Topic"
+            options={[
+              {
+                value: '',
+                label: 'Filter by topic'
+              },
+              ...Object.entries(Topic).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))
+            ]}
+            onChange={(topic: any) => {
               setModified(true);
               setFilter(prev => ({
                 ...prev,
-                topics
+                topic
               }));
             }}
-            placeholder="Filter by topic"
           />
 
           <Select

@@ -1,11 +1,9 @@
 import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import { CountryISO } from '@/constants/country';
-import { EuRelation } from '@/constants/euRelation';
 import { LanguageISO } from '@/constants/language';
 import { MediaFormat, MediaType, Platform } from '@/constants/media';
-import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
-import { Topic } from '@/constants/topics';
+import { Subtopic, Topic } from '@/constants/topics';
 
 export class Article {
   _id?: string;
@@ -22,26 +20,25 @@ export class Article {
   inLanguage?: LanguageISO;
   copyrightHolder: string;
   description?: string;
-  topics: Topic[];
-  euRelation: EuRelation;
+  topic: Topic;
+  subtopics?: Subtopic[];
   countryOfOrigin: CountryISO;
   contentLocation?: CountryISO;
   maintainer: string;
   claimreviewed?: string;
   claimreviewedNative?: string;
   reviewRating?: ReviewRating;
-  itemReviewed?: {
-    datePublished?: Date;
-    author?: string;
-    politicalParty?: PoliticalParty | string;
-    appearances?: Array<{
-      url?: string;
-      archivedAt?: string;
-      associatedMedia?: MediaType;
-      mediaFormat?: MediaFormat;
-      platform?: Platform;
-    }>;
-  };
+  imported?: boolean;
+  revised?: boolean;
+  appearances?: Array<{
+    url?: string;
+    archivedAt?: string;
+    associatedMedia?: MediaType;
+    difussionFormat?: MediaFormat;
+    platform?: Platform;
+    appearanceDate?: Date;
+  }>;
+  author?: string;
   associatedClaimReview?: string[];
   dateModified?: Date;
   dateCreated?: Date;

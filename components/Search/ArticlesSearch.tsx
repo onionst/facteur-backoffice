@@ -27,6 +27,7 @@ export default function ArticleSearch(props: SearchProps) {
   const [articlesFilter, setArticlesFilter] = useState<any>({});
   const [key, setKey] = useState(Date.now());
 
+  console.log(filter);
   useEffect(() => {
     if (typeof props.defaultValue === 'string') {
       setFilter({ search: props.defaultValue });
@@ -89,7 +90,10 @@ export default function ArticleSearch(props: SearchProps) {
           </Row>
         </div>
       </form>
-      {((submittedFilter?.sinceDate && submittedFilter?.untilDate) || (submittedFilter?.type && submittedFilter?.type?.length > 0)) && (
+      {((submittedFilter?.sinceDate && submittedFilter?.untilDate) ||
+        (submittedFilter?.type && submittedFilter?.type?.length > 0) ||
+        submittedFilter?.revised ||
+        submittedFilter?.imported) && (
         <div className="w-full mt-5">
           {submittedFilter?.sinceDate && submittedFilter?.untilDate && (
             <Tag
@@ -138,6 +142,52 @@ export default function ArticleSearch(props: SearchProps) {
               key={submittedFilter.type}
             >
               {submittedFilter.type}
+            </Tag>
+          )}
+          {submittedFilter?.imported && (
+            <Tag
+              closable
+              onClose={() => {
+                setFilter((prev: any) => {
+                  delete prev.imported;
+                  return prev;
+                });
+                setArticlesFilter((prev: any) => {
+                  delete prev.imported;
+                  return prev;
+                });
+                setSubmittedFilter((prev: any) => {
+                  delete prev.imported;
+                  return prev;
+                });
+                handleSearch();
+              }}
+              key={'imported' + submittedFilter.imported}
+            >
+              {submittedFilter.imported === 'true' ? 'Imported' : 'Not imported'}
+            </Tag>
+          )}
+          {submittedFilter?.revised && (
+            <Tag
+              closable
+              onClose={() => {
+                setFilter((prev: any) => {
+                  delete prev.revised;
+                  return prev;
+                });
+                setArticlesFilter((prev: any) => {
+                  delete prev.revised;
+                  return prev;
+                });
+                setSubmittedFilter((prev: any) => {
+                  delete prev.revised;
+                  return prev;
+                });
+                handleSearch();
+              }}
+              key={'revised' + submittedFilter.revised}
+            >
+              {submittedFilter.revised === 'true' ? 'Revised' : 'Not revised'}
             </Tag>
           )}
         </div>

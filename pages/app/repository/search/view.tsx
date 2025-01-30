@@ -39,19 +39,15 @@ export default function View() {
     image: '',
     keywords: [],
     inLanguage: session.organization?.language || '',
-    topics: [],
-    euRelation: '',
+    topic: '',
+    subtopics: [],
     countryOfOrigin: session.organization?.country || '',
     contentLocation: [],
     claimReviewed: '',
     claimReviewedNative: '',
     reviewRating: '',
-    itemReviewed: {
-      datePublished: null,
-      author: '',
-      politicalParty: '',
-      appearances: []
-    },
+    appearances: [],
+    author: '',
     associatedClaimReview: []
   });
 

@@ -10,7 +10,6 @@ import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import { CountryISO } from '@/constants/country';
-import { EuRelation } from '@/constants/euRelation';
 import { LanguageISO } from '@/constants/language';
 import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
@@ -21,15 +20,16 @@ export type Filter = {
   type?: ArticleType[];
   untilDate?: Date;
   sinceDate?: Date;
-  euRelation?: EuRelation;
   publisher?: string;
   inLanguage?: LanguageISO;
-  topics?: Topic[];
+  topic?: Topic;
   countryOfOrigin?: CountryISO;
   reviewRating?: ReviewRating;
   politicalParty?: PoliticalParty;
   order?: '-datePublished' | 'datePublished' | '-dateCreated' | 'dateCreated' | '-dateModified' | 'dateModified';
   export?: boolean;
+  imported?: string;
+  revised?: string;
   exportSize?: number;
   fileType?: FileType;
 };
@@ -116,7 +116,50 @@ export default function ArticlesFilter(props: RepositoryFilterProps) {
               ]}
             />
           </Input>
-
+          <Input label="Imported">
+            <RadioGroup
+              selected={filter?.imported || ''}
+              onChange={(value: any) => {
+                setModified(true);
+                setFilter((prev: any) => ({
+                  ...prev,
+                  imported: value
+                }));
+              }}
+              options={[
+                {
+                  label: 'Yes',
+                  value: 'true'
+                },
+                {
+                  label: 'No',
+                  value: 'false'
+                }
+              ]}
+            />
+          </Input>
+          <Input label="Revised">
+            <RadioGroup
+              selected={filter?.revised || ''}
+              onChange={(value: any) => {
+                setModified(true);
+                setFilter((prev: any) => ({
+                  ...prev,
+                  revised: value
+                }));
+              }}
+              options={[
+                {
+                  label: 'Yes',
+                  value: 'true'
+                },
+                {
+                  label: 'No',
+                  value: 'false'
+                }
+              ]}
+            />
+          </Input>
           {modified && !submitted ? (
             <Row align="RIGHT">
               <Button type="button" theme="CTA" onClick={handleSubmit}>
