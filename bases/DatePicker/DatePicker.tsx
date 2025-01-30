@@ -24,6 +24,18 @@ export function DatePicker(props: DatePickerProps & InputProps) {
           className={`form-control ${props.disabled ? s['ds-date-picker--disabled'] : s['ds-date-picker']} ${props.className || ''}`}
         />
       </div>
+      <input
+        type="text"
+        value={props?.value ? props?.value?.toISOString() : ''}
+        required={props.required}
+        style={{
+          position: 'absolute',
+          opacity: 0,
+          width: 0,
+          height: 0,
+          pointerEvents: 'none'
+        }}
+      />
     </div>
   );
 }
