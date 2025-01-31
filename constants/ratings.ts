@@ -4,5 +4,6 @@ export enum ReviewRating {
   MissingContext = 'Missing context',
   Satire = 'Satire',
   True = 'True',
-  AIGenerated = 'AI generated'
+  AIGenerated = 'AI generated',
+  LackOfEvidence = 'Lack of evidence'
 }

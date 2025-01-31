@@ -17,7 +17,6 @@ import { AiVerificationType } from '@/constants/aiVerification';
 import { CountryISO } from '@/constants/country';
 import { DistortionType } from '@/constants/distortionType';
 import { LanguageISO } from '@/constants/language';
-import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
 import { Subtopic, Topic } from '@/constants/topics';
 import { useOrganizations } from '@/contexts/organizations.context';
@@ -35,11 +34,8 @@ export type Filter = {
   subtopic?: Subtopic;
   countryOfOrigin?: CountryISO;
   reviewRating?: ReviewRating;
-  politicalParty?: PoliticalParty;
   order?: '-datePublished' | 'datePublished' | '-dateCreated' | 'dateCreated' | '-dateModified' | 'dateModified';
   export?: boolean;
-  imported?: string;
-  revised?: string;
   exportSize?: number;
   fileType?: FileType;
   distortionType?: DistortionType;
@@ -147,50 +143,6 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
                 {
                   label: ArticleType.Prebunk,
                   value: ArticleType.Prebunk
-                }
-              ]}
-            />
-          </Input>
-          <Input label="Imported">
-            <RadioGroup
-              selected={filter?.imported || ''}
-              onChange={(value: any) => {
-                setModified(true);
-                setFilter((prev: any) => ({
-                  ...prev,
-                  imported: value
-                }));
-              }}
-              options={[
-                {
-                  label: 'Yes',
-                  value: 'true'
-                },
-                {
-                  label: 'No',
-                  value: 'false'
-                }
-              ]}
-            />
-          </Input>
-          <Input label="Revised">
-            <RadioGroup
-              selected={filter?.revised || ''}
-              onChange={(value: any) => {
-                setModified(true);
-                setFilter((prev: any) => ({
-                  ...prev,
-                  revised: value
-                }));
-              }}
-              options={[
-                {
-                  label: 'Yes',
-                  value: 'true'
-                },
-                {
-                  label: 'No',
-                  value: 'false'
                 }
               ]}
             />
@@ -383,25 +335,6 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               }));
             }}
           />
-          {!(filter?.type && filter?.type?.length > 0 && !filter.type?.includes(ArticleType.Factcheck)) && (
-            <Select
-              label="EU party related to the claim"
-              options={[
-                { label: 'Filter by political party', value: '' },
-                ...Object.entries(PoliticalParty).map(v => ({
-                  value: v[1].split('_').join(' '),
-                  label: v[1].split('_').join(' ')
-                }))
-              ]}
-              onChange={(v: any) => {
-                setModified(true);
-                setFilter(prev => ({
-                  ...prev,
-                  politicalParty: v
-                }));
-              }}
-            />
-          )}
           {modified && !submitted && renders >= 2 ? (
             <div className={s['ds-repository-filter__apply']}>
               <Row align="RIGHT">

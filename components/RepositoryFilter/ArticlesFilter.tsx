@@ -11,7 +11,6 @@ import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
 import { CountryISO } from '@/constants/country';
 import { LanguageISO } from '@/constants/language';
-import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
 import { Topic } from '@/constants/topics';
 import { FileType } from '@/modals/FileType';
@@ -25,7 +24,6 @@ export type Filter = {
   topic?: Topic;
   countryOfOrigin?: CountryISO;
   reviewRating?: ReviewRating;
-  politicalParty?: PoliticalParty;
   order?: '-datePublished' | 'datePublished' | '-dateCreated' | 'dateCreated' | '-dateModified' | 'dateModified';
   export?: boolean;
   imported?: string;
