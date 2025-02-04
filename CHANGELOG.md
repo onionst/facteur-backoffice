@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.7.0%0Dv1.6.0#diff) (2025-02-04)
+
+
+### Features
+
+* readme run the development server: ([6b8e765](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/6b8e7657408e0edac04f1b5ed7b70a6c149ad509))
+* update logo ([0f88af8](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/0f88af8462b90e99407e21871cb0ed78a4b85c30))
+
+
+### Bug Fixes
+
+* Dockerfile ([9ea9b55](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/9ea9b55da8b6a27debd56ca871c6caf35b620802))
+* fetch data && remove evidence && renaming ee24 ([98dd6a7](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/98dd6a7792fbe611a85a6faec27e2e19aae42bb6))
+
 ## [1.6.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.6.0%0Dv1.5.1#diff) (2024-10-23)
 
 
