@@ -389,7 +389,6 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
                       }))
                     ]}
                     onChange={v => {
-                      console.log(v);
                       setForm({
                         ...form,
                         evidences: form.evidences.map((currentEvidence: any, i: number) =>

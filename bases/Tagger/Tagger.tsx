@@ -19,6 +19,18 @@ export default function Tagger(props: SelectProps & TaggerProps) {
           className={s['ds-tagger__input']}
         ></Select>
       </div>
+      <input
+        type="text"
+        value={props?.value?.join(',')}
+        required={props.required}
+        style={{
+          position: 'absolute',
+          opacity: 0,
+          width: 0,
+          height: 0,
+          pointerEvents: 'none'
+        }}
+      />
     </div>
   );
 }

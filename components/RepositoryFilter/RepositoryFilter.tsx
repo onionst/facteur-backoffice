@@ -13,11 +13,12 @@ import Row from '@/bases/Row/Row';
 import Select from '@/bases/Select/Select';
 import Tagger from '@/bases/Tagger/Tagger';
 import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
+import { AiVerificationType } from '@/constants/aiVerification';
 import { CountryISO } from '@/constants/country';
+import { DistortionType } from '@/constants/distortionType';
 import { LanguageISO } from '@/constants/language';
-import { PoliticalParty } from '@/constants/politicalParty';
 import { ReviewRating } from '@/constants/ratings';
-import { Topic } from '@/constants/topics';
+import { Subtopic, Topic } from '@/constants/topics';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { Organization } from '@/dtos/organizations/organization.dto';
 import { FileType } from '@/modals/FileType';
@@ -30,13 +31,15 @@ export type Filter = {
   inLanguage?: LanguageISO;
   keywords?: string[];
   topic?: Topic;
+  subtopic?: Subtopic;
   countryOfOrigin?: CountryISO;
   reviewRating?: ReviewRating;
-  politicalParty?: PoliticalParty;
   order?: '-datePublished' | 'datePublished' | '-dateCreated' | 'dateCreated' | '-dateModified' | 'dateModified';
   export?: boolean;
   exportSize?: number;
   fileType?: FileType;
+  distortionType?: DistortionType;
+  aiVerification?: AiVerificationType;
 };
 export type RepositoryFilterProps = {
   onChange: (filter: Filter) => void;
@@ -218,7 +221,66 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               }));
             }}
           />
-
+          <Select
+            label="Subtopic"
+            options={[
+              {
+                value: '',
+                label: 'Filter by subtopic'
+              },
+              ...Object.entries(Subtopic).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))
+            ]}
+            onChange={(subtopic: any) => {
+              setModified(true);
+              setFilter(prev => ({
+                ...prev,
+                subtopic
+              }));
+            }}
+          />
+          <Select
+            label="Distortion type"
+            options={[
+              {
+                value: '',
+                label: 'Filter by distortion type'
+              },
+              ...Object.entries(DistortionType).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))
+            ]}
+            onChange={(distortionType: any) => {
+              setModified(true);
+              setFilter(prev => ({
+                ...prev,
+                distortionType
+              }));
+            }}
+          />
+          <Select
+            label="AI verification"
+            options={[
+              {
+                value: '',
+                label: 'Filter by AI verification'
+              },
+              ...Object.entries(AiVerificationType).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))
+            ]}
+            onChange={(aiVerification: any) => {
+              setModified(true);
+              setFilter(prev => ({
+                ...prev,
+                aiVerification
+              }));
+            }}
+          />
           <Select
             label="Name of the organization"
             onChange={organization => {
@@ -273,25 +335,6 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               }));
             }}
           />
-          {!(filter?.type && filter?.type?.length > 0 && !filter.type?.includes(ArticleType.Factcheck)) && (
-            <Select
-              label="EU party related to the claim"
-              options={[
-                { label: 'Filter by political party', value: '' },
-                ...Object.entries(PoliticalParty).map(v => ({
-                  value: v[1].split('_').join(' '),
-                  label: v[1].split('_').join(' ')
-                }))
-              ]}
-              onChange={(v: any) => {
-                setModified(true);
-                setFilter(prev => ({
-                  ...prev,
-                  politicalParty: v
-                }));
-              }}
-            />
-          )}
           {modified && !submitted && renders >= 2 ? (
             <div className={s['ds-repository-filter__apply']}>
               <Row align="RIGHT">
