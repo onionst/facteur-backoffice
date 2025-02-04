@@ -13,7 +13,10 @@ export const api = axios.create({
 });
 
 export const repositoryApi = axios.create({
-  baseURL: SETTINGS.PUBLIC_ES_API_URL
+  baseURL: SETTINGS.PUBLIC_ES_API_URL,
+  headers: {
+    'x-api-key': SETTINGS.PUBLIC_SEARCH_API_KEY
+  }
 });
 
 export const customApi = axios.create({
