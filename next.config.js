@@ -12,7 +12,8 @@ const nextConfig = {
     PUBLIC_CHATBOT_URL: process.env.PUBLIC_CHATBOT_URL,
     PUBLIC_STATS_URL: process.env.PUBLIC_STATS_URL,
     PUBLIC_TRENDS_URL: process.env.PUBLIC_TRENDS_URL,
-    PUBLIC_SECTIONS: process.env.PUBLIC_SECTIONS
+    PUBLIC_SECTIONS: process.env.PUBLIC_SECTIONS,
+    PUBLIC_SEARCH_API_KEY: process.env.PUBLIC_SEARCH_API_KEY
   }
 };
 
