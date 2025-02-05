@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.8.0%0Dv1.7.0#diff) (2025-02-05)
+
+
+### Features
+
+* x-api-key ([0a90a42](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/0a90a42fda12e0710be331d41069ecfcef20c44a))
+
 ## [1.7.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.7.0%0Dv1.6.0#diff) (2025-02-04)
 
 
