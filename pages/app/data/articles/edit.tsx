@@ -242,7 +242,7 @@ export default function Edit() {
 
           {step === 0 && articleType ? (
             <ArticleForm
-              onBack={() => setStep(0)}
+              onBack={() => router.push('/app/data/articles')}
               form={form}
               ogForm={ogForm}
               setForm={setForm}
