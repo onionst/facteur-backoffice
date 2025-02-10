@@ -25,11 +25,7 @@ export default function SelectArticleType(props: SelectArticleTypeProps) {
       />
       <Row align="SPACE">
         <Column align="SPACE">
-          <ItemSelect
-            onClick={() => props.onSelect(ArticleType.Factcheck)}
-            icon={<Search size={18} color="#FFF" />}
-            label="Political Fact-check"
-          />
+          <ItemSelect onClick={() => props.onSelect(ArticleType.Factcheck)} icon={<Search size={18} color="#FFF" />} label="Fact-check" />
         </Column>
         <Column align="SPACE">
           <ItemSelect onClick={() => props.onSelect(ArticleType.Prebunk)} icon={<AlertTriangle size={18} color="#FFF" />} label="Prebunk" />
