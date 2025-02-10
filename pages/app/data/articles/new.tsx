@@ -37,7 +37,8 @@ export default function New() {
     contentLocation: [],
     claimReview: {
       claimReviewed: '',
-      aiVerification: '',
+      aiVerification: [],
+      distortionType: [],
       multiclaim: false,
       claimReviewedNative: '',
       reviewRating: '',
@@ -151,7 +152,8 @@ export default function New() {
                   claimReview: {
                     claimReviewed: '',
                     claimReviewedNative: '',
-                    aiVerification: '',
+                    aiVerification: [],
+                    distortionType: [],
                     multiclaim: false,
                     reviewRating: '',
                     author: '',
