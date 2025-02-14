@@ -60,7 +60,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
         if (form.type === ArticleType.Factcheck) {
           const claimReview = {
             ...form.claimReview,
-            claimReviewed: translations[0]
+            claimReviewed: translations[1]
           };
           setForm((prev: any) => ({
             ...prev,
