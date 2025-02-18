@@ -76,7 +76,11 @@ export default function ClaimReviewDraftForm(props: {
               label: v[1].split('_').join(' ')
             }))
           ]}
-          onChange={v => props.handleUpdate({ ...claimReview, reviewRating: v })}
+          onChange={v =>
+            v !== ReviewRating.AIGenerated
+              ? props.handleUpdate({ ...claimReview, reviewRating: v, aiVerification: [] })
+              : props.handleUpdate({ ...claimReview, reviewRating: v })
+          }
           disabled={preview}
         />
       </Row>
@@ -122,7 +126,7 @@ export default function ClaimReviewDraftForm(props: {
         onChange={v => props.handleUpdate({ ...claimReview, aiVerification: v })}
         mode="multiple"
         label="AI verification"
-        disabled={preview}
+        disabled={preview || claimReview?.reviewRating !== ReviewRating.AIGenerated}
       />
       {((!preview || claimReview?.appearances?.length) && props.type === ArticleType.Factcheck) > 0 && (
         <Input requiredHide label="Claim appearances details" required={claimReview?.appearances?.length > 0}>

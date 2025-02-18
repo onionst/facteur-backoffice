@@ -242,46 +242,6 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
             }}
           />
           <Select
-            label="Distortion type"
-            options={[
-              {
-                value: '',
-                label: 'Filter by distortion type'
-              },
-              ...Object.entries(DistortionType).map(v => ({
-                value: v[1].split('_').join(' '),
-                label: v[1].split('_').join(' ')
-              }))
-            ]}
-            onChange={(distortionType: any) => {
-              setModified(true);
-              setFilter(prev => ({
-                ...prev,
-                distortionType
-              }));
-            }}
-          />
-          <Select
-            label="AI verification"
-            options={[
-              {
-                value: '',
-                label: 'Filter by AI verification'
-              },
-              ...Object.entries(AiVerificationType).map(v => ({
-                value: v[1].split('_').join(' '),
-                label: v[1].split('_').join(' ')
-              }))
-            ]}
-            onChange={(aiVerification: any) => {
-              setModified(true);
-              setFilter(prev => ({
-                ...prev,
-                aiVerification
-              }));
-            }}
-          />
-          <Select
             label="Name of the organization"
             onChange={organization => {
               setModified(true);
@@ -332,6 +292,46 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               setFilter(prev => ({
                 ...prev,
                 countryOfOrigin: v
+              }));
+            }}
+          />
+          <Select
+            label="Distortion type"
+            options={[
+              {
+                value: '',
+                label: 'Filter by distortion type'
+              },
+              ...Object.entries(DistortionType).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))
+            ]}
+            onChange={(distortionType: any) => {
+              setModified(true);
+              setFilter(prev => ({
+                ...prev,
+                distortionType
+              }));
+            }}
+          />
+          <Select
+            label="AI verification"
+            options={[
+              {
+                value: '',
+                label: 'Filter by AI verification'
+              },
+              ...Object.entries(AiVerificationType).map(v => ({
+                value: v[1].split('_').join(' '),
+                label: v[1].split('_').join(' ')
+              }))
+            ]}
+            onChange={(aiVerification: any) => {
+              setModified(true);
+              setFilter(prev => ({
+                ...prev,
+                aiVerification
               }));
             }}
           />
