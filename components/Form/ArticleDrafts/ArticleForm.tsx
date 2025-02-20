@@ -250,7 +250,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
                   .filter(v => v[1].startsWith(form.topic))
                   .map(v => ({
                     value: v[1].split('_').join(' '),
-                    label: v[1].split('_').join(' ')
+                    label: v[1].split(' - ')[1]
                   }))
               ]}
               maxTagCount="responsive"

@@ -10,7 +10,9 @@ import Tagger from '@/bases/Tagger/Tagger';
 import { TextArea } from '@/bases/Textarea';
 import Card from '@/components/Card/Card';
 import { AiVerificationType } from '@/constants/aiVerification';
+import { ClaimantInfluence, ClaimantType } from '@/constants/climant';
 import { DistortionType } from '@/constants/distortionType';
+import { HarmEscalation } from '@/constants/harmEscalation';
 import { MediaFormat, Platform } from '@/constants/media';
 import { ReviewRating } from '@/constants/ratings';
 
@@ -76,7 +78,11 @@ export default function ClaimReviewDraftForm(props: {
               label: v[1].split('_').join(' ')
             }))
           ]}
-          onChange={v => props.handleUpdate({ ...claimReview, reviewRating: v })}
+          onChange={v =>
+            v !== ReviewRating.AIGenerated
+              ? props.handleUpdate({ ...claimReview, reviewRating: v, aiVerification: [] })
+              : props.handleUpdate({ ...claimReview, reviewRating: v })
+          }
           disabled={preview}
         />
       </Row>
@@ -95,8 +101,44 @@ export default function ClaimReviewDraftForm(props: {
           }
         ]}
         onChange={v => props.handleUpdate({ ...claimReview, multiclaim: v === 'true' })}
-        required
       />
+      <Row align="SPACE">
+        <Select
+          disabled={preview}
+          label="Harm"
+          defaultValue={claimReview?.harm ? 'true' : claimReview?.harm === false ? 'false' : ''}
+          options={[
+            { label: 'Select harm', value: '' },
+            {
+              label: 'Yes',
+              value: 'true'
+            },
+            {
+              label: 'No',
+              value: 'false'
+            }
+          ]}
+          onChange={v => props.handleUpdate({ ...claimReview, harm: v === 'true' ? true : v === 'false' ? false : undefined })}
+        />
+        <Select
+          label="Harm escalation"
+          defaultValue={claimReview?.harmEscalation}
+          options={[
+            { label: 'Select the harm escalation', value: '' },
+            ...Object.entries(HarmEscalation).map(([, value]) => ({
+              label: value.split('_').join(' '),
+              value: value.split('_').join(' ')
+            }))
+          ]}
+          onChange={v =>
+            props.handleUpdate({
+              ...claimReview,
+              harmEscalation: v
+            })
+          }
+          disabled={preview}
+        />
+      </Row>
       <Tagger
         value={claimReview?.distortionType}
         options={[
@@ -122,7 +164,7 @@ export default function ClaimReviewDraftForm(props: {
         onChange={v => props.handleUpdate({ ...claimReview, aiVerification: v })}
         mode="multiple"
         label="AI verification"
-        disabled={preview}
+        disabled={preview || claimReview?.reviewRating !== ReviewRating.AIGenerated}
       />
       {((!preview || claimReview?.appearances?.length) && props.type === ArticleType.Factcheck) > 0 && (
         <Input requiredHide label="Claim appearances details" required={claimReview?.appearances?.length > 0}>
@@ -259,6 +301,171 @@ export default function ClaimReviewDraftForm(props: {
                   }
                   disabled={preview}
                 />
+                <Row align="SPACE">
+                  <Input
+                    label="Views"
+                    type="number"
+                    key={`${props.formUrl}_appearance_${appearanceIndex}_views`}
+                    value={appearance?.views}
+                    onChange={v =>
+                      props.handleUpdate({
+                        ...claimReview,
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              views: v.target.value
+                            };
+                          }
+                          return _appearance;
+                        })
+                      })
+                    }
+                    disabled={preview}
+                  />
+                  <Input
+                    label="Likes"
+                    type="number"
+                    key={`${props.formUrl}_appearance_${appearanceIndex}_likes`}
+                    value={appearance?.likes}
+                    onChange={v =>
+                      props.handleUpdate({
+                        ...claimReview,
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              likes: v.target.value
+                            };
+                          }
+                          return _appearance;
+                        })
+                      })
+                    }
+                    disabled={preview}
+                  />
+                  <Input
+                    label="Comments"
+                    type="number"
+                    key={`${props.formUrl}_appearance_${appearanceIndex}_comments`}
+                    value={appearance?.comments}
+                    onChange={v =>
+                      props.handleUpdate({
+                        ...claimReview,
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              comments: v.target.value
+                            };
+                          }
+                          return _appearance;
+                        })
+                      })
+                    }
+                    disabled={preview}
+                  />
+                  <Input
+                    label="Shares"
+                    type="number"
+                    key={`${props.formUrl}_appearance_${appearanceIndex}_shares`}
+                    value={appearance?.shares}
+                    onChange={v =>
+                      props.handleUpdate({
+                        ...claimReview,
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              shares: v.target.value
+                            };
+                          }
+                          return _appearance;
+                        })
+                      })
+                    }
+                    disabled={preview}
+                  />
+                </Row>
+                <Row align="SPACE">
+                  <Input
+                    label="Claimant"
+                    type="text"
+                    key={`${props.formUrl}_appearance_${appearanceIndex}_claimant`}
+                    value={appearance?.claimant}
+                    onChange={v =>
+                      props.handleUpdate({
+                        ...claimReview,
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              claimant: v.target.value
+                            };
+                          }
+                          return _appearance;
+                        })
+                      })
+                    }
+                    disabled={preview}
+                  />
+                </Row>
+                <Row align="SPACE">
+                  <Select
+                    label="Claimant type"
+                    defaultValue={appearance?.claimantType}
+                    key={`${props.formUrl}_appearance_${appearanceIndex}_claimantType`}
+                    options={[
+                      { label: 'Select the claimant type', value: '' },
+                      ...Object.entries(ClaimantType).map(([key, value]) => ({
+                        label: key.split('_').join(' '),
+                        value: value.split('_').join(' ')
+                      }))
+                    ]}
+                    onChange={v =>
+                      props.handleUpdate({
+                        ...claimReview,
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              claimantType: v
+                            };
+                          }
+                          return _appearance;
+                        })
+                      })
+                    }
+                    disabled={preview}
+                  />
+                  <Select
+                    label="Claimant influence"
+                    defaultValue={appearance?.claimantInfluence}
+                    key={`${props.formUrl}_appearance_${appearanceIndex}_claimantInfluence`}
+                    options={[
+                      { label: 'Select the claimant influence', value: '' },
+                      ...Object.entries(ClaimantInfluence).map(([key, value]) => ({
+                        label: key.split('_').join(' '),
+                        value: value.split('_').join(' ')
+                      }))
+                    ]}
+                    onChange={v =>
+                      props.handleUpdate({
+                        ...claimReview,
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              claimantInfluence: v
+                            };
+                          }
+                          return _appearance;
+                        })
+                      })
+                    }
+                    disabled={preview}
+                  />
+                </Row>
                 {!preview && appearanceIndex !== 0 && (
                   <Row align="RIGHT">
                     <span

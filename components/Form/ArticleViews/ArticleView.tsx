@@ -12,7 +12,9 @@ import Banner from '@/components/Banner/Banner';
 import Card from '@/components/Card/Card';
 import Page from '@/components/Page/Page';
 import { AiVerificationType } from '@/constants/aiVerification';
+import { ClaimantInfluence, ClaimantType } from '@/constants/climant';
 import { DistortionType } from '@/constants/distortionType';
+import { HarmEscalation } from '@/constants/harmEscalation';
 import { LanguageISO } from '@/constants/language';
 import { MediaFormat, Platform } from '@/constants/media';
 import { ReviewRating } from '@/constants/ratings';
@@ -116,7 +118,7 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
               <div className="ds-debunk-view__tags">
                 {form?.subtopics.map((i: any, index: number) => (
                   <Tag style={{ marginBottom: 4 }} key={index}>
-                    {i}
+                    {i.split(' - ')[1]}
                   </Tag>
                 ))}
               </div>
@@ -163,6 +165,52 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                   ]}
                 />
               </Row>
+              <Select
+                disabled={true}
+                label="Multiclaim"
+                defaultValue={claimReview?.multiclaim ? 'true' : 'false'}
+                options={[
+                  {
+                    label: 'Yes',
+                    value: 'true'
+                  },
+                  {
+                    label: 'No',
+                    value: 'false'
+                  }
+                ]}
+              />
+              <Row align="SPACE">
+                <Select
+                  disabled={true}
+                  label="Harm"
+                  defaultValue={claimReview?.harm ? 'true' : claimReview?.harm === false ? 'false' : ''}
+                  options={[
+                    { label: 'Select harm', value: '' },
+                    {
+                      label: 'Yes',
+                      value: 'true'
+                    },
+                    {
+                      label: 'No',
+                      value: 'false'
+                    }
+                  ]}
+                />
+                <Select
+                  label="Harm escalation"
+                  defaultValue={claimReview?.harmEscalation}
+                  options={[
+                    { label: 'Select the harm escalation', value: '' },
+                    ...Object.entries(HarmEscalation).map(([, value]) => ({
+                      label: value.split('_').join(' '),
+                      value: value.split('_').join(' ')
+                    }))
+                  ]}
+                  disabled={true}
+                />
+              </Row>
+
               <Tagger
                 value={claimReview?.distortionType}
                 options={[
@@ -237,6 +285,13 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                             ]}
                           />
                         </Row>
+                        <DatePicker
+                          label="Claim appearance date"
+                          required
+                          value={appearance.appearanceDate ? dayjs(appearance.appearanceDate) : undefined}
+                          disabled
+                        />
+
                         <Input
                           disabled
                           label="Archive URL"
@@ -244,6 +299,73 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                           key={`${form.url}_appearance_${appearanceIndex}_archivedAt`}
                           value={appearance?.archivedAt}
                         />
+                        <Row align="SPACE">
+                          <Input
+                            label="Views"
+                            type="number"
+                            key={`appearance_${appearanceIndex}_views`}
+                            value={appearance?.views}
+                            disabled
+                          />
+                          <Input
+                            label="Likes"
+                            type="number"
+                            key={`appearance_${appearanceIndex}_likes`}
+                            value={appearance?.likes}
+                            disabled
+                          />
+                          <Input
+                            label="Comments"
+                            type="number"
+                            key={`appearance_${appearanceIndex}_comments`}
+                            value={appearance?.comments}
+                            disabled
+                          />
+                          <Input
+                            label="Shares"
+                            type="number"
+                            key={`appearance_${appearanceIndex}_shares`}
+                            value={appearance?.shares}
+                            disabled
+                          />
+                        </Row>
+                        <Row align="SPACE">
+                          <Input
+                            label="Claimant"
+                            type="text"
+                            key={`appearance_${appearanceIndex}_claimant`}
+                            value={appearance?.claimant}
+                            disabled
+                          />
+                        </Row>
+                        <Row align="SPACE">
+                          <Select
+                            label="Claimant type"
+                            defaultValue={appearance?.claimantType}
+                            key={`appearance_${appearanceIndex}_claimantType`}
+                            options={[
+                              { label: 'Select the claimant type', value: '' },
+                              ...Object.entries(ClaimantType).map(([key, value]) => ({
+                                label: key.split('_').join(' '),
+                                value: value.split('_').join(' ')
+                              }))
+                            ]}
+                            disabled
+                          />
+                          <Select
+                            label="Claimant influence"
+                            defaultValue={appearance?.claimantInfluence}
+                            key={`appearance_${appearanceIndex}_claimantInfluence`}
+                            options={[
+                              { label: 'Select the claimant influence', value: '' },
+                              ...Object.entries(ClaimantInfluence).map(([key, value]) => ({
+                                label: key.split('_').join(' '),
+                                value: value.split('_').join(' ')
+                              }))
+                            ]}
+                            disabled
+                          />
+                        </Row>
                       </Card>
                     </div>
                   ))}

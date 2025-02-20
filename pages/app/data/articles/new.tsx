@@ -137,7 +137,7 @@ export default function New() {
                 setArticleType(type);
                 setForm({
                   externalId: '',
-                  type: '',
+                  type: type,
                   url: '',
                   headline: '',
                   headlineNative: '',

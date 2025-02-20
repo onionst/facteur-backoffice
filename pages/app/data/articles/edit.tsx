@@ -242,7 +242,9 @@ export default function Edit() {
 
           {step === 0 && articleType ? (
             <ArticleForm
-              onBack={() => router.push('/app/data/articles')}
+              onBack={() =>
+                session.role === ROLES.SUPER_ADMIN ? router.push('/app/repository/search') : router.push('/app/data/articles')
+              }
               form={form}
               ogForm={ogForm}
               setForm={setForm}
