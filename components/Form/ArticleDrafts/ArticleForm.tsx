@@ -112,7 +112,9 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
         <ModalHeader
           style={{ margin: 0 }}
           subTitle={'Write the draft'}
-          title={`Complete the following form to create a new ${props.type} article`}
+          title={`Complete the following form to create a new ${
+            String(props.type) === "Factcheck" ? "Fact-check" : props.type
+          } article`}
         />
         <Card>
           <h4>Overview</h4>

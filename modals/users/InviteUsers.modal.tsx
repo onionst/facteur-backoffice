@@ -23,7 +23,7 @@ export const parseRole = (role?: string | null): string => {
     {
       SUPER_ADMIN: 'Super administrator',
       ADMIN: 'Administrator',
-      FACT_CHECKER: 'Fact checker',
+      FACT_CHECKER: 'Fact-checker',
       RESEARCHER: 'Researcher'
     }[role] || ''
   );

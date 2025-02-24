@@ -7,7 +7,7 @@ import ModalHeader from '@/components/ModalHeader/ModalHeader';
 import Page from '@/components/Page/Page';
 
 export enum ArticleType {
-  Factcheck = 'Factcheck',
+  Factcheck = 'Fact-check',
   Prebunk = 'Prebunk'
 }
 
