@@ -7,6 +7,7 @@ import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
 import { Sorter } from '@/bases/Sorter/Sorter';
+import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
 import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
@@ -98,7 +99,7 @@ export default function Articles() {
             data={articles.map(article => [
               <RepositoryHeadline key={article?.externalId} image={article?.image} headline={article?.headlineNative} />,
               <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
-                {article?.type}
+                {article?.type === ArticleType.Factcheck ? 'Fact-check' : article?.type}
               </Badge>,
               <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
                 {article.imported ? 'Yes' : 'No'}
