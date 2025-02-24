@@ -7,9 +7,10 @@ export type SelectProps = {
   disabled?: boolean;
   options: Array<{ value: string; label: string }>;
   defaultValue?: string;
+  value?: string;
   onChange?: (value: string) => void;
 };
-export default function Select({ label, required, options, defaultValue, onChange, disabled }: SelectProps) {
+export default function Select({ label, required, options, defaultValue, value, onChange, disabled }: SelectProps) {
   const selectRef = useRef(null);
   const [selectedValue, setSelectedValue] = useState<string>(defaultValue || '');
 
@@ -30,11 +31,11 @@ export default function Select({ label, required, options, defaultValue, onChang
       <select
         ref={selectRef}
         disabled={disabled}
-        className={`form-select ${selectedValue ? s['ds-select--default'] : s['ds-select--placeholder']}`}
+        className={`form-select ${value || selectedValue ? s['ds-select--default'] : s['ds-select--placeholder']}`}
         aria-label="Select option"
         required={required}
-        value={defaultValue || selectedValue}
-        defaultValue={selectedValue}
+        value={value === undefined ? defaultValue || selectedValue : value}
+        defaultValue={value === undefined ? selectedValue : undefined}
         onChange={handleChange}
       >
         {options.map(option => (
