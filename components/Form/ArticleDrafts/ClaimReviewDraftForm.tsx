@@ -149,6 +149,7 @@ export default function ClaimReviewDraftForm(props: {
         ]}
         onChange={v => props.handleUpdate({ ...claimReview, distortionType: v })}
         mode="multiple"
+        maxTagCount="responsive"
         label="Distortion type"
         disabled={preview}
         required
