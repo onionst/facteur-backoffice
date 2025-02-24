@@ -270,7 +270,7 @@ export default function ClaimReviewDraftForm(props: {
                         if (_appearanceIndex === appearanceIndex) {
                           return {
                             ..._appearance,
-                            appearanceDate: v
+                            appearanceDate: v?.toDate()
                           };
                         }
                         return _appearance;
