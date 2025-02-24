@@ -149,6 +149,7 @@ export default function ClaimReviewDraftForm(props: {
         ]}
         onChange={v => props.handleUpdate({ ...claimReview, distortionType: v })}
         mode="multiple"
+        maxTagCount="responsive"
         label="Distortion type"
         disabled={preview}
         required
@@ -270,7 +271,7 @@ export default function ClaimReviewDraftForm(props: {
                         if (_appearanceIndex === appearanceIndex) {
                           return {
                             ..._appearance,
-                            appearanceDate: v
+                            appearanceDate: v?.toDate()
                           };
                         }
                         return _appearance;
