@@ -82,14 +82,6 @@ export const SECTIONS: Section[] = [
         name: 'Dashboard',
         type: 'ITEM',
         path: '/app/stats/dashboard'
-      },
-      {
-        id: 'stats.narratives',
-        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN, ROLES.RESEARCHER],
-        icon: <Italic size={18} strokeWidth={2.3} color="#4b5675" />,
-        name: 'Narratives',
-        type: 'ITEM',
-        path: '/app/stats/narratives'
       }
     ].filter(item => SETTINGS.PUBLIC_SECTIONS.includes(item.id))
   }
