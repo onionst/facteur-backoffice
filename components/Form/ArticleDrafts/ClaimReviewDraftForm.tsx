@@ -23,6 +23,7 @@ export default function ClaimReviewDraftForm(props: {
   formUrl: string;
   index: number;
   preview: boolean;
+  imported: boolean;
 }) {
   const claimReview = props.claimReview;
   const preview = props.preview;
@@ -262,7 +263,7 @@ export default function ClaimReviewDraftForm(props: {
                 </Row>
                 <DatePicker
                   label="Claim appearance date"
-                  required
+                  required={props.imported !== true}
                   value={appearance.appearanceDate ? dayjs(appearance.appearanceDate) : undefined}
                   onChange={v =>
                     props.handleUpdate({

@@ -299,6 +299,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
             <h4>Claim Details</h4>
             <ClaimReviewDraftForm
               claimReview={form.claimReview}
+              imported={form.imported}
               formUrl={form.url}
               index={0}
               handleUpdate={(newClaimReviewValue: any) => {
