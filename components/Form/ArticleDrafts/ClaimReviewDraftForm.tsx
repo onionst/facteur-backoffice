@@ -118,11 +118,17 @@ export default function ClaimReviewDraftForm(props: {
               value: 'false'
             }
           ]}
-          onChange={v => props.handleUpdate({ ...claimReview, harm: v === 'true' ? true : v === 'false' ? false : undefined })}
+          onChange={v =>
+            props.handleUpdate({
+              ...claimReview,
+              harm: v === 'true' ? true : v === 'false' ? false : undefined,
+              harmEscalation: v !== 'true' ? undefined : claimReview.harmEscalation
+            })
+          }
         />
         <Select
           label="Harm escalation"
-          defaultValue={claimReview?.harmEscalation}
+          value={claimReview?.harmEscalation ? claimReview.harmEscalation : ''}
           options={[
             { label: 'Select the harm escalation', value: '' },
             ...Object.entries(HarmEscalation).map(([, value]) => ({
@@ -136,7 +142,7 @@ export default function ClaimReviewDraftForm(props: {
               harmEscalation: v
             })
           }
-          disabled={preview}
+          disabled={preview || claimReview.harm === false}
         />
       </Row>
       <Tagger
