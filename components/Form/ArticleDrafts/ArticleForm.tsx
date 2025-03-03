@@ -21,7 +21,7 @@ import { CountryISO } from '@/constants/country';
 import { EvidenceType } from '@/constants/evidenceType';
 import { LanguageISO } from '@/constants/language';
 import { Subtopic, Topic } from '@/constants/topics';
-import { WorldCountriesISO } from '@/constants/worldCountries';
+import { WorldCountriesISO, WorldCountriesNames } from '@/constants/worldCountries';
 import { useArticles } from '@/contexts/articles.context';
 import { validateUrl } from '@/utils/validateUrl';
 
@@ -281,7 +281,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
               value={form?.contentLocation}
               options={[
                 ...Object.entries(WorldCountriesISO).map(([key, value]) => ({
-                  label: key.split('_').join(' '),
+                  label: WorldCountriesNames[key as keyof typeof WorldCountriesNames],
                   value: value.split('_').join(' ')
                 }))
               ]}
