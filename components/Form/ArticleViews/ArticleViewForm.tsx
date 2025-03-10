@@ -11,7 +11,7 @@ import Banner from '@/components/Banner/Banner';
 import Card from '@/components/Card/Card';
 import Page from '@/components/Page/Page';
 import { LanguageISO } from '@/constants/language';
-import { WorldCountriesISO } from '@/constants/worldCountries';
+import { WorldCountriesISO, WorldCountriesNames } from '@/constants/worldCountries';
 
 export type ArticleViewFormProps = {};
 export default function ArticleViewForm(props: ArticleViewFormProps & IArticleView) {
@@ -75,7 +75,7 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
                 ...Object.entries(WorldCountriesISO)
                   .filter(([, value]) => form?.countryOfOrigin === value)
                   .map(([key, value]) => ({
-                    label: key.split('_').join(' '),
+                    label: WorldCountriesNames[key as keyof typeof WorldCountriesNames],
                     value: value.split('_').join(' ')
                   }))
               ]}
@@ -88,7 +88,7 @@ export default function ArticleViewForm(props: ArticleViewFormProps & IArticleVi
               ...Object.entries(WorldCountriesISO)
                 .filter(([, value]) => form?.contentLocation.includes(value))
                 .map(([key, value]) => ({
-                  label: key.split('_').join(' '),
+                  label: WorldCountriesNames[key as keyof typeof WorldCountriesNames],
                   value: value.split('_').join(' ')
                 }))
             ]}

@@ -18,7 +18,7 @@ import { HarmEscalation } from '@/constants/harmEscalation';
 import { LanguageISO } from '@/constants/language';
 import { MediaFormat, Platform } from '@/constants/media';
 import { ReviewRating } from '@/constants/ratings';
-import { WorldCountriesISO } from '@/constants/worldCountries';
+import { WorldCountriesISO, WorldCountriesNames } from '@/constants/worldCountries';
 
 export type ArticleViewProps = {};
 export default function ArticleView(props: ArticleViewProps & IArticleView) {
@@ -85,7 +85,7 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                 ...Object.entries(WorldCountriesISO)
                   .filter(([, value]) => form?.countryOfOrigin === value)
                   .map(([key, value]) => ({
-                    label: key.split('_').join(' '),
+                    label: WorldCountriesNames[key as keyof typeof WorldCountriesNames],
                     value: value.split('_').join(' ')
                   }))
               ]}
@@ -96,7 +96,7 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                 ...Object.entries(WorldCountriesISO)
                   .filter(([, value]) => form?.contentLocation.includes(value))
                   .map(([key, value]) => ({
-                    label: key.split('_').join(' '),
+                    label: WorldCountriesNames[key as keyof typeof WorldCountriesNames],
                     value: value.split('_').join(' ')
                   }))
               ]}
