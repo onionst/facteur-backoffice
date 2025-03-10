@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.9.0%0Dv1.8.0#diff) (2025-03-10)
+
+
+### Features
+
+* factcheck typo ([a152169](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/a15216904619304c19eac8a9d7102ef9d9eab415))
+
 ## [1.8.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.8.0%0Dv1.7.0#diff) (2025-02-05)
 
 
