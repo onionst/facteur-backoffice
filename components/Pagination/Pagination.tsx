@@ -17,7 +17,7 @@ export default function Pagination(props: PaginationProps) {
 
   const getPageNumbers = () => {
     const pages = [];
-    const pageLimit = maxPage > 5 ? 5 : maxPage; // Limit of pages to display
+    const pageLimit = maxPage > 10 ? 10 : maxPage; // Limit of pages to display
     let startPage, endPage;
 
     if (totalPages <= pageLimit) {
