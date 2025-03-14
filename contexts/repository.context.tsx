@@ -14,6 +14,7 @@ import {
 } from '@/services/repository.service';
 
 export type RepositoryArticlesPage = {
+  maxPage: number;
   records: number;
   current: number;
   prevPage: number | null;
@@ -45,6 +46,7 @@ export const RepositoryProvider = (props: RepositoryProviderProps) => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [notFound, setNotFound] = useState<{ type: FileType; value: string } | null>(null);
   const [page, setPage] = useState<RepositoryArticlesPage>({
+    maxPage: 1,
     current: 1,
     prevPage: null,
     nextPage: null,
@@ -62,6 +64,7 @@ export const RepositoryProvider = (props: RepositoryProviderProps) => {
       setArticles(data.articles);
       setPage({
         ...data.page,
+        maxPage: data.page.maxPage,
         records: data.records
       });
       if (data.articles.length === 0) {

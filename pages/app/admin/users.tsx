@@ -199,10 +199,11 @@ export default function Users() {
             <IconButton type="button" onClick={showDownloadUsers}>
               <Download color="#252f4a" size={16} />
             </IconButton>
-            <span>{plainShowing(page.current, users.length, page.records, 'users')}</span>
+            <span>{plainShowing(page.current, page.current + USERS_LIMIT_PER_PAGE, page.records, USERS_LIMIT_PER_PAGE, 'users')}</span>
           </Row>
           <Row align="RIGHT">
             <Pagination
+              maxPage={page.maxPage}
               limit={USERS_LIMIT_PER_PAGE}
               currentPage={page.current + 1}
               totalRecordsCount={page.records}
