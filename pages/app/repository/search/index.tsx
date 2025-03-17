@@ -1,11 +1,8 @@
-import { Popover } from 'antd';
 import dayjs from 'dayjs';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Download, Edit, Eye, MoreHorizontal, Search as SearchIcon, X } from 'react-feather';
-import Button from '@/bases/Button/Button';
+import { Download, Eye, Search as SearchIcon, X } from 'react-feather';
 import Column from '@/bases/Column/Column';
 import IconButton from '@/bases/IconButton/IconButton';
 import Image from '@/bases/Image/Image';
@@ -23,8 +20,6 @@ import RepositorySearch from '@/components/Search/RepositorySearch';
 import { RepositoryHeadline, RepositoryTable } from '@/components/Table/RepositoryTable';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { FILE_TYPES } from '@/constants/accept';
-import { ROLES } from '@/constants/roles.constants';
-import { useAuth } from '@/contexts/auth.context';
 import { useFiles } from '@/contexts/files.context';
 import { useModal } from '@/contexts/modal.context';
 import { ARTICLES_LIMIT_PER_PAGE, useRepository } from '@/contexts/repository.context';
@@ -34,7 +29,6 @@ import { safeReturn } from '@/utils/safeReturn';
 export default function Repository() {
   const modals = useModal();
   const router = useRouter();
-  const { session } = useAuth();
   const [portrait, setPortait] = useState<string>('');
   const [searchType, setSearchType] = useState<FileType>('TEXT');
   const {
@@ -319,62 +313,14 @@ export default function Repository() {
                     {dayjs(article?.datePublished).format('DD/MM/YYYY')}
                   </Row>,
                   <Row align="RIGHT" key={article?.externalId + 'actions'}>
-                    {session.role === ROLES.RESEARCHER ||
-                    (session.role != ROLES.SUPER_ADMIN && session.organization?.domain != article.publisher) ? (
-                      <IconButton
-                        onClick={e => {
-                          e.stopPropagation();
-                          router.push(`/app/repository/search/view?id=${article?.externalId}&&f=search`);
-                        }}
-                      >
-                        <Eye size={18} color="#252f4a" />
-                      </IconButton>
-                    ) : (
-                      <Popover
-                        trigger="click"
-                        placement="bottomRight"
-                        content={
-                          <div className="w-full">
-                            <Link
-                              onClick={e => e?.stopPropagation()}
-                              href={`/app/repository/search/view?id=${article?.externalId}&&f=search`}
-                              target="_blank"
-                            >
-                              <Button
-                                type="button"
-                                onClick={e => {
-                                  e.stopPropagation();
-                                }}
-                                style={{ width: '100%', marginBottom: 4 }}
-                                theme="TERTIARY"
-                              >
-                                View <Eye size={18} />
-                              </Button>
-                            </Link>
-                            <Link
-                              onClick={e => e?.stopPropagation()}
-                              href={`/app/data/articles/edit?id=${article?.externalId}&&f=search`}
-                              target="_blank"
-                            >
-                              <Button
-                                onClick={e => {
-                                  e.stopPropagation();
-                                }}
-                                type="button"
-                                style={{ width: '100%' }}
-                                theme="TERTIARY"
-                              >
-                                Edit <Edit size={18} />
-                              </Button>
-                            </Link>
-                          </div>
-                        }
-                      >
-                        <IconButton onClick={e => e.stopPropagation()}>
-                          <MoreHorizontal size={18} color="#252f4a" />
-                        </IconButton>
-                      </Popover>
-                    )}
+                    <IconButton
+                      onClick={e => {
+                        e.stopPropagation();
+                        router.push(`/app/repository/search/view?id=${article?.externalId}&&f=search`);
+                      }}
+                    >
+                      <Eye size={18} color="#252f4a" />
+                    </IconButton>
                   </Row>
                 ])}
               />
