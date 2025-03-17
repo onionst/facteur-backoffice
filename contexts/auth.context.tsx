@@ -336,6 +336,12 @@ export const AuthProvider = (props: AuthProviderProps) => {
           message: 'Error',
           description: message ?? 'Invalid google access token'
         });
+      } else if (err.message === "User has no permissons" || err.message === "User does not exists") {
+        notification.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: 'Error',
+          description: `${err.message}. Please contact the site administrator.`
+        });
       } else {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
