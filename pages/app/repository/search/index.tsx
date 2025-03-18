@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
@@ -313,14 +314,15 @@ export default function Repository() {
                     {dayjs(article?.datePublished).format('DD/MM/YYYY')}
                   </Row>,
                   <Row align="RIGHT" key={article?.externalId + 'actions'}>
-                    <IconButton
-                      onClick={e => {
-                        e.stopPropagation();
-                        router.push(`/app/repository/search/view?id=${article?.externalId}&&f=search`);
-                      }}
+                    <Link
+                      onClick={e => e?.stopPropagation()}
+                      href={`/app/repository/search/view?id=${article?.externalId}&&f=search`}
+                      target="_blank"
                     >
-                      <Eye size={18} color="#252f4a" />
-                    </IconButton>
+                      <IconButton>
+                        <Eye size={18} color="#252f4a" />
+                      </IconButton>
+                    </Link>
                   </Row>
                 ])}
               />
