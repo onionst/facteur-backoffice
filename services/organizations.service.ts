@@ -12,13 +12,26 @@ export const FetchOrganizations = async (
   organizations: Organization[];
   records: number;
   page: {
+    maxPage: number;
     current: number;
     prevPage: number | null;
     nextPage: number | null;
   };
 }> => {
   const response = await api.get(parseUrl(PREFIX), { params: filter });
-  return response?.data;
+  const headers = response?.headers;
+  const current = parseInt(headers['pagination-page']);
+  const maxPage = parseInt(headers['pagination-total-pages']);
+  return {
+    organizations: response?.data,
+    records: parseInt(headers['pagination-count']),
+    page: {
+      maxPage,
+      current: current - 1,
+      prevPage: maxPage > 1 && current > 1 ? current - 1 : null,
+      nextPage: maxPage > 1 && current < maxPage ? current + 1 : null
+    }
+  };
 };
 
 export const ListOrganizations = async (): Promise<Array<Partial<Organization>>> => {
