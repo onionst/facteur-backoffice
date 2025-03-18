@@ -336,7 +336,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
           message: 'Error',
           description: message ?? 'Invalid google access token'
         });
-      } else if (err.message === "User has no permissions" || err.message === "User does not exist") {
+      } else if (err.message === 'User is not active' || err.message === 'User does not exist') {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
