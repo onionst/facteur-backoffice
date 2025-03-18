@@ -7,4 +7,6 @@ export const FILE_TYPES = {
 
 export const MAX_FILE_SIZE = 104_857_600;
 
+export const MAX_IMAGE_SIZE = 1_048_576;
+
 export const MIN_LENGTH_KEYWORDS = 2;
