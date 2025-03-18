@@ -16,6 +16,7 @@ import {
 
 export type OrganizationsProviderProps = { children: any };
 export type OrganizationPage = {
+  maxPage: number;
   records: number;
   current: number;
   prevPage: number | null;
@@ -51,6 +52,7 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [page, setPage] = useState<OrganizationPage>({
+    maxPage: 1,
     current: 1,
     prevPage: null,
     nextPage: null,
@@ -61,12 +63,13 @@ export const OrganizationsProvider = (props: OrganizationsProviderProps) => {
     setOrganizations([]);
   }, []);
 
-  const fetchOrganizations = async (filter?: FilterOrganizations, pageIndex: number = 0) => {
+  const fetchOrganizations = async (filter?: FilterOrganizations, pageIndex: number = 1) => {
     try {
       setLoading(true);
+      const skip = pageIndex < 2 ? 0 : (pageIndex - 1) * ORGANIZATIONS_LIMIT_PER_PAGE;
       const data = await FetchOrganizations({
         ...filter,
-        skip: pageIndex * ORGANIZATIONS_LIMIT_PER_PAGE,
+        skip,
         limit: ORGANIZATIONS_LIMIT_PER_PAGE
       });
 

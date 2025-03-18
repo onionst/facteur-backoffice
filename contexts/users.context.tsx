@@ -7,6 +7,7 @@ import { User } from '@/dtos/users/user.dto';
 import { DeleteUser, FetchUsers, InviteUser, ResendInvitation, UpdateUser } from '@/services/user.service';
 
 export type UsersPage = {
+  maxPage: number;
   records: number;
   current: number;
   prevPage: number | null;
@@ -39,6 +40,7 @@ export const UsersProvider = (props: UsersProviderProps) => {
   const [users, setUsers] = useState<User[]>([]);
 
   const [page, setPage] = useState<UsersPage>({
+    maxPage: 1,
     current: 1,
     prevPage: null,
     nextPage: null,
@@ -57,7 +59,6 @@ export const UsersProvider = (props: UsersProviderProps) => {
         page: pageIndex,
         limit: USERS_LIMIT_PER_PAGE
       });
-
       setUsers(data.users);
       setPage({
         ...data.page,
@@ -212,6 +213,7 @@ export const UsersProvider = (props: UsersProviderProps) => {
               return user;
             }
             if (!user?.name || !user?.surname) {
+              // eslint-disable-next-line no-shadow
               setPage(prev => ({
                 ...prev,
                 records: (prev?.records || 1) - 1

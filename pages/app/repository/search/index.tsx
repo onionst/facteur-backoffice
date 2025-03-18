@@ -336,10 +336,11 @@ export default function Repository() {
                 <Download color="#252f4a" size={16} />
               </IconButton>
             )}
-            <span>{plainShowing(page.current, articles.length, page.records, 'articles')}</span>
+            <span>{plainShowing(page.current, articles.length, page.records, ARTICLES_LIMIT_PER_PAGE, 'articles')}</span>
           </Row>
           <Row align="RIGHT">
             <Pagination
+              maxPage={page.maxPage}
               limit={ARTICLES_LIMIT_PER_PAGE}
               currentPage={page.current + 1}
               totalRecordsCount={page.records}

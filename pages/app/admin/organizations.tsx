@@ -15,6 +15,7 @@ import { Table } from '@/components/Table/Table';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { useModal } from '@/contexts/modal.context';
 import { ORGANIZATIONS_LIMIT_PER_PAGE, useOrganizations } from '@/contexts/organizations.context';
+import { plainShowing } from '@/utils/plainShowing';
 import { safeReturn } from '@/utils/safeReturn';
 
 export default function Organizations() {
@@ -140,22 +141,28 @@ export default function Organizations() {
               <Download color="#252f4a" size={16} />
             </IconButton>
             <span>
-              Showing {(page.current >= 2 ? 20 : organizations.length) * (page.current - 1) + organizations.length} of {page.records}{' '}
-              organizations
+              {plainShowing(
+                page.current,
+                page.current + ORGANIZATIONS_LIMIT_PER_PAGE,
+                page.records,
+                ORGANIZATIONS_LIMIT_PER_PAGE,
+                'organizations'
+              )}
             </span>
           </Row>
           <Row align="RIGHT">
             <Pagination
+              maxPage={page.maxPage}
               limit={ORGANIZATIONS_LIMIT_PER_PAGE}
-              currentPage={page.current}
+              currentPage={page.current + 1}
               totalRecordsCount={page.records}
               prevPage={() => {
-                fetchOrganizations(filter, page.current - 1 - 1);
+                fetchOrganizations(filter, page.current);
               }}
               nextPage={() => {
-                fetchOrganizations(filter, page.current - 1 + 1);
+                fetchOrganizations(filter, page.current + 1 + 1);
               }}
-              skip={skip => fetchOrganizations(filter, skip - 1)}
+              skip={skip => fetchOrganizations(filter, skip)}
             />
           </Row>
         </Row>

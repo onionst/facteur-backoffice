@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight } from 'react-feather';
 import s from './Pagination.module.scss';
 
 export type PaginationProps = {
+  maxPage: number;
   currentPage: number;
   prevPage: () => void;
   nextPage: () => void;
@@ -11,12 +12,13 @@ export type PaginationProps = {
 };
 
 export default function Pagination(props: PaginationProps) {
-  const { currentPage, prevPage, nextPage, skip, limit, totalRecordsCount } = props;
-  const totalPages = Math.ceil(totalRecordsCount / limit);
+  const { maxPage, currentPage, prevPage, nextPage, skip, totalRecordsCount } = props;
+  const totalPages = maxPage;
+  const PAGES = 10;
 
   const getPageNumbers = () => {
     const pages = [];
-    const pageLimit = 5; // Limit of pages to display
+    const pageLimit = maxPage > PAGES ? PAGES : maxPage; // Limit of pages to display
     let startPage, endPage;
 
     if (totalPages <= pageLimit) {
