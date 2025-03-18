@@ -7,7 +7,7 @@ import { Accept, useDropzone } from 'react-dropzone';
 import { Maximize2, Paperclip, X } from 'react-feather';
 import Image from '../Image/Image';
 import s from './InputUploader.module.scss';
-import { MAX_FILE_SIZE } from '@/constants/accept';
+import { FILE_TYPES, MAX_FILE_SIZE, MAX_IMAGE_SIZE } from '@/constants/accept';
 import { useFiles } from '@/contexts/files.context';
 
 export type InputUploaderProps = {
@@ -42,9 +42,17 @@ export default function InputUploader(props: any) {
   };
   const onDrop = useCallback((acceptedFiles: any[]) => {
     if (acceptedFiles[0]) {
-      handleUpload(acceptedFiles[0]);
+      const file = acceptedFiles[0];
+      const isImage = FILE_TYPES.images.some((ext) => file.name?.toLowerCase().endsWith(ext));
+      const maxSize = isImage ? MAX_IMAGE_SIZE : MAX_FILE_SIZE;
+
+      if (file.size > maxSize) {
+        console.error(`File size exceeds limit: ${isImage ? '1MB' : '100MB'}`);
+        return;
+      }
+
+      handleUpload(file);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false, maxSize: MAX_FILE_SIZE, accept: props.accept });

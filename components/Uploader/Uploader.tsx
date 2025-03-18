@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { Paperclip } from 'react-feather';
 import s from './Uploader.module.scss';
-import { FILE_TYPES, MAX_FILE_SIZE } from '@/constants/accept';
+import { FILE_TYPES, MAX_FILE_SIZE, MAX_IMAGE_SIZE } from '@/constants/accept';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { useFiles } from '@/contexts/files.context';
 
@@ -79,6 +79,18 @@ export function Uploader(props: UploaderProps) {
     });
 
     if (acceptedFiles?.[0]) {
+      const file = acceptedFiles[0];
+      const isImage = FILE_TYPES.images.some((extension: string) => file.path?.toLowerCase()?.endsWith(extension));
+      const maxSize = isImage ? MAX_IMAGE_SIZE : MAX_FILE_SIZE;
+      if (file.size > maxSize) {
+        api.error({
+          ...NOTIFICATIONS_CONFIG.error,
+          message: `File size exceeds limit: ${isImage ? '1MB' : '100MB'}`,
+          key,
+          duration: 5000
+        });
+        return;
+      }
       if (
         props.customVideoManagment &&
         FILE_TYPES.videos.some((extension: string) => acceptedFiles?.[0]?.path?.toLowerCase()?.includes(extension))
