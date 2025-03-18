@@ -35,6 +35,7 @@ export const FetchArticles = async (
   articles: Article[];
   records: number;
   page: {
+    maxPage: number;
     current: number;
     prevPage: number | null;
     nextPage: number | null;
@@ -48,9 +49,10 @@ export const FetchArticles = async (
     articles: response?.data,
     records: parseInt(headers['pagination-count']),
     page: {
+      maxPage,
       current: current - 1,
-      prevPage: current > 1 ? current - 1 : null,
-      nextPage: current < maxPage ? current + 1 : null
+      prevPage: maxPage > 1 && current > 1 ? current - 1 : null,
+      nextPage: maxPage > 1 && current < maxPage ? current + 1 : null
     }
   };
 };

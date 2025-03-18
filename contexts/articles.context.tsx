@@ -17,6 +17,7 @@ import {
 } from '@/services/articles.service';
 
 export type ArticlesPage = {
+  maxPage: number;
   records: number;
   current: number;
   prevPage: number | null;
@@ -54,6 +55,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
   const [articles, setArticles] = useState<Article[]>([]);
 
   const [page, setPage] = useState<ArticlesPage>({
+    maxPage: 1,
     current: 1,
     prevPage: null,
     nextPage: null,
