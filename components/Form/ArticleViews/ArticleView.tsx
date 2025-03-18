@@ -35,8 +35,9 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
           <Card>
             <div className="w-full">
               <label>Title {form?.headline != form?.headlineNative && '(In english)'}</label>
-              <h1>{form?.headline}</h1>
-              {form?.healine != form?.headlineNative && <p style={{ margin: 0 }}>Title: “{form?.headlineNative}”</p>}
+              <h2 style={{ fontWeight: 'bold' }}>{form?.headline}</h2>
+              <label>Title {form?.headline != form?.headlineNative}</label>
+              <h2 style={{ fontWeight: 'bold', margin: 0 }}>{form?.headlineNative}</h2>
             </div>
           </Card>
 
@@ -146,7 +147,10 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                   <label>Claim {claimReview?.claimReviewed != claimReview?.claimReviewedNative && '(In english)'}</label>
                   <h2>{claimReview?.claimReviewed}</h2>
                   {claimReview?.claimReviewed != claimReview?.claimReviewedNative && (
-                    <p style={{ margin: 0 }}>Claim: “{claimReview?.claimReviewedNative}”</p>
+                    <>
+                      <label>Claim</label>
+                      <h2 style={{ margin: 0 }}>{claimReview?.claimReviewedNative}</h2>
+                    </>
                   )}
                 </div>
               </Card>
