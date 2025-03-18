@@ -311,7 +311,7 @@ export default function Repository() {
                 ]}
                 data={articles.map(article => [
                   <RepositoryHeadline key={article?.url} image={article?.image} headline={article?.headline} />,
-                  article?.publisher,
+                  article?.publisher?.replace(/\b\w/g, char => char.toUpperCase()),
                   <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
                     {article?.type}
                   </Badge>,
