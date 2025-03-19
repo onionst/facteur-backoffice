@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.10.0%0Dv1.9.0#diff) (2025-03-19)
+
+
+### Features
+
+* **[CHEC-56](https://newtral.atlassian.net/browse/CHEC-56):** pagination ([38bd3cd](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/38bd3cd961d518dfcc49723aa2272cf348ac2a74))
+* **[CHEC-56](https://newtral.atlassian.net/browse/CHEC-56):** pagination ([87c8f30](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/87c8f3017e38cd68bc6e8ffb203bdf8bb52f28fe))
+
+
+### Bug Fixes
+
+* CHEC-55-order-by-date CHEC-56-pagination ([b48207e](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/b48207e722250fcaa31d1e1a77d2c5e2b829f72a))
+* **[CHEC-57](https://newtral.atlassian.net/browse/CHEC-57):** pass to request name insted of domain ([dd94274](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/dd942748252877b00b84235ad271e94c9b225cb0))
+* **[CHEC-57](https://newtral.atlassian.net/browse/CHEC-57):** recapitalize article publisher with regular expression ([4ae5286](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/4ae5286ec1c29ab84f34fcace576349f169745f8))
+* **[CHEC-58](https://newtral.atlassian.net/browse/CHEC-58):** add target=_blank ([a566083](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/a5660830f9a34011da1b751585f22c380f1a5e7b))
+* **[CHEC-58](https://newtral.atlassian.net/browse/CHEC-58):** Remove edit button on table, mantain in article, remove Popover and remov condition to generate popover with edit button ([68027a9](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/68027a9db8633a2ad2be8c02cf0fe1375ca496d6))
+* **[CHEC-59](https://newtral.atlassian.net/browse/CHEC-59):** add constants for errors ([6b5f88a](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/6b5f88a3aacbe6d9ee86b12c9d5bf4410025e0a2))
+* **[CHEC-59](https://newtral.atlassian.net/browse/CHEC-59):** Custom error toaster for Unauthorised exception, not allowed or not existing ([5810e91](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/5810e91083521671a942ed5ada9aea0701bbebb7))
+* **[CHEC-59](https://newtral.atlassian.net/browse/CHEC-59):** fix if ([5121b83](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/5121b8325a44923ba2e726825b15e5309cbdb70a))
+* **[CHEC-59](https://newtral.atlassian.net/browse/CHEC-59):** fix message ([4cd4344](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/4cd434499b6c8b84ddd60d8f9b38ed5d00a0881a))
+* **[CHEC-59](https://newtral.atlassian.net/browse/CHEC-59):** UnauthorizedException user in state  pending without password ([f83bc5c](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/f83bc5cf1d92fb5a0ec9aec7084727bbf31795d2))
+* **[CHEC-60](https://newtral.atlassian.net/browse/CHEC-60):** limit file size ([d7f6197](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/d7f6197e710fbcc6ad20664b1f042928f9938c6f))
+* **[CHEC-62](https://newtral.atlassian.net/browse/CHEC-62):** Title same size original and in english ([666843c](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/666843ceec918428dee1b83447600f42a66ae104))
+
 ## [1.9.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.9.0%0Dv1.8.0#diff) (2025-03-10)
 
 
