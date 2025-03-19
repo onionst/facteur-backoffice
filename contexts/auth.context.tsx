@@ -29,6 +29,7 @@ import {
   SetupTFA
 } from '@/services/auth.service';
 import { Join } from '@/services/user.service';
+import { MESSAGES_ERROR } from '@/constants/errors';
 
 export type AuthContextProps = {
   session: Session;
@@ -336,7 +337,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
           message: 'Error',
           description: message ?? 'Invalid google access token'
         });
-      } else if (err.message === 'User is not active' || err.message === 'User does not exist') {
+      } else if (Object.values(MESSAGES_ERROR).includes(err.message as MESSAGES_ERROR)) {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
