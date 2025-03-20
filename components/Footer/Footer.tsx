@@ -10,7 +10,7 @@ export default function Footer() {
         <section className={s['ds-footer__center']}>
           <Row align="SPACE">
             <Link target="_blank" href={'https://commission.europa.eu/index_en'}>
-              <Image src="/assets/EU_logo.png" height={50} width={250} alt={''} />
+              <Image src="/assets/EU_BLACK.png" height={50} width={250} alt={''} />
             </Link>
             <Link target="_blank" href={'https://efcsn.com/'}>
               <Image src="/assets/efcsn_logo.png" height={67} width={107} alt={''} />
