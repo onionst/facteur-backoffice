@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.11.0%0Dv1.10.0#diff) (2025-03-21)
+
+
+### Features
+
+* **[CHEC-83](https://newtral.atlassian.net/browse/CHEC-83):** EU black logo ([d9c0fcf](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/d9c0fcf9cff42d016c4882b6ee0f3818c4e05aec))
+* **[CHEC-83](https://newtral.atlassian.net/browse/CHEC-83):** footer with european union logo ([3a85d4f](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/3a85d4faedaa16416a798b07580b830637559a2d))
+
+
+### Bug Fixes
+
+* **[CHEC-57](https://newtral.atlassian.net/browse/CHEC-57):** filter by organization name ([41b1e74](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/41b1e74483d416978aba851c8e931b11ba277894))
+
 ## [1.10.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.10.0%0Dv1.9.0#diff) (2025-03-19)
 
 
