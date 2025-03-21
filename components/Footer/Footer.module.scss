@@ -4,10 +4,15 @@
   background-color: $ds-gray-100;
   padding: 40px 20px;
 
+  &__last_row {
+    background-color: $ds-white !important;
+    padding: 40px 20px;
+  }
+
   &__left {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: start;
     max-width: 300px;
     gap: 20px;
     & > a {
@@ -15,7 +20,7 @@
       text-decoration: underline;
     }
   }
-  &-contact {
+  &__contact {
     margin: 0;
     font-weight: 400;
     text-align: center;
@@ -29,6 +34,15 @@
     }
   }
 
+  &__center {
+    margin: 0 auto;
+    font-weight: 400;
+    text-align: justify;
+    max-width: 630px;
+    color: $ds-gray-600;
+    padding-right: 30px;
+  }
+
   &__right {
     gap: 20px;
     max-width: 400px;
@@ -40,5 +54,12 @@
       line-height: 16px;
       size: 14px;
     }
+  }
+
+  &__space {
+
+    padding: 0;
+    border-top: 1px solid $ds-gray-300;
+    width: 100%;
   }
 }

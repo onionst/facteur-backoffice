@@ -256,7 +256,7 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
                 label: 'Filter by publisher'
               },
               ...organizations.map(i => ({
-                value: i?.name?.toLowerCase() || '',
+                value: i?.name || '',
                 label: i?.name || ''
               }))
             ]}
