@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.11.1](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.11.1%0Dv1.11.0#diff) (2025-03-27)
+
+
+### Bug Fixes
+
+* article date ([d06ac94](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/d06ac940fccbdd0734a6677a7697bdf524b98287))
+* repository export file 401 ([07f6796](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/07f679634180fea5794d587101b9f72adbeb45ae))
+* repository search 404 ([a55ca73](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/a55ca73366488906289e25bef1efd17c31f48248))
+
 ## [1.11.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.11.0%0Dv1.10.0#diff) (2025-03-21)
 
 
