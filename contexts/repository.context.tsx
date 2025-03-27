@@ -74,7 +74,10 @@ export const RepositoryProvider = (props: RepositoryProviderProps) => {
       }
       setLoading(false);
     } catch (err: any) {
-      if (typeof err?.response?.data?.message === 'object') {
+      if (err?.response?.status === 404) {
+        setArticles([]);
+        setNotFound({ type: 'TEXT', value: '' });
+      } else if (typeof err?.response?.data?.message === 'object') {
         notification.error({
           ...NOTIFICATIONS_CONFIG.error,
           message: 'Error',
@@ -93,8 +96,6 @@ export const RepositoryProvider = (props: RepositoryProviderProps) => {
           description: 'Please try again later'
         });
       }
-      setArticles([]);
-      setNotFound({ type: 'TEXT', value: '' });
       setLoading(false);
     }
   };
