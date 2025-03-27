@@ -1,5 +1,6 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Badge, Divider, notification } from 'antd';
+import dayjs from 'dayjs';
 import { FormEvent, useState } from 'react';
 import { Plus, Minus } from 'react-feather';
 import { ArticleType } from '../SelectArticleType/SelectArticleType';
@@ -7,6 +8,7 @@ import { IArticleDraft } from './articleDraft.interface';
 import s from './ArticleDraftForm.module.scss';
 import ClaimReviewDraftForm from './ClaimReviewDraftForm';
 import Button from '@/bases/Button/Button';
+import { DatePicker } from '@/bases/DatePicker/DatePicker';
 import { Input } from '@/bases/Input';
 import InputUploader from '@/bases/InputUploader/InputUploader';
 import Row from '@/bases/Row/Row';
@@ -187,6 +189,27 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
               }}
               placeholder="Upload image"
               disabled={preview}
+            />
+          </Row>
+          <Row align="SPACE">
+            <InputUploader
+              accept={{
+                'image/png': FILE_TYPES.images
+              }}
+              label="Image URL"
+              value={form.image}
+              onUrlChange={(url: string) => {
+                setForm((prev: any) => ({
+                  ...prev,
+                  image: url
+                }));
+              }}
+              placeholder="Upload image"
+            />
+            <DatePicker
+              label="Date of article publication"
+              value={dayjs(form.datePublished).isValid() ? dayjs(form.datePublished) : form.datePublished}
+              onChange={v => setForm((prev: any) => ({ ...prev, datePublished: v }))}
             />
           </Row>
         </Card>
