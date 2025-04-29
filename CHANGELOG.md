@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.12.0%0Dv1.11.1#diff) (2025-04-29)
+
+
+### Features
+
+* remove dahsboard menu ([a8c1ef6](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/a8c1ef6cb17efdb8214bbdd0328ffab03f3fb682))
+
 ### [1.11.1](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.11.1%0Dv1.11.0#diff) (2025-03-27)
 
 
