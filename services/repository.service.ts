@@ -1,7 +1,8 @@
 import { AxiosResponse } from 'axios';
+import Store from 'store';
 import { api, repositoryApi, parseUrl } from './api';
 import { Filter } from '@/components/RepositoryFilter/RepositoryFilter';
-import { SETTINGS } from '@/constants/settings';
+import { STORAGE_KEYS } from '@/constants/store.constant';
 import { Article } from '@/dtos/articles/article.dto';
 import { cleanObject } from '@/utils/clean';
 
@@ -51,10 +52,10 @@ export const FetchRepositoryArticles = async (
 
 export const DownloadRepositoryArticles = async (filter: Filter & { search: string }) => {
   try {
-    const headers = {
-      'x-api-key': SETTINGS.PUBLIC_SEARCH_API_KEY
-    };
-    const url = repositoryApi.getUri({
+    const headers = new Headers({
+      Authorization: `Bearer ${Store.get(STORAGE_KEYS.ACCESS_TOKEN)}`
+    });
+    const url = api.getUri({
       url: parseUrl(PREFIX),
       params: cleanObject(filter)
     });
