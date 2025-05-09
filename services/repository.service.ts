@@ -56,7 +56,7 @@ export const DownloadRepositoryArticles = async (filter: Filter & { search: stri
       Authorization: `Bearer ${Store.get(STORAGE_KEYS.ACCESS_TOKEN)}`
     });
     const url = api.getUri({
-      url: parseUrl(PREFIX),
+      url: parseUrl('/search/export'),
       params: cleanObject(filter)
     });
     // @ts-ignore
