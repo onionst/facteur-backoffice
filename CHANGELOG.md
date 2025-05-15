@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.13.0%0Dv1.12.0#diff) (2025-05-15)
+
+
+### Features
+
+* **[CHEC-329](https://newtral.atlassian.net/browse/CHEC-329):**  export endpoint repository articles ([a25066e](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/a25066ec18b2994f9cb23aea5b72b2c23b92683f))
+* **[CHEC-329](https://newtral.atlassian.net/browse/CHEC-329):** export role restrictions ([aa79338](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/aa793384da06cab04e84af4f2c402615558eeafe))
+
 ## [1.12.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.12.0%0Dv1.11.1#diff) (2025-04-29)
 
 
