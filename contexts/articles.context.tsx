@@ -166,7 +166,7 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
         headlineNative: metadata?.title || prev?.headlineNative,
         image: metadata?.image || metadata?.meta_image || prev?.image,
         datePublished: dayjs(metadata?.date).isValid() ? dayjs(metadata?.date) : prev?.datePublished,
-        keywords: metadata?.keywords || ''
+        keywords: metadata?.keywords || []
       }));
 
       if (isDebunkArticle(articleType)) {
