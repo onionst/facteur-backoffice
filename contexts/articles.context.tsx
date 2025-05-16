@@ -154,13 +154,14 @@ export const ArticlesProvider = (props: ArticlesProviderProps) => {
     setFetchingUrlMetadata: any
   ): Promise<void> => {
     try {
-      const { metadata, claim_review_schema, language } = await fetchMetadata(articleType, url);
+      const { metadata, claim_review_schema, language, country } = await fetchMetadata(articleType, url);
 
       setFetchingUrlMetadata(true);
 
       setForm((prev: any) => ({
         ...prev,
         inLanguage: language || '',
+        countryOfOrigin: country || '',
         description: metadata?.summary || '',
         headlineNative: metadata?.title || prev?.headlineNative,
         image: metadata?.image || metadata?.meta_image || prev?.image,
