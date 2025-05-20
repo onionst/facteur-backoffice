@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.14.0%0Dv1.13.0#diff) (2025-05-20)
+
+
+### Features
+
+* **[CHEC-353](https://newtral.atlassian.net/browse/CHEC-353):** fetch article metadata ([e3f3ad1](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/e3f3ad1974ff8ae7d3da78d4aac7f97e91ea0734))
+* fetch metada keywords ([9100f4a](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/9100f4a3854e8b06a02fe0dc4e6d3efe648f53f9))
+* fetch metada keywords array ([883e1e8](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/883e1e8b82990bc263f7106412f0deedeb22b981))
+
+
+### Bug Fixes
+
+* remove image field duplicated ([060372f](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/060372fdca709481ad2fdf309177a17e3cca8565))
+
 ## [1.13.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.13.0%0Dv1.12.0#diff) (2025-05-15)
 
 
