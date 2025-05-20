@@ -188,23 +188,6 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
                 }));
               }}
               placeholder="Upload image"
-              disabled={preview}
-            />
-          </Row>
-          <Row align="SPACE">
-            <InputUploader
-              accept={{
-                'image/png': FILE_TYPES.images
-              }}
-              label="Image URL"
-              value={form.image}
-              onUrlChange={(url: string) => {
-                setForm((prev: any) => ({
-                  ...prev,
-                  image: url
-                }));
-              }}
-              placeholder="Upload image"
             />
             <DatePicker
               label="Date of article publication"
