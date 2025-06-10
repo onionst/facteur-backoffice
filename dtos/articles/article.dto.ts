@@ -36,6 +36,7 @@ export class Article {
     associatedMedia?: MediaType;
     difussionFormat?: MediaFormat;
     platform?: Platform;
+    actionTaken?: boolean;
     appearanceDate?: Date;
   }>;
   author?: string;
