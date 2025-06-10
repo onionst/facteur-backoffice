@@ -238,6 +238,7 @@ export default function ClaimReviewDraftForm(props: {
                     }
                     disabled={preview}
                   />
+
                   <Select
                     label="Format"
                     required={true}
@@ -267,26 +268,61 @@ export default function ClaimReviewDraftForm(props: {
                     disabled={preview}
                   />
                 </Row>
-                <DatePicker
-                  label="Claim appearance date"
-                  required={props.imported !== true}
-                  value={appearance.appearanceDate ? dayjs(appearance.appearanceDate) : undefined}
-                  onChange={v =>
-                    props.handleUpdate({
-                      ...claimReview,
-                      appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
-                        if (_appearanceIndex === appearanceIndex) {
-                          return {
-                            ..._appearance,
-                            appearanceDate: v?.toDate()
-                          };
-                        }
-                        return _appearance;
+                <Row align="SPACE">
+                  <Select
+                    disabled={preview}
+                    label="Action taken by platform"
+                    key={`${props.formUrl}_appearance_${appearanceIndex}_actionTaken`}
+                    defaultValue={appearance?.actionTaken ? 'true' : appearance?.actionTaken === false ? 'false' : ''}
+                    options={[
+                      { label: 'Select ...', value: '' },
+                      {
+                        label: 'Yes',
+                        value: 'true'
+                      },
+                      {
+                        label: 'No',
+                        value: 'false'
+                      }
+                    ]}
+                    onChange={v =>
+                      props.handleUpdate({
+                        ...claimReview,
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              actionTaken: v === 'true'
+                            };
+                          }
+                          return _appearance;
+                        })
                       })
-                    })
-                  }
-                  disabled={preview}
-                />
+                    }
+                  />
+
+                  <DatePicker
+                    label="Claim appearance date"
+                    required={props.imported !== true}
+                    value={appearance.appearanceDate ? dayjs(appearance.appearanceDate) : undefined}
+                    onChange={v =>
+                      props.handleUpdate({
+                        ...claimReview,
+                        appearances: claimReview.appearances.map((_appearance: any, _appearanceIndex: any) => {
+                          if (_appearanceIndex === appearanceIndex) {
+                            return {
+                              ..._appearance,
+                              appearanceDate: v?.toDate()
+                            };
+                          }
+                          return _appearance;
+                        })
+                      })
+                    }
+                    disabled={preview}
+                  />
+                </Row>
+
                 <Input
                   label="Archive URL"
                   pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
@@ -510,6 +546,7 @@ export default function ClaimReviewDraftForm(props: {
                       associatedMedia: '',
                       associatedMediaType: '',
                       difussionFormat: '',
+                      actionTaken: '',
                       appearanceDate: '',
                       platform: ''
                     }

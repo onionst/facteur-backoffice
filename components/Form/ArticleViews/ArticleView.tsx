@@ -289,13 +289,31 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                             ]}
                           />
                         </Row>
-                        <DatePicker
-                          label="Claim appearance date"
-                          required
-                          value={appearance.appearanceDate ? dayjs(appearance.appearanceDate) : undefined}
-                          disabled
-                        />
-
+                        <Row align="SPACE">
+                          <Select
+                            disabled
+                            label="Action taken by platform"
+                            key={`${form.url}_appearance_${appearanceIndex}_actionTaken`}
+                            defaultValue={appearance?.actionTaken ? 'true' : appearance?.actionTaken === false ? 'false' : ''}
+                            options={[
+                              { label: 'Select ...', value: '' },
+                              {
+                                label: 'Yes',
+                                value: 'true'
+                              },
+                              {
+                                label: 'No',
+                                value: 'false'
+                              }
+                            ]}
+                          />
+                          <DatePicker
+                            label="Claim appearance date"
+                            required
+                            value={appearance.appearanceDate ? dayjs(appearance.appearanceDate) : undefined}
+                            disabled
+                          />
+                        </Row>
                         <Input
                           disabled
                           label="Archive URL"
