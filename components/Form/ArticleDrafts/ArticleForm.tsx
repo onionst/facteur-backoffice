@@ -275,7 +275,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
                 }))
               ]}
               required
-              onChange={v => setForm((prev: any) => ({ ...prev, topic: v, subtopics: undefined }))}
+              onChange={v => setForm((prev: any) => ({ ...prev, topic: normalizeTopic(v), subtopics: undefined }))}
               disabled={preview}
             />
             <Tagger
@@ -291,7 +291,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
               ]}
               maxTagCount="responsive"
               mode="multiple"
-              onChange={v => setForm((prev: any) => ({ ...prev, subtopics: v }))}
+              onChange={v => setForm((prev: any) => ({ ...prev, subtopics: normalizeSubTopic(form.topic, v) }))}
               placeholder="Article's subtopics"
               required
               disabled={preview || !form.topic}
