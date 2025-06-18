@@ -108,6 +108,36 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
     }));
   };
 
+  const includeLegacyTopics = (topic: string) => {
+    if (topic === normalizeTopic(Topic.FossilFuels)) {
+      return `${Topic.FossilFuels}`;
+    }
+    if (topic === normalizeTopic(Topic.Waste)) {
+      return `${Topic.Waste}`;
+    }
+    return topic;
+  };
+
+  const normalizeTopic = (topic: string) => {
+    if (topic === Topic.FossilFuels) {
+      return Topic.FossilFuels.replace('(old)', '');
+    }
+    if (topic === Topic.Waste) {
+      return Topic.Waste.replace('(old)', '');
+    }
+    return topic;
+  };
+
+  const normalizeSubTopic = (topic: string, subTopic: string) => {
+    if (topic === normalizeTopic(Topic.FossilFuels)) {
+      return subTopic.replace('(old)', '');
+    }
+    if (topic === normalizeTopic(Topic.Waste)) {
+      return subTopic.replace('(old)', '');
+    }
+    return subTopic;
+  };
+
   return (
     <form className={s['ds-article-draft-form']} onSubmit={preview ? handlePublish : handleSubmit}>
       <Page>
@@ -240,7 +270,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
               options={[
                 { label: 'Topic', value: '' },
                 ...Object.entries(Topic).map(v => ({
-                  value: v[1].split('_').join(' '),
+                  value: normalizeTopic(v[1].split('_').join(' ')),
                   label: v[1].split('_').join(' ')
                 }))
               ]}
@@ -253,9 +283,9 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
               value={form.subtopics}
               options={[
                 ...Object.entries(Subtopic)
-                  .filter(v => v[1].startsWith(form.topic))
+                  .filter(v => v[1].startsWith(includeLegacyTopics(form.topic)))
                   .map(v => ({
-                    value: v[1].split('_').join(' '),
+                    value: normalizeSubTopic(form.topic, v[1].split('_').join(' ')),
                     label: v[1].split(' - ')[1]
                   }))
               ]}
