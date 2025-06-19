@@ -22,6 +22,7 @@ import { Subtopic, Topic } from '@/constants/topics';
 import { useOrganizations } from '@/contexts/organizations.context';
 import { Organization } from '@/dtos/organizations/organization.dto';
 import { FileType } from '@/modals/FileType';
+import { normalizeSubTopic, normalizeTopic } from '@/utils/legacyTopics';
 
 export type Filter = {
   type?: ArticleType[];
@@ -30,8 +31,8 @@ export type Filter = {
   publisher?: string;
   inLanguage?: LanguageISO;
   keywords?: string[];
-  topic?: Topic;
-  subtopic?: Subtopic;
+  topic?: Topic | string;
+  subtopic?: Subtopic | string;
   countryOfOrigin?: CountryISO;
   reviewRating?: ReviewRating;
   order?: '-datePublished' | 'datePublished' | '-dateCreated' | 'dateCreated' | '-dateModified' | 'dateModified';
@@ -209,7 +210,7 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
                 label: 'Filter by topic'
               },
               ...Object.entries(Topic).map(v => ({
-                value: v[1].split('_').join(' '),
+                value: normalizeTopic(v[1].split('_').join(' ')),
                 label: v[1].split('_').join(' ')
               }))
             ]}
@@ -217,7 +218,7 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               setModified(true);
               setFilter(prev => ({
                 ...prev,
-                topic
+                topic: normalizeTopic(topic)
               }));
             }}
           />
@@ -229,7 +230,7 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
                 label: 'Filter by subtopic'
               },
               ...Object.entries(Subtopic).map(v => ({
-                value: v[1].split('_').join(' '),
+                value: normalizeSubTopic(filter.topic!, v[1].split('_').join(' ')),
                 label: v[1].split('_').join(' ')
               }))
             ]}
@@ -237,7 +238,7 @@ export default function RepositoryFilter(props: RepositoryFilterProps) {
               setModified(true);
               setFilter(prev => ({
                 ...prev,
-                subtopic
+                subtopic: normalizeSubTopic(filter.topic!, subtopic)
               }));
             }}
           />

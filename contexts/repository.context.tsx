@@ -12,6 +12,7 @@ import {
   FetchRepositoryArticlesByVideo,
   FetchRepositoryArticlesByVideoOrAudio
 } from '@/services/repository.service';
+import { normalizeTopic, normalizeSubTopic } from '@/utils/legacyTopics';
 
 export type RepositoryArticlesPage = {
   maxPage: number;
@@ -52,9 +53,19 @@ export const RepositoryProvider = (props: RepositoryProviderProps) => {
     nextPage: null,
     records: 0
   });
+  const filterLegacyTopics = (filter: any) => {
+    if (filter?.topic) {
+      filter.topic = normalizeTopic(filter.topic);
+    }
+    if (filter?.topic && filter?.subtopic) {
+      filter.subtopic = normalizeSubTopic(filter.topic, filter.subtopic);
+    }
+    return filter;
+  };
   const fetchRepositoryArticles = async (filter: any, pageIndex: number = 1) => {
     try {
       setLoading(true);
+      filter = filterLegacyTopics(filter);
       const data = await FetchRepositoryArticles({
         ...filter,
         page: pageIndex,
@@ -128,6 +139,7 @@ export const RepositoryProvider = (props: RepositoryProviderProps) => {
 
   const downloadRepositoryArticles = async (filter: any): Promise<Blob | undefined> => {
     try {
+      filter = filterLegacyTopics(filter);
       const data = await DownloadRepositoryArticles({
         order: '-datePublished',
         ...filter,
