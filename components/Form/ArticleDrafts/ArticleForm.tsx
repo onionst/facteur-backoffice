@@ -263,7 +263,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
               maxTagCount="responsive"
               mode="multiple"
               onChange={v =>
-                setForm((prev: any) => ({ ...prev, subtopics: v.map((subtopic: string) => normalizeSubTopic(form.topic, subtopic)) }))
+                setForm((prev: any) => ({ ...prev, subtopics: v?.map((subtopic: string) => normalizeSubTopic(form.topic, subtopic)) }))
               }
               placeholder="Article's subtopics"
               required

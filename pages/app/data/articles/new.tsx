@@ -66,7 +66,7 @@ export default function New() {
         keywords: form?.keywords?.filter((keyword: string) => keyword?.length >= MIN_LENGTH_KEYWORDS) || null,
         inLanguage: form.inLanguage || null,
         topic: normalizeTopic(form.topic) || null,
-        subtopics: form.subtopics.map(subtopic => normalizeSubTopic(form.topic, subtopic)) || null,
+        subtopics: form.subtopics?.map(subtopic => normalizeSubTopic(form.topic, subtopic)) || null,
         countryOfOrigin: form.countryOfOrigin || null,
         contentLocation: form.contentLocation || null,
         claimReview: structuredClone(form.claimReview),
