@@ -25,6 +25,7 @@ import { LanguageISO } from '@/constants/language';
 import { Subtopic, Topic } from '@/constants/topics';
 import { WorldCountriesISO, WorldCountriesNames } from '@/constants/worldCountries';
 import { useArticles } from '@/contexts/articles.context';
+import { normalizeTopic, includeLegacyTopics, normalizeSubTopic } from '@/utils/legacyTopics';
 import { validateUrl } from '@/utils/validateUrl';
 
 export type ArticleFormProps = {
@@ -240,12 +241,12 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
               options={[
                 { label: 'Topic', value: '' },
                 ...Object.entries(Topic).map(v => ({
-                  value: v[1].split('_').join(' '),
+                  value: normalizeTopic(v[1].split('_').join(' ')),
                   label: v[1].split('_').join(' ')
                 }))
               ]}
               required
-              onChange={v => setForm((prev: any) => ({ ...prev, topic: v, subtopics: undefined }))}
+              onChange={v => setForm((prev: any) => ({ ...prev, topic: normalizeTopic(v), subtopics: undefined }))}
               disabled={preview}
             />
             <Tagger
@@ -253,15 +254,17 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
               value={form.subtopics}
               options={[
                 ...Object.entries(Subtopic)
-                  .filter(v => v[1].startsWith(form.topic))
+                  .filter(v => v[1].startsWith(includeLegacyTopics(form.topic)))
                   .map(v => ({
-                    value: v[1].split('_').join(' '),
+                    value: normalizeSubTopic(form.topic, v[1].split('_').join(' ')),
                     label: v[1].split(' - ')[1]
                   }))
               ]}
               maxTagCount="responsive"
               mode="multiple"
-              onChange={v => setForm((prev: any) => ({ ...prev, subtopics: v }))}
+              onChange={v =>
+                setForm((prev: any) => ({ ...prev, subtopics: v?.map((subtopic: string) => normalizeSubTopic(form.topic, subtopic)) }))
+              }
               placeholder="Article's subtopics"
               required
               disabled={preview || !form.topic}

@@ -1,4 +1,4 @@
-import { BarChart2, Box, File, Italic, Search, TrendingUp, Users } from 'react-feather';
+import { BarChart2, Box, File, Search, Users } from 'react-feather';
 import { ROLES } from './roles.constants';
 import { SETTINGS } from './settings';
 
@@ -66,6 +66,22 @@ export const SECTIONS: Section[] = [
         name: 'Search',
         type: 'ITEM',
         path: '/app/repository/search'
+      }
+    ].filter(item => SETTINGS.PUBLIC_SECTIONS.includes(item.id))
+  },
+  {
+    id: 'stats',
+    access: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
+    name: 'Stats',
+    type: 'MENU',
+    sections: [
+      {
+        id: 'stats.dashboard',
+        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN, ROLES.RESEARCHER],
+        icon: <BarChart2 size={18} strokeWidth={2.3} color="#4b5675" />,
+        name: 'Dashboard',
+        type: 'ITEM',
+        path: '/app/stats/dashboard'
       }
     ].filter(item => SETTINGS.PUBLIC_SECTIONS.includes(item.id))
   }
