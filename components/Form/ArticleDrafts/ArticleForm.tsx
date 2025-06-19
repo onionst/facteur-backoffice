@@ -25,6 +25,7 @@ import { LanguageISO } from '@/constants/language';
 import { Subtopic, Topic } from '@/constants/topics';
 import { WorldCountriesISO, WorldCountriesNames } from '@/constants/worldCountries';
 import { useArticles } from '@/contexts/articles.context';
+import { normalizeTopic, includeLegacyTopics, normalizeSubTopic } from '@/utils/legacyTopics';
 import { validateUrl } from '@/utils/validateUrl';
 
 export type ArticleFormProps = {
@@ -106,36 +107,6 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
         }
       ]
     }));
-  };
-
-  const includeLegacyTopics = (topic: string) => {
-    if (topic === normalizeTopic(Topic.FossilFuels)) {
-      return `${Topic.FossilFuels}`;
-    }
-    if (topic === normalizeTopic(Topic.Waste)) {
-      return `${Topic.Waste}`;
-    }
-    return topic;
-  };
-
-  const normalizeTopic = (topic: string) => {
-    if (topic === Topic.FossilFuels) {
-      return Topic.FossilFuels.replace('(old)', '');
-    }
-    if (topic === Topic.Waste) {
-      return Topic.Waste.replace('(old)', '');
-    }
-    return topic;
-  };
-
-  const normalizeSubTopic = (topic: string, subTopic: string) => {
-    if (topic === normalizeTopic(Topic.FossilFuels)) {
-      return subTopic.replace('(old)', '');
-    }
-    if (topic === normalizeTopic(Topic.Waste)) {
-      return subTopic.replace('(old)', '');
-    }
-    return subTopic;
   };
 
   return (
@@ -291,7 +262,9 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
               ]}
               maxTagCount="responsive"
               mode="multiple"
-              onChange={v => setForm((prev: any) => ({ ...prev, subtopics: normalizeSubTopic(form.topic, v) }))}
+              onChange={v =>
+                setForm((prev: any) => ({ ...prev, subtopics: v.map((subtopic: string) => normalizeSubTopic(form.topic, subtopic)) }))
+              }
               placeholder="Article's subtopics"
               required
               disabled={preview || !form.topic}
