@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.15.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.15.0%0Dv1.14.0#diff) (2025-06-19)
+
+
+### Features
+
+* include legacy topics ([6e577fa](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/6e577faaf3450dfe49d15c9311856d375b82e1ee))
+* send legacy topics ([601606a](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/601606ad277546ba5ca6f518990cc7e8073624e2))
+* show action taken by platform ([b2a9bd4](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/b2a9bd44510cd936caf7588e01024ad44915c474))
+* update topics and subtopics ([4ddc56f](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/4ddc56f21e5d727bbc1ad0fbb26c5bb44916e187))
+
+
+### Bug Fixes
+
+* remove imports ([e685921](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/e68592173a34464ed956f504ba38c03373247c8e))
+
 ## [1.14.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.14.0%0Dv1.13.0#diff) (2025-05-20)
 
 
