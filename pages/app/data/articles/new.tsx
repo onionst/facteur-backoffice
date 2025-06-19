@@ -12,6 +12,7 @@ import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
 import useWindowSize from '@/hooks/useWindowWidth';
+import { normalizeTopic, normalizeSubTopic } from '@/utils/legacyTopics';
 import { removeFalsyValues } from '@/utils/validateUrl';
 
 export default function New() {
@@ -64,13 +65,14 @@ export default function New() {
         image: form.image || null,
         keywords: form?.keywords?.filter((keyword: string) => keyword?.length >= MIN_LENGTH_KEYWORDS) || null,
         inLanguage: form.inLanguage || null,
-        topic: form.topic || null,
-        subtopics: form.subtopics || null,
+        topic: normalizeTopic(form.topic) || null,
+        subtopics: form.subtopics?.map(subtopic => normalizeSubTopic(form.topic, subtopic)) || null,
         countryOfOrigin: form.countryOfOrigin || null,
         contentLocation: form.contentLocation || null,
         claimReview: structuredClone(form.claimReview),
         evidences: structuredClone(form.evidences)
       };
+
       payload = {
         ...payload
       };
