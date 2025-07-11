@@ -337,7 +337,7 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
                       type="url"
                       name="url"
                       minLength={10}
-                      value={evidence.url}
+                      value={evidence?.url}
                       onChange={v => {
                         setForm({
                           ...form,
@@ -348,7 +348,6 @@ export default function ArticleForm(props: ArticleFormProps & IArticleDraft) {
                       }}
                       id="url"
                       pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
-                      required
                       placeholder="https://example.com/factchecking/article-010101"
                       disabled={preview}
                     />

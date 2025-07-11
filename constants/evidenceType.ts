@@ -1,10 +1,10 @@
 export enum EvidenceType {
   OnlineWritten = 'Online written source',
   OnlineMedia = 'Online media source',
-  ReferencedToOtherFactChecked = 'Reference to other fact-checked articles',
+  ReferencedToOtherFactChecked = 'Reference to own or other fact-checks',
   ConsultationWithClaimant = 'Consultation with the claimant',
   ConsultationWithExperts = 'Consultation with experts',
   ConsultationWithGovernment = 'Consultation with a government official or department',
-  None = 'None the fact-checker could find',
+  None = 'No credible evidence found',
   Other = 'Other'
 }
