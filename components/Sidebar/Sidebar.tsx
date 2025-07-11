@@ -66,7 +66,7 @@ export default function Sidebar(props: SidebarProps) {
                   <ul>
                     {section?.sections?.map(item => {
                       return (
-                        <Link href={item?.path || '/app'} key={item?.path}>
+                        <Link href={item?.path || '/app'} key={item?.path} target={item?.target ? item?.target : '_self'}>
                           <Tooltip placement="right" title={item?.name}>
                             <li
                               className={`${s['ds-sidebar--collapsed__sections-item']} ${
