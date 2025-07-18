@@ -66,7 +66,7 @@ export default function Sidebar(props: SidebarProps) {
                   <ul>
                     {section?.sections?.map(item => {
                       return (
-                        <Link href={item?.path || '/app'} key={item?.path}>
+                        <Link href={item?.path || '/app'} key={item?.path} target={item?.target ?? '_self'}>
                           <Tooltip placement="right" title={item?.name}>
                             <li
                               className={`${s['ds-sidebar--collapsed__sections-item']} ${
@@ -153,7 +153,12 @@ export default function Sidebar(props: SidebarProps) {
                 <ul>
                   {section?.sections?.map(item => {
                     return (
-                      <Link href={item?.path || '/app'} key={item?.path} onClick={() => props.mobile && props.onClose && props.onClose()}>
+                      <Link
+                        href={item?.path || '/app'}
+                        key={item?.path}
+                        target={item?.target ?? '_self'}
+                        onClick={() => props.mobile && props.onClose && props.onClose()}
+                      >
                         <li
                           className={`${s['ds-sidebar__sections-item']} ${
                             item?.path ? (router.asPath.includes(item?.path) ? s['ds-sidebar__sections-item--selected'] : '') : ''

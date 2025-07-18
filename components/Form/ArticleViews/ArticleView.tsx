@@ -410,7 +410,7 @@ export default function ArticleView(props: ArticleViewProps & IArticleView) {
                   </Row>
                   <Row align="SPACE">
                     <Input disabled value={evidence.type} label="Type" />
-                    <Input disabled value={evidence.url} label="URL" />
+                    <Input disabled value={evidence?.url} label="URL" />
                   </Row>
                 </Card>
               );

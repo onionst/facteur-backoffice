@@ -10,6 +10,7 @@ export class Section {
   id: string;
   path?: string;
   sections?: Section[];
+  target?: string;
 }
 
 export const SECTIONS: Section[] = [
@@ -81,7 +82,8 @@ export const SECTIONS: Section[] = [
         icon: <BarChart2 size={18} strokeWidth={2.3} color="#4b5675" />,
         name: 'Dashboard',
         type: 'ITEM',
-        path: '/app/stats/dashboard'
+        path: SETTINGS.PUBLIC_STATS_URL,
+        target: '_blank'
       }
     ].filter(item => SETTINGS.PUBLIC_SECTIONS.includes(item.id))
   }
