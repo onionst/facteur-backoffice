@@ -156,7 +156,7 @@ export default function Sidebar(props: SidebarProps) {
                       <Link
                         href={item?.path || '/app'}
                         key={item?.path}
-                        target={item?.target ? item?.target : '_self'}
+                        target={item?.target ?? '_self'}
                         onClick={() => props.mobile && props.onClose && props.onClose()}
                       >
                         <li
