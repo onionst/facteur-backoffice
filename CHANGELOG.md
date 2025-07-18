@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.16.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.16.0%0Dv1.15.1#diff) (2025-07-18)
+
+
+### Features
+
+* dashboard new window no collapsed menu ([6aec9cc](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/6aec9ccbf4412424ce3e1e85a0dc6ec52c9aa7d7))
+* dashboard target blank ([906ec1c](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/906ec1cfbb8005fecc267564f2ca31a8531f0f1a))
+* evidences changes ([ee76345](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/ee763452b228596cbc87e1ba70bc67482edef7dc))
+* nullish coalescing operator ([0433269](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/043326950aa257a2c635da4ad0aa25c75d119082))
+* nullish coalescing operator ([2779796](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/commits/2779796b9027e1fb464d330d912a5e037c654cd7))
+
 ### [1.15.1](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.15.1%0Dv1.15.0#diff) (2025-06-19)
 
 ## [1.15.0](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc/branches/compare/v1.15.0%0Dv1.14.0#diff) (2025-06-19)
