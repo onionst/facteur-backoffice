@@ -85,6 +85,14 @@ export default function Sidebar(props: SidebarProps) {
                     {item.icon}
                   </span>
                   <span className={s.label}>{item.name}</span>
+                  {item.badge && (
+                    <span
+                      className={`${s.badge} ${item.badge.variant === 'warn' ? s.badgeWarn : ''}`}
+                      aria-label={`${item.badge.count} pending`}
+                    >
+                      {item.badge.count}
+                    </span>
+                  )}
                 </Link>
               );
             })}

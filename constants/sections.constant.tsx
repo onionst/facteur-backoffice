@@ -1,6 +1,10 @@
-import { BarChart2, Box, File, Search, Users } from 'react-feather';
+import { Activity, BarChart2, Briefcase, Copy, FileText, TrendingUp, Users } from 'react-feather';
 import { ROLES } from './roles.constants';
-import { SETTINGS } from './settings';
+
+export type SectionBadge = {
+  count: number;
+  variant?: 'default' | 'warn';
+};
 
 export class Section {
   access: ROLES[];
@@ -11,80 +15,97 @@ export class Section {
   path?: string;
   sections?: Section[];
   target?: string;
+  badge?: SectionBadge;
 }
 
+const ALL_ROLES: ROLES[] = [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER];
+
+/* Visual mock: replicates the sidebar of the maqueta (Editorial / Repository /
+   Admin). Items that already have a real page link to it; the rest point to
+   `#` until the corresponding screen is ported. Badge counts are illustrative
+   only — they will be wired to real data when each feature lands. */
 export const SECTIONS: Section[] = [
   {
+    id: 'editorial',
+    access: ALL_ROLES,
+    name: 'Editorial',
+    type: 'MENU',
+    sections: [
+      {
+        id: 'editorial.articles',
+        access: ALL_ROLES,
+        icon: <FileText size={18} strokeWidth={1.6} />,
+        name: 'Articles',
+        type: 'ITEM',
+        path: '/app/data/articles',
+        badge: { count: 6, variant: 'warn' }
+      },
+      {
+        id: 'editorial.matches',
+        access: ALL_ROLES,
+        icon: <Copy size={18} strokeWidth={1.6} />,
+        name: 'Matches',
+        type: 'ITEM',
+        path: '#',
+        badge: { count: 7, variant: 'warn' }
+      }
+    ]
+  },
+  {
+    id: 'repository',
+    access: ALL_ROLES,
+    name: 'Repository',
+    type: 'MENU',
+    sections: [
+      {
+        id: 'repository.dashboard',
+        access: ALL_ROLES,
+        icon: <BarChart2 size={18} strokeWidth={1.6} />,
+        name: 'Dashboard',
+        type: 'ITEM',
+        path: '/app/repository/search'
+      },
+      {
+        id: 'repository.trends',
+        access: ALL_ROLES,
+        icon: <TrendingUp size={18} strokeWidth={1.6} />,
+        name: 'Trends',
+        type: 'ITEM',
+        path: '#'
+      }
+    ]
+  },
+  {
     id: 'admin',
-    access: [ROLES.SUPER_ADMIN, ROLES.ADMIN],
+    access: ALL_ROLES,
     name: 'Admin',
     type: 'MENU',
     sections: [
       {
-        id: 'admin.organizations',
-        access: [ROLES.SUPER_ADMIN],
-        icon: <Box size={18} strokeWidth={2.3} color="#4b5675" />,
-        name: 'Organizations',
+        id: 'admin.pipeline',
+        access: ALL_ROLES,
+        icon: <Activity size={18} strokeWidth={1.6} />,
+        name: 'Pipeline',
         type: 'ITEM',
-        path: '/app/admin/organizations'
+        path: '#',
+        badge: { count: 3, variant: 'warn' }
       },
       {
         id: 'admin.users',
-        access: [ROLES.SUPER_ADMIN, ROLES.ADMIN],
+        access: ALL_ROLES,
+        icon: <Users size={18} strokeWidth={1.6} />,
         name: 'Users',
-        icon: <Users size={18} strokeWidth={2.3} color="#4b5675" />,
         type: 'ITEM',
         path: '/app/admin/users'
-      }
-    ].filter(item => SETTINGS.PUBLIC_SECTIONS.includes(item.id))
-  },
-  {
-    id: 'data',
-    access: [ROLES.ADMIN, ROLES.FACT_CHECKER],
-    name: 'Data',
-    type: 'MENU',
-    sections: [
+      },
       {
-        id: 'data.articles',
-        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
-        icon: <File size={18} strokeWidth={2.3} color="#4b5675" />,
-        name: 'Your articles',
+        id: 'admin.organizations',
+        access: ALL_ROLES,
+        icon: <Briefcase size={18} strokeWidth={1.6} />,
+        name: 'Organizations',
         type: 'ITEM',
-        path: '/app/data/articles'
+        path: '/app/admin/organizations'
       }
-    ].filter(item => SETTINGS.PUBLIC_SECTIONS.includes(item.id))
-  },
-  {
-    id: 'repository',
-    access: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
-    name: 'EuroClimateCheck Dataset',
-    type: 'MENU',
-    sections: [
-      {
-        id: 'repository.search',
-        access: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
-        icon: <Search size={18} strokeWidth={2.3} color="#4b5675" />,
-        name: 'Search',
-        type: 'ITEM',
-        path: '/app/repository/search'
-      }
-    ].filter(item => SETTINGS.PUBLIC_SECTIONS.includes(item.id))
-  },
-  {
-    id: 'stats',
-    access: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.RESEARCHER],
-    name: 'Stats',
-    type: 'MENU',
-    sections: [
-      {
-        id: 'stats.dashboard',
-        access: [ROLES.ADMIN, ROLES.FACT_CHECKER, ROLES.SUPER_ADMIN, ROLES.RESEARCHER],
-        icon: <BarChart2 size={18} strokeWidth={2.3} color="#4b5675" />,
-        name: 'Dashboard',
-        type: 'ITEM',
-        path: SETTINGS.PUBLIC_STATS_URL,
-        target: '_blank'
-      }
-    ].filter(item => SETTINGS.PUBLIC_SECTIONS.includes(item.id))
+    ]
   }
-].filter(section => section?.sections?.length > 0);
+];
