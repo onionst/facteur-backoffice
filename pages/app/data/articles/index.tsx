@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Download, Edit, File, Trash } from 'react-feather';
+import { Download, Edit, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -38,7 +38,11 @@ export default function Articles() {
 
   return (
     <>
-      <Header icon={<File />} title="Your articles">
+      <Header
+        title="Your articles"
+        breadcrumb={[{ label: 'Data' }, { label: 'Articles' }]}
+        subtitle="All articles owned by your organisation, regardless of state. Use the search to narrow down."
+      >
         <Link href="/app/data/articles/new">
           <Button theme="CTA">Create article</Button>
         </Link>

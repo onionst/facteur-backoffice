@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Box, Download, Edit, RefreshCcw, Trash } from 'react-feather';
+import { Download, Edit, RefreshCcw, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -40,7 +40,11 @@ export default function Organizations() {
 
   return (
     <>
-      <Header icon={<Box />} title={'Organizations'}>
+      <Header
+        title="Organizations"
+        breadcrumb={[{ label: 'Admin' }, { label: 'Organizations' }]}
+        subtitle="Parent organisations and their per-country / per-language suborganisations."
+      >
         <Button theme="CTA" onClick={showCreateOrganization}>
           Create organization
         </Button>

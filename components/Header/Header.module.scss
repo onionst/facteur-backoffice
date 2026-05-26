@@ -1,45 +1,92 @@
-@import '@/styles/app/variables.scss';
+.header {
+  margin-bottom: 28px;
+}
 
-.ds-header {
-  width: 100%;
-  padding: 0 0 20px;
-  border-radius: 0.475rem;
-  height: 62px;
+.breadcrumbs {
+  font-family: var(--display);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray-500);
+  margin-bottom: 16px;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
   align-items: center;
+}
 
-  & > h1 {
-    margin: 0;
-    font-weight: bold;
-    color: $ds-gray-900;
-    gap: 8px;
-    & > svg {
-      stroke: $ds-primary !important;
-    }
+.crumbWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
 
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
+.sep {
+  color: var(--gray-300);
+}
 
-  &__icon {
-    height: 40px;
-    width: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.475rem;
-    background-color: $ds-gray-200;
-    & * {
-      color: $ds-gray-900;
-      height: 20px;
-    }
+.crumbLink {
+  color: var(--gray-500) !important;
+  transition: color 0.12s;
+
+  &:hover {
+    color: var(--ink) !important;
   }
 }
 
-@media screen and (max-width: 768px) {
-  .ds-header {
-    padding: 0 0 20px 0;
+.crumbCurrent {
+  color: var(--ink);
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.title {
+  font-family: var(--display);
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--ink);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.subtitle {
+  font-family: var(--serif);
+  font-size: 17px;
+  color: var(--gray-700);
+  margin: 0;
+  max-width: 720px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 28px;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: stretch;
   }
 }

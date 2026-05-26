@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Download, Eye, Search as SearchIcon, X } from 'react-feather';
+import { Download, Eye, X } from 'react-feather';
 import Column from '@/bases/Column/Column';
 import IconButton from '@/bases/IconButton/IconButton';
 import Image from '@/bases/Image/Image';
@@ -87,7 +87,11 @@ export default function Repository() {
 
   return (
     <>
-      <Header icon={<SearchIcon />} title="EuroClimateCheck Repository" />
+      <Header
+        title="Repository"
+        breadcrumb={[{ label: 'Repository' }, { label: 'Search' }]}
+        subtitle="Search across the EuroClimateCheck dataset of articles."
+      />
       <Wrapper>
         <Grid size="20-80">
           <div className="p-rel">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { Download, Edit, Mail, RefreshCcw, Trash, Users as UsersIcon } from 'react-feather';
+import { Download, Edit, Mail, RefreshCcw, Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -60,7 +60,11 @@ export default function Users() {
 
   return (
     <>
-      <Header icon={<UsersIcon />} title="Users">
+      <Header
+        title="Users"
+        breadcrumb={[{ label: 'Admin' }, { label: 'Users' }]}
+        subtitle="Manage members of your organisation and their access."
+      >
         <Button theme="CTA" onClick={showInviteUsers}>
           Invite users
         </Button>

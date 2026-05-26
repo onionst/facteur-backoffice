@@ -33,9 +33,18 @@
 .content {
   flex: 1;
   min-height: calc(100vh - 90px - 73px);
+  padding: 32px 40px 80px;
+  max-width: 1400px;
+  width: 100%;
 
   & > * {
     animation: fadeIn 200ms ease-out;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 24px 16px 48px;
   }
 }
 
