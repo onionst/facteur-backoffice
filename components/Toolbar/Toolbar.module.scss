@@ -1,0 +1,18 @@
+/* Toolbar — paper card that sits above tables, hosting filter chips, search
+   input and quick actions. Mirrors .toolbar in public/maqueta/styles.css. */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  background: var(--paper);
+  padding: 16px;
+  border: 1px solid var(--gray-200);
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: var(--gray-200);
+}

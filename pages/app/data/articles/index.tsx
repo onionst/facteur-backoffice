@@ -14,6 +14,7 @@ import Pagination from '@/components/Pagination/Pagination';
 import ArticleSearch from '@/components/Search/ArticlesSearch';
 import { RepositoryHeadline, NotFound } from '@/components/Table/RepositoryTable';
 import { Table } from '@/components/Table/Table';
+import Toolbar from '@/components/Toolbar/Toolbar';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { ARTICLES_LIMIT_PER_PAGE, useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
@@ -48,7 +49,7 @@ export default function Articles() {
         </Link>
       </Header>
       <Wrapper>
-        <Page>
+        <Toolbar>
           <ArticleSearch
             withFilter
             placeholder="Search articles..."
@@ -64,7 +65,7 @@ export default function Articles() {
               });
             }}
           />
-        </Page>
+        </Toolbar>
         <Page>
           <Table
             firstExtended

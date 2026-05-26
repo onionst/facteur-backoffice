@@ -12,6 +12,7 @@ import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
 import Search from '@/components/Search/Search';
 import { Table } from '@/components/Table/Table';
+import Toolbar from '@/components/Toolbar/Toolbar';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { useModal } from '@/contexts/modal.context';
 import { ORGANIZATIONS_LIMIT_PER_PAGE, useOrganizations } from '@/contexts/organizations.context';
@@ -50,7 +51,7 @@ export default function Organizations() {
         </Button>
       </Header>
       <Wrapper>
-        <Page>
+        <Toolbar>
           <Search
             placeholder="Search organizations..."
             onSearch={search => {
@@ -61,7 +62,7 @@ export default function Organizations() {
               fetchOrganizations({ ...filter, search });
             }}
           />
-        </Page>
+        </Toolbar>
         <Page>
           <Table
             notFound={<NotFound title="No organizations found" description="Your search did not match any organization" />}

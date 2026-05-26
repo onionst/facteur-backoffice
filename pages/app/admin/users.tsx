@@ -10,6 +10,7 @@ import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
 import Search from '@/components/Search/Search';
 import { Table } from '@/components/Table/Table';
+import Toolbar from '@/components/Toolbar/Toolbar';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { ROLES } from '@/constants/roles.constants';
 import { useAuth } from '@/contexts/auth.context';
@@ -70,7 +71,7 @@ export default function Users() {
         </Button>
       </Header>
       <Wrapper>
-        <Page>
+        <Toolbar>
           <Search
             placeholder="Search users..."
             onSearch={(search, organizationId, role) => {
@@ -111,7 +112,7 @@ export default function Users() {
             withSelector={session.role === ROLES.SUPER_ADMIN ? organizations : undefined}
             withRoles={session.role === ROLES.SUPER_ADMIN}
           />
-        </Page>
+        </Toolbar>
         <Page>
           <Table
             notFound={<NotFound title="No users found" description="Your search did not match any user" />}
