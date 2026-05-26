@@ -1,22 +1,13 @@
-@import '@/styles/app/variables.scss';
+/* Wrapper: structural only. The visible borders / paper backgrounds now live
+   on the sections themselves (.ds-table__container, toolbar, etc.), matching
+   the maqueta where each section is its own card sibling to <main>. */
 
-.ds-wrapper {
+.ds-wrapper,
+.ds-wrapper__mobile {
   width: 100%;
-  border-radius: 0.712rem;
-  background-color: $ds-gray-200;
-  border: 1px solid $ds-gray-300;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 20px;
-  &__mobile {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 20px;
-  }
 }
