@@ -4,6 +4,12 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap"
+          rel="stylesheet"
+        />
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png"></link>
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png"></link>
         <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png"></link>

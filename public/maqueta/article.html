@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facteur — Article detail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer src="app.js"></script>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position: absolute; left: 0; top: 0; padding: 8px; background: var(--ink); color: var(--newtral-mint); z-index: 999;" onfocus="this.classList.remove('sr-only')" onblur="this.classList.add('sr-only')">Skip to main content</a>
+
+<!-- =============================================================
+     CHROME — KEEP IN SYNC across index.html, articles.html,
+     article.html, duplicates.html, dashboard.html, users.html.
+     The only per-page diff is the .nav-item.active flag and the
+     aria-current attribute on the anchor matching the current page.
+     ============================================================= -->
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-date">Backoffice · Editorial workspace</span>
+    <span class="topbar-meta">v0.6 · Prototype</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div style="display: flex; align-items: center;">
+      <a href="articles.html" class="logo">Facteur<span class="logo-dot"></span></a>
+      <span class="header-tag">WP3 · <span>Backoffice</span></span>
+    </div>
+    <div class="header-user">
+      <span class="header-user-org">Newtral · ES</span>
+      <span class="header-user-name">
+        <span class="avatar">PV</span>
+        Pablo
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Primary navigation">
+    <button type="button" class="sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="true" onclick="toggleSidebar()">
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4l-5 5 5 5"/></svg>
+    </button>
+    <nav>
+      <div class="nav-section">
+        <div class="nav-section-title">Editorial</div>
+        <a class="nav-item" href="articles.html" data-label="Articles">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h7l3 3v11H4z"/><path d="M11 2v3h3"/><path d="M6 9h6M6 12h4"/></svg></span>
+          <span class="nav-label">Articles</span>
+          <span class="nav-badge warn" aria-label="6 articles">6</span>
+        </a>
+        <a class="nav-item" href="duplicates.html" data-label="Matches">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="9" height="9"/><path d="M3 12V3h9"/></svg></span>
+          <span class="nav-label">Matches</span>
+          <span class="nav-badge warn" aria-label="7 matches">7</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Repository</div>
+        <a class="nav-item" href="dashboard.html" data-label="Dashboard">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V8M9 15V3M15 15v-5"/></svg></span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a class="nav-item" href="#" data-label="Trends" title="Trends — coming soon">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l4-5 3 3 5-7"/><path d="M11 4h4v4"/></svg></span>
+          <span class="nav-label">Trends</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Admin</div>
+        <a class="nav-item" href="pipeline.html" data-label="Pipeline">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h12M3 9h12M3 13h12"/><circle cx="11" cy="5" r="1.4" fill="currentColor"/><circle cx="6" cy="9" r="1.4" fill="currentColor"/><circle cx="12" cy="13" r="1.4" fill="currentColor"/></svg></span>
+          <span class="nav-label">Pipeline</span>
+          <span class="nav-badge warn" aria-label="3 alerts">3</span>
+        </a>
+        <a class="nav-item" href="users.html" data-label="Users">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6.5" r="2.5"/><path d="M3 15.5c0-3 2.7-5 6-5s6 2 6 5"/></svg></span>
+          <span class="nav-label">Users</span>
+        </a>
+        <a class="nav-item" href="organizations.html" data-label="Organizations">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V3h7v13"/><path d="M10 8h5v8"/><path d="M5.5 6h1M5.5 9h1M5.5 12h1M12 11h1M12 13.5h1"/></svg></span>
+          <span class="nav-label">Organizations</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content" tabindex="-1">
+      <!-- Article chrome — replaces standard breadcrumbs; the right side
+           pages through the review queue. -->
+      <div class="article-chrome">
+        <div class="article-chrome-crumbs">
+          <a href="articles.html">Articles</a>
+          <span class="sep">/</span>
+          <strong>Article #1294</strong>
+        </div>
+        <div class="article-chrome-pager" role="group" aria-label="Article queue navigation">
+          <button class="pager-btn" type="button" aria-label="Previous article" title="Previous in queue" onclick="showToast('Previous article')">←</button>
+          <span class="pager-count" aria-live="polite">1 / 6</span>
+          <button class="pager-btn" type="button" aria-label="Next article" title="Next in queue" onclick="showToast('Next article')">→</button>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Article detail sections">
+        <button class="tab active" role="tab" aria-selected="true" aria-controls="panel-overview" data-tab="overview">Overview</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="panel-metadata" data-tab="metadata">Metadata</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="panel-claims" data-tab="claims">Claims <span class="tab-count">7</span></button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="panel-ai-reviews" data-tab="ai-reviews">AI Reviews <span class="tab-count warn">13</span></button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="panel-evidence" data-tab="evidence">Evidence</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="panel-changelog" data-tab="changelog">Changelog</button>
+      </div>
+
+      <!-- Article status strip — workflow state + version selector.
+           Stays visible across tabs so reviewers can always see what
+           version + state they're acting on. -->
+      <div class="article-status">
+        <div class="article-status-left">
+          <span class="status-pill status-pill-state">In review</span>
+          <span class="status-pill status-pill-fields"><span class="status-dot"></span>13 fields need review</span>
+        </div>
+        <div class="article-status-right">
+          <span class="version-tag"><span>V3</span><span class="version-dot" aria-hidden="true"></span></span>
+          <button class="version-selector" type="button" aria-haspopup="listbox" title="Switch to a previous version">
+            <span>Version</span>
+            <span class="vs-arrow">▾</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ============ TAB PANEL: OVERVIEW ============ -->
+      <div class="tab-panel active" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview">
+
+      <!-- Hero banner image -->
+      <figure class="article-banner" aria-label="Article cover image">
+        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1600&q=80" alt="" loading="lazy">
+        <button type="button" class="article-banner-edit" onclick="openModal('metadata-modal')" aria-label="Edit metadata">
+          <span aria-hidden="true">✎</span>
+          Edit metadata →
+        </button>
+      </figure>
+
+      <!-- Metadata strip — source + key fields at a glance. -->
+      <div class="article-strip">
+        <a class="article-strip-source" href="#" target="_blank" rel="noopener">newtral.es ↗</a>
+        <span class="article-strip-sep" aria-hidden="true"></span>
+        <span class="article-strip-item"><span class="article-strip-key">Published</span> 14 Mar 2024</span>
+        <span class="article-strip-sep" aria-hidden="true"></span>
+        <span class="article-strip-item"><span class="article-strip-key">Lang</span> Spanish (ES)</span>
+        <span class="article-strip-sep" aria-hidden="true"></span>
+        <span class="article-strip-item"><span class="article-strip-key">From</span> 🇪🇸 Spain</span>
+        <span class="article-strip-sep" aria-hidden="true"></span>
+        <span class="article-strip-item"><span class="article-strip-key">Publisher</span> Newtral</span>
+      </div>
+
+      <!-- Headline block — English version on top, ES original below. -->
+      <header class="article-headline">
+        <h1 class="article-headline-en">Government claims unemployment dropped 2 points in Q3</h1>
+        <div class="article-headline-original">
+          <span class="lang-pill">ES · Original</span>
+          <span>El Gobierno asegura que el paro bajó 2 puntos en el tercer trimestre</span>
+        </div>
+      </header>
+
+      <!-- Resumen — short editorial summary + topical tags. -->
+      <section class="article-section">
+        <h2 class="section-eyebrow">Resumen</h2>
+        <p class="section-body">El presidente del Gobierno citó datos del INE para afirmar una caída del desempleo de dos puntos respecto al trimestre anterior. Esta cifra compara trimestres no homogéneos y omite el efecto estacional típico del verano, lo que distorsiona la magnitud real de la variación.</p>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px;">
+          <span class="topic-pill">Economy</span>
+          <span class="topic-pill">Politics</span>
+          <span class="badge badge-rating misleading">Misleading</span>
+        </div>
+      </section>
+
+      <div class="detail-grid">
+        <div class="detail-main">
+
+          <!-- CLAIMS SUMMARY — compact, full list lives in the Claims tab -->
+          <div class="detail-card">
+            <div class="detail-card-head">
+              <h3>Claims summary <span class="muted text-sm" style="margin-left: 6px; text-transform: none; letter-spacing: 0;">3 total · 2 flagged</span></h3>
+              <button class="btn btn-ghost btn-sm" type="button" onclick="selectTab('claims')">View all →</button>
+            </div>
+            <div class="detail-card-body" style="padding: 12px 20px;">
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                  <span class="badge badge-rating misleading">Misleading</span>
+                  <span class="badge badge-harm medium">medium</span>
+                  <span style="font-family: var(--serif); font-size: 14px; color: var(--gray-900); flex: 1; min-width: 0;">"Unemployment in Spain dropped 2 percentage points in Q3 of this year."</span>
+                  <span class="flag-pill"><span class="flag-dot"></span>Rating</span>
+                  <span class="flag-pill"><span class="flag-dot"></span>Harm</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                  <span class="badge badge-rating">No rating</span>
+                  <span class="badge badge-harm low">low</span>
+                  <span style="font-family: var(--serif); font-size: 14px; color: var(--gray-900); flex: 1; min-width: 0;">"Job creation in the public sector accounted for 60% of the new positions."</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                  <span class="badge badge-rating false">False</span>
+                  <span class="badge badge-harm high">high</span>
+                  <span style="font-family: var(--serif); font-size: 14px; color: var(--gray-900); flex: 1; min-width: 0;">"This is the lowest unemployment rate in 15 years."</span>
+                  <span class="flag-pill"><span class="flag-dot"></span>Translation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- APPEARANCES SUMMARY — counts + breakdown by platform -->
+          <div class="detail-card">
+            <div class="detail-card-head">
+              <h3>Appearances <span class="muted text-sm" style="margin-left: 6px; text-transform: none; letter-spacing: 0;">7 total across 5 platforms</span></h3>
+            </div>
+            <div class="detail-card-body" style="padding: 16px 20px;">
+              <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                <span class="topic-pill" style="background: var(--gray-100); color: var(--gray-700);">website · 3</span>
+                <span class="topic-pill" style="background: #E8EEF5; color: #2C4858;">x · 1</span>
+                <span class="topic-pill" style="background: #E8EEF5; color: #2C4858;">facebook · 1</span>
+                <span class="topic-pill" style="background: #E8EEF5; color: #2C4858;">tiktok · 1</span>
+                <span class="topic-pill" style="background: #E8EEF5; color: #2C4858;">bluesky · 1</span>
+              </div>
+              <div class="muted text-sm" style="margin-top: 12px; line-height: 1.5;">
+                Highest reach: TikTok clip viral (1.2M views, reduced_distribution). One platform action recorded on X (labeled).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR — Pipeline + Similar claims (Metadata moved to main) -->
+        <aside class="detail-sidebar">
+          <div class="detail-card">
+            <div class="detail-card-head">
+              <h3>Pipeline</h3>
+              <span style="font-family: var(--display); font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em;">Version v1 · new article</span>
+            </div>
+            <div class="detail-card-body">
+              <div class="pipeline-list">
+                <div class="pipeline-step done">
+                  <span></span><span class="step-name">ingestion_queued</span><span class="step-time">02 May · 14:32:08</span>                </div>
+                <div class="pipeline-step warning">
+                  <span></span><span class="step-name">scraping</span><span class="step-time">02 May · 14:32:14</span>                </div>
+                <div class="pipeline-step done">
+                  <span></span><span class="step-name">raw_data_ingested</span><span class="step-time">02 May · 14:32:42</span>                </div>
+                <div class="pipeline-step done">
+                  <span></span><span class="step-name">enriching</span><span class="step-time">02 May · 14:32:43 → 14:36:55</span>                </div>
+                <div class="pipeline-step done">
+                  <span></span><span class="step-name">auto_reviewing</span><span class="step-time">02 May · 14:36:55 → 14:37:04</span>                </div>
+                <div class="pipeline-step done">
+                  <span></span><span class="step-name">pending_review</span><span class="step-time">02 May · 14:37:04 → 03 May · 09:14:18</span>                </div>
+                <div class="pipeline-step active">
+                  <span></span><span class="step-name">in_review</span><span class="step-time">03 May · 09:14:18 · in progress</span>                </div>
+                <div class="pipeline-step">
+                  <span></span><span class="step-name">ready_to_publish</span><span class="step-time">—</span>
+                </div>
+                <div class="pipeline-step">
+                  <span></span><span class="step-name">published</span><span class="step-time">—</span>
+                </div>
+              </div>
+              <div class="pipeline-legend" aria-label="Pipeline step legend">
+                <span class="lg done">done</span>
+                <span class="lg active">active</span>
+                <span class="lg warn">retry</span>
+                <span class="lg err">error</span>
+                <span class="lg">pending</span>
+              </div>
+              <p style="margin-top: 14px; font-size: 11px; color: var(--gray-500); font-family: var(--display); line-height: 1.5;">On refresh, the pipeline restarts at <code>ingestion_queued</code> on a new <code>ArticleVersion</code> and may pass through a transient <code>comparing_diff</code> step before re-enriching only changed fields.</p>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="detail-card-head"><h3>Similar claims</h3></div>
+            <div class="detail-card-body" style="padding: 0;">
+              <div onclick="window.location='duplicates.html'" style="padding: 14px 20px; border-bottom: 1px solid var(--gray-100); cursor: pointer; transition: background 0.1s;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background=''">
+                <div style="font-size: 13px; line-height: 1.4; margin-bottom: 6px;">"Unemployment fell by two points in the third quarter, says PM."</div>
+                <div style="display: flex; gap: 8px; align-items: center; font-family: var(--display); font-size: 11px; color: var(--gray-500);">
+                  <span class="similarity-score" style="margin: 0; padding: 2px 6px; font-size: 10px;"><strong>0.94</strong></span>
+                  <span>maldita.es · 2d</span>
+                </div>
+              </div>
+              <div style="padding: 14px 20px;">
+                <div style="font-size: 13px; line-height: 1.4; margin-bottom: 6px;">"Spain unemployment Q3 down 2pp."</div>
+                <div style="display: flex; gap: 8px; align-items: center; font-family: var(--display); font-size: 11px; color: var(--gray-500);">
+                  <span class="similarity-score" style="margin: 0; padding: 2px 6px; font-size: 10px;"><strong>0.81</strong></span>
+                  <span>P@S · 4d</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      </div><!-- /panel-overview -->
+
+      <!-- ============ TAB PANEL: METADATA ============ -->
+      <div class="tab-panel" id="panel-metadata" role="tabpanel" aria-labelledby="tab-metadata">
+        <div class="detail-card">
+          <div class="detail-card-head">
+            <h3>Metadata</h3>
+            <button class="btn btn-ghost btn-sm" onclick="openModal('metadata-modal')">Edit</button>
+          </div>
+          <div class="detail-card-body">
+            <div class="meta-row">
+              <span class="meta-key">URL</span>
+              <span class="meta-val"><a href="#">elpais.com/economia/2024-10-12/desempleo-q3.html ↗</a></span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Language</span>
+              <span class="meta-val">Spanish (ES)</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Pub. date</span>
+              <span class="meta-val">12 Oct 2024</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Owner</span>
+              <span class="meta-val">Newtral</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Topic</span>
+              <span class="meta-val">Economy · Politics</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Mentioned</span>
+              <span class="meta-val">🇪🇸 Spain</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Claimant</span>
+              <span class="meta-val">Pedro Sánchez <span class="muted text-sm">(politician)</span></span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Crisis event</span>
+              <span class="meta-val muted text-sm">—</span>
+            </div>
+          </div>
+        </div>
+      </div><!-- /panel-metadata -->
+
+      <!-- ============ TAB PANEL: AI REVIEWS ============ -->
+      <div class="tab-panel" id="panel-ai-reviews" role="tabpanel" aria-labelledby="tab-ai-reviews">
+        <p class="eyebrow" style="margin: 0 0 8px;">3 fields flagged · pattern <strong class="dark">XC-04</strong> · accept / reject / edit / defer all write a ChangeLog entry</p>
+
+        <!-- AI REVIEW · RATING -->
+        <div class="review-panel">
+          <div class="review-panel-head">
+            <h3>AI Review · Rating</h3>
+            <span class="conf-bar">
+              <span style="color: var(--newtral-mint);">Confidence</span>
+              <div class="conf-bar-track" style="background: var(--gray-700);"><div class="conf-bar-fill low" style="width: 42%; background: var(--warning);"></div></div>
+              <span style="color: var(--newtral-mint);">0.42</span>
+            </span>
+          </div>
+          <div class="review-side">
+            <div class="review-col current">
+              <div class="review-col-label">Current value</div>
+              <div class="review-value"><span class="badge badge-rating">No rating yet</span></div>
+            </div>
+            <div class="review-col suggested">
+              <div class="review-col-label">AI suggestion</div>
+              <div class="review-value"><span class="badge badge-rating misleading">Misleading</span></div>
+              <div style="font-size: 13px; color: var(--gray-700); margin-top: 8px; font-style: italic;">"Q3 unemployment data shows a decrease but the 2-point figure compares non-comparable quarters; context omitted in the original claim."</div>
+            </div>
+          </div>
+          <div class="review-actions">
+            <button class="btn btn-mint btn-sm" onclick="showToast('Rating accepted — ChangeLog written')">✓ Accept</button>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Rating suggestion rejected')">✗ Reject</button>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Open editor for rating')">Edit &amp; accept</button>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Deferred to defer queue')">Defer</button>
+            <span class="review-actions-meta">Model: rating-classifier v2.3 · XC-04</span>
+          </div>
+        </div>
+
+        <!-- AI REVIEW · TRANSLATION -->
+        <div class="review-panel">
+          <div class="review-panel-head">
+            <h3>AI Review · Translation (ES → EN)</h3>
+            <span class="conf-bar">
+              <span style="color: var(--newtral-mint);">Confidence</span>
+              <div class="conf-bar-track" style="background: var(--gray-700);"><div class="conf-bar-fill med" style="width: 71%; background: var(--newtral-mint);"></div></div>
+              <span style="color: var(--newtral-mint);">0.71</span>
+            </span>
+          </div>
+          <div class="review-side">
+            <div class="review-col current">
+              <div class="review-col-label">Original (ES)</div>
+              <div class="review-value" style="font-family: var(--serif);">"El Gobierno asegura que el desempleo bajó 2 puntos en el tercer trimestre."</div>
+            </div>
+            <div class="review-col suggested">
+              <div class="review-col-label">AI translation (EN)</div>
+              <div class="review-value" style="font-family: var(--serif);">"The Government claims unemployment dropped 2 points in Q3."</div>
+              <div style="font-size: 12px; color: var(--gray-500); margin-top: 6px;">Below threshold (0.80) — flagged for review.</div>
+            </div>
+          </div>
+          <div class="review-actions">
+            <button class="btn btn-mint btn-sm" onclick="showToast('Translation accepted')">✓ Accept</button>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Translation rejected — will re-translate')">✗ Reject</button>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Open inline translation editor')">Edit &amp; accept</button>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Deferred')">Defer</button>
+            <span class="review-actions-meta">Model: translate-mt v4.1 · XC-04</span>
+          </div>
+        </div>
+
+        <!-- AI REVIEW · HARM LEVEL (Claim) — Cunliffe-Jones four-level scale -->
+        <div class="review-panel">
+          <div class="review-panel-head">
+            <h3>AI Review · Harm level
+              <button class="info-tip" type="button" aria-label="Show harm-level rubric" style="margin-left: 8px;">
+                <span aria-hidden="true">?</span>
+                <span class="info-tip-content" role="tooltip">
+                  <strong>Harm level rubric · Cunliffe-Jones</strong>
+                  <code>low</code> — true or harmless error<br>
+                  <code>medium</code> — misleading, mild confusion<br>
+                  <code>high</code> — targets groups or erodes societal trust<br>
+                  <code>critical</code> — risks immediate physical harm (e.g. false health cures, incitement)<br>
+                  <span style="opacity: 0.8;">Always human-reviewed before publishing.</span>
+                </span>
+              </button>
+            </h3>
+            <span class="conf-bar">
+              <span style="color: var(--newtral-mint);">Confidence</span>
+              <div class="conf-bar-track" style="background: var(--gray-700);"><div class="conf-bar-fill low" style="width: 61%; background: var(--warning);"></div></div>
+              <span style="color: var(--newtral-mint);">0.61</span>
+            </span>
+          </div>
+          <div class="review-side">
+            <div class="review-col current">
+              <div class="review-col-label">Current value</div>
+              <div class="review-value"><span class="badge badge-harm">unset</span></div>
+            </div>
+            <div class="review-col suggested">
+              <div class="review-col-label">AI suggestion</div>
+              <div class="review-value"><span class="badge badge-harm medium">medium</span></div>
+              <div style="font-size: 13px; color: var(--gray-700); margin-top: 8px; font-style: italic;">"Misrepresents quarterly comparison; could erode trust in official statistics, but does not target a specific group nor risk physical harm."</div>
+            </div>
+          </div>
+          <div class="review-actions">
+            <button class="btn btn-mint btn-sm" onclick="showToast('Harm level accepted — ChangeLog written')">✓ Accept</button>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Harm level rejected — set manually')">✗ Reject</button>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Open editor for harm level')">Edit &amp; accept</button>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Deferred')">Defer</button>
+            <span class="review-actions-meta">Model: harm-classifier v1.2 · XC-04</span>
+          </div>
+        </div>
+
+        <!-- AI REVIEW · CLAIMANT (resolved confidence — collapsed) -->
+        <details class="review-panel" style="border-color: var(--gray-300);">
+          <summary style="cursor: pointer; padding: 12px 20px; background: var(--gray-50); display: flex; justify-content: space-between; align-items: center; font-family: var(--display); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">
+            <span>AI Review · Claimant <span style="color: var(--newtral-mint-dark); margin-left: 8px;">✓ resolved</span></span>
+            <span class="conf-bar">Confidence <div class="conf-bar-track"><div class="conf-bar-fill" style="width: 92%; background: var(--newtral-mint-dark);"></div></div><span>0.92</span></span>
+          </summary>
+          <div class="review-side">
+            <div class="review-col current">
+              <div class="review-col-label">Resolved value</div>
+              <div class="review-value">Pedro Sánchez <span class="muted text-sm">(politician · existing #234)</span></div>
+            </div>
+            <div class="review-col suggested">
+              <div class="review-col-label">AI suggestion</div>
+              <div class="review-value">Pedro Sánchez <span class="muted text-sm">(politician)</span></div>
+              <div style="font-size: 12px; color: var(--gray-500); margin-top: 6px;">Above threshold — auto-accepted; no action required.</div>
+            </div>
+          </div>
+        </details>
+      </div><!-- /panel-ai-reviews -->
+
+      <!-- ============ TAB PANEL: CLAIMS ============ -->
+      <div class="tab-panel" id="panel-claims" role="tabpanel" aria-labelledby="tab-claims">
+        <div class="detail-card">
+          <div class="detail-card-head">
+            <h3>Claims (3)</h3>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Open new claim form')">+ Add claim</button>
+          </div>
+          <div class="claim-list">
+            <div class="claim-card flagged">
+              <div class="claim-text">"Unemployment in Spain dropped 2 percentage points in Q3 of this year."</div>
+              <div class="claim-meta">
+                <span class="badge badge-rating misleading">Misleading</span>
+                <span class="badge badge-harm medium">medium</span>
+                <span class="dot"></span>
+                <span><strong>Claimant:</strong> Pedro Sánchez (politician)</span>
+                <span class="dot"></span>
+                <span><strong>Appearances:</strong> 4</span>
+                <span class="dot"></span>
+                <span class="flag-pill"><span class="flag-dot"></span>Rating flagged</span>
+                <span class="flag-pill"><span class="flag-dot"></span>Harm flagged</span>
+              </div>
+            </div>
+            <div class="claim-card">
+              <div class="claim-text">"Job creation in the public sector accounted for 60% of the new positions."</div>
+              <div class="claim-meta">
+                <span class="badge badge-rating">No rating</span>
+                <span class="badge badge-harm low">low</span>
+                <span class="dot"></span>
+                <span><strong>Claimant:</strong> Pedro Sánchez (politician)</span>
+                <span class="dot"></span>
+                <span><strong>Appearances:</strong> 2</span>
+              </div>
+            </div>
+            <div class="claim-card flagged">
+              <div class="claim-text">"This is the lowest unemployment rate in 15 years."</div>
+              <div class="claim-meta">
+                <span class="badge badge-rating false">False</span>
+                <span class="badge badge-harm high">high</span>
+                <span class="dot"></span>
+                <span><strong>Claimant:</strong> Pedro Sánchez (politician)</span>
+                <span class="dot"></span>
+                <span><strong>Appearances:</strong> 1</span>
+                <span class="dot"></span>
+                <span class="flag-pill"><span class="flag-dot"></span>Translation flagged</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /panel-claims -->
+
+      <!-- ============ TAB PANEL: EVIDENCE ============ -->
+      <div class="tab-panel" id="panel-evidence" role="tabpanel" aria-labelledby="tab-evidence">
+        <div class="detail-card">
+          <div class="detail-card-head">
+            <h3>Evidence (4)</h3>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Open new evidence form')">+ Add evidence</button>
+          </div>
+          <div class="detail-card-body" style="padding: 0;">
+            <div style="padding: 18px 20px; border-bottom: 1px solid var(--gray-100);">
+              <p class="eyebrow" style="margin-bottom: 6px;">Question</p>
+              <p style="font-family: var(--serif); font-size: 16px; line-height: 1.5; margin-bottom: 10px;">¿La cifra de 2 puntos compara trimestres homogéneos?</p>
+              <p class="eyebrow" style="margin-bottom: 6px;">Answer</p>
+              <p style="font-size: 14px; line-height: 1.55; color: var(--gray-900); margin-bottom: 10px;">No. La fuente del INE compara Q3 2024 con Q2 2024 sin desestacionalizar. La caída en términos interanuales es de 0.8 puntos.</p>
+              <div style="font-size: 12px; color: var(--gray-500);">
+                <strong>Source:</strong> <a href="#" style="color: var(--newtral-mint-dark);">ine.es/estadisticas/.../epa-q3-2024.pdf ↗</a> · <strong>Type:</strong> Online written source
+              </div>
+            </div>
+            <div style="padding: 18px 20px; border-bottom: 1px solid var(--gray-100);">
+              <p class="eyebrow" style="margin-bottom: 6px;">Question</p>
+              <p style="font-family: var(--serif); font-size: 16px; line-height: 1.5; margin-bottom: 10px;">¿Es la tasa más baja en 15 años?</p>
+              <p class="eyebrow" style="margin-bottom: 6px;">Answer</p>
+              <p style="font-size: 14px; line-height: 1.55; color: var(--gray-900); margin-bottom: 10px;">Falso. En 2007 la tasa fue 1.4 puntos inferior a la de Q3 2024 según la serie histórica del INE.</p>
+              <div style="font-size: 12px; color: var(--gray-500);">
+                <strong>Source:</strong> <a href="#" style="color: var(--newtral-mint-dark);">ine.es/serie-historica-epa ↗</a> · <strong>Type:</strong> Online written source
+              </div>
+            </div>
+            <div style="padding: 18px 20px; color: var(--gray-500); font-size: 13px;">
+              + 2 more entries (consultation with experts; reference to own fact-check)
+            </div>
+          </div>
+        </div>
+      </div><!-- /panel-evidence -->
+
+      <!-- ============ TAB PANEL: CHANGELOG ============ -->
+      <div class="tab-panel" id="panel-changelog" role="tabpanel" aria-labelledby="tab-changelog">
+        <div class="toolbar" style="margin-bottom: 16px;">
+          <span class="filter-chip active" data-cl-filter="all">All <span class="filter-chip-count">11</span></span>
+          <span class="filter-chip" data-cl-filter="human_edit">Human edits <span class="filter-chip-count">3</span></span>
+          <span class="filter-chip" data-cl-filter="llm_extraction">LLM extraction <span class="filter-chip-count">5</span></span>
+          <span class="filter-chip" data-cl-filter="llm_reprocessing">LLM reprocessing <span class="filter-chip-count">1</span></span>
+          <span class="filter-chip" data-cl-filter="system_derived">System <span class="filter-chip-count">2</span></span>
+          <div class="toolbar-divider"></div>
+          <input type="search" class="search-input" placeholder="Search field, value, actor…" aria-label="Search the changelog">
+        </div>
+
+        <div class="changelog-list">
+          <div class="changelog-entry" data-cl-source="human_edit">
+            <div class="changelog-time">03 May · 09:42:11<span class="cl-rel">2d 23h ago</span></div>
+            <div class="changelog-body">
+              <span class="changelog-actor">María Rodríguez</span> updated <strong>claim_text_english</strong> on <strong>Claim #1294</strong>
+              <span class="changelog-source human_edit">human_edit</span>
+              <div class="changelog-diff">
+                <span class="cl-from">"Unemployment in Spain dropped 2 percentage points."</span>
+                <span class="cl-to">"Unemployment in Spain dropped 2 percentage points in Q3 of this year."</span>
+              </div>
+            </div>
+          </div>
+          <div class="changelog-entry" data-cl-source="human_edit">
+            <div class="changelog-time">03 May · 09:38:52<span class="cl-rel">2d 23h ago</span></div>
+            <div class="changelog-body">
+              <span class="changelog-actor">María Rodríguez</span> resolved flag <strong>claimant_flagged_for_review</strong> on <strong>Claim #1294</strong>
+              <span class="changelog-source human_edit">human_edit</span>
+              <div class="changelog-diff"><span class="cl-from">true</span> → <span class="cl-to">false</span></div>
+            </div>
+          </div>
+          <div class="changelog-entry" data-cl-source="system_derived">
+            <div class="changelog-time">03 May · 09:14:18<span class="cl-rel">2d 23h ago</span></div>
+            <div class="changelog-body">
+              <span class="changelog-actor">system</span> transitioned <strong>review_status</strong> on <strong>Article #1294</strong>
+              <span class="changelog-source system_derived">system_derived</span>
+              <div class="changelog-diff"><span class="cl-from">pending_review</span> → <span class="cl-to">in_review</span></div>
+            </div>
+          </div>
+          <div class="changelog-entry" data-cl-source="llm_extraction">
+            <div class="changelog-time">02 May · 14:37:04<span class="cl-rel">3d 18h ago</span></div>
+            <div class="changelog-body">
+              <span class="changelog-actor">evaluator_agent</span> set <strong>rating_flagged_for_review</strong> on <strong>Claim #1294</strong>
+              <span class="changelog-source llm_extraction">llm_extraction</span>
+              <div class="changelog-diff"><span class="cl-from">false</span> → <span class="cl-to">true</span> · confidence 0.42 below threshold 0.70</div>
+            </div>
+          </div>
+          <div class="changelog-entry" data-cl-source="llm_extraction">
+            <div class="changelog-time">02 May · 14:36:55<span class="cl-rel">3d 18h ago</span></div>
+            <div class="changelog-body">
+              <span class="changelog-actor">enrichment_worker</span> populated <strong>claim_text_english</strong> on <strong>Claim #1294</strong>
+              <span class="changelog-source llm_extraction">llm_extraction</span>
+              <div class="changelog-diff"><span class="cl-to">"Unemployment in Spain dropped 2 percentage points."</span> · model translate-mt v4.1</div>
+            </div>
+          </div>
+          <div class="changelog-entry" data-cl-source="llm_extraction">
+            <div class="changelog-time">02 May · 14:36:22<span class="cl-rel">3d 18h ago</span></div>
+            <div class="changelog-body">
+              <span class="changelog-actor">enrichment_worker</span> created <strong>Claim #1294</strong> from <strong>Article #1294</strong>
+              <span class="changelog-source llm_extraction">llm_extraction</span>
+              <div class="changelog-diff"><span class="cl-to">extracted 3 claims</span> · model claim-extractor v3.2</div>
+            </div>
+          </div>
+          <div class="changelog-entry" data-cl-source="llm_extraction">
+            <div class="changelog-time">02 May · 14:35:41<span class="cl-rel">3d 18h ago</span></div>
+            <div class="changelog-body">
+              <span class="changelog-actor">enrichment_worker</span> set <strong>topic_ids</strong> on <strong>Article #1294</strong>
+              <span class="changelog-source llm_extraction">llm_extraction</span>
+              <div class="changelog-diff"><span class="cl-to">[economy, politics]</span> · confidence 0.88 / 0.84</div>
+            </div>
+          </div>
+          <div class="changelog-entry" data-cl-source="system_derived">
+            <div class="changelog-time">02 May · 14:32:42<span class="cl-rel">3d 18h ago</span></div>
+            <div class="changelog-body">
+              <span class="changelog-actor">scraper_worker</span> set <strong>ingestion_status</strong> on <strong>Article #1294</strong>
+              <span class="changelog-source system_derived">system_derived</span>
+              <div class="changelog-diff"><span class="cl-from">pending_fulltext</span> → <span class="cl-to">fulltext_retrieved</span> · 38 KB raw text</div>
+            </div>
+          </div>
+          <div class="changelog-entry" data-cl-source="human_edit">
+            <div class="changelog-time">02 May · 14:32:08<span class="cl-rel">3d 18h ago</span></div>
+            <div class="changelog-body">
+              <span class="changelog-actor">Pablo Valdivia</span> created <strong>Article #1294</strong> via the manual ingestion form
+              <span class="changelog-source human_edit">human_edit</span>
+              <div class="changelog-diff"><span class="cl-to">url: elpais.com/economia/2024-10-12/desempleo-q3.html</span></div>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-top: 12px; font-size: 11px; color: var(--gray-500); font-family: var(--display); text-transform: uppercase; letter-spacing: 0.06em;">Showing 9 of 11 — <a href="#" style="color: var(--ink); border-bottom: 1px solid var(--newtral-mint);">load more</a></p>
+      </div><!-- /panel-changelog -->
+
+  </main>
+</div>
+
+<!-- Floating workflow actions — Save (draft) + Publish (approve to ready_to_publish) +
+     overflow kebab for less-frequent state transitions (Reject, Request refresh, …). -->
+<div class="article-actions" role="toolbar" aria-label="Article workflow actions">
+  <button type="button" class="btn-save" onclick="showToast('Draft saved')">Save</button>
+  <button type="button" class="btn-publish" onclick="showToast('Approved → ready_to_publish')">Publish</button>
+  <span class="kebab kebab-up">
+    <button type="button" class="btn-more kebab-trigger" aria-label="More actions" aria-haspopup="menu" onclick="toggleKebab(this, event)">⋮</button>
+    <div class="kebab-menu" role="menu">
+      <button type="button" role="menuitem" class="kebab-item" onclick="showToast('Refresh requested — new version queued')">Request refresh</button>
+      <button type="button" role="menuitem" class="kebab-item" onclick="showToast('Deferred to defer queue')">Defer</button>
+      <button type="button" role="menuitem" class="kebab-item danger" onclick="showToast('Version rejected — refresh to retry')">Reject version</button>
+    </div>
+  </span>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-bar">
+  <span>Facteur · WP3 backoffice prototype</span>
+  <span><strong>Pablo</strong> · org_admin · Newtral · ES</span>
+</div>
+
+<!-- ============ MODAL: NEW ARTICLE ============ -->
+<div class="modal-overlay" id="ingest-modal" role="dialog" aria-modal="true" aria-labelledby="ingest-modal-title">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="ingest-modal-title">Submit articles</h2>
+      <button class="modal-close" onclick="closeModal('ingest-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="duplicate-warning" id="dup-warning" style="display: none;">
+        <div class="duplicate-warning-icon">!</div>
+        <div class="duplicate-warning-body">
+          <strong id="dup-warning-title">1 of these URLs already exists in the repository.</strong>
+          <p style="margin-top: 4px; color: var(--gray-700);">Article #1294 — "Government claims unemployment dropped 2 points in Q3" was ingested 3 days ago. Existing URLs are skipped on submit; pick "Request refresh" if you want a new version.</p>
+          <div class="duplicate-warning-actions">
+            <button class="btn btn-ghost btn-sm" onclick="closeModal('ingest-modal'); window.location='article.html';">Open existing</button>
+            <button class="btn btn-mint btn-sm" onclick="closeModal('ingest-modal'); showToast('Refresh requested for #1294');">Request refresh</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="url-input">Article URLs *</label>
+        <textarea id="url-input" class="form-textarea" rows="6" placeholder="https://elpais.com/economia/2024-10-12/desempleo-q3.html
+https://maldita.es/...
+https://newtral.es/..." style="font-family: var(--body); font-size: 14px; line-height: 1.5;" oninput="checkDuplicate(this.value); updateUrlCount(this.value)"></textarea>
+        <p class="form-hint"><span id="url-count">0</span> URL(s) — one per line. The pipeline fetches each page, extracts fulltext and runs enrichment automatically. Title, language and rating are auto-detected.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="ingest-notes">Notes for the batch <span style="color: var(--gray-500); font-weight: 400; text-transform: none; letter-spacing: 0;">(optional)</span></label>
+        <textarea id="ingest-notes" class="form-textarea" placeholder="Optional context for factcheckers reviewing this batch…" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('ingest-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitIngestBatch()">Submit &amp; ingest</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: EDIT METADATA ============ -->
+<div class="modal-overlay" id="metadata-modal" role="dialog" aria-modal="true" aria-labelledby="metadata-modal-title">
+  <div class="modal" style="max-width: 640px;">
+    <div class="modal-head">
+      <h2 id="metadata-modal-title">Edit metadata · Article #1294</h2>
+      <button class="modal-close" onclick="closeModal('metadata-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="eyebrow xs" style="margin-bottom: 16px;">Each saved field writes one ChangeLog entry · concurrent-conflict detection via ETag</p>
+
+      <div class="form-group">
+        <label class="form-label" for="md-headline-native">Headline (native)</label>
+        <input id="md-headline-native" type="text" class="form-input" value="El Gobierno asegura que el desempleo bajó 2 puntos en el tercer trimestre">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="md-headline-en">Headline (English)</label>
+        <input id="md-headline-en" type="text" class="form-input" value="The Government claims unemployment dropped 2 points in Q3">
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-group">
+          <label class="form-label" for="md-language">Language</label>
+          <select id="md-language" class="form-select">
+            <option>ES — Spanish</option>
+            <option>EN — English</option>
+            <option>FR — French</option>
+            <option>PT — Portuguese</option>
+            <option>IT — Italian</option>
+            <option>DE — German</option>
+            <option>PL — Polish</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="md-pubdate">Publication date</label>
+          <input id="md-pubdate" type="date" class="form-input" value="2024-10-12">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="md-claimant">Claimant</label>
+        <input id="md-claimant" type="text" class="form-input" value="Pedro Sánchez (politician · #234)" list="claimant-suggestions">
+        <datalist id="claimant-suggestions">
+          <option value="Pedro Sánchez (politician · #234)"></option>
+          <option value="PSOE (political_party · #112)"></option>
+          <option value="INE (government_institution · #058)"></option>
+        </datalist>
+        <p class="form-hint">Autocomplete dedupes against existing Claimant by <code>name_normalized</code>.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="md-topic">
+          Topics
+          <button class="info-tip" type="button" aria-label="Topic taxonomy" style="margin-left: 8px; vertical-align: middle;">
+            <span aria-hidden="true">?</span>
+            <span class="info-tip-content" role="tooltip">
+              <strong>Topic taxonomy · IPTC Media Topics</strong>
+              Closed taxonomy (~18 entries). New topics cannot be created from the backoffice — only assignment changes.
+            </span>
+          </button>
+        </label>
+        <select id="md-topic" class="form-select" multiple size="6" style="height: auto;">
+          <option selected>Economy, business and finance</option>
+          <option selected>Politics</option>
+          <option>Health</option>
+          <option>Environment</option>
+          <option>Climate</option>
+          <option>Conflict, war and peace</option>
+          <option>Crime, law and justice</option>
+          <option>Education</option>
+          <option>Human interest</option>
+          <option>Labour</option>
+          <option>Lifestyle and leisure</option>
+          <option>Religion and belief</option>
+          <option>Science and technology</option>
+          <option>Society</option>
+          <option>Sport</option>
+          <option>Arts, culture, entertainment and media</option>
+          <option>Disaster, accident and emergency incident</option>
+          <option>Weather</option>
+        </select>
+        <p class="form-hint">Multi-select against the closed IPTC taxonomy. Hold ⌘/Ctrl to pick multiple.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="md-crisis">
+          Crisis event
+          <button class="info-tip" type="button" aria-label="Crisis events taxonomy" style="margin-left: 8px; vertical-align: middle;">
+            <span aria-hidden="true">?</span>
+            <span class="info-tip-content" role="tooltip">
+              <strong>Crisis events · WP4 closed registry</strong>
+              Active and historical crisis events maintained by WP4. The list is read-only here — propose new entries upstream.
+            </span>
+          </button>
+        </label>
+        <select id="md-crisis" class="form-select">
+          <option value="" selected>— none —</option>
+          <option>COP30 · climate summit (active)</option>
+          <option>EU Elections 2024 (closed)</option>
+          <option>COVID-19 vaccination (closed)</option>
+          <option>Ukraine war (active)</option>
+          <option>Spanish general election 2023 (closed)</option>
+        </select>
+        <p class="form-hint">Single-select against the WP4 closed list. Affects <code>Claim.crisis_event_ref</code> matching downstream.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="md-mentioned">Mentioned countries</label>
+        <input id="md-mentioned" type="text" class="form-input" value="🇪🇸 ES" placeholder="ISO-2 codes, comma-separated">
+        <p class="form-hint">NER-extracted; editable. Multiple values allowed (e.g. <code>ES, FR, IT</code>).</p>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <span class="muted text-sm" style="margin-right: auto;">Last modified by María · 03 May · 09:42</span>
+      <button class="btn btn-ghost" onclick="closeModal('metadata-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('metadata-modal'); showToast('Metadata saved · 3 fields updated · ChangeLog written');">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Action completed</div>
+
+</body>
+</html>

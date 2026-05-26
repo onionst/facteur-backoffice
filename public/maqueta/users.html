@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facteur — Users</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer src="app.js"></script>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position: absolute; left: 0; top: 0; padding: 8px; background: var(--ink); color: var(--newtral-mint); z-index: 999;" onfocus="this.classList.remove('sr-only')" onblur="this.classList.add('sr-only')">Skip to main content</a>
+
+<!-- =============================================================
+     CHROME — KEEP IN SYNC across index.html, articles.html,
+     article.html, duplicates.html, dashboard.html, users.html.
+     The only per-page diff is the .nav-item.active flag and the
+     aria-current attribute on the anchor matching the current page.
+     ============================================================= -->
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-date">Backoffice · Editorial workspace</span>
+    <span class="topbar-meta">v0.6 · Prototype</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div style="display: flex; align-items: center;">
+      <a href="articles.html" class="logo">Facteur<span class="logo-dot"></span></a>
+      <span class="header-tag">WP3 · <span>Backoffice</span></span>
+    </div>
+    <div class="header-user">
+      <span class="header-user-org">Newtral · ES</span>
+      <span class="header-user-name">
+        <span class="avatar">PV</span>
+        Pablo
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Primary navigation">
+    <button type="button" class="sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="true" onclick="toggleSidebar()">
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4l-5 5 5 5"/></svg>
+    </button>
+    <nav>
+      <div class="nav-section">
+        <div class="nav-section-title">Editorial</div>
+        <a class="nav-item" href="articles.html" data-label="Articles">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h7l3 3v11H4z"/><path d="M11 2v3h3"/><path d="M6 9h6M6 12h4"/></svg></span>
+          <span class="nav-label">Articles</span>
+          <span class="nav-badge warn" aria-label="6 articles">6</span>
+        </a>
+        <a class="nav-item" href="duplicates.html" data-label="Matches">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="9" height="9"/><path d="M3 12V3h9"/></svg></span>
+          <span class="nav-label">Matches</span>
+          <span class="nav-badge warn" aria-label="7 matches">7</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Repository</div>
+        <a class="nav-item" href="dashboard.html" data-label="Dashboard">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V8M9 15V3M15 15v-5"/></svg></span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a class="nav-item" href="#" data-label="Trends" title="Trends — coming soon">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l4-5 3 3 5-7"/><path d="M11 4h4v4"/></svg></span>
+          <span class="nav-label">Trends</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Admin</div>
+        <a class="nav-item" href="pipeline.html" data-label="Pipeline">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h12M3 9h12M3 13h12"/><circle cx="11" cy="5" r="1.4" fill="currentColor"/><circle cx="6" cy="9" r="1.4" fill="currentColor"/><circle cx="12" cy="13" r="1.4" fill="currentColor"/></svg></span>
+          <span class="nav-label">Pipeline</span>
+          <span class="nav-badge warn" aria-label="3 alerts">3</span>
+        </a>
+        <a class="nav-item active" href="users.html" aria-current="page" data-label="Users">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6.5" r="2.5"/><path d="M3 15.5c0-3 2.7-5 6-5s6 2 6 5"/></svg></span>
+          <span class="nav-label">Users</span>
+        </a>
+        <a class="nav-item" href="organizations.html" data-label="Organizations">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V3h7v13"/><path d="M10 8h5v8"/><path d="M5.5 6h1M5.5 9h1M5.5 12h1M12 11h1M12 13.5h1"/></svg></span>
+          <span class="nav-label">Organizations</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content" tabindex="-1">
+      <div class="breadcrumbs">
+        <span>Admin</span>
+        <span class="sep">/</span>
+        <strong style="color: var(--ink);">Users</strong>
+      </div>
+      <h1 class="page-title">Users</h1>
+      <p class="page-subtitle">Manage members of your organisation and their access. Suborg-scoped roles inherit visibility from their parent.</p>
+
+      <div class="toolbar">
+        <span class="filter-chip active">All <span class="filter-chip-count">12</span></span>
+        <span class="filter-chip">Factcheckers <span class="filter-chip-count">8</span></span>
+        <span class="filter-chip">Org admins <span class="filter-chip-count">1</span></span>
+        <span class="filter-chip">Suborg admins <span class="filter-chip-count">1</span></span>
+        <span class="filter-chip">Researchers <span class="filter-chip-count">2</span></span>
+        <div class="toolbar-divider"></div>
+        <button class="btn btn-primary btn-sm" onclick="openModal('invite-modal')">+ Invite user</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>User</th><th>Role</th><th>Org / Suborg</th><th>Status</th><th>Last login</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span class="avatar" style="width: 32px; height: 32px; font-size: 12px;">PV</span>
+                  <div>
+                    <div style="font-weight: 600;">Pablo Valdivia</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">pablo@newtral.es</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-role org_admin">org_admin</span></td>
+              <td style="color: var(--gray-700); font-size: 13px;">Newtral <span style="color: var(--gray-400);">·</span> <em style="color: var(--gray-500); font-size: 12px;">all suborgs</em></td>
+              <td><span class="badge badge-status active">Active</span></td>
+              <td style="font-size: 13px; color: var(--gray-500);">Now</td>
+              <td><button class="btn btn-ghost btn-sm">Edit</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span class="avatar" style="width: 32px; height: 32px; font-size: 12px; background: var(--gray-700); color: var(--paper);">LM</span>
+                  <div>
+                    <div style="font-weight: 600;">Laura Méndez</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">laura@newtral.es</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-role suborg_admin">suborg_admin</span></td>
+              <td style="color: var(--gray-700); font-size: 13px;">Newtral <span style="color: var(--gray-400);">/</span> <strong>Newtral · PT</strong></td>
+              <td><span class="badge badge-status active">Active</span></td>
+              <td style="font-size: 13px; color: var(--gray-500);">1h ago</td>
+              <td><button class="btn btn-ghost btn-sm">Edit</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span class="avatar" style="width: 32px; height: 32px; font-size: 12px; background: var(--newtral-mint-dark); color: var(--paper);">MR</span>
+                  <div>
+                    <div style="font-weight: 600;">María Rodríguez</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">maria@newtral.es</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-role factchecker">factchecker</span></td>
+              <td style="color: var(--gray-700); font-size: 13px;">Newtral <span style="color: var(--gray-400);">/</span> Newtral · ES</td>
+              <td><span class="badge badge-status active">Active</span></td>
+              <td style="font-size: 13px; color: var(--gray-500);">2h ago</td>
+              <td><button class="btn btn-ghost btn-sm">Edit</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span class="avatar" style="width: 32px; height: 32px; font-size: 12px; background: var(--gray-700); color: var(--paper);">JS</span>
+                  <div>
+                    <div style="font-weight: 600;">Javier Soto</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">javier@newtral.es</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-role factchecker">factchecker</span></td>
+              <td style="color: var(--gray-700); font-size: 13px;">Newtral <span style="color: var(--gray-400);">/</span> Newtral · ES</td>
+              <td><span class="badge badge-status active">Active</span></td>
+              <td style="font-size: 13px; color: var(--gray-500);">5h ago</td>
+              <td><button class="btn btn-ghost btn-sm">Edit</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span class="avatar" style="width: 32px; height: 32px; font-size: 12px; background: var(--gray-300); color: var(--ink);">AC</span>
+                  <div>
+                    <div style="font-weight: 600;">Ana Costa</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">ana@newtral.es</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-role researcher">researcher</span></td>
+              <td style="color: var(--gray-700); font-size: 13px;">Newtral <span style="color: var(--gray-400);">/</span> Newtral · ES</td>
+              <td><span class="badge badge-status inactive">Inactive</span></td>
+              <td style="font-size: 13px; color: var(--gray-500);">3 weeks ago</td>
+              <td><button class="btn btn-ghost btn-sm">Edit</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin-top: 16px; font-size: 11px; color: var(--gray-500); font-family: var(--display); text-transform: uppercase; letter-spacing: 0.06em;">
+        You are <strong style="color: var(--ink);">org_admin</strong> at Newtral — you can manage users in the parent org and any of its suborgs (US-ORG-03). Hard-delete is admin-only; you can deactivate.
+      </p>
+  </main>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-bar">
+  <span>Facteur · WP3 backoffice prototype</span>
+  <span><strong>Pablo</strong> · org_admin · Newtral · ES</span>
+</div>
+
+<!-- ============ MODAL: NEW ARTICLE ============ -->
+<div class="modal-overlay" id="ingest-modal" role="dialog" aria-modal="true" aria-labelledby="ingest-modal-title">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="ingest-modal-title">Submit articles</h2>
+      <button class="modal-close" onclick="closeModal('ingest-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="duplicate-warning" id="dup-warning" style="display: none;">
+        <div class="duplicate-warning-icon">!</div>
+        <div class="duplicate-warning-body">
+          <strong id="dup-warning-title">1 of these URLs already exists in the repository.</strong>
+          <p style="margin-top: 4px; color: var(--gray-700);">Article #1294 — "Government claims unemployment dropped 2 points in Q3" was ingested 3 days ago. Existing URLs are skipped on submit; pick "Request refresh" if you want a new version.</p>
+          <div class="duplicate-warning-actions">
+            <button class="btn btn-ghost btn-sm" onclick="closeModal('ingest-modal'); window.location='article.html';">Open existing</button>
+            <button class="btn btn-mint btn-sm" onclick="closeModal('ingest-modal'); showToast('Refresh requested for #1294');">Request refresh</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="url-input">Article URLs *</label>
+        <textarea id="url-input" class="form-textarea" rows="6" placeholder="https://elpais.com/economia/2024-10-12/desempleo-q3.html
+https://maldita.es/...
+https://newtral.es/..." style="font-family: var(--body); font-size: 14px; line-height: 1.5;" oninput="checkDuplicate(this.value); updateUrlCount(this.value)"></textarea>
+        <p class="form-hint"><span id="url-count">0</span> URL(s) — one per line. The pipeline fetches each page, extracts fulltext and runs enrichment automatically. Title, language and rating are auto-detected.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="ingest-notes">Notes for the batch <span style="color: var(--gray-500); font-weight: 400; text-transform: none; letter-spacing: 0;">(optional)</span></label>
+        <textarea id="ingest-notes" class="form-textarea" placeholder="Optional context for factcheckers reviewing this batch…" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('ingest-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitIngestBatch()">Submit &amp; ingest</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: INVITE USER ============ -->
+<div class="modal-overlay" id="invite-modal" role="dialog" aria-modal="true" aria-labelledby="invite-modal-title">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="invite-modal-title">Invite a new user</h2>
+      <button class="modal-close" onclick="closeModal('invite-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size: 12px; color: var(--gray-500); font-family: var(--display); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px;">
+        Inviting as <strong style="color: var(--ink);">org_admin · Newtral</strong>
+      </p>
+      <div class="form-group">
+        <label class="form-label" for="invite-email">Email *</label>
+        <input id="invite-email" type="email" class="form-input" placeholder="name@example.com" required>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-group">
+          <label class="form-label" for="invite-role">Role</label>
+          <select id="invite-role" class="form-select">
+            <!-- org_admin can assign factchecker, researcher and suborg_admin within own org per US-ORG-03.3 -->
+            <option value="factchecker">factchecker</option>
+            <option value="researcher">researcher</option>
+            <option value="suborg_admin">suborg_admin</option>
+            <option value="admin" disabled>admin (admin-only)</option>
+            <option value="org_admin" disabled>org_admin (admin-only)</option>
+            <option value="edmo_hub" disabled>edmo_hub (admin-only)</option>
+          </select>
+          <p class="form-hint">Roles outside your scope are disabled.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="invite-scope">Scope</label>
+          <select id="invite-scope" class="form-select">
+            <option>Newtral (parent org)</option>
+            <option>Newtral · ES (suborg)</option>
+            <option>Newtral · PT (suborg)</option>
+          </select>
+          <p class="form-hint">Direct invite to a suborg per US-ORG-03.6.</p>
+        </div>
+      </div>
+      <div style="background: var(--gray-50); border: 1px solid var(--gray-200); padding: 12px 14px; font-size: 12px; color: var(--gray-700); line-height: 1.5;">
+        <strong style="font-family: var(--display); text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink);">Role matrix</strong><br>
+        <span><strong>org_admin</strong> → can assign factchecker · researcher · suborg_admin (within own org)</span><br>
+        <span><strong>suborg_admin</strong> → can assign factchecker · researcher (within own suborg)</span><br>
+        <span><strong>admin</strong> → can assign any role globally</span>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('invite-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('invite-modal'); showToast('Invitation sent');">Send invitation</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Action completed</div>
+
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facteur — Pipeline activity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer src="app.js"></script>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position: absolute; left: 0; top: 0; padding: 8px; background: var(--ink); color: var(--newtral-mint); z-index: 999;" onfocus="this.classList.remove('sr-only')" onblur="this.classList.add('sr-only')">Skip to main content</a>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-date">Backoffice · Editorial workspace</span>
+    <span class="topbar-meta">v0.6 · Prototype</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div style="display: flex; align-items: center;">
+      <a href="articles.html" class="logo">Facteur<span class="logo-dot"></span></a>
+      <span class="header-tag">WP3 · <span>Backoffice</span></span>
+    </div>
+    <div class="header-user">
+      <span class="header-user-org">Newtral · ES</span>
+      <span class="header-user-name">
+        <span class="avatar">PV</span>
+        Pablo
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Primary navigation">
+    <button type="button" class="sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="true" onclick="toggleSidebar()">
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4l-5 5 5 5"/></svg>
+    </button>
+    <nav>
+      <div class="nav-section">
+        <div class="nav-section-title">Editorial</div>
+        <a class="nav-item" href="articles.html" data-label="Articles">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h7l3 3v11H4z"/><path d="M11 2v3h3"/><path d="M6 9h6M6 12h4"/></svg></span>
+          <span class="nav-label">Articles</span>
+          <span class="nav-badge warn" aria-label="6 articles">6</span>
+        </a>
+        <a class="nav-item" href="duplicates.html" data-label="Matches">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="9" height="9"/><path d="M3 12V3h9"/></svg></span>
+          <span class="nav-label">Matches</span>
+          <span class="nav-badge warn" aria-label="7 matches">7</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Repository</div>
+        <a class="nav-item" href="dashboard.html" data-label="Dashboard">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V8M9 15V3M15 15v-5"/></svg></span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a class="nav-item" href="#" data-label="Trends" title="Trends — coming soon">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l4-5 3 3 5-7"/><path d="M11 4h4v4"/></svg></span>
+          <span class="nav-label">Trends</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Admin</div>
+        <a class="nav-item active" href="pipeline.html" aria-current="page" data-label="Pipeline">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h12M3 9h12M3 13h12"/><circle cx="11" cy="5" r="1.4" fill="currentColor"/><circle cx="6" cy="9" r="1.4" fill="currentColor"/><circle cx="12" cy="13" r="1.4" fill="currentColor"/></svg></span>
+          <span class="nav-label">Pipeline</span>
+          <span class="nav-badge warn" aria-label="3 alerts">3</span>
+        </a>
+        <a class="nav-item" href="users.html" data-label="Users">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6.5" r="2.5"/><path d="M3 15.5c0-3 2.7-5 6-5s6 2 6 5"/></svg></span>
+          <span class="nav-label">Users</span>
+        </a>
+        <a class="nav-item" href="organizations.html" data-label="Organizations">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V3h7v13"/><path d="M10 8h5v8"/><path d="M5.5 6h1M5.5 9h1M5.5 12h1M12 11h1M12 13.5h1"/></svg></span>
+          <span class="nav-label">Organizations</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content" tabindex="-1">
+      <div class="breadcrumbs">
+        <span>Facteur</span>
+        <span class="sep">/</span>
+        <strong style="color: var(--ink);">Pipeline</strong>
+      </div>
+
+      <div class="page-header">
+        <div class="page-header-text">
+          <h1 class="page-title">Pipeline activity</h1>
+          <p class="page-subtitle">Log of articles flowing through ingestion and AI review. Refresh to fetch the latest activity.</p>
+        </div>
+        <div class="last-updated" role="status" aria-live="polite">
+          <span class="last-updated-icon" aria-hidden="true">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5v4h4"/><path d="M3 9a6 6 0 1 1 1.6 4.5"/></svg>
+          </span>
+          <span class="last-updated-label">Last updated</span>
+          <span class="last-updated-time">10s ago</span>
+          <button type="button" class="last-updated-refresh" onclick="showToast('Pipeline refreshed')">Refresh</button>
+        </div>
+      </div>
+
+      <!-- KPI summary — current state distribution + health rollup. -->
+      <table class="kpi-table" aria-label="Pipeline summary">
+        <tbody>
+          <tr>
+            <th scope="row">States</th>
+            <td><div class="kpi-key">Queued</div><div class="kpi-value">1</div></td>
+            <td><div class="kpi-key">Scraping</div><div class="kpi-value">1</div></td>
+            <td><div class="kpi-key">Enriching</div><div class="kpi-value">3</div></td>
+            <td><div class="kpi-key">AI Review</div><div class="kpi-value">2</div></td>
+            <td><div class="kpi-key">In Review</div><div class="kpi-value">6</div></td>
+            <td><div class="kpi-key">Published</div><div class="kpi-value">3</div></td>
+          </tr>
+          <tr>
+            <th scope="row">Status</th>
+            <td><div class="kpi-key">Healthy</div><div class="kpi-value healthy">16</div></td>
+            <td><div class="kpi-key">Retries</div><div class="kpi-value retries">1</div></td>
+            <td><div class="kpi-key">Errors</div><div class="kpi-value errors">2</div></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Filters -->
+      <div class="toolbar pipeline-toolbar">
+        <select class="filter-select" aria-label="Filter by state">
+          <option>All states</option>
+          <option>Queued</option>
+          <option>Scraping</option>
+          <option>Enriching</option>
+          <option>AI Review</option>
+          <option>In Review</option>
+          <option>Published</option>
+        </select>
+        <select class="filter-select" aria-label="Filter by origin">
+          <option>All origins</option>
+          <option>Auto-discovery</option>
+          <option>Manual</option>
+          <option>API</option>
+          <option>Bulk import</option>
+        </select>
+        <select class="filter-select" aria-label="Filter by status">
+          <option>All statuses</option>
+          <option>Healthy</option>
+          <option>Retries</option>
+          <option>Errors</option>
+        </select>
+        <input type="search" class="search-input" placeholder="Search title or source…" aria-label="Search pipeline activity">
+        <button type="button" class="btn btn-ghost btn-sm" onclick="showToast('Filters reset')">Reset</button>
+        <span class="result-count">19 of 19</span>
+      </div>
+
+      <!-- Activity table -->
+      <div class="table-wrap" style="margin-top: 16px;">
+        <table class="table pipeline-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Article</th>
+              <th>Publisher</th>
+              <th>Origin</th>
+              <th>Pipeline</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <td>
+                <div class="cell-time">
+                  <span class="cell-time-clock">18:04:02</span>
+                  <span class="cell-time-date">May 19</span>
+                  <span class="cell-time-rel">6s ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="article-id">#1700</span>
+                <div class="pipeline-cell-article">EU finance ministers reach deal on common bond issuance for 2026</div>
+              </td>
+              <td>AFP</td>
+              <td><span class="origin-pill"><span class="origin-dot"></span>Auto-discovery</span></td>
+              <td>
+                <div class="pipeline-dots" aria-label="Stage 2 of 6 — Scraping">
+                  <span class="p-dot done"></span>
+                  <span class="p-dot active"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                </div>
+                <div class="pipeline-step-name">Scraping</div>
+              </td>
+              <td>
+                <div class="status-indicator"><span class="s-dot"></span>Healthy</div>
+                <div class="status-subtitle">Last event 3s ago</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="cell-time">
+                  <span class="cell-time-clock">18:03:55</span>
+                  <span class="cell-time-date">May 19</span>
+                  <span class="cell-time-rel">13s ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="article-id">#1702</span>
+                <div class="pipeline-cell-article">Madrid metro extends Line 11 to Conde de Casal</div>
+              </td>
+              <td>Delfi</td>
+              <td><span class="origin-pill"><span class="origin-dot"></span>Auto-discovery</span></td>
+              <td>
+                <div class="pipeline-dots" aria-label="Stage 1 of 6 — Queued">
+                  <span class="p-dot active"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                </div>
+                <div class="pipeline-step-name">Queued</div>
+              </td>
+              <td>
+                <div class="status-indicator"><span class="s-dot"></span>Healthy</div>
+                <div class="status-subtitle">Last event 7s ago</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="cell-time">
+                  <span class="cell-time-clock">18:03:41</span>
+                  <span class="cell-time-date">May 19</span>
+                  <span class="cell-time-rel">27s ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="article-id">#1698</span>
+                <div class="pipeline-cell-article">OECD report sees Spain growth slowing to 1.4% in 2026</div>
+              </td>
+              <td>Reuters</td>
+              <td><span class="origin-pill"><span class="origin-dot"></span>Manual</span></td>
+              <td>
+                <div class="pipeline-dots" aria-label="Stage 3 of 6 — Enriching">
+                  <span class="p-dot done"></span>
+                  <span class="p-dot done"></span>
+                  <span class="p-dot active"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                </div>
+                <div class="pipeline-step-name">Enriching</div>
+              </td>
+              <td>
+                <div class="status-indicator"><span class="s-dot"></span>Healthy</div>
+                <div class="status-subtitle">Last event 12s ago</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="cell-time">
+                  <span class="cell-time-clock">18:02:18</span>
+                  <span class="cell-time-date">May 19</span>
+                  <span class="cell-time-rel">1m 50s ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="article-id">#1695</span>
+                <div class="pipeline-cell-article">Cybercrime report flags 12% rise in phishing attempts in Q1</div>
+              </td>
+              <td>EFE</td>
+              <td><span class="origin-pill warn"><span class="origin-dot"></span>API</span></td>
+              <td>
+                <div class="pipeline-dots" aria-label="Stage 4 of 6 — AI Review">
+                  <span class="p-dot done"></span>
+                  <span class="p-dot done"></span>
+                  <span class="p-dot done"></span>
+                  <span class="p-dot active"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                </div>
+                <div class="pipeline-step-name">AI Review</div>
+              </td>
+              <td>
+                <div class="status-indicator retries"><span class="s-dot"></span>Retries</div>
+                <div class="status-subtitle">Attempt 2 of 3</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="cell-time">
+                  <span class="cell-time-clock">17:58:04</span>
+                  <span class="cell-time-date">May 19</span>
+                  <span class="cell-time-rel">6m ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="article-id">#1690</span>
+                <div class="pipeline-cell-article">Brussels approves €4.2bn aid package for Greek wildfires</div>
+              </td>
+              <td>AFP</td>
+              <td><span class="origin-pill"><span class="origin-dot"></span>Auto-discovery</span></td>
+              <td>
+                <div class="pipeline-dots" aria-label="Stage 5 of 6 — In Review">
+                  <span class="p-dot done"></span>
+                  <span class="p-dot done"></span>
+                  <span class="p-dot done"></span>
+                  <span class="p-dot done"></span>
+                  <span class="p-dot active"></span>
+                  <span class="p-dot"></span>
+                </div>
+                <div class="pipeline-step-name">In Review</div>
+              </td>
+              <td>
+                <div class="status-indicator"><span class="s-dot"></span>Healthy</div>
+                <div class="status-subtitle">Picked up by María · 2m ago</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="cell-time">
+                  <span class="cell-time-clock">17:42:11</span>
+                  <span class="cell-time-date">May 19</span>
+                  <span class="cell-time-rel">22m ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="article-id">#1686</span>
+                <div class="pipeline-cell-article">Tokyo court fines tech giant for antitrust violations</div>
+              </td>
+              <td>Reuters</td>
+              <td><span class="origin-pill"><span class="origin-dot"></span>Auto-discovery</span></td>
+              <td>
+                <div class="pipeline-dots" aria-label="Failed at stage 2 — Scraping">
+                  <span class="p-dot done"></span>
+                  <span class="p-dot error"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                  <span class="p-dot"></span>
+                </div>
+                <div class="pipeline-step-name">Scraping</div>
+              </td>
+              <td>
+                <div class="status-indicator errors"><span class="s-dot"></span>Error</div>
+                <div class="status-subtitle">DOM parse failed · paywalled</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="cell-time">
+                  <span class="cell-time-clock">17:21:09</span>
+                  <span class="cell-time-date">May 19</span>
+                  <span class="cell-time-rel">43m ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="article-id">#1681</span>
+                <div class="pipeline-cell-article">Apple launches sustainability initiative across iCloud datacenters</div>
+              </td>
+              <td>Newtral</td>
+              <td><span class="origin-pill"><span class="origin-dot"></span>Auto-discovery</span></td>
+              <td>
+                <div class="pipeline-dots" aria-label="Stage 6 of 6 — Published">
+                  <span class="p-dot done"></span>
+                  <span class="p-dot done"></span>
+                  <span class="p-dot done"></span>
+                  <span class="p-dot done"></span>
+                  <span class="p-dot done"></span>
+                  <span class="p-dot done"></span>
+                </div>
+                <div class="pipeline-step-name">Published</div>
+              </td>
+              <td>
+                <div class="status-indicator"><span class="s-dot"></span>Healthy</div>
+                <div class="status-subtitle">Published by Pablo · 18m ago</div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+  </main>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-bar">
+  <span>Facteur · WP3 backoffice prototype</span>
+  <span><strong>Pablo</strong> · org_admin · Newtral · ES</span>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Action completed</div>
+
+</body>
+</html>

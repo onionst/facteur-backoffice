@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facteur — Review queue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer src="app.js"></script>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position: absolute; left: 0; top: 0; padding: 8px; background: var(--ink); color: var(--newtral-mint); z-index: 999;" onfocus="this.classList.remove('sr-only')" onblur="this.classList.add('sr-only')">Skip to main content</a>
+
+<!-- =============================================================
+     CHROME — KEEP IN SYNC across index.html, articles.html,
+     article.html, duplicates.html, dashboard.html, users.html.
+     The only per-page diff is the .nav-item.active flag and the
+     aria-current attribute on the anchor matching the current page.
+     ============================================================= -->
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-date">Backoffice · Editorial workspace</span>
+    <span class="topbar-meta">v0.6 · Prototype</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div style="display: flex; align-items: center;">
+      <a href="articles.html" class="logo">Facteur<span class="logo-dot"></span></a>
+      <span class="header-tag">WP3 · <span>Backoffice</span></span>
+    </div>
+    <div class="header-user">
+      <span class="header-user-org">Newtral · ES</span>
+      <span class="header-user-name">
+        <span class="avatar">PV</span>
+        Pablo
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Primary navigation">
+    <button type="button" class="sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="true" onclick="toggleSidebar()">
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4l-5 5 5 5"/></svg>
+    </button>
+    <nav>
+      <div class="nav-section">
+        <div class="nav-section-title">Editorial</div>
+        <a class="nav-item" href="articles.html" data-label="Articles">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h7l3 3v11H4z"/><path d="M11 2v3h3"/><path d="M6 9h6M6 12h4"/></svg></span>
+          <span class="nav-label">Articles</span>
+          <span class="nav-badge warn" aria-label="6 articles">6</span>
+        </a>
+        <a class="nav-item" href="duplicates.html" data-label="Matches">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="9" height="9"/><path d="M3 12V3h9"/></svg></span>
+          <span class="nav-label">Matches</span>
+          <span class="nav-badge warn" aria-label="7 matches">7</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Repository</div>
+        <a class="nav-item" href="dashboard.html" data-label="Dashboard">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V8M9 15V3M15 15v-5"/></svg></span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a class="nav-item" href="#" data-label="Trends" title="Trends — coming soon">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l4-5 3 3 5-7"/><path d="M11 4h4v4"/></svg></span>
+          <span class="nav-label">Trends</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Admin</div>
+        <a class="nav-item" href="pipeline.html" data-label="Pipeline">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h12M3 9h12M3 13h12"/><circle cx="11" cy="5" r="1.4" fill="currentColor"/><circle cx="6" cy="9" r="1.4" fill="currentColor"/><circle cx="12" cy="13" r="1.4" fill="currentColor"/></svg></span>
+          <span class="nav-label">Pipeline</span>
+          <span class="nav-badge warn" aria-label="3 alerts">3</span>
+        </a>
+        <a class="nav-item" href="users.html" data-label="Users">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6.5" r="2.5"/><path d="M3 15.5c0-3 2.7-5 6-5s6 2 6 5"/></svg></span>
+          <span class="nav-label">Users</span>
+        </a>
+        <a class="nav-item" href="organizations.html" data-label="Organizations">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V3h7v13"/><path d="M10 8h5v8"/><path d="M5.5 6h1M5.5 9h1M5.5 12h1M12 11h1M12 13.5h1"/></svg></span>
+          <span class="nav-label">Organizations</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content" tabindex="-1">
+      <div class="breadcrumbs">
+        <span>Editorial</span>
+        <span class="sep">/</span>
+        <strong style="color: var(--ink);">Review queue</strong>
+      </div>
+      <h1 class="page-title">Review queue</h1>
+      <p class="page-subtitle">Versions in <code>pending_review</code> (unassigned) and <code>in_review</code> (a factchecker has picked them up). Resolve flags to advance to <code>ready_to_publish</code>.</p>
+
+      <div class="toolbar">
+        <input type="search" class="search-input" placeholder="Search by headline, claimant, URL, flag type…" aria-label="Search the review queue">
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width: 30px;"><input type="checkbox"></th>
+              <th>Article</th>
+              <th>Flags</th>
+              <th>Confidence</th>
+              <th>State</th>
+              <th>Assignee</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="window.location='article.html'">
+              <td><input type="checkbox" onclick="event.stopPropagation()"></td>
+              <td>
+                <div class="article-title">Government claims unemployment dropped 2 points in Q3</div>
+                <div class="article-meta">
+                  <span>elpais.com</span>
+                  <span class="dot"></span>
+                  <span>ES</span>
+                  <span class="dot"></span>
+                  <span>3 days ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="flag-pill"><span class="flag-dot"></span>Rating</span>
+                <span class="flag-pill"><span class="flag-dot"></span>Translation</span>
+              </td>
+              <td>
+                <div class="conf-bar">
+                  <div class="conf-bar-track"><div class="conf-bar-fill low" style="width: 42%;"></div></div>
+                  <span>0.42</span>
+                </div>
+              </td>
+              <td><span class="badge badge-state in_review">in_review</span></td>
+              <td><span class="avatar" style="width: 26px; height: 26px; font-size: 10px;">PV</span></td>
+              <td><button class="btn btn-mint btn-sm">Review</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" onclick="event.stopPropagation()"></td>
+              <td>
+                <div class="article-title">Claim circulating on social media about EU migration policy</div>
+                <div class="article-meta">
+                  <span>maldita.es</span>
+                  <span class="dot"></span>
+                  <span>ES</span>
+                  <span class="dot"></span>
+                  <span>1 day ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="flag-pill"><span class="flag-dot"></span>Claim ext.</span>
+              </td>
+              <td>
+                <div class="conf-bar">
+                  <div class="conf-bar-track"><div class="conf-bar-fill med" style="width: 67%;"></div></div>
+                  <span>0.67</span>
+                </div>
+              </td>
+              <td><span class="badge badge-state pending_review">pending_review</span></td>
+              <td style="color: var(--gray-500); font-size: 12px;">Unassigned</td>
+              <td><button class="btn btn-mint btn-sm">Assign to me</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" onclick="event.stopPropagation()"></td>
+              <td>
+                <div class="article-title">Politician's statement on energy subsidies reaches Twitter</div>
+                <div class="article-meta">
+                  <span>newtral.es</span>
+                  <span class="dot"></span>
+                  <span>ES</span>
+                  <span class="dot"></span>
+                  <span>5h ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="flag-pill"><span class="flag-dot"></span>Claimant</span>
+                <span class="flag-pill"><span class="flag-dot"></span>Topic</span>
+              </td>
+              <td>
+                <div class="conf-bar">
+                  <div class="conf-bar-track"><div class="conf-bar-fill low" style="width: 31%;"></div></div>
+                  <span>0.31</span>
+                </div>
+              </td>
+              <td><span class="badge badge-state in_review">in_review</span></td>
+              <td><span class="avatar" style="width: 26px; height: 26px; font-size: 10px; background: var(--newtral-mint-dark); color: var(--paper);">MR</span></td>
+              <td><button class="btn btn-mint btn-sm">Review</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" onclick="event.stopPropagation()"></td>
+              <td>
+                <div class="article-title">Health minister responds to vaccination data controversy</div>
+                <div class="article-meta">
+                  <span>publico.es</span>
+                  <span class="dot"></span>
+                  <span>ES</span>
+                  <span class="dot"></span>
+                  <span>2 days ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="flag-pill"><span class="flag-dot"></span>Translation</span>
+              </td>
+              <td>
+                <div class="conf-bar">
+                  <div class="conf-bar-track"><div class="conf-bar-fill med" style="width: 71%;"></div></div>
+                  <span>0.71</span>
+                </div>
+              </td>
+              <td><span class="badge badge-state in_review">in_review</span></td>
+              <td><span class="avatar" style="width: 26px; height: 26px; font-size: 10px;">PV</span></td>
+              <td><button class="btn btn-mint btn-sm">Review</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" onclick="event.stopPropagation()"></td>
+              <td>
+                <div class="article-title">Viral video allegedly shows demonstration in central Madrid</div>
+                <div class="article-meta">
+                  <span>verifica.efe.com</span>
+                  <span class="dot"></span>
+                  <span>ES</span>
+                  <span class="dot"></span>
+                  <span>4 days ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="flag-pill"><span class="flag-dot"></span>Rating</span>
+              </td>
+              <td>
+                <div class="conf-bar">
+                  <div class="conf-bar-track"><div class="conf-bar-fill med" style="width: 58%;"></div></div>
+                  <span>0.58</span>
+                </div>
+              </td>
+              <td><span class="badge badge-state pending_review">pending_review</span></td>
+              <td style="color: var(--gray-500); font-size: 12px;">Unassigned</td>
+              <td><button class="btn btn-mint btn-sm">Assign to me</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" onclick="event.stopPropagation()"></td>
+              <td>
+                <div class="article-title">Statement on inflation figures from opposition party</div>
+                <div class="article-meta">
+                  <span>elconfidencial.com</span>
+                  <span class="dot"></span>
+                  <span>ES</span>
+                  <span class="dot"></span>
+                  <span>6 days ago</span>
+                </div>
+              </td>
+              <td>
+                <span class="flag-pill"><span class="flag-dot"></span>Rating</span>
+                <span class="flag-pill"><span class="flag-dot"></span>Claimant</span>
+              </td>
+              <td>
+                <div class="conf-bar">
+                  <div class="conf-bar-track"><div class="conf-bar-fill low" style="width: 39%;"></div></div>
+                  <span>0.39</span>
+                </div>
+              </td>
+              <td><span class="badge badge-state in_review">in_review</span></td>
+              <td><span class="avatar" style="width: 26px; height: 26px; font-size: 10px; background: var(--gray-700); color: var(--paper);">JS</span></td>
+              <td><button class="btn btn-mint btn-sm">Review</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top: 16px; font-size: 13px; color: var(--gray-500); font-family: var(--display); letter-spacing: 0.04em;">Showing 6 of 14 — <a href="#" style="color: var(--ink); border-bottom: 1px solid var(--newtral-mint);">load more</a></p>
+
+      <!-- Bulk selection bar — surfaces when 1+ rows are checked -->
+      <div class="bulk-bar" id="bulk-bar" role="region" aria-label="Bulk selection actions">
+        <span><span class="bulk-count" id="bulk-count">0</span> selected</span>
+        <span class="bulk-id">bulk_id will be assigned on action · per US-XC-04.6</span>
+        <button class="btn btn-mint btn-sm" onclick="confirmBulkAction('accept')">Bulk accept all flags</button>
+        <button class="btn btn-ghost btn-sm" style="border-color: var(--gray-500); color: var(--paper);" onclick="confirmBulkAction('defer')">Defer all</button>
+        <button class="btn btn-ghost btn-sm" style="border-color: var(--gray-500); color: var(--paper);" onclick="clearSelection()">Clear</button>
+      </div>
+  </main>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-bar">
+  <span>Facteur · WP3 backoffice prototype</span>
+  <span><strong>Pablo</strong> · org_admin · Newtral · ES</span>
+</div>
+
+<!-- ============ MODAL: NEW ARTICLE ============ -->
+<div class="modal-overlay" id="ingest-modal" role="dialog" aria-modal="true" aria-labelledby="ingest-modal-title">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="ingest-modal-title">Submit articles</h2>
+      <button class="modal-close" onclick="closeModal('ingest-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="duplicate-warning" id="dup-warning" style="display: none;">
+        <div class="duplicate-warning-icon">!</div>
+        <div class="duplicate-warning-body">
+          <strong id="dup-warning-title">1 of these URLs already exists in the repository.</strong>
+          <p style="margin-top: 4px; color: var(--gray-700);">Article #1294 — "Government claims unemployment dropped 2 points in Q3" was ingested 3 days ago. Existing URLs are skipped on submit; pick "Request refresh" if you want a new version.</p>
+          <div class="duplicate-warning-actions">
+            <button class="btn btn-ghost btn-sm" onclick="closeModal('ingest-modal'); window.location='article.html';">Open existing</button>
+            <button class="btn btn-mint btn-sm" onclick="closeModal('ingest-modal'); showToast('Refresh requested for #1294');">Request refresh</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="url-input">Article URLs *</label>
+        <textarea id="url-input" class="form-textarea" rows="6" placeholder="https://elpais.com/economia/2024-10-12/desempleo-q3.html
+https://maldita.es/...
+https://newtral.es/..." style="font-family: var(--body); font-size: 14px; line-height: 1.5;" oninput="checkDuplicate(this.value); updateUrlCount(this.value)"></textarea>
+        <p class="form-hint"><span id="url-count">0</span> URL(s) — one per line. The pipeline fetches each page, extracts fulltext and runs enrichment automatically. Title, language and rating are auto-detected.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="ingest-notes">Notes for the batch <span style="color: var(--gray-500); font-weight: 400; text-transform: none; letter-spacing: 0;">(optional)</span></label>
+        <textarea id="ingest-notes" class="form-textarea" placeholder="Optional context for factcheckers reviewing this batch…" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('ingest-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitIngestBatch()">Submit &amp; ingest</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: BULK CONFIRM ============ -->
+<div class="modal-overlay" id="bulk-modal" role="dialog" aria-modal="true" aria-labelledby="bulk-modal-title">
+  <div class="modal" style="max-width: 480px;">
+    <div class="modal-head">
+      <h2 id="bulk-modal-title">Apply to <span id="bulk-modal-count">0</span> versions?</h2>
+      <button class="modal-close" onclick="closeModal('bulk-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size: 14px; color: var(--gray-700); margin-bottom: 14px;">
+        <span id="bulk-modal-action-text">Bulk action</span> will run as <strong>N independent decisions</strong> sharing a single <code>bulk_id</code> in the ChangeLog (auditable and reversible together).
+      </p>
+      <div style="background: var(--gray-50); border: 1px solid var(--gray-200); padding: 12px 14px; font-family: var(--display); font-size: 12px;">
+        <div style="display: flex; justify-content: space-between; padding: 4px 0;"><span style="color: var(--gray-500);">bulk_id</span><strong id="bulk-id-preview" style="font-family: monospace; letter-spacing: 0;">bulk_a1b2c3d4</strong></div>
+        <div style="display: flex; justify-content: space-between; padding: 4px 0;"><span style="color: var(--gray-500);">Affected versions</span><strong id="bulk-modal-affected">0</strong></div>
+        <div style="display: flex; justify-content: space-between; padding: 4px 0;"><span style="color: var(--gray-500);">Per-item permission check</span><strong style="color: var(--newtral-mint-dark);">enforced</strong></div>
+      </div>
+      <p style="font-size: 12px; color: var(--gray-500); margin-top: 12px; line-height: 1.5;">Permission failures on individual items are skipped and reported; the rest proceed. Per US-XC-04.6 a bulk_id is a logical group, not a permission shortcut.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('bulk-modal')">Cancel</button>
+      <button class="btn btn-primary" id="bulk-modal-confirm">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Action completed</div>
+
+</body>
+</html>

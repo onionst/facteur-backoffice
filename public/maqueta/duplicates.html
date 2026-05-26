@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facteur — Claim Matching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer src="app.js"></script>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position: absolute; left: 0; top: 0; padding: 8px; background: var(--ink); color: var(--newtral-mint); z-index: 999;" onfocus="this.classList.remove('sr-only')" onblur="this.classList.add('sr-only')">Skip to main content</a>
+
+<!-- =============================================================
+     CHROME — KEEP IN SYNC across index.html, articles.html,
+     article.html, duplicates.html, dashboard.html, users.html.
+     The only per-page diff is the .nav-item.active flag and the
+     aria-current attribute on the anchor matching the current page.
+     ============================================================= -->
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-date">Backoffice · Editorial workspace</span>
+    <span class="topbar-meta">v0.6 · Prototype</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div style="display: flex; align-items: center;">
+      <a href="articles.html" class="logo">Facteur<span class="logo-dot"></span></a>
+      <span class="header-tag">WP3 · <span>Backoffice</span></span>
+    </div>
+    <div class="header-user">
+      <span class="header-user-org">Newtral · ES</span>
+      <span class="header-user-name">
+        <span class="avatar">PV</span>
+        Pablo
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Primary navigation">
+    <button type="button" class="sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="true" onclick="toggleSidebar()">
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4l-5 5 5 5"/></svg>
+    </button>
+    <nav>
+      <div class="nav-section">
+        <div class="nav-section-title">Editorial</div>
+        <a class="nav-item" href="articles.html" data-label="Articles">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h7l3 3v11H4z"/><path d="M11 2v3h3"/><path d="M6 9h6M6 12h4"/></svg></span>
+          <span class="nav-label">Articles</span>
+          <span class="nav-badge warn" aria-label="6 articles">6</span>
+        </a>
+        <a class="nav-item active" href="duplicates.html" aria-current="page" data-label="Matches">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="9" height="9"/><path d="M3 12V3h9"/></svg></span>
+          <span class="nav-label">Matches</span>
+          <span class="nav-badge warn" aria-label="7 matches">7</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Repository</div>
+        <a class="nav-item" href="dashboard.html" data-label="Dashboard">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V8M9 15V3M15 15v-5"/></svg></span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a class="nav-item" href="#" data-label="Trends" title="Trends — coming soon">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l4-5 3 3 5-7"/><path d="M11 4h4v4"/></svg></span>
+          <span class="nav-label">Trends</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Admin</div>
+        <a class="nav-item" href="pipeline.html" data-label="Pipeline">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h12M3 9h12M3 13h12"/><circle cx="11" cy="5" r="1.4" fill="currentColor"/><circle cx="6" cy="9" r="1.4" fill="currentColor"/><circle cx="12" cy="13" r="1.4" fill="currentColor"/></svg></span>
+          <span class="nav-label">Pipeline</span>
+          <span class="nav-badge warn" aria-label="3 alerts">3</span>
+        </a>
+        <a class="nav-item" href="users.html" data-label="Users">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6.5" r="2.5"/><path d="M3 15.5c0-3 2.7-5 6-5s6 2 6 5"/></svg></span>
+          <span class="nav-label">Users</span>
+        </a>
+        <a class="nav-item" href="organizations.html" data-label="Organizations">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V3h7v13"/><path d="M10 8h5v8"/><path d="M5.5 6h1M5.5 9h1M5.5 12h1M12 11h1M12 13.5h1"/></svg></span>
+          <span class="nav-label">Organizations</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content" tabindex="-1">
+      <div class="breadcrumbs">
+        <span>Editorial</span>
+        <span class="sep">/</span>
+        <strong style="color: var(--ink);">Claim Matching</strong>
+      </div>
+      <h1 class="page-title">Side-by-side review</h1>
+      <p class="page-subtitle">Suspected duplicate claims surfaced by similarity. Confirm or reject the relationship — both claims stay independent either way; a confirmed match is recorded in <code>ClaimMatch</code> and used for cross-referencing, not for merging.</p>
+
+      <div style="background: var(--paper); border: 1px solid var(--gray-200); padding: 24px; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <div class="eyebrow xs" style="margin-bottom: 4px;">Pair 1 of 7 · ClaimMatch #4421</div>
+            <h2 style="font-family: var(--display); font-size: 22px; font-weight: 700;">Are these the same claim?</h2>
+          </div>
+          <div class="similarity-score" style="margin: 0; padding: 10px 16px;">Similarity <strong>0.94</strong></div>
+        </div>
+
+        <div class="duplicate-compare">
+          <div class="duplicate-side">
+            <div class="duplicate-side-label">
+              <span>Claim A · #1294</span>
+              <span class="badge badge-state published">published</span>
+            </div>
+            <p style="font-family: var(--serif); font-size: 18px; line-height: 1.5; margin-bottom: 14px;">"Unemployment in Spain dropped 2 percentage points in Q3 of this year."</p>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+              <span class="badge badge-rating misleading">Misleading</span>
+              <span class="badge badge-harm medium">medium</span>
+              <span class="badge badge-state">ES</span>
+            </div>
+            <div style="font-size: 13px; color: var(--gray-700); line-height: 1.45;">
+              <strong>Claimant:</strong> Pedro Sánchez<br>
+              <strong>Source:</strong> elpais.com<br>
+              <strong>Appearances:</strong> 4
+            </div>
+          </div>
+          <div class="duplicate-side">
+            <div class="duplicate-side-label">
+              <span>Claim B · #1318</span>
+              <span class="badge badge-state published">published</span>
+            </div>
+            <p style="font-family: var(--serif); font-size: 18px; line-height: 1.5; margin-bottom: 14px;">"Unemployment fell by two points in the third quarter, according to the prime minister."</p>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+              <span class="badge badge-rating misleading">Misleading</span>
+              <span class="badge badge-harm medium">medium</span>
+              <span class="badge badge-state">ES</span>
+            </div>
+            <div style="font-size: 13px; color: var(--gray-700); line-height: 1.45;">
+              <strong>Claimant:</strong> Pedro Sánchez<br>
+              <strong>Source:</strong> maldita.es<br>
+              <strong>Appearances:</strong> 3
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn btn-mint" onclick="showToast('Match confirmed — ClaimMatch #4421 marked is_confirmed_match=true')">✓ Confirm match</button>
+          <button class="btn btn-ghost" onclick="showToast('Match rejected — ClaimMatch #4421 reviewed=true, is_confirmed_match=false')">✗ Reject match</button>
+          <button class="btn btn-ghost" onclick="showToast('Deferred')">Defer</button>
+          <span style="margin-left: auto; font-family: var(--display); font-size: 11px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.06em; align-self: center;">Suggested by: similarity-embedder v1.4</span>
+        </div>
+        <p style="margin-top: 14px; font-size: 12px; color: var(--gray-500); line-height: 1.5;">
+          <strong style="color: var(--gray-700);">Both claims remain independent.</strong> Confirming the match only writes to <code>ClaimMatch</code> (relationship recorded for analytics, narrative tracking and cross-org correlation). It does not move appearances, redirect IDs or change publication state on either claim.
+        </p>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <button class="btn btn-ghost btn-sm">← Previous</button>
+        <span style="font-family: var(--display); font-size: 12px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em;">Pair 1 of 7</span>
+        <button class="btn btn-primary btn-sm">Next →</button>
+      </div>
+  </main>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-bar">
+  <span>Facteur · WP3 backoffice prototype</span>
+  <span><strong>Pablo</strong> · org_admin · Newtral · ES</span>
+</div>
+
+<!-- ============ MODAL: NEW ARTICLE ============ -->
+<div class="modal-overlay" id="ingest-modal" role="dialog" aria-modal="true" aria-labelledby="ingest-modal-title">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="ingest-modal-title">Submit articles</h2>
+      <button class="modal-close" onclick="closeModal('ingest-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="duplicate-warning" id="dup-warning" style="display: none;">
+        <div class="duplicate-warning-icon">!</div>
+        <div class="duplicate-warning-body">
+          <strong id="dup-warning-title">1 of these URLs already exists in the repository.</strong>
+          <p style="margin-top: 4px; color: var(--gray-700);">Article #1294 — "Government claims unemployment dropped 2 points in Q3" was ingested 3 days ago. Existing URLs are skipped on submit; pick "Request refresh" if you want a new version.</p>
+          <div class="duplicate-warning-actions">
+            <button class="btn btn-ghost btn-sm" onclick="closeModal('ingest-modal'); window.location='article.html';">Open existing</button>
+            <button class="btn btn-mint btn-sm" onclick="closeModal('ingest-modal'); showToast('Refresh requested for #1294');">Request refresh</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="url-input">Article URLs *</label>
+        <textarea id="url-input" class="form-textarea" rows="6" placeholder="https://elpais.com/economia/2024-10-12/desempleo-q3.html
+https://maldita.es/...
+https://newtral.es/..." style="font-family: var(--body); font-size: 14px; line-height: 1.5;" oninput="checkDuplicate(this.value); updateUrlCount(this.value)"></textarea>
+        <p class="form-hint"><span id="url-count">0</span> URL(s) — one per line. The pipeline fetches each page, extracts fulltext and runs enrichment automatically. Title, language and rating are auto-detected.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="ingest-notes">Notes for the batch <span style="color: var(--gray-500); font-weight: 400; text-transform: none; letter-spacing: 0;">(optional)</span></label>
+        <textarea id="ingest-notes" class="form-textarea" placeholder="Optional context for factcheckers reviewing this batch…" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('ingest-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitIngestBatch()">Submit &amp; ingest</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Action completed</div>
+
+</body>
+</html>

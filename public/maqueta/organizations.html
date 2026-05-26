@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facteur — Organizations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer src="app.js"></script>
+</head>
+<body>
+
+<a href="#main-content" class="sr-only" style="position: absolute; left: 0; top: 0; padding: 8px; background: var(--ink); color: var(--newtral-mint); z-index: 999;" onfocus="this.classList.remove('sr-only')" onblur="this.classList.add('sr-only')">Skip to main content</a>
+
+<!-- =============================================================
+     CHROME — KEEP IN SYNC across index.html, articles.html,
+     article.html, duplicates.html, dashboard.html, users.html,
+     organizations.html.
+     ============================================================= -->
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-date">Backoffice · Editorial workspace</span>
+    <span class="topbar-meta">v0.6 · Prototype</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div style="display: flex; align-items: center;">
+      <a href="articles.html" class="logo">Facteur<span class="logo-dot"></span></a>
+      <span class="header-tag">WP3 · <span>Backoffice</span></span>
+    </div>
+    <div class="header-user">
+      <span class="header-user-org">Newtral · ES</span>
+      <span class="header-user-name">
+        <span class="avatar">PV</span>
+        Pablo
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Primary navigation">
+    <button type="button" class="sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="true" onclick="toggleSidebar()">
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4l-5 5 5 5"/></svg>
+    </button>
+    <nav>
+      <div class="nav-section">
+        <div class="nav-section-title">Editorial</div>
+        <a class="nav-item" href="articles.html" data-label="Articles">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h7l3 3v11H4z"/><path d="M11 2v3h3"/><path d="M6 9h6M6 12h4"/></svg></span>
+          <span class="nav-label">Articles</span>
+          <span class="nav-badge warn" aria-label="6 articles">6</span>
+        </a>
+        <a class="nav-item" href="duplicates.html" data-label="Matches">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="9" height="9"/><path d="M3 12V3h9"/></svg></span>
+          <span class="nav-label">Matches</span>
+          <span class="nav-badge warn" aria-label="7 matches">7</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Repository</div>
+        <a class="nav-item" href="dashboard.html" data-label="Dashboard">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15V8M9 15V3M15 15v-5"/></svg></span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a class="nav-item" href="#" data-label="Trends" title="Trends — coming soon">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l4-5 3 3 5-7"/><path d="M11 4h4v4"/></svg></span>
+          <span class="nav-label">Trends</span>
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Admin</div>
+        <a class="nav-item" href="pipeline.html" data-label="Pipeline">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h12M3 9h12M3 13h12"/><circle cx="11" cy="5" r="1.4" fill="currentColor"/><circle cx="6" cy="9" r="1.4" fill="currentColor"/><circle cx="12" cy="13" r="1.4" fill="currentColor"/></svg></span>
+          <span class="nav-label">Pipeline</span>
+          <span class="nav-badge warn" aria-label="3 alerts">3</span>
+        </a>
+        <a class="nav-item" href="users.html" data-label="Users">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6.5" r="2.5"/><path d="M3 15.5c0-3 2.7-5 6-5s6 2 6 5"/></svg></span>
+          <span class="nav-label">Users</span>
+        </a>
+        <a class="nav-item active" href="organizations.html" aria-current="page" data-label="Organizations">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V3h7v13"/><path d="M10 8h5v8"/><path d="M5.5 6h1M5.5 9h1M5.5 12h1M12 11h1M12 13.5h1"/></svg></span>
+          <span class="nav-label">Organizations</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content" tabindex="-1">
+
+    <div class="breadcrumbs">
+      <span>Admin</span>
+      <span class="sep">/</span>
+      <strong style="color: var(--ink);">Organizations</strong>
+    </div>
+    <h1 class="page-title">Organizations</h1>
+    <p class="page-subtitle">Parent organisations and their per-country / per-language suborganisations. On ingestion, an article URL is matched against each <code>url_prefix</code> (longest wins) to assign it to the correct suborg.</p>
+
+    <div class="toolbar">
+      <span class="filter-chip active">All <span class="filter-chip-count">2</span></span>
+      <span class="filter-chip">Active <span class="filter-chip-count">2</span></span>
+      <span class="filter-chip">Inactive <span class="filter-chip-count">0</span></span>
+      <div class="toolbar-divider"></div>
+      <input type="search" class="search-input" placeholder="Search organisations…" aria-label="Search organisations">
+      <button class="btn btn-primary btn-sm" onclick="openModal('org-modal')" title="Admin only">+ New parent organisation</button>
+    </div>
+
+    <div class="org-tree">
+
+      <!-- ============ ParentOrganization: Newtral ============ -->
+      <article class="org-card org-card-parent">
+        <header class="org-card-head">
+          <div>
+            <div class="org-name">Newtral <span class="badge badge-status active" style="margin-left: 8px;">Active</span></div>
+            <div class="org-meta">
+              <span><strong>Domain</strong> newtral.es</span>
+              <span><strong>HQ</strong> 🇪🇸 ES</span>
+              <span><strong>EFCSN since</strong> 2020-03-15</span>
+              <span class="muted text-sm">parent_org_id: <code>org_pn_42</code></span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Edit parent organisation form')">Edit</button>
+            <div class="kebab">
+              <button class="kebab-trigger" type="button" aria-label="Parent organisation actions" aria-haspopup="menu" onclick="toggleKebab(this, event)">⋮</button>
+              <div class="kebab-menu" role="menu">
+                <button class="kebab-item" role="menuitem" onclick="showToast('Cloned settings to a new parent draft')">Clone as template</button>
+                <button class="kebab-item" role="menuitem" onclick="showToast('Audit log opened')">View audit log</button>
+                <div class="kebab-divider"></div>
+                <button class="kebab-item danger" role="menuitem" onclick="showToast('Deactivation requires zero non-archived articles')">Deactivate (admin)</button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="suborg-list">
+          <div class="suborg-row">
+            <div class="suborg-name">Newtral · ES <span class="badge badge-status active" style="margin-left: 6px;">Active</span><span class="suborg-id">org_id: org_nt_es_01</span></div>
+            <div class="suborg-fields">
+              <span><strong>url_prefix</strong> <code>https://newtral.es/</code></span>
+              <span><strong>Country</strong> 🇪🇸 ES</span>
+              <span><strong>Language</strong> ES</span>
+              <span><strong>Ingestion</strong> wordpress_plugin</span>
+              <span><strong>Repo since</strong> 2024-01-10</span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-ghost btn-sm" onclick="showToast('Edit suborg')">Edit</button>
+              <button class="btn btn-ghost btn-sm" onclick="showToast('Deactivation pauses ingestion for this suborg only')">Deactivate</button>
+            </div>
+          </div>
+          <div class="suborg-row">
+            <div class="suborg-name">Newtral · PT <span class="badge badge-status active" style="margin-left: 6px;">Active</span><span class="suborg-id">org_id: org_nt_pt_03</span></div>
+            <div class="suborg-fields">
+              <span><strong>url_prefix</strong> <code>https://newtral.pt/</code></span>
+              <span><strong>Country</strong> 🇵🇹 PT</span>
+              <span><strong>Language</strong> PT</span>
+              <span><strong>Ingestion</strong> api</span>
+              <span><strong>Repo since</strong> 2025-09-01</span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-ghost btn-sm" onclick="showToast('Edit suborg')">Edit</button>
+              <button class="btn btn-ghost btn-sm" onclick="showToast('Deactivation pauses ingestion for this suborg only')">Deactivate</button>
+            </div>
+          </div>
+          <div class="suborg-add">
+            <button class="btn btn-ghost btn-sm" onclick="openModal('org-modal')">+ Add suborganisation under Newtral</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- ============ ParentOrganization: AFP ============ -->
+      <article class="org-card org-card-parent">
+        <header class="org-card-head">
+          <div>
+            <div class="org-name">AFP <span class="badge badge-status active" style="margin-left: 8px;">Active</span></div>
+            <div class="org-meta">
+              <span><strong>Domain</strong> afp.com</span>
+              <span><strong>HQ</strong> 🇫🇷 FR</span>
+              <span><strong>EFCSN since</strong> 2019-06-01</span>
+              <span class="muted text-sm">parent_org_id: <code>org_pn_07</code></span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Edit parent organisation form')">Edit</button>
+            <div class="kebab">
+              <button class="kebab-trigger" type="button" aria-label="Parent organisation actions" aria-haspopup="menu" onclick="toggleKebab(this, event)">⋮</button>
+              <div class="kebab-menu" role="menu">
+                <button class="kebab-item" role="menuitem" onclick="showToast('Cloned settings to a new parent draft')">Clone as template</button>
+                <button class="kebab-item" role="menuitem" onclick="showToast('Audit log opened')">View audit log</button>
+                <div class="kebab-divider"></div>
+                <button class="kebab-item danger" role="menuitem" onclick="showToast('Deactivation requires zero non-archived articles')">Deactivate (admin)</button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="suborg-list">
+          <div class="suborg-row">
+            <div class="suborg-name">AFP France <span class="badge badge-status active" style="margin-left: 6px;">Active</span><span class="suborg-id">org_id: org_afp_fr_01</span></div>
+            <div class="suborg-fields">
+              <span><strong>url_prefix</strong> <code>https://factuel.afp.com/</code></span>
+              <span><strong>Country</strong> 🇫🇷 FR</span>
+              <span><strong>Language</strong> FR</span>
+              <span><strong>Ingestion</strong> scraper</span>
+              <span><strong>Repo since</strong> 2023-04-12</span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-ghost btn-sm" onclick="showToast('Edit suborg')">Edit</button>
+              <button class="btn btn-ghost btn-sm" onclick="showToast('Deactivation pauses ingestion for this suborg only')">Deactivate</button>
+            </div>
+          </div>
+          <div class="suborg-row">
+            <div class="suborg-name">AFP Poland <span class="badge badge-status active" style="margin-left: 6px;">Active</span><span class="suborg-id">org_id: org_afp_pl_01</span></div>
+            <div class="suborg-fields">
+              <span><strong>url_prefix</strong> <code>https://afp.com/pl/</code></span>
+              <span><strong>Country</strong> 🇵🇱 PL</span>
+              <span><strong>Language</strong> PL</span>
+              <span><strong>Ingestion</strong> scraper</span>
+              <span><strong>Repo since</strong> 2024-02-20</span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-ghost btn-sm" onclick="showToast('Edit suborg')">Edit</button>
+              <button class="btn btn-ghost btn-sm" onclick="showToast('Deactivation pauses ingestion for this suborg only')">Deactivate</button>
+            </div>
+          </div>
+          <div class="suborg-add">
+            <button class="btn btn-ghost btn-sm" onclick="openModal('org-modal')">+ Add suborganisation under AFP</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <p style="margin-top: 16px; font-size: 11px; color: var(--gray-500); font-family: var(--display); text-transform: uppercase; letter-spacing: 0.06em;">
+      You are <strong style="color: var(--ink);">org_admin</strong> at Newtral — you can edit suborgs of your own parent. Creating new parent organisations and hard-deletes are <strong style="color: var(--ink);">admin</strong>-only.
+    </p>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-bar">
+  <span>Facteur · WP3 backoffice prototype</span>
+  <span><strong>Pablo</strong> · org_admin · Newtral · ES</span>
+</div>
+
+<!-- ============ MODAL: NEW ORGANISATION ============ -->
+<div class="modal-overlay" id="org-modal" role="dialog" aria-modal="true" aria-labelledby="org-modal-title">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="org-modal-title">New organisation</h2>
+      <button class="modal-close" onclick="closeModal('org-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="eyebrow xs" style="margin-bottom: 16px;">Acting as <strong class="dark">admin</strong> · creating a parent or a suborg under an existing parent.</p>
+
+      <div class="form-group">
+        <label class="form-label" for="org-type">Type</label>
+        <select id="org-type" class="form-select">
+          <option value="suborg">Suborganisation (under existing parent)</option>
+          <option value="parent">Parent organisation (admin only)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="org-parent">Parent organisation</label>
+        <select id="org-parent" class="form-select">
+          <option>Newtral</option>
+          <option>AFP</option>
+        </select>
+        <p class="form-hint">Required when creating a suborg.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="org-name">Name *</label>
+        <input id="org-name" type="text" class="form-input" placeholder="e.g. Newtral · IT" required>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-group">
+          <label class="form-label" for="org-domain">Domain *</label>
+          <input id="org-domain" type="text" class="form-input" placeholder="newtral.it">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="org-url-prefix">url_prefix *</label>
+          <input id="org-url-prefix" type="url" class="form-input" placeholder="https://newtral.it/">
+          <p class="form-hint">Decides article ownership at ingestion (longest match wins).</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-group">
+          <label class="form-label" for="org-country">Country *</label>
+          <select id="org-country" class="form-select">
+            <option>🇪🇸 ES</option>
+            <option>🇵🇹 PT</option>
+            <option>🇫🇷 FR</option>
+            <option>🇮🇹 IT</option>
+            <option>🇩🇪 DE</option>
+            <option>🇵🇱 PL</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="org-language">Primary language *</label>
+          <select id="org-language" class="form-select">
+            <option>ES — Spanish</option>
+            <option>PT — Portuguese</option>
+            <option>FR — French</option>
+            <option>IT — Italian</option>
+            <option>DE — German</option>
+            <option>EN — English</option>
+          </select>
+          <p class="form-hint">One org = one language. For multilingual outlets, create a parent + N children.</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-group">
+          <label class="form-label" for="org-ingestion">Default ingestion method</label>
+          <select id="org-ingestion" class="form-select">
+            <option>wordpress_plugin</option>
+            <option>api</option>
+            <option>scraper</option>
+            <option>manual</option>
+            <option>bulk_import</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="org-active-since">Repository active since</label>
+          <input id="org-active-since" type="date" class="form-input">
+          <p class="form-hint">Data coverage anchor. Distinct from EFCSN membership.</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('org-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('org-modal'); showToast('Organisation created');">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: NEW ARTICLE (sidebar entry point) ============ -->
+<div class="modal-overlay" id="ingest-modal" role="dialog" aria-modal="true" aria-labelledby="ingest-modal-title">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="ingest-modal-title">Submit articles</h2>
+      <button class="modal-close" onclick="closeModal('ingest-modal')" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="duplicate-warning" id="dup-warning" style="display: none;">
+        <div class="duplicate-warning-icon">!</div>
+        <div class="duplicate-warning-body">
+          <strong id="dup-warning-title">1 of these URLs already exists in the repository.</strong>
+          <p style="margin-top: 4px; color: var(--gray-700);">Article #1294 — "Government claims unemployment dropped 2 points in Q3" was ingested 3 days ago. Existing URLs are skipped on submit; pick "Request refresh" if you want a new version.</p>
+          <div class="duplicate-warning-actions">
+            <button class="btn btn-ghost btn-sm" onclick="closeModal('ingest-modal'); window.location='article.html';">Open existing</button>
+            <button class="btn btn-mint btn-sm" onclick="closeModal('ingest-modal'); showToast('Refresh requested for #1294');">Request refresh</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="url-input">Article URLs *</label>
+        <textarea id="url-input" class="form-textarea" rows="6" placeholder="https://elpais.com/economia/2024-10-12/desempleo-q3.html
+https://maldita.es/...
+https://newtral.es/..." style="font-family: var(--body); font-size: 14px; line-height: 1.5;" oninput="checkDuplicate(this.value); updateUrlCount(this.value)"></textarea>
+        <p class="form-hint"><span id="url-count">0</span> URL(s) — one per line. The pipeline fetches each page, extracts fulltext and runs enrichment automatically. Title, language and rating are auto-detected.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="ingest-notes">Notes for the batch <span style="color: var(--gray-500); font-weight: 400; text-transform: none; letter-spacing: 0;">(optional)</span></label>
+        <textarea id="ingest-notes" class="form-textarea" placeholder="Optional context for factcheckers reviewing this batch…" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('ingest-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitIngestBatch()">Submit &amp; ingest</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Action completed</div>
+
+</body>
+</html>

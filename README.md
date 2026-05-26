@@ -1,8 +1,16 @@
-# EuroClimateCheck Backoffice frontend
+# Facteur Backoffice
 
-Frontend of EFCSN EuroClimateCheck Backoffice project.
+Frontend del backoffice de Facteur (WP3). Fork de
+[`newtralmedia/backoffice-factcricis-svc`](https://bitbucket.org/newtralmedia/backoffice-factcricis-svc),
+en proceso de rediseño con la maqueta propia en `public/maqueta/`.
 
-## Environment variables
+## Estado actual
+
+- Plumbing (Next.js + auth + servicios) heredado del backoffice original — sigue funcionando contra la API local de EuroClimateCheck en `http://localhost:3000`.
+- UI heredada (Antd) intacta de momento. Se reemplazará página a página por la versión de la maqueta.
+- Maqueta de referencia (HTML/CSS/JS plano) disponible en `public/maqueta/` — no se sirve como app, es solo material de consulta.
+
+## Variables de entorno
 
 | Name                   | Description             | Type     | Required | Default |
 | ---------------------- | ----------------------- | -------- | -------- | ------- |
@@ -17,47 +25,32 @@ Frontend of EFCSN EuroClimateCheck Backoffice project.
 | PUBLIC_SECTIONS        | Available sections list | `string` | ✅       |         |
 | PUBLIC_SEARCH_API_KEY  | Search Api Key          | `string` | ✅       |         |
 
-## Getting Started
-
-First, run the development server:
+## Desarrollo local
 
 ```bash
+npm install
 npm run start:dev
-# or
-yarn start:dev
-
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the
-file.
+La API a la que apunta este frontend se levanta desde
+[`trueflag-euroclimatecheck`](https://github.com/onionst) (compose local con MongoDB, MariaDB,
+Qdrant, api y api-search). Credenciales de SUPER_ADMIN local: `ruben.miguez@trueflag.ai` / `Password1234!`.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on
-[http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in
-`pages/api/hello.ts`.
+## Maqueta
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as
-[API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+`public/maqueta/` contiene la maqueta original en HTML/CSS/JS plano que sirve de fuente para el
+rediseño:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to
-automatically optimize and load Inter, a custom Google Font.
+- `index.html` — review queue
+- `articles.html`, `article.html` — listado y detalle
+- `duplicates.html` — matches/duplicados
+- `dashboard.html` — stats
+- `organizations.html`, `users.html` — admin
+- `pipeline.html` — feature nueva (sin backend todavía)
+- `styles.css` — sistema de estilos (Archivo + Source Sans 3 + Source Serif 4 via Google Fonts; CSS vars)
+- `app.js` — interacciones (sidebar, modales, kebabs, tabs)
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your
-feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the
-[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more
-details.
+Los fonts ya están enlazados desde `pages/_document.tsx` para que el `styles.css` de la maqueta
+funcione cuando lo incluyamos por página.

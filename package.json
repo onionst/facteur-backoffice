@@ -1,6 +1,6 @@
 {
-  "name": "backoffice-factcricis-svc",
-  "version": "1.16.0",
+  "name": "facteur-backoffice",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start:dev": "next dev",
