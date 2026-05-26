@@ -58,9 +58,9 @@ export function Table(props: TableProps) {
   if (props.loading) {
     return (
       <div className={s['ds-table__container']}>
-        <table className={`table table-striped gy-7 gs-7 ${s['ds-table']}`}>
+        <table className={s['ds-table']}>
           <thead>
-            <tr className="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">{Columns}</tr>
+            <tr>{Columns}</tr>
           </thead>
           <tbody>
             <tr>{Loading}</tr>
