@@ -1,0 +1,28 @@
+/* Facteur chrome — design tokens shared across the app.
+   Component styles live in each component's *.module.scss; this file only
+   declares CSS custom properties so they're available app-wide. */
+
+:root {
+  --newtral-mint: #00E5B0;
+  --newtral-mint-dark: #00B589;
+  --newtral-mint-soft: #D4FBEF;
+  --newtral-mint-paper: #ECFDF7;
+  --ink: #0A0A0A;
+  --ink-soft: #1F1F1F;
+  --gray-900: #2C2C2C;
+  --gray-700: #4A4A4A;
+  --gray-500: #8A8A8A;
+  --gray-400: #B0B0B0;
+  --gray-300: #D4D4D4;
+  --gray-200: #E8E8E8;
+  --gray-100: #F4F4F2;
+  --gray-50: #FAFAF8;
+  --paper: #FFFFFF;
+  --warning: #E8830A;
+  --warning-soft: #FFF4E0;
+  --danger: #C8412B;
+  --danger-soft: #FCEAE6;
+  --display: 'Archivo', 'Helvetica Neue', sans-serif;
+  --body: 'Source Sans 3', 'Helvetica Neue', sans-serif;
+  --serif: 'Source Serif 4', Georgia, serif;
+}

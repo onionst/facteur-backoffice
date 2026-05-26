@@ -1,0 +1,140 @@
+.header {
+  border-bottom: 1px solid var(--gray-200);
+  background: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.inner {
+  width: 100%;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: -0.04em;
+  color: var(--ink) !important;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background: var(--newtral-mint);
+  border-radius: 50%;
+  display: inline-block;
+  margin-bottom: -2px;
+}
+
+.tag {
+  font-family: var(--display);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray-500);
+  padding-left: 16px;
+  margin-left: 16px;
+  border-left: 1px solid var(--gray-200);
+
+  span {
+    color: var(--ink);
+  }
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.org {
+  color: var(--gray-500);
+}
+
+.userBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  padding: 4px 6px;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.12s ease;
+
+  &:hover {
+    background: var(--gray-100);
+  }
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--ink);
+  color: var(--newtral-mint);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.name {
+  font-family: var(--display);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  padding: 4px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 6px;
+  text-align: left;
+
+  &:hover {
+    background: var(--gray-100);
+  }
+}
+
+.menuItemDanger {
+  color: var(--danger);
+}

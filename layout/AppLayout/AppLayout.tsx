@@ -1,9 +1,11 @@
 import { Drawer } from 'antd';
 import { useState } from 'react';
 import s from './AppLayout.module.scss';
+import AppHeader from '@/components/AppHeader/AppHeader';
 import Footer from '@/components/Footer/Footer';
 import Navbar from '@/components/Navbar/Navbar';
 import Sidebar from '@/components/Sidebar/Sidebar';
+import Topbar from '@/components/Topbar/Topbar';
 import useWindowSize from '@/hooks/useWindowWidth';
 
 export type LayoutProps = {
@@ -17,7 +19,9 @@ export default function AppLayout(props: LayoutProps) {
 
   if (width < 768) {
     return (
-      <div className={s['ds-app__mobile']}>
+      <div className={s.shell}>
+        <Topbar />
+        <AppHeader />
         <Drawer
           width={270}
           footer={null}
@@ -31,26 +35,30 @@ export default function AppLayout(props: LayoutProps) {
             mobile
             collapsed={false}
             setCollapsed={() => setShowDrawer(false)}
-            style={{ position: 'static' }}
+            style={{ position: 'static', height: 'auto' }}
           />
         </Drawer>
-        <main>
+        <main className={s.mainMobile}>
           <Navbar collapsed={collapsed} openDrawer={() => setShowDrawer(true)} />
-          <section className={s['ds-app__main']}>{props.children}</section>
+          <section className={s.content}>{props.children}</section>
+          <Footer />
         </main>
       </div>
     );
   }
 
   return (
-    <div className={`${s['ds-app']} ${s[`ds-app--${collapsed ? 'collapsed' : 'regular'}`]}`}>
-      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-      <div />
-      <main>
-        <Navbar collapsed={collapsed} />
-        <section className={s['ds-app__main']}>{props.children}</section>
-        <Footer />
-      </main>
+    <div className={s.shell}>
+      <Topbar />
+      <AppHeader />
+      <div className={`${s.layout} ${collapsed ? s.collapsed : ''}`}>
+        <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+        <main className={s.main}>
+          <Navbar collapsed={collapsed} />
+          <section className={s.content}>{props.children}</section>
+          <Footer />
+        </main>
+      </div>
     </div>
   );
 }

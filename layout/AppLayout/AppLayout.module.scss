@@ -1,47 +1,48 @@
-@import "@/styles/app/variables.scss";
-
-.ds-app {
+.shell {
   width: 100%;
   min-height: 100dvh;
-  height: max-content;
+  background: var(--gray-50);
+  display: flex;
+  flex-direction: column;
+}
+
+.layout {
   display: grid;
-  background: linear-gradient($ds-gray-50, $ds-white);
-  &--collapsed {
-    grid-template-columns: 74px auto;
-  }
+  grid-template-columns: 240px 1fr;
+  min-height: calc(100vh - 90px);
+  transition: grid-template-columns 0.18s ease;
 
-  &--regular {
-    grid-template-columns: 270px auto;
+  &.collapsed {
+    grid-template-columns: 64px 1fr;
   }
+}
 
-  &-ab {
-    width: 100%;
-    border-style: none;
-    cursor: pointer;
-    color: $ds-gray-700;
-    text-align: left;
-    padding: 10px;
-  }
-  &__main {
-    padding: 93px 20px 20px 20px;
-    height: max-content;
-    min-height: calc(100dvh);
-    border-bottom: 1px solid $ds-gray-200;
-    & > * {
-      animation: fadeIn 200ms ease-out;
-    }
-  }
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 
-  &__mobile {
-    width: 100%;
-    background: linear-gradient($ds-gray-50, $ds-white);
+.mainMobile {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+}
+
+.content {
+  flex: 1;
+  min-height: calc(100vh - 90px - 73px);
+
+  & > * {
+    animation: fadeIn 200ms ease-out;
   }
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-12px);
   }
   to {
     opacity: 1;

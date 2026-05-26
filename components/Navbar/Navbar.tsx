@@ -19,12 +19,7 @@ export default function Navbar(props: NavbarProps) {
   const { width } = useWindowSize();
   const { session } = useAuth();
   return (
-    <nav
-      className={s['ds-navbar']}
-      style={{
-        width: width < 768 ? '100%' : `calc(100% - ${props.collapsed ? 74 : 270}px)`
-      }}
-    >
+    <nav className={s['ds-navbar']}>
       <section className={s['ds-navbar__left']}>
         {width < 768 && (
           <IconButton onClick={props?.openDrawer}>

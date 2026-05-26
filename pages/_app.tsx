@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import '@/styles/sass/style.scss';
 import '@/styles/app/index.scss';
+import '@/styles/facteur.scss';
 import { ConfigProvider, ThemeConfig } from 'antd';
 import App, { AppContext, AppProps } from 'next/app';
 import { useRouter } from 'next/router';
