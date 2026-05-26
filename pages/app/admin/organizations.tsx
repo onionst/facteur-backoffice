@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
-import { Badge } from 'react-bootstrap';
 import { Download, Edit, RefreshCcw, Trash } from 'react-feather';
+import Badge from '@/bases/Badge/Badge';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -110,15 +110,9 @@ export default function Organizations() {
               <span key={organization?.id + 'domain'} style={{ opacity: organization?.active ? 1 : 0.6 }}>
                 {organization?.domain}
               </span>,
-              <div key={organization?.id + 'state'}>
-                <Badge
-                  className={organization?.active ? 'ds-badge-success' : ''}
-                  key={organization?.id + organization?.active}
-                  bg={organization?.active ? '' : 'danger'}
-                >
-                  {organization?.active ? 'Active' : 'Deleted'}
-                </Badge>
-              </div>,
+              <Badge tone={organization?.active ? 'success' : 'danger'} key={organization?.id + 'state'}>
+                {organization?.active ? 'Active' : 'Deleted'}
+              </Badge>,
               dayjs(organization?.createdAt).format('DD/MM/YYYY'),
               <Row align="RIGHT" key={organization?.id + 'actions'}>
                 {organization?.active ? (

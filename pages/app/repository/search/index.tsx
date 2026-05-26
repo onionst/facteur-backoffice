@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Badge } from 'react-bootstrap';
 import { Download, Eye, X } from 'react-feather';
+import Badge from '@/bases/Badge/Badge';
 import Column from '@/bases/Column/Column';
 import IconButton from '@/bases/IconButton/IconButton';
 import Image from '@/bases/Image/Image';
@@ -311,7 +311,7 @@ export default function Repository() {
                 data={articles.map(article => [
                   <RepositoryHeadline key={article?.url} image={article?.image} headline={article?.headline} />,
                   article?.publisher?.replace(/\b\w/g, char => char.toUpperCase()),
-                  <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
+                  <Badge tone="ink" key={article?.url + 'type'}>
                     {article?.type}
                   </Badge>,
                   <Row key={article?.url + 'date'} align="RIGHT">

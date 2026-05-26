@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Badge } from 'react-bootstrap';
 import { Download, Edit, Mail, RefreshCcw, Trash } from 'react-feather';
+import Badge from '@/bases/Badge/Badge';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -134,20 +134,12 @@ export default function Users() {
                 : [user?.email]),
               user?.name || '-',
               user?.surname || '-',
-              <div key={user?.id + 'role'}>
-                <Badge key={user?.id + 'role'} bg="secondary">
-                  {parseRole(user?.role)}
-                </Badge>
-              </div>,
-              <div key={user?.id + 'state'}>
-                <Badge
-                  className={user?.name ? 'ds-badge-success' : ''}
-                  key={user?.id + user?.active}
-                  bg={user?.name ? (user?.active ? '' : 'danger') : 'secondary'}
-                >
-                  {user?.name ? (user?.active ? 'Active' : 'Deleted') : 'Pending'}
-                </Badge>
-              </div>,
+              <Badge tone="neutral" key={user?.id + 'role'}>
+                {parseRole(user?.role)}
+              </Badge>,
+              <Badge tone={user?.name ? (user?.active ? 'success' : 'danger') : 'warn'} key={user?.id + 'state'}>
+                {user?.name ? (user?.active ? 'Active' : 'Deleted') : 'Pending'}
+              </Badge>,
               <Row align="RIGHT" key={user?.id + 'actions'}>
                 {user?.name ? (
                   user?.active ? (

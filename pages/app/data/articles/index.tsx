@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Badge } from 'react-bootstrap';
 import { Download, Edit, Trash } from 'react-feather';
+import Badge from '@/bases/Badge/Badge';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
 import Row from '@/bases/Row/Row';
@@ -102,13 +102,13 @@ export default function Articles() {
             notFound={<NotFound withoutButton value="" onClick={() => setFilter({})} type="TEXT" />}
             data={articles.map(article => [
               <RepositoryHeadline key={article?.externalId} image={article?.image} headline={article?.headlineNative} />,
-              <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
+              <Badge tone="ink" key={article?.url + 'type'}>
                 {article?.type === ArticleType.Factcheck ? 'Fact-check' : article?.type}
               </Badge>,
-              <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
+              <Badge tone={article.imported ? 'success' : 'neutral'} key={article?.url + 'imported'}>
                 {article.imported ? 'Yes' : 'No'}
               </Badge>,
-              <Badge bg="" className="ds-badge-success" key={article?.url + 'type'}>
+              <Badge tone={article.revised ? 'success' : 'neutral'} key={article?.url + 'revised'}>
                 {article.revised ? 'Yes' : 'No'}
               </Badge>,
               dayjs(article?.dateModified).format('DD/MM/YYYY'),
