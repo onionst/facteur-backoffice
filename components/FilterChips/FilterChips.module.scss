@@ -1,0 +1,53 @@
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  padding: 7px 12px;
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 0;
+
+  &:hover:not(.active) {
+    border-color: var(--ink);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--newtral-mint-dark);
+    outline-offset: 2px;
+  }
+}
+
+.chip.active {
+  background: var(--ink);
+  color: var(--newtral-mint);
+  border-color: var(--ink);
+}
+
+.count {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.chip.active .count {
+  background: var(--newtral-mint);
+  color: var(--ink);
+}
