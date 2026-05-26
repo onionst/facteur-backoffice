@@ -1,146 +1,109 @@
-@import '@/styles/app/variables.scss';
+/* Button system ported from public/maqueta/styles.css (.btn family).
+   The legacy theme names (CTA / SECONDARY / TERTIARY / ATTENTION) map to
+   maqueta variants — see Button.tsx for the mapping. */
 
-.ds-btn {
-  &--primary {
-    transition: all 200ms !important;
-    background-color: $ds-primary;
-    color: $ds-white;
-    box-sizing: border-box !important;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
-    &:hover {
-      background-color: $ds-primary !important;
-      opacity: 0.9;
-      color: $ds-gray-100;
-    }
-    &:focus {
-      background-color: $ds-primary !important;
-      opacity: 0.8;
-      color: $ds-gray-200 !important;
-    }
-    &:active {
-      background-color: $ds-primary !important;
-      opacity: 0.8;
-      color: $ds-gray-200 !important;
-      transform: scale(0.9825);
-    }
-    &:disabled {
-      cursor: not-allowed !important;
-      background-color: $ds-gray-400 !important;
-    }
-  }
-  &--attention {
-    transition: all 200ms !important;
-    background-color: $ds-negative;
-    color: $ds-white;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
-    &:hover {
-      background-color: $ds-negative !important;
-      opacity: 0.9;
-      color: $ds-gray-100;
-    }
-    &:focus {
-      background-color: $ds-negative !important;
-      opacity: 0.8;
-      color: $ds-gray-200 !important;
-    }
-    &:active {
-      background-color: $ds-negative !important;
-      opacity: 0.8;
-      color: $ds-gray-200 !important;
-      transform: scale(0.9825);
-    }
-    &:disabled {
-      cursor: not-allowed !important;
-      background-color: $ds-gray-400 !important;
-    }
-  }
-  &--secondary {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    transition: all 200ms !important;
-    background-color: $ds-gray-100;
-    box-sizing: border-box !important;
-    background: $ds-gray-100;
-    color: $ds-gray-800;
-    &:hover {
-      background: linear-gradient($ds-gray-100, $ds-gray-200) !important;
-      opacity: 0.9;
-      color: $ds-gray-800;
-    }
-    &:focus {
-      background: linear-gradient($ds-gray-200, $ds-gray-300) !important;
-      opacity: 0.8;
-      color: $ds-gray-900;
-    }
-    &:active {
-      background: linear-gradient($ds-gray-200, $ds-gray-300) !important;
-      opacity: 0.8;
-      color: $ds-gray-900;
-    }
-    &:disabled {
-      cursor: not-allowed !important;
-      background: linear-gradient($ds-gray-300, $ds-gray-400) !important;
-    }
+.btn-base {
+  padding: 9px 16px;
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 0;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease, transform 0.08s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--paper);
   }
 
-  &--tertiary {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    gap: 8px;
-    transition: all 200ms !important;
-    background-color: $ds-white;
-    border: 1px solid $ds-gray-400 !important;
-    box-sizing: border-box !important;
-    color: $ds-gray-800;
-    &:hover {
-      background-color: $ds-gray-200 !important;
-      opacity: 0.9;
-      color: $ds-gray-800;
-    }
-    &:focus {
-      background-color: $ds-gray-300 !important;
-      opacity: 0.8;
-      color: $ds-gray-900;
-    }
-    &:active {
-      background-color: $ds-gray-300 !important;
-      opacity: 0.8;
-      color: $ds-gray-900;
-    }
-    &:disabled {
-      cursor: not-allowed !important;
-      background-color: $ds-gray-400 !important;
-    }
+  &:active:not(:disabled) {
+    transform: scale(0.985);
   }
 
-  &--loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 200ms !important;
-    background-color: $ds-gray-300 !important;
-    cursor: not-allowed !important;
-    &:disabled {
-      background-color: $ds-gray-400 !important;
-    }
-    &:hover {
-      background-color: $ds-gray-400 !important;
-    }
-    &:active {
-      background-color: $ds-gray-400 !important;
-    }
-    &:focus {
-      background-color: $ds-gray-400 !important;
-    }
+  &:focus-visible {
+    outline: 2px solid var(--newtral-mint-dark);
+    outline-offset: 2px;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+/* CTA → mint bg + ink text (same family as .last-updated-refresh) */
+.ds-btn--primary {
+  background: var(--newtral-mint);
+  color: var(--ink) !important;
+  border-color: var(--newtral-mint);
+
+  &:hover:not(:disabled) {
+    background: var(--newtral-mint-dark);
+    border-color: var(--newtral-mint-dark);
+    color: var(--ink) !important;
+  }
+
+  &:focus-visible {
+    outline-color: var(--ink);
+  }
+}
+
+/* SECONDARY → ghost (soft outline) */
+.ds-btn--secondary {
+  background: var(--paper);
+  color: var(--gray-700);
+  border-color: var(--gray-300);
+
+  &:hover:not(:disabled) {
+    background: var(--gray-50);
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+}
+
+/* TERTIARY → default outline (ink border) */
+.ds-btn--tertiary {
+  background: var(--paper);
+  color: var(--ink) !important;
+  border-color: var(--ink);
+
+  &:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--paper) !important;
+  }
+}
+
+/* ATTENTION → danger */
+.ds-btn--attention {
+  background: var(--paper);
+  color: var(--danger) !important;
+  border-color: var(--danger);
+
+  &:hover:not(:disabled) {
+    background: var(--danger);
+    color: var(--paper) !important;
+    border-color: var(--danger);
+  }
+}
+
+/* Size modifier — used in dense table rows etc. */
+.ds-btn--sm {
+  padding: 5px 10px;
+  font-size: 10px;
+}
+
+/* Loading state — keeps button geometry but freezes interactions */
+.ds-btn--loading {
+  cursor: progress;
+  pointer-events: none;
+  opacity: 0.85;
 }
