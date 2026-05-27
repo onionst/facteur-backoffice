@@ -26,3 +26,9 @@
   --body: 'Source Sans 3', 'Helvetica Neue', sans-serif;
   --serif: 'Source Serif 4', Georgia, serif;
 }
+
+body {
+  font-family: var(--body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
