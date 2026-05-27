@@ -6,7 +6,7 @@ en proceso de rediseño con la maqueta propia en `public/maqueta/`.
 
 ## Estado actual
 
-- Plumbing (Next.js + auth + servicios) heredado del backoffice original — sigue funcionando contra la API local de EuroClimateCheck en `http://localhost:3000`.
+- Plumbing (Next.js + auth + servicios) heredado del backoffice original — sigue funcionando contra la API local de Facteur en `http://localhost:3000`.
 - UI heredada (Antd) intacta de momento. Se reemplazará página a página por la versión de la maqueta.
 - Maqueta de referencia (HTML/CSS/JS plano) disponible en `public/maqueta/` — no se sirve como app, es solo material de consulta.
 

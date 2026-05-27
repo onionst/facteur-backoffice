@@ -45,7 +45,7 @@ export default function ChatMessages({
               <div
                 className="break-words ds-message--left-t"
                 dangerouslySetInnerHTML={{
-                  __html: 'Hey! im the EFCSN EuroClimateCheck Chatbot! Ask me anything about the EuroClimateCheck repository.'
+                  __html: 'Hey! im the Facteur Chatbot! Ask me anything about the Facteur repository.'
                 }}
               />
 
