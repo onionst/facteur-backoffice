@@ -4,11 +4,11 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Accept } from 'react-dropzone';
 import { Search as SearchIcon } from 'react-feather';
 import ArticlesFilter, { Filter } from '../RepositoryFilter/ArticlesFilter';
-import { FileType } from '../RepositorySearch/RepositorySearch';
 import s from './Search.module.scss';
 import Button from '@/bases/Button/Button';
 import { Input } from '@/bases/Input';
 import Row from '@/bases/Row/Row';
+import { FileType } from '@/dtos/file-type.dto';
 
 export type SearchProps = {
   placeholder: string;

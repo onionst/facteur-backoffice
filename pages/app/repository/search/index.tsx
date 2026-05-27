@@ -1,8 +1,7 @@
 import dayjs from 'dayjs';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Download, Eye, X } from 'react-feather';
+import { Download, ExternalLink, X } from 'react-feather';
 import Badge from '@/bases/Badge/Badge';
 import Column from '@/bases/Column/Column';
 import IconButton from '@/bases/IconButton/IconButton';
@@ -16,14 +15,12 @@ import Header from '@/components/Header/Header';
 import Page from '@/components/Page/Page';
 import Pagination from '@/components/Pagination/Pagination';
 import RepositoryFilter, { Filter } from '@/components/RepositoryFilter/RepositoryFilter';
-import { FileType } from '@/components/RepositorySearch/RepositorySearch';
-import RepositorySearch from '@/components/Search/RepositorySearch';
 import { RepositoryHeadline, RepositoryTable } from '@/components/Table/RepositoryTable';
 import Wrapper from '@/components/Wrapper/Wrapper';
-import { FILE_TYPES } from '@/constants/accept';
 import { useFiles } from '@/contexts/files.context';
 import { useModal } from '@/contexts/modal.context';
 import { ARTICLES_LIMIT_PER_PAGE, useRepository } from '@/contexts/repository.context';
+import { FileType } from '@/dtos/file-type.dto';
 import { plainShowing } from '@/utils/plainShowing';
 import { safeReturn } from '@/utils/safeReturn';
 
@@ -90,7 +87,7 @@ export default function Repository() {
       <Header
         title="Repository"
         breadcrumb={[{ label: 'Repository' }, { label: 'Search' }]}
-        subtitle="Search across the EuroClimateCheck dataset of articles."
+        subtitle="Search across the Facteur dataset of articles."
       />
       <Wrapper>
         <Grid size="20-80">
@@ -126,57 +123,6 @@ export default function Repository() {
             />
           </div>
           <Column align="LEFT">
-            <Page>
-              <RepositorySearch
-                withUploader
-                accept={{
-                  'image/png': FILE_TYPES.images,
-                  'video/mp4': FILE_TYPES.videos
-                }}
-                onUpload={(url, type) => {
-                  switch (type) {
-                    case 'IMAGE':
-                      fetchRepositoryArticlesByImage(url);
-                      setPortait(url);
-
-                      break;
-                    case 'VIDEO':
-                      fetchRepositoryArticlesByVideo(fingerPrints, videoUrl);
-                      setPortait(url);
-
-                      break;
-                    case 'AUDIO':
-                      fetchRepositoryArticlesByAudio(url);
-                      setPortait(url);
-
-                      break;
-                  }
-                  setSearchType(type);
-                }}
-                onChange={search => {
-                  if (search) {
-                    setFilter((prev: any) => ({ ...prev, search, order: '' }));
-                  } else {
-                    setFilter(prev => ({ ...prev, search, order: '-datePublished' }));
-                  }
-                }}
-                defaultValue={filter.search}
-                placeholder="Search articles..."
-                onSearch={search => {
-                  if (search) {
-                    setFilter((prev: any) => ({ ...prev, search, order: '' }));
-                  } else {
-                    setFilter(prev => ({ ...prev, search, order: '-datePublished' }));
-                  }
-
-                  setTimeout(() => {
-                    fetchRepositoryArticles(filter);
-                    setSearchType('TEXT');
-                  }, 150);
-                }}
-              />
-            </Page>
-
             <Page>
               {searchType === 'IMAGE' && (
                 <Card style={{ padding: '14px 20px' }}>
@@ -277,7 +223,7 @@ export default function Repository() {
                 }}
                 firstExtended
                 onRowClick={(i: any) => {
-                  window.open(articles[i].url, '_blank');
+                  router.push(`/app/repository/search/view?id=${articles[i]?.externalId}&f=search`);
                 }}
                 loading={repositoryProps.loading}
                 columns={[
@@ -318,15 +264,16 @@ export default function Repository() {
                     {dayjs(article?.datePublished).format('DD/MM/YYYY')}
                   </Row>,
                   <Row align="RIGHT" key={article?.externalId + 'actions'}>
-                    <Link
-                      onClick={e => e?.stopPropagation()}
-                      href={`/app/repository/search/view?id=${article?.externalId}&&f=search`}
-                      target="_blank"
-                    >
-                      <IconButton>
-                        <Eye size={18} color="#252f4a" />
+                    {article?.url && (
+                      <IconButton
+                        onClick={e => {
+                          e.stopPropagation();
+                          window.open(article.url, '_blank');
+                        }}
+                      >
+                        <ExternalLink size={18} color="#252f4a" />
                       </IconButton>
-                    </Link>
+                    )}
                   </Row>
                 ])}
               />

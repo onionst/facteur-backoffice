@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import { createContext, useContext, useState } from 'react';
 import { Filter } from '@/components/RepositoryFilter/RepositoryFilter';
-import { FileType } from '@/components/RepositorySearch/RepositorySearch';
+import { FileType } from '@/dtos/file-type.dto';
 import { NOTIFICATIONS_CONFIG } from '@/constants/notifications.constant';
 import { Article } from '@/dtos/articles/article.dto';
 import {

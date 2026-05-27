@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Download, Edit, Trash } from 'react-feather';
+import { Download, Edit, ExternalLink, Trash } from 'react-feather';
 import Badge from '@/bases/Badge/Badge';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
@@ -24,6 +25,7 @@ import { safeReturn } from '@/utils/safeReturn';
 
 export default function Articles() {
   const { session } = useAuth();
+  const router = useRouter();
   const [filter, setFilter] = useState<any>({ order: '-dateModified' });
   const modals = useModal();
 
@@ -98,7 +100,7 @@ export default function Articles() {
               </Row>
             ]}
             onRowClick={(i: any) => {
-              window.open(articles[i].url, '_blank');
+              router.push(`/app/data/articles/edit?id=${articles[i]?.externalId}`);
             }}
             notFound={<NotFound withoutButton value="" onClick={() => setFilter({})} type="TEXT" />}
             data={articles.map(article => [
@@ -114,6 +116,16 @@ export default function Articles() {
               </Badge>,
               dayjs(article?.dateModified).format('DD/MM/YYYY'),
               <Row align="RIGHT" key={article?.externalId + 'actions'}>
+                {article?.url && (
+                  <IconButton
+                    onClick={e => {
+                      e.stopPropagation();
+                      window.open(article.url, '_blank');
+                    }}
+                  >
+                    <ExternalLink color="#252f4a" size={18} />
+                  </IconButton>
+                )}
                 <Link onClick={e => e.stopPropagation()} href={`/app/data/articles/edit?id=${article?.externalId}`}>
                   <IconButton onClick={e => e.stopPropagation()}>
                     <Edit color="#252f4a" size={18} />

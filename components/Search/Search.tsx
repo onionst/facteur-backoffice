@@ -2,7 +2,6 @@ import { Popover } from 'antd';
 import { FormEvent, useEffect, useState } from 'react';
 import { Accept } from 'react-dropzone';
 import { Search as SearchIcon, X } from 'react-feather';
-import { FileType } from '../RepositorySearch/RepositorySearch';
 import { Uploader } from '../Uploader/Uploader';
 import s from './Search.module.scss';
 import Button from '@/bases/Button/Button';
@@ -13,6 +12,7 @@ import Select from '@/bases/Select/Select';
 import Video from '@/bases/Video/Video';
 import { FILE_TYPES } from '@/constants/accept';
 import { ROLES } from '@/constants/roles.constants';
+import { FileType } from '@/dtos/file-type.dto';
 import { parseRole } from '@/modals/users/InviteUsers.modal';
 
 export type SearchProps = {

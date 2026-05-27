@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { Empty, Popover, Skeleton } from 'antd';
 import { useMemo, useState } from 'react';
-import { FileType } from '../RepositorySearch/RepositorySearch';
 import s from './Table.module.scss';
 import Button from '@/bases/Button/Button';
 import Image from '@/bases/Image/Image';
 import Video from '@/bases/Video/Video';
+import { FileType } from '@/dtos/file-type.dto';
 
 export type RepositoryTableProps = {
   firstExtended?: boolean;
