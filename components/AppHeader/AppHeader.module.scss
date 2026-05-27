@@ -9,14 +9,75 @@
 .inner {
   width: 100%;
   padding: 16px 32px;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 480px) 1fr;
   align-items: center;
+  gap: 24px;
 }
 
 .brand {
   display: flex;
   align-items: center;
+  justify-self: start;
+}
+
+.menuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-right: 12px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.12s ease;
+
+  &:hover {
+    background: var(--gray-100);
+  }
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+}
+
+.searchField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--gray-100);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--gray-500);
+  transition: border-color 0.12s ease, background 0.12s ease;
+
+  &:focus-within {
+    background: var(--paper);
+    border-color: var(--gray-300, var(--gray-200));
+    color: var(--ink);
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--body);
+    font-size: 13px;
+    color: var(--ink);
+
+    &::placeholder {
+      color: var(--gray-500);
+    }
+  }
 }
 
 .logo {
@@ -60,6 +121,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
+  justify-self: end;
   font-family: var(--display);
   font-size: 12px;
   font-weight: 600;

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import s from './AppLayout.module.scss';
 import AppHeader from '@/components/AppHeader/AppHeader';
 import Footer from '@/components/Footer/Footer';
-import Navbar from '@/components/Navbar/Navbar';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import Topbar from '@/components/Topbar/Topbar';
 import useWindowSize from '@/hooks/useWindowWidth';
@@ -21,7 +20,7 @@ export default function AppLayout(props: LayoutProps) {
     return (
       <div className={s.shell}>
         <Topbar />
-        <AppHeader />
+        <AppHeader onMenuClick={() => setShowDrawer(true)} />
         <Drawer
           width={270}
           footer={null}
@@ -39,7 +38,6 @@ export default function AppLayout(props: LayoutProps) {
           />
         </Drawer>
         <main className={s.mainMobile}>
-          <Navbar collapsed={collapsed} openDrawer={() => setShowDrawer(true)} />
           <section className={s.content}>{props.children}</section>
           <Footer />
         </main>
@@ -54,7 +52,6 @@ export default function AppLayout(props: LayoutProps) {
       <div className={`${s.layout} ${collapsed ? s.collapsed : ''}`}>
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
         <main className={s.main}>
-          <Navbar collapsed={collapsed} />
           <section className={s.content}>{props.children}</section>
           <Footer />
         </main>
