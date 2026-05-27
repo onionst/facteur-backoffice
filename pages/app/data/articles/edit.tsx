@@ -1,26 +1,33 @@
 import { Skeleton } from 'antd';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { File, Trash } from 'react-feather';
+import { Trash } from 'react-feather';
 import Button from '@/bases/Button/Button';
-import Row from '@/bases/Row/Row';
+import ArticleChrome from '@/components/Article/ArticleChrome';
+import ArticleStatus from '@/components/Article/ArticleStatus';
+import ArticleTabs from '@/components/Article/ArticleTabs';
 import ArticleForm from '@/components/Form/ArticleDrafts/ArticleForm';
 import { ArticleType } from '@/components/Form/SelectArticleType/SelectArticleType';
-import Header from '@/components/Header/Header';
-import Stepper from '@/components/Stepper/Stepper';
 import Wrapper from '@/components/Wrapper/Wrapper';
 import { MIN_LENGTH_KEYWORDS } from '@/constants/accept';
 import { ROLES } from '@/constants/roles.constants';
 import { useArticles } from '@/contexts/articles.context';
 import { useAuth } from '@/contexts/auth.context';
-import { useHistory } from '@/contexts/history.context';
 import { useModal } from '@/contexts/modal.context';
-import useWindowSize from '@/hooks/useWindowWidth';
 import { normalizeTopic, normalizeSubTopic } from '@/utils/legacyTopics';
 import { removeFalsyValues } from '@/utils/validateUrl';
 
+const TABS = [
+  { key: 'overview', label: 'Overview' },
+  { key: 'metadata', label: 'Metadata' },
+  { key: 'claims', label: 'Claims' },
+  { key: 'ai-reviews', label: 'AI Reviews' },
+  { key: 'evidence', label: 'Evidence' },
+  { key: 'changelog', label: 'Changelog' }
+];
+
 export default function Edit() {
-  const { canGoBack } = useHistory();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const { session } = useAuth();
@@ -29,7 +36,7 @@ export default function Edit() {
   const { updateArticle, fetchArticles, fetchArticleData, fetchArticleById } = useArticles();
   const [step, setStep] = useState<number>(0);
   const [articleType, setArticleType] = useState<null | ArticleType>(null);
-  const { width } = useWindowSize();
+  const [activeTab, setActiveTab] = useState<string>('overview');
   const [articleId, setArticleId] = useState<string>('');
   const [ogForm, setOgForm] = useState({
     externalId: '',
@@ -210,61 +217,45 @@ export default function Edit() {
     );
   }
 
+  const articleLabel = form?.headline || form?.headlineNative || `Article ${articleId ? `#${articleId.slice(0, 6)}` : ''}`;
+
   return (
     <>
-      <Header
-        onBack={() => {
-          if (step > 0) {
-            setStep(prev => prev - 1);
-          } else {
-            router.back();
-          }
-        }}
-        backable={canGoBack()}
-        icon={<File />}
-        title="Edit article"
-      >
-        <Button theme="ATTENTION" onClick={e => handleDeleteArticle(e)}>
-          Delete <Trash size={18} />
-        </Button>
-      </Header>
+      <Head>
+        <title>{`${articleLabel} | Facteur`}</title>
+      </Head>
       <Wrapper>
-        <Row align="SPACE" style={{ alignItems: 'flex-start' }}>
-          <div style={{ width: '25%' }}>
-            <Stepper
-              current={step}
-              items={[
-                { title: 'Draft', description: '' },
-                { title: 'Preview', description: '' },
-                { title: 'Publish', description: '' }
-              ]}
-            />
-          </div>
+        <ArticleChrome crumbs={[{ label: 'Articles', href: '/app/data/articles' }]} current={articleLabel} />
+        <ArticleTabs tabs={TABS} activeKey={activeTab} onChange={setActiveTab} />
+        <ArticleStatus
+          state="In review"
+          version="V1"
+          actions={
+            <Button theme="ATTENTION" onClick={e => handleDeleteArticle(e)}>
+              Delete <Trash size={18} />
+            </Button>
+          }
+        />
 
-          {step === 0 && articleType ? (
-            <ArticleForm
-              onBack={() =>
-                session.role === ROLES.SUPER_ADMIN ? router.push('/app/repository/search') : router.push('/app/data/articles')
-              }
-              form={form}
-              ogForm={ogForm}
-              setForm={setForm}
-              type={articleType}
-              onContinue={() => setStep(1)}
-            />
-          ) : null}
-          {step === 1 && articleType ? (
-            <ArticleForm
-              preview={true}
-              onBack={() => setStep(0)}
-              form={form}
-              setForm={setForm}
-              type={articleType}
-              onPublish={handleSubmit}
-            />
-          ) : null}
-          {width >= 768 && <div style={{ width: '25%' }}></div>}
-        </Row>
+        {activeTab === 'overview' && articleType && step === 0 && (
+          <ArticleForm
+            onBack={() => (session.role === ROLES.SUPER_ADMIN ? router.push('/app/repository/search') : router.push('/app/data/articles'))}
+            form={form}
+            ogForm={ogForm}
+            setForm={setForm}
+            type={articleType}
+            onContinue={() => setStep(1)}
+          />
+        )}
+        {activeTab === 'overview' && articleType && step === 1 && (
+          <ArticleForm preview={true} onBack={() => setStep(0)} form={form} setForm={setForm} type={articleType} onPublish={handleSubmit} />
+        )}
+
+        {activeTab !== 'overview' && (
+          <div style={{ padding: '60px 20px', textAlign: 'center', color: 'var(--gray-500)' }}>
+            <p style={{ fontFamily: 'var(--display)', fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Coming soon</p>
+          </div>
+        )}
       </Wrapper>
     </>
   );
