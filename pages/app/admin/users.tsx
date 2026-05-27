@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Download, Edit, Mail, RefreshCcw, Trash } from 'react-feather';
+import Avatar from '@/bases/Avatar/Avatar';
 import Badge from '@/bases/Badge/Badge';
 import Button from '@/bases/Button/Button';
 import IconButton from '@/bases/IconButton/IconButton';
@@ -118,9 +119,9 @@ export default function Users() {
             notFound={<NotFound title="No users found" description="Your search did not match any user" />}
             loading={usersProps.loading}
             columns={[
-              ...(session.role === ROLES.SUPER_ADMIN ? ['Organization', 'Email'] : ['Email']),
               'Name',
               'Surname',
+              ...(session.role === ROLES.SUPER_ADMIN ? ['Organization', 'Email'] : ['Email']),
               'Role',
               'State',
               <Row align="RIGHT" key={'column_actions'}>
@@ -128,13 +129,16 @@ export default function Users() {
               </Row>
             ]}
             data={users.map(user => [
+              <Row align="LEFT" key={user?.id + 'name'}>
+                <Avatar name={user?.name} surname={user?.surname} />
+                <span>{user?.name || '-'}</span>
+              </Row>,
+              user?.surname || '-',
               ...(session.role === ROLES.SUPER_ADMIN
                 ? [ROLES.ADMIN, ROLES.FACT_CHECKER].includes(user.role)
                   ? [organizations.find(i => i.value === user.organizationId)?.label, user?.email]
                   : ['-', user?.email]
                 : [user?.email]),
-              user?.name || '-',
-              user?.surname || '-',
               <Badge tone="neutral" key={user?.id + 'role'}>
                 {parseRole(user?.role)}
               </Badge>,
